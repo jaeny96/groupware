@@ -18,5 +18,7 @@ public class Employee {
 	public Date hire_date;
 	public char employee_status;
 	public String password;
-
+	
+	//사원은 휴가를 가질 수 있다
+	public Leave leave;
 }
