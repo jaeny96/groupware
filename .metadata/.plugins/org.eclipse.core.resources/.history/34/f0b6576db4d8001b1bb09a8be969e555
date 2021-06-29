@@ -20,5 +20,6 @@ public class Employee {
 	public String password;
 
 	//사원은 휴가정보를 가질 수 있다
+	//의견이 필요합니다,,
 	public Leave leave;
 }
