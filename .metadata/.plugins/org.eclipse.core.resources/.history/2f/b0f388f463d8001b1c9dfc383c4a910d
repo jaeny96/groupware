@@ -5,12 +5,9 @@ import java.util.Date;
 public class Employee {
 	public String employee_id;
 	public String name;
-	
-	//
 	public Department department_id;
 	public Job job_id;
 	public Position position_id;
-	
 	public String phone_number;
 	public String email;
 	public Date hire_date;

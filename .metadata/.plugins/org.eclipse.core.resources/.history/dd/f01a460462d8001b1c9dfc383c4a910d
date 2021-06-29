@@ -8,5 +8,4 @@ public class Board {
 	public String bd_content;
 	public Date bd_date;
 	public char bd_status;
-	public BoardComment boardcommet;
 }
