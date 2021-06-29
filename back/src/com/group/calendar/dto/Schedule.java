@@ -1,5 +1,6 @@
 package com.group.calendar.dto;
 
+import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 
 public class Schedule {
@@ -13,6 +14,6 @@ public java.util.Date skd_date;
 public java.util.Date skd_start_date;
 public java.util.Date skd_end_date;
 public char skd_share;
-public Employee department_id;
+public Department department_id;
 
 }
