@@ -2,19 +2,19 @@ package com.group.approval.dto;
 
 public class ApprovalStatus {
 
-	private String ap_type;
+	public String ap_type;
 
-	public String getAp_type() {
-		return ap_type;
-	}
-
-	public void setAp_type(String ap_type) {
-		this.ap_type = ap_type;
-	}
-
-	@Override
-	public String toString() {
-		return "ApprovalStatus [ap_type=" + ap_type + "]";
-	}
+//	public String getAp_type() {
+//		return ap_type;
+//	}
+//
+//	public void setAp_type(String ap_type) {
+//		this.ap_type = ap_type;
+//	}
+//
+//	@Override
+//	public String toString() {
+//		return "ApprovalStatus [ap_type=" + ap_type + "]";
+//	}
 	
 }
