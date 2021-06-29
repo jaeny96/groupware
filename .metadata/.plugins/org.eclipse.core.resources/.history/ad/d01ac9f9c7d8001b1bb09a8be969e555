@@ -21,5 +21,4 @@ public class Employee {
 
 	//사원은 휴가정보를 가질 수 있다
 	public Leave leave;
-
 }
