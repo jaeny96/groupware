@@ -1,0 +1,8 @@
+package com.group.employee.dto;
+
+public class Snippet {
+	public static void main(String[] args) {
+		import com.group.employee.dto.Employee;
+	}
+}
+
