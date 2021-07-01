@@ -26,3 +26,7 @@ Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
 *.policy
 *.class
 *.index
+*.woff2
+*.woff
+.metadata/.plugins/org.eclipse.core.resources/.projects/back/.markers
+*.ttf
