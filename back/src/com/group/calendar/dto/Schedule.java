@@ -12,7 +12,7 @@ public Employee skd_id;
 public ScheduleType skd_type;
 public String skd_title;
 public String skd_content;
-public java.util.Date skd_date;
+public Timestamp skd_date;
 public Timestamp skd_start_date;
 public Timestamp skd_end_date;
 public String skd_share;
