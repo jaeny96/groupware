@@ -1,14 +1,13 @@
 package com.group.approval.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import com.group.employee.dto.Employee;
 
 public class Reference {
-
 	public Document document_no;
 	public Employee employee_id;
-	public Date re_ap_date;
+	public Timestamp re_ap_date;
 	public String re_ap_comment;
 	
 //	public Document getDocument_no() {

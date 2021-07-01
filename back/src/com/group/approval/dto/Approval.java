@@ -1,6 +1,6 @@
 package com.group.approval.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import com.group.employee.dto.Employee;
 
@@ -10,7 +10,7 @@ public class Approval {
 	public Employee employee_id;
 	public ApprovalStatus ap_type;
 	public int ap_step;
-	public Date ap_ap_date;
+	public Timestamp ap_ap_date;
 	public String ap_ap_comment;
 	
 //	public Document getDocument_no() {
