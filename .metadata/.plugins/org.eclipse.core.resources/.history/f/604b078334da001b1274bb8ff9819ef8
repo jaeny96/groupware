@@ -6,9 +6,9 @@ public class Employee {
 	public String employee_id;
 	public String name;
 
-	public Department department;
-	public Job job;
-	public Position position;
+	public Department department_id;
+	public Job job_id;
+	public Position position_id;
 	
 	public String phone_number;
 	public String email;

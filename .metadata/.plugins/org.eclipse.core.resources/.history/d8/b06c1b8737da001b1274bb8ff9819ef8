@@ -14,5 +14,5 @@ public class Board {
 	public Timestamp bd_date;
 	
 	//게시판은 여러개의 댓글을 가질 수 있다
-	public List<BoardComment> bd_comments;
+	public List<BoardComment> boardcomment;
 }
