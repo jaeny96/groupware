@@ -16,4 +16,5 @@ public class Employee {
 	public Date hire_date;
 	public char employee_status;
 	public String password;
+	
 }
