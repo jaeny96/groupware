@@ -1,0 +1,17 @@
+package com.group.mypage.dao;
+
+import com.group.mypage.dto.EmployeeLeave;
+
+public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO{
+
+	public EmployeeLeave selectById(String id) {
+		
+		return null;
+	}
+
+	public void update(EmployeeLeave el) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

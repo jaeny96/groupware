@@ -1,0 +1,5 @@
+package com.group.mypage.dao;
+
+public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO{
+
+}

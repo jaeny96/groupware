@@ -1,0 +1,88 @@
+package com.group.mypage.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
+import com.group.employee.dto.Job;
+import com.group.employee.dto.Leave;
+import com.group.employee.dto.Position;
+import com.group.mypage.dto.EmployeeLeave;
+import com.group.sql.MyConnection;
+
+public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO{
+	public EmployeeLeaveDAOOracle() throws Exception {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		System.out.println("load success");
+	}
+
+	public EmployeeLeave selectById(String id) {
+		Connection con = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String selectSQL = "SELECT e.employee_id 사번, name 사원명, department_title 부서명,position_title 직책명, job_title 직무명, phone_number 연락처, email 이메일, grant_days 올해부여된휴가일수, (grant_days-remain_days) 사용휴가일수 ,remain_days 남은휴가일수  \r\n" + 
+				"FROM employee e \r\n" + 
+				"JOIN department d ON e.department_id = d.department_id\r\n" + 
+				"JOIN position p ON e.position_id = p.position_id\r\n" + 
+				"JOIN job j ON e.job_id = j.job_id\r\n" + 
+				"JOIN leave l ON l.employee_id = e.employee_id \r\n" + 
+				"WHERE e.employee_id=?";
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		EmployeeLeave el = null;
+		try {
+			pstmt=con.prepareStatement(selectSQL);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("employee_id"));
+				Department d = new Department();
+				d.setDepartment_title(rs.getString("department_title"));
+				emp.setDepartment(d);
+				Position p = new Position();
+				p.setPosition_title(rs.getString("position_title"));
+				emp.setPosition(p);
+				Job j = new Job();
+				j.setJob_title(rs.getString("job_title"));
+				emp.setJob(j);
+				emp.setEmployee_id(rs.getString("phone_number"));
+				emp.setEmployee_id(rs.getString("email"));
+				Leave leave = new Leave();
+				leave.setGrant_days(rs.getInt("grant_days"));
+				leave.setRemain_days(rs.getInt("grant_days"));
+				
+				el.setEmployee(emp);
+				el.setLeave(leave);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return el;
+	}
+
+	public void update(EmployeeLeave el) {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void main(String[] args) {
+		try {
+			EmployeeLeaveDAOOracle dao = new EmployeeLeaveDAOOracle();
+			String id = "DEV001";
+			dao.selectById(id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+}
