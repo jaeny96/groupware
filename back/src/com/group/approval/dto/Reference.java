@@ -9,7 +9,7 @@ public class Reference {
 	public Document document_no;
 	public Employee employee_id;
 	public Date re_ap_date;
-	public String re_ap_comment;
+	
 	
 //	public Document getDocument_no() {
 //		return document_no;

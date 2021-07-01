@@ -1,6 +1,7 @@
 package com.group.approval.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import com.group.employee.dto.Employee;
 
@@ -14,6 +15,9 @@ public class Document {
 	public Date draft_date;
 	public String document_status;
 	
+	public List<Approval> approvals;
+	public List<Agreement> agreements;
+	public List<Reference> references;
 //	public String getDoucment_no() {
 //		return doucment_no;
 //	}
