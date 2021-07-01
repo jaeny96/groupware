@@ -25,3 +25,4 @@ Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
 *.prefs
 *.policy
 *.class
+*.index
