@@ -19,3 +19,9 @@ context.xml
 /lib/
 
 /.tern-project
+Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
+*.index
+*.index
+*.prefs
+*.policy
+*.class
