@@ -1,0 +1,12 @@
+package com.group.board.dao;
+
+import java.util.List;
+
+import com.group.board.dto.Board;
+import com.group.board.dto.BoardComment;
+
+public interface BoardCommentDAO {
+	public List<Board> selectAll(String bd_no); 
+	public void insert(BoardComment cm);
+	public void delete(String cm_no);
+}

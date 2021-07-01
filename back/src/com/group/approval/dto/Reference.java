@@ -7,8 +7,7 @@ import com.group.employee.dto.Employee;
 public class Reference {
 	public Document document_no;
 	public Employee employee_id;
-	public Timestamp re_ap_date;
-	public String re_ap_comment;
+	public ApprovalStatus re_ap_type;
 	
 //	public Document getDocument_no() {
 //		return document_no;
