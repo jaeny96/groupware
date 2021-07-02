@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Calendar;
 
 import com.group.calendar.dto.Schedule;
+import com.group.calendar.dto.ScheduleType;
 import com.group.calendar.service.ScheduleService;
 import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
@@ -27,62 +28,56 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 	
 	
 	public void insert(Schedule s) throws AddException, DuplicatedException {
-	
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException("커넥션 연결 오류"); //이거 왜 해주더라? 
-		}
+		   
+	      Connection con = null;
+	      try {
+	         con = MyConnection.getConnection();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }
 
-		
-		//SQL문 불러오기 
-		String insertSQL = "INSERT INTO schedule(skd_no, skd_type, employee_id, skd_title, \r\n" + 
-				"skd_content, skd_date, skd_start_date, \r\n" + 
-				"skd_end_date, skd_share) \r\n" + 
-				"VALUES (SKD_SEQ.NEXTVAL, ?, ?, ?, \r\n" + //skd_type, employee_id, skd_title,
-				"?, sysdate, ? ,\r\n" + //skd_content,  skd_start_date,
-				"?, ?)"; //skd_end_date, skd_share
-		
-		Employee emp = new Employee();
-		
-		//지수야 여기 employee 객체쪽이 환장하겄어 
-		String skd_type = s.getSkd_type();
-		String skd_id = s.getSkd_id(emp).employee_id;
-		String skd_title = s.getSkd_title();
-		String skd_content = s.getSkd_content();
-		Timestamp skd_start_date = s.getSkd_start_date();
-		Timestamp skd_end_date = s.getSkd_end_date();
-		String skd_share = s.getSkd_share();
-		
-		PreparedStatement pstmt = null;
-		
-		
-		try {
-			pstmt = con.prepareStatement(insertSQL); // insertSQL 문 실행
-			pstmt.setString(1, skd_type);
-			pstmt.setString(2, skd_id);
-			pstmt.setString(3, skd_title);
-			pstmt.setString(4, skd_content);
-			pstmt.setTimestamp(5, skd_start_date);
-			pstmt.setTimestamp(6, skd_end_date);
-			pstmt.setString(7, skd_share);
-			
-			int rowcnt = pstmt.executeUpdate(); //실행된 쿼리문 개수 반환
-			
-			if(rowcnt==1) {
-				System.out.println("일정이 추가되었습니다");
-			}else {
-				System.out.println("일정이 추가되지 않았습니다");
-			}
-		} catch (SQLException e) {
-		
-			e.printStackTrace();
-			throw new AddException("오류");
-		}finally {
-			MyConnection.close(con, pstmt, null);
-		}
+	      
+	      //SQL문 불러오기 
+	      String insertSQL = "INSERT INTO schedule(skd_no, skd_type, employee_id, skd_title, \r\n" + 
+	            "skd_content, skd_date, skd_start_date, \r\n" + 
+	            "skd_end_date, skd_share) \r\n" + 
+	            "VALUES (SKD_SEQ.NEXTVAL, ?, ?, ?, \r\n" + //skd_type, employee_id, skd_title,
+	            "?, sysdate, ? ,\r\n" + //skd_content,  skd_start_date,
+	            "?, ?)"; //skd_end_date, skd_share
+
+
+	      ScheduleType skd_type = s.getSkd_type();
+	      Employee skd_id = s.getSkd_id();
+	      String skd_title = s.getSkd_title();
+	      String skd_content = s.getSkd_content();
+	      Timestamp skd_start_date = s.getSkd_start_date();
+	      Timestamp skd_end_date = s.getSkd_end_date();
+	      String skd_share = s.getSkd_share();
+	      
+	      PreparedStatement pstmt = null;
+	      
+	      try {
+	         pstmt = con.prepareStatement(insertSQL); // insertSQL 문 실행
+	         pstmt.setString(1, skd_type.getSkd_type());
+	         pstmt.setString(2, skd_id.getEmployee_id());
+	         pstmt.setString(3, skd_title);
+	         pstmt.setString(4, skd_content);
+	         pstmt.setTimestamp(5, skd_start_date);
+	         pstmt.setTimestamp(6, skd_end_date);
+	         pstmt.setString(7, skd_share);
+	         
+	         int rowcnt = pstmt.executeUpdate(); //실행된 쿼리문 개수 반환
+	         
+	         if(rowcnt==1) {
+	            System.out.println("일정이 추가되었습니다");
+	         }else {
+	            System.out.println("일정이 추가되지 않았습니다");
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         MyConnection.close(con, pstmt, null);
+	      }
 		
 		
 	}
@@ -98,30 +93,22 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 				throw new ModifyException("Connection 연결 오류");
 			}
 		
-		String skd_type = s.getSkd_type();
+		
+		String updateSQL = "UPDATE schedule SET ";
+		String updateSQL1 = " WHERE skd_no = ? AND employee_id = ?";
+		
+		ScheduleType skd_type = s.getSkd_type();
 		String skd_title = s.getSkd_title();
 		String skd_content = s.getSkd_content();
 		Timestamp skd_start_date = s.getSkd_start_date();
 		Timestamp skd_end_date = s.getSkd_end_date();
 		String skd_share = s.getSkd_share();
 		
-		String updateSQL = "UPDATE schedule SET ";
-		String updateSQL1 = "WHERE skd_no = ? AND employee_id = ?";
-		
-		// skd_title = '7월업무보고', skd_content = '업무보고',  skd_date = sysdate, skd_start_date= '2021-08-08 09:00:00', skd_end_date='2021-08-08 18:00:00'
-		//		 WHERE skd_no = 6 and employee_id = 'MSD003';
-		
-		//skd_type만 변경
-		//skd_title만 변경
-		//skd_content만 변경
-		//skd_start_date만 변경
-		//skd_end_date만 변경
-		//skd_share만 변경
-		
+
 		boolean flag = false;
 		
-		if(!skd_type.equals("")) {
-			updateSQL += "skd_type = ' + "+skd_type+" ' " ;
+		if(!skd_type.getSkd_type().equals("")) {
+			updateSQL += "skd_type = '"+skd_type+"'" ;
 			flag = true;
 		}
 		
@@ -129,7 +116,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 			if(flag) {
 				updateSQL +=",";
 			}
-			updateSQL += "skd_title = ' "+ skd_title +" '";
+			updateSQL += "skd_title = '"+skd_title+"'";
 			flag = true;
 		}
 		
@@ -137,24 +124,28 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 			if(flag) {
 				updateSQL +=",";
 			}
-			updateSQL += "skd_content = ' "+ skd_content +" '";
+			updateSQL += "skd_content = '"+skd_content+"'";
 			flag = true;
 		}
 		
-		//수정 필요 
-		if(skd_start_date!=null) {
+		//시간 미변경 시 필요 조건 
+		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String timeformat = time.format(skd_start_date);
+		String timeformat2 = time.format(skd_end_date);
+			
+		if(!timeformat.equals("")) {
 			if(flag) {
 				updateSQL +=",";
 			}
-			updateSQL += "skd_start_date = ' "+ skd_start_date +" '";
+			updateSQL += "skd_start_date = '"+skd_start_date+"'";
 			flag = true;
 		}
 		
-		if(skd_end_date!=null) {
+		if(!timeformat2.equals("")) {
 			if(flag) {
 				updateSQL +=",";
 			}
-			updateSQL += "skd_end_date = ' "+ skd_end_date +" '";
+			updateSQL += "skd_end_date = '"+skd_end_date +"'";
 			flag = true;
 		}
 		
@@ -167,27 +158,42 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		}
 		
 
+		System.out.println("변경된 내용 " + skd_type + skd_title + skd_content + skd_start_date + skd_end_date + skd_share);
+		System.out.println(updateSQL+updateSQL1);
+		
 		//변경하지 않음 
 		if(!flag) {
 			throw new ModifyException("수정할 내용이 없습니다");
 		}
 		
-		Employee emp = new Employee();
+		
 		PreparedStatement pstmt = null;
+		//?에 들어갈 변수들 
 		int skd_no = s.getSkd_no();
-		String skd_id = emp.getEmployee_id();
+		Employee skd_id = s.getSkd_id();
+		
+		//end 시간이 start보다 빠르지 않도록 제약 설정
+		String skd_start_datestr = new SimpleDateFormat("yyyyMMddHHmmss").format(skd_start_date);	
+		String skd_end_datestr = new SimpleDateFormat("yyyyMMddHHmmss").format(skd_end_date);
 		
 			try {
+				//end시간이 더 빠른 경우 없도록 하는 조건절 
+				if(Double.parseDouble(skd_end_datestr)-Double.parseDouble(skd_start_datestr)>0) {
+					
 				pstmt = con.prepareStatement(updateSQL+updateSQL1);
 				pstmt.setInt(1, skd_no);
-				pstmt.setString(2, skd_id);
+				pstmt.setString(2, skd_id.getEmployee_id());
 				
 				int rowcnt = pstmt.executeUpdate();
 				if(rowcnt ==1) {
 					System.out.println("일정이 수정되었습니다");
 				}else {
+					System.out.println(updateSQL+updateSQL1);
 					throw new ModifyException("일정이 수정되지 않았습니다");
 				}
+				}else {//end-start if문의 else 
+					throw new ModifyException("정상적인 시간을 입력하세요");
+				}//end start if 문의 닫기 괄호 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -205,6 +211,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 						e.printStackTrace();
 					}
 				}
+				
 			}
 		
 			
@@ -224,7 +231,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 			}
 		
 		 String deleteSQL = "delete from schedule \r\n" + 
-		 		"where skd_no= ? AND employee_id = ?"; 
+		 		" where skd_no= ? AND employee_id = ?"; 
 		 PreparedStatement pstmt = null;
 		
 		 int skd_no = s.getSkd_no();
@@ -262,70 +269,145 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 
 	public static void main(String[] args) {
 	
-		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
-		Employee emp = new Employee();
+//insert 실행
+//		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
+//	      String type="출장";
+//	      String id = "MSD002";
+//
+//	      Employee emp = new Employee();
+//	      emp.setEmployee_id(id);
+//	      
+//	      String title = "포천출장";
+//	      String content ="포천회의";
+//	      String start = "2021-08-09 09:00:00";
+//	      Timestamp start_date=Timestamp.valueOf(start);
+//	      System.out.println(start_date);
+//	      String end="2021-08-09 18:00:00";
+//	      Timestamp end_date=Timestamp.valueOf(end);
+//	      String share="p";
+//	      
+//	      Schedule skd = new Schedule();
+//	      skd.setSkd_type(type);
+//	      skd.setSkd_id(emp);
+//	      skd.setSkd_title(title);
+//	      skd.setSkd_content(content);
+//	      skd.setSkd_start_date(start_date);
+//	      skd.setSkd_end_date(end_date);
+//	      skd.setSkd_share(share);
+//	      
+//	      try {
+//			dao.insert(skd);
+//		} catch (AddException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (DuplicatedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	      
+		
+		
+//	DELETE 실행 
+//		try {
+//			//emp.setEmployee_id("MSD002");
+//			s.setSkd_no(3);
+//			dao.delete(s, "DEV001");
+//
+//		} catch (RemoveException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+
+// Update 실행
+
+//		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
+//		//skd_id 설정.
+//		Employee emp = new Employee(); //id 입력 위한 employee 객체 부르기	
+//		//skd_type 설정. scheduleType 객체의 skd_type 변수에 값을 저장  
+//		ScheduleType st = new ScheduleType();
+//	
+//		//변수넣기 
+//		int skd_no = 41; //스케쥴번호 입력 
+//		String skd_title = "업데이트테스트4";
+//		String skd_skd_content = "";
+//		String start = "2021-07-22 15:00:00";
+//		String end = "2021-07-22 16:00:00";
+//		String skd_share = "p";
+//		Timestamp skd_start_date = Timestamp.valueOf(start);
+//		Timestamp skd_end_date = Timestamp.valueOf(end);
+//
+//		String skd_id = "CEO001"; //id 설정 
+//		emp.setEmployee_id(skd_id);//skd_id를 emp 객체에 넣어주기 
+//		String type ="";
+//		st.setSkd_type(type); //type 넣어주기 
+//
+//		
+//		
+//		Schedule s = new Schedule();
+//		//pstmt의 ? 값 설정 
+//		s.setSkd_id(emp); //id에 emp 객체 넣어주기 
+//		s.setSkd_no(skd_no); //skd_no 변경 		
+//
+//		//update 구문들 
+//		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
+//		s.setSkd_title(skd_title);
+//		s.setSkd_content(skd_skd_content);
+//		s.setSkd_start_date(skd_start_date);
+//		s.setSkd_end_date(skd_end_date);
+//		s.setSkd_share(skd_share);
+//		
+//		//test
+//		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
+//		s.setSkd_title(skd_title);
+//		s.setSkd_content(skd_skd_content);
+//		s.setSkd_start_date(skd_start_date);
+//		s.setSkd_end_date(skd_end_date);
+//		s.setSkd_share(skd_share);
+//		
+//		try {
+//			dao.update(s);
+//		} catch (ModifyException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+		ScheduleService service = new ScheduleService();
 		Schedule s = new Schedule();
-		//지수야 : update 실행인데 안 되네 ^^  
-				try {
-
-					s.setSkd_no(51);
-					emp.setEmployee_id("CEO001");
-					s.setSkd_type("출장");
-					s.setSkd_title("D사 이사점심약속");
-					s.setSkd_content("강남 양식집");
-					s.setSkd_start_date(dao.skdStartTime());
-					s.setSkd_end_date(dao.skdEndTime());
-					s.setSkd_share("t");
-					dao.update(s);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+		ScheduleType st = new ScheduleType();
+		Employee emp = new Employee();
+		s.setSkd_type(st);
+		s.setSkd_id(emp);
 		
-				//지수야 : DELETE 실행 
+	
+		st.setSkd_type("업무");
+		emp.setEmployee_id("CEO001");
+		s.setSkd_title("서비스테스트");
+		s.setSkd_content("서비스");
+		s.setSkd_start_date(skdStartTime());
+		s.setSkd_end_date(skdEndTime());
+		s.setSkd_share("p");
+//	       pstmt.setString(1, skd_type.getSkd_type());
+//	         pstmt.setString(2, skd_id.getEmployee_id());
+//	         pstmt.setString(3, skd_title);
+//	         pstmt.setString(4, skd_content);
+//	         pstmt.setTimestamp(5, skd_start_date);
+//	         pstmt.setTimestamp(6, skd_end_date);
+//	         pstmt.setString(7, skd_share);
+//		
 		try {
-			//emp.setEmployee_id("MSD002");
-			s.setSkd_no(3);
-			dao.delete(s, "DEV001");
-
-		} catch (RemoveException e) {
+			service.addSkd(s);
+		} catch (AddException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DuplicatedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 		
-//Insert Test : 성공 
-	/**
-	 * 	try {
-		
-			s.setSkd_type("업무");
-			s.setSkd_id("CEO001");
-			s.setSkd_title("C사 대표점심약속");
-			s.setSkd_content("여의도 한정식집");
-			s.setSkd_start_date(dao.skdStartTime());
-			s.setSkd_end_date(dao.skdEndTime());
-			s.setSkd_share("p");
-			dao.insert(s);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	 */
-		
-
-
-		
-
-	
-	
-//		SimpleDateFormat sdfCurrent = new SimpleDateFormat ("yyyy-mm-dd hh:mm");
-//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//		String now = sdfCurrent.format(timestamp);		
-//		System.out.println(now);
 		
 	}
+	
 	
 	//시간 더하는 메서드 
 	public Date addHoursToJavaUtilDate(Date date, int hours) {
@@ -335,9 +417,18 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 	    return calendar.getTime();
 	}
 
+	//시간 빼는 메서드
+	public Date subtractHoursToJavaUtilDate(Date date, int hours) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);
+	    calendar.add(Calendar.HOUR_OF_DAY, hours);
+	    return calendar.getTime();
+	}
+
+
 	//일정 날짜 시간 : 00분, 시간 : 30분으로 나오게 하는 메서드 
 	//to do : 만약 입력이 없다면 자동 시간 설정, 입력이 있다면 그대로 하도로 해야할듯 
-	public Timestamp skdStartTime() {
+	public static Timestamp skdStartTime() {
 		Date now = new Date();
 		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
 		SimpleDateFormat test2 = new SimpleDateFormat("mm");
@@ -364,7 +455,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 	
 	}
 	
-	public Timestamp skdEndTime() {
+	public static Timestamp skdEndTime() {
 		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
 		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
 		SimpleDateFormat test2 = new SimpleDateFormat("mm");
@@ -382,7 +473,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		}
 	
 		Timestamp timestamp = Timestamp.valueOf(skd_time); //String 타입 timestamp로 변환 
-		System.out.println("일정 시작 시간: "+ skdStartTime());
+		//System.out.println("일정 시작 시간: "+ skdStartTime());
 		System.out.println("일정 종료 시간: "+timestamp);
 		return timestamp;
 	

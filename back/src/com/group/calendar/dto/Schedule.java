@@ -9,7 +9,7 @@ public class Schedule {
 	//일단 Employee skd_id, Department department_id를 String으로 
 public int skd_no;
 public Employee skd_id;
-public String skd_type;
+public ScheduleType skd_type;
 public String skd_title;
 public String skd_content;
 public Timestamp  skd_date;
@@ -29,13 +29,13 @@ public Schedule(int skd_no, Employee skd_id) {
 }
 
 //update용 DTO
-public Schedule(String skd_type, String skd_title, String skd_content, Timestamp skd_start_date, Timestamp skd_end_date,
+public Schedule(ScheduleType skd_type, String skd_title, String skd_content, Timestamp skd_start_date, Timestamp skd_end_date,
 		String skd_share) {
 	this(0, null, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share, null);
 }
 
 //일정추가용 DTO insertSchedule에 활용 
-public Schedule(Employee skd_id, String skd_type, String skd_title, String skd_content, 
+public Schedule(Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content, 
 		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share){
 	
 	this(0, skd_id, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share, null);
@@ -47,7 +47,7 @@ public Schedule(String skd_title, Timestamp skd_start_date) {
  }
 
 
-public Schedule(int skd_no, Employee skd_id, String skd_type, String skd_title, String skd_content, Timestamp skd_date,
+public Schedule(int skd_no, Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content, Timestamp skd_date,
 		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share, Department department_id) {
 	super();
 	this.skd_no = skd_no;
@@ -69,16 +69,16 @@ public int getSkd_no() {
 public void setSkd_no(int skd_no) {
 	this.skd_no = skd_no;
 }
-public Employee getSkd_id(Employee e) {
+public Employee getSkd_id() {
 	return skd_id;
 }
 public void setSkd_id(Employee skd_id) {
 	this.skd_id = skd_id;
 }
-public String getSkd_type() {
+public ScheduleType getSkd_type() {
 	return skd_type;
 }
-public void setSkd_type(String skd_type) {
+public void setSkd_type(ScheduleType skd_type) {
 	this.skd_type = skd_type;
 }
 public String getSkd_title() {

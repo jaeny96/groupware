@@ -50,7 +50,7 @@ public class ScheduleService {
 	 * @throws AddException
 	 */
 
-	public void skdInsert(Schedule s) throws AddException, DuplicatedException{
+	public void addSkd(Schedule s) throws AddException, DuplicatedException{
 		dao.insert(s);
 	}
 	
@@ -60,7 +60,7 @@ public class ScheduleService {
 	 * @param s
 	 * @throws ModifyException
 	 */
-	public void skdUpdate(Schedule s) throws ModifyException{
+	public void modifySkd(Schedule s) throws ModifyException{
 		dao.update(s);
 	}
 	
@@ -69,16 +69,10 @@ public class ScheduleService {
 	 * @param s
 	 * @throws RemoveException
 	 */
-	public void skdDelete(Schedule s, String skd_id) throws RemoveException{
+	public void deleteSkd(Schedule s, String skd_id) throws RemoveException{
 	
 		dao.delete(s, skd_id);
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("서비스"+service);
-		System.out.println("서비스스케쥴객체"+ScheduleService.getInstance());
-
-		
-	}
 	
 }
