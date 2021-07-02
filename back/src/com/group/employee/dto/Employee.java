@@ -22,7 +22,10 @@ public class Employee {
 	public Employee(String employee_id) {
 		this(employee_id, null, null, null, null, null, null, null, 1, null);
 	}
-
+	
+	public Employee(String employee_id,Department department) {
+		this(employee_id, null, department, null, null, null, null, null, 1, null);
+	}
 	public Employee(String employee_id, int employee_status, String password) {
 		this(employee_id, null, null, null, null, null, null, null, 1, password);
 	}
