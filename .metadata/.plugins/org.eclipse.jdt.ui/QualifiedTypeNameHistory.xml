@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAO"/>
+<fullyQualifiedTypeName name="oracle.sql.DATE"/>
+<fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOralce"/>
+<fullyQualifiedTypeName name="com.group.board.dto.Employee"/>
 </qualifiedTypeNameHistroy>
