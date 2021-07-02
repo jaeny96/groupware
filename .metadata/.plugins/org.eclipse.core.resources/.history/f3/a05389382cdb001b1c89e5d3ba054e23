@@ -1,0 +1,10 @@
+package com.group.approval.dao;
+
+public class DocsWriteDAOOracle {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

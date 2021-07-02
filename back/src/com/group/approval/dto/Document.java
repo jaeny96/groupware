@@ -14,6 +14,7 @@ public class Document {
 	public Date draft_date;
 	public String document_status;
 	
+
 //	public String getDoucment_no() {
 //		return doucment_no;
 //	}
