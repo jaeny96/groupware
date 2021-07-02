@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.group.calendar.dto.Schedule;
+import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.DuplicatedException;
 import com.group.exception.FindException;
@@ -31,10 +32,12 @@ public interface ScheduleDAO {
 
 	/*
 	 * 사원은 일정을 삭제한다
-	 * @param skd_no 일정 번호
+	 * @param skd_no, skd_id 아이디 일정 번호
 	 * @return 
 	 * @throws RemoveException 일정 삭제 실패할 경우 발생한다 
 	 */
-	public void delete(int skd_no) throws RemoveException;
+	//public void delete(Schedule s) throws RemoveException;
+
+	void delete(Schedule s, String skd_id) throws RemoveException;
 
 }

@@ -21,16 +21,47 @@ public Department department_id;
 //
 public Schedule() {};
 
+
+//delete용 DTO 
+public Schedule(int skd_no, Employee skd_id) {	
+
+	this(skd_no, skd_id, null, null, null, null, null,null,null, null);
+}
+
+//update용 DTO
+public Schedule(String skd_type, String skd_title, String skd_content, Timestamp skd_start_date, Timestamp skd_end_date,
+		String skd_share) {
+	this(0, null, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share, null);
+}
+
 //일정추가용 DTO insertSchedule에 활용 
-public Schedule(String skd_type, Employee skd_id, String skd_title, String skd_content, Timestamp skd_start_date, Timestamp skd_end_date, String skd_share){
-	this.skd_type =skd_type;
+public Schedule(Employee skd_id, String skd_type, String skd_title, String skd_content, 
+		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share){
+	
+	this(0, skd_id, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share, null);
+	
+}
+
+public Schedule(String skd_title, Timestamp skd_start_date) {
+    this(null, null, skd_title, null, skd_start_date, null, null);
+ }
+
+
+public Schedule(int skd_no, Employee skd_id, String skd_type, String skd_title, String skd_content, Timestamp skd_date,
+		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share, Department department_id) {
+	super();
+	this.skd_no = skd_no;
 	this.skd_id = skd_id;
-	this.skd_title= skd_title;
+	this.skd_type = skd_type;
+	this.skd_title = skd_title;
 	this.skd_content = skd_content;
+	this.skd_date = skd_date;
 	this.skd_start_date = skd_start_date;
 	this.skd_end_date = skd_end_date;
-	this.skd_share =skd_share;
+	this.skd_share = skd_share;
+	this.department_id = department_id;
 }
+
 
 public int getSkd_no() {
 	return skd_no;
@@ -38,7 +69,7 @@ public int getSkd_no() {
 public void setSkd_no(int skd_no) {
 	this.skd_no = skd_no;
 }
-public Employee getSkd_id() {
+public Employee getSkd_id(Employee e) {
 	return skd_id;
 }
 public void setSkd_id(Employee skd_id) {
