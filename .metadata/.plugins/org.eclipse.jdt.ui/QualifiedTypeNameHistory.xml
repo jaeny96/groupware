@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="oracle.sql.DATE"/>
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOralce"/>
 <fullyQualifiedTypeName name="com.group.board.dto.Employee"/>
+<fullyQualifiedTypeName name="com.group.calendar.dto.ScheduleType"/>
 </qualifiedTypeNameHistroy>
