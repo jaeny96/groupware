@@ -1,0 +1,297 @@
+package com.group.board.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.group.board.dto.Board;
+import com.group.employee.dto.Employee;
+import com.group.sql.MyConnection;
+
+public class BoardDAOOracle implements BoardDAO {
+	public BoardDAOOracle() throws Exception {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		System.out.println("load success");
+	}
+
+	@Override
+	public List<Board> selectAll() {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Board> selectAll(int currentPage) {
+		int cnt_per_page = 10;
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String selectAllPageSQL = "select * \r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
+				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
+				+ "            ORDER BY bd_no desc\r\n" + "        ) a\r\n" + "    )\r\n"
+				+ "WHERE rn BETWEEN start_row(?,?) AND end_row(?,?)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Board> bdList = new ArrayList<Board>();
+		try {
+			pstmt = con.prepareStatement(selectAllPageSQL);
+			pstmt.setInt(1, currentPage);
+			pstmt.setInt(2, cnt_per_page);
+			pstmt.setInt(3, currentPage);
+			pstmt.setInt(4, cnt_per_page);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Board bd = new Board();
+				bd.setBd_no(rs.getString("bd_no"));
+				bd.setBd_title(rs.getString("bd_title"));
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				bd.setWriter(emp);
+				bd.setBd_date(rs.getTimestamp("bd_date"));
+
+				bdList.add(bd);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return bdList;
+	}
+
+	// 일단 제목만 구현함
+	@Override
+	public List<Board> selectByWord(String word) {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String selectByWordSQL = "SELECT * \r\n" + "FROM board b \r\n"
+				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n"
+				+ "WHERE bd_title LIKE ? ORDER BY bd_no desc";
+		System.out.println(selectByWordSQL);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Board> bdList = new ArrayList<Board>();
+		try {
+			pstmt = con.prepareStatement(selectByWordSQL);
+			pstmt.setString(1, "%" + word + "%");
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Board bd = new Board();
+				bd.setBd_no(rs.getString("bd_no"));
+				bd.setBd_title(rs.getString("bd_title"));
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				bd.setWriter(emp);
+				bd.setBd_date(rs.getTimestamp("bd_date"));
+				bdList.add(bd);
+			}
+			if (bdList.size() == 0) {
+				System.out.println("일치하는 내용이 없습니다");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return bdList;
+	}
+
+	@Override
+	public Board selectBdInfo(String bd_no) {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String selectBdInfoSQL = "SELECT *\r\n" + "FROM board b \r\n"
+				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n"
+				+ "JOIN boardcomment cm ON b.bd_no = cm.bd_no\r\n" + "WHERE b.bd_no=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Board bd = null;
+		try {
+			pstmt = con.prepareStatement(selectBdInfoSQL);
+			pstmt.setString(1, bd_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				bd = new Board();
+				bd.setBd_no(rs.getString("bd_no"));
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				bd.setWriter(emp);
+				bd.setBd_title(rs.getString("bd_title"));
+				bd.setBd_content(rs.getString("bd_content"));
+				bd.setBd_date(rs.getTimestamp("bd_date"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+		return bd;
+	}
+
+	@Override
+	public void insert(Board bd) {
+
+	}
+
+	@Override
+	public void update(Board bd) {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String str = "";
+
+		if (!"".equals(bd.getBd_title())) {
+			str += " bd_title='" + bd.getBd_title() + "',";
+		}
+
+		if (!"".equals(bd.getBd_content())) {
+			str += " bd_content='" + bd.getBd_content() + "',";
+		}
+		// str.substring(0, str.length() - 1)
+		String updateSQL = "UPDATE board SET " + str.substring(0, str.length() - 1)
+				+ " ,bd_date=SYSTIMESTAMP WHERE bd_no=?";
+		System.out.println(updateSQL);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = con.prepareStatement(updateSQL);
+			pstmt.setString(1, bd.getBd_no());
+			int rowcnt = pstmt.executeUpdate();
+			if (rowcnt == 1) {
+				System.out.println("내용이 변경되었습니다");
+			} else {
+				// throw Exception
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+
+	}
+
+	@Override
+	public void delete(String bd_no) {
+		Connection con = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String deleteSQL="DELETE FROM board WHERE bd_no=?";
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		try {
+			pstmt=con.prepareStatement(deleteSQL);
+			pstmt.setString(1,bd_no);
+			int rowcnt = pstmt.executeUpdate();
+			if(rowcnt==1) {
+				System.out.println("게시글을 삭제하였습니다.");
+			}else {
+				//throw exception
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+	}
+
+	public static void main(String[] args) {
+//		try {
+//			BoardDAOOracle dao = new BoardDAOOracle();
+//			int currentPage=1;
+//			List<Board> bdList = dao.selectAll(currentPage);
+//			for(Board bd : bdList) {
+//				System.out.println(bd.getBd_no()+"/"+bd.getBd_title()+
+//						"/"+bd.getWriter().getEmployee_id()+"/"+bd.getWriter().getName()+
+//						"/"+bd.getBd_date());
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+
+//		try {
+//			BoardDAOOracle dao = new BoardDAOOracle();
+//			List<Board> bdList = dao.selectByWord("공");
+//			for (Board bd : bdList) {
+//				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
+//						+ bd.getWriter().getName() + "/" + bd.getBd_date());
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+
+//		try {
+//			BoardDAOOracle dao = new BoardDAOOracle();
+//			int currentPage = 1;
+//			List<Board> bdList = dao.selectAll(currentPage);
+//			Board bd = dao.selectBdInfo(bdList.get(1).getBd_no());
+//			System.out.println(bd.getBd_no() + "/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName()
+//					+ "/" + bd.getBd_title() + "/" + bd.getBd_content() + "/" + bd.getBd_date());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+
+//		try {
+//			BoardDAOOracle dao = new BoardDAOOracle();
+//			int currentPage = 1;
+//			List<Board> bdList = dao.selectAll(currentPage);
+//			Board bd = dao.selectBdInfo(bdList.get(1).getBd_no());
+//			System.out.println(bd.getBd_no());
+//			System.out.println(bd.getBd_content());
+//			bd.setBd_title("");
+////			bd.setBd_title("하하");
+////			bd.setBd_content("");
+//			bd.setBd_content("놀랐지?ㅋㅋㅋㅋ");
+//			dao.update(bd);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+		
+		try {
+			BoardDAOOracle dao = new BoardDAOOracle();
+			String bd_no="BD6";
+			dao.delete(bd_no);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+}

@@ -14,10 +14,10 @@ import com.group.mypage.dto.EmployeeLeave;
 import com.group.sql.MyConnection;
 
 public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
-	public EmployeeLeaveDAOOracle() throws Exception {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("load success");
-	}
+//	public EmployeeLeaveDAOOracle() throws Exception {
+//		Class.forName("oracle.jdbc.driver.OracleDriver");
+//		System.out.println("load success");
+//	}
 
 	public EmployeeLeave selectById(String id) throws Exception {
 		Connection con = null;

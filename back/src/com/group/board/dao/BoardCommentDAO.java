@@ -21,5 +21,5 @@ public interface BoardCommentDAO {
 	 * 댓글을  삭제한다
 	 * @param cm_no 삭제할 댓글 번호
 	 */
-	public void delete(String cm_no);
+	public void delete(BoardComment cm);
 }

@@ -19,12 +19,20 @@ public class Employee {
 	public Employee() {
 	}
 
+	public Employee(String employee_id) {
+		this(employee_id, null, null, null, null, null, null, null, 1, null);
+	}
+
 	public Employee(String employee_id, int employee_status, String password) {
 		this(employee_id, null, null, null, null, null, null, null, 1, password);
 	}
 
 	public Employee(String employee_id, String phone_number, int employee_status) {
 		this(employee_id, null, null, null, null, phone_number, null, null, 1, null);
+	}
+
+	public Employee(String employee_id, String name, Department department, Job job, Position position) {
+		this(employee_id, name, department, job, position, null, null, null, 1, null);
 	}
 
 	public Employee(String employee_id, String name, Department department, Job job, Position position,

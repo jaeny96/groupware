@@ -1,0 +1,40 @@
+package com.group.board.dto;
+
+import java.sql.Timestamp;
+import java.util.List;
+import com.group.employee.dto.Employee;
+
+public class Board {
+	public String bd_no;
+	
+	//게시판은 작성자를 가질 수 있다
+	public Employee writer_id;
+	public String bd_title;
+	public String bd_content;
+	public Timestamp bd_date;
+	
+	//게시판은 여러개의 댓글을 가질 수 있다
+	public List<BoardComment> bd_comments;
+
+	public Board() {
+	}
+
+	public Board(String bd_no, Employee writer_id, String bd_title, Timestamp bd_date) {
+		this(bd_no,writer_id,bd_title,null,bd_date,null);
+	}
+
+	public Board(String bd_no, Employee writer_id, String bd_title, String bd_content, Timestamp bd_date,
+			List<BoardComment> bd_comments) {
+		super();
+		this.bd_no = bd_no;
+		this.writer_id = writer_id;
+		this.bd_title = bd_title;
+		this.bd_content = bd_content;
+		this.bd_date = bd_date;
+		this.bd_comments = bd_comments;
+	}
+	
+	
+	
+	
+}

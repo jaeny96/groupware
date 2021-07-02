@@ -1,0 +1,120 @@
+package com.group.board.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.group.board.dto.Board;
+import com.group.employee.dto.Employee;
+import com.group.sql.MyConnection;
+
+public class BoardDAOOracle implements BoardDAO{
+
+	@Override
+	public List<Board> selectAll() {
+		Connection con = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		
+		return null;
+	}
+
+	@Override
+	public List<Board> selectAll(int currentPage) {
+		int cnt_per_page=10;
+		Connection con = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String selectAllPageSQL="select * \r\n" + 
+				"FROM (SELECT rownum rn, a.* \r\n" + 
+				"    FROM ( SELECT *\r\n" + 
+				"            FROM board b \r\n" + 
+				"            JOIN employee e ON b.employee_id = e.employee_id\r\n" + 
+				"            ORDER BY bd_date desc\r\n" + 
+				"        ) a\r\n" + 
+				"    )\r\n" + 
+				"WHERE rn BETWEEN start_row(?,?) AND end_row(?,?)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Board> bdList = new ArrayList<Board>();
+		
+		try {
+			pstmt=con.prepareStatement(selectAllPageSQL);
+			pstmt.setInt(1, currentPage);
+			pstmt.setInt(2, cnt_per_page);
+			pstmt.setInt(3, currentPage);
+			pstmt.setInt(4, cnt_per_page);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Board bd = new Board();
+				bd.setBd_no(rs.getString("bd_no"));
+				bd.setBd_title(rs.getString("bd_title"));
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				bd.setWriter_id(emp);
+				bd.setBd_date(rs.getTimestamp("bd_date"));
+				
+				System.out.println(bd);
+				bdList.add(bd);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return bdList;
+	}
+
+	@Override
+	public List<Board> selectByTitle(String word) {
+		return null;
+	}
+
+	@Override
+	public Board selectBdInfo(String bd_no) {
+		return null;
+	}
+
+	@Override
+	public void insert(Board bd) {
+		
+	}
+
+	@Override
+	public void update(Board bd) {
+		
+	}
+
+	@Override
+	public void delete(String bd_no) {
+		
+	}
+	public static void main(String[] args) {
+		try {
+			EmployeeLeaveDAOOracle dao = new EmployeeLeaveDAOOracle();
+			String id = "DEV001";
+			EmployeeLeave el = dao.selectById(id);
+			System.out.println(el.getEmployee().employee_id + "/" + el.getEmployee().name + "/"
+					+ el.getEmployee().getDepartment().department_title + "/"
+					+ el.getEmployee().getPosition().position_title + "/" + el.getEmployee().getJob().job_title + "/"
+					+ el.getEmployee().phone_number + "/" + el.getEmployee().email + "/" + el.getLeave().grant_days
+					+ "/" + el.getLeave().use_days + "/" + el.getLeave().remain_days);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}
