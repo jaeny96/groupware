@@ -357,17 +357,17 @@ public class BoardDAOOracle implements BoardDAO {
 //			System.out.println(e.getMessage());
 //		}
 
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			Employee emp = new Employee();
-//			Board bd = new Board();
-//			bd.setBd_no("BD7");
-//			emp.setEmployee_id("DEV001");
-//			bd.setWriter(emp);
-//			dao.delete(bd);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+		try {
+			BoardDAOOracle dao = new BoardDAOOracle();
+			Employee emp = new Employee();
+			Board bd = new Board();
+			bd.setBd_no("BD7");
+			emp.setEmployee_id("DEV001");
+			bd.setWriter(emp);
+			dao.delete(bd);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 }

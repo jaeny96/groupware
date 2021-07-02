@@ -6,21 +6,23 @@ import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 
 public interface EmployeeDAO {
+
 	/**
 	 * 전체 사원을 조회한다
-	 * @return 조회한 사원들
+	 * @return 조회한 사원들(CEO제외)
 	 */
-	public List<Employee> selectAll();
-	/**
-	 * 전체 사원 수를 조회한다
-	 * @return 전체 사원 수
-	 */
-	public int selectAllCount();
+	public List<Employee> selectAll();	
 	/**
 	 * 부서의 목록을 조회한다
 	 * @return 조회한 모든 부서들
 	 */
 	public List<Department> selectDepAll();
+	/**
+	 * 전체 사원 수를 조회한다
+	 * @return 전체 사원 수
+	 */
+	public int selectAllCount();
+
 	/**
 	 * 사원명으로 검색한다
 	 * @param word 사원명에 해당하는 단어

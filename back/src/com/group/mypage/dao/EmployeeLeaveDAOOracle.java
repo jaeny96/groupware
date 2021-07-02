@@ -118,11 +118,11 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 //			EmployeeLeaveDAOOracle dao = new EmployeeLeaveDAOOracle();
 //			String id = "DEV001";
 //			EmployeeLeave el = dao.selectById(id);
-//			System.out.println(el.getEmployee().employee_id + "/" + el.getEmployee().name + "/"
-//					+ el.getEmployee().getDepartment().department_title + "/"
-//					+ el.getEmployee().getPosition().position_title + "/" + el.getEmployee().getJob().job_title + "/"
-//					+ el.getEmployee().phone_number + "/" + el.getEmployee().email + "/" + el.getLeave().grant_days
-//					+ "/" + el.getLeave().use_days + "/" + el.getLeave().remain_days);
+//			System.out.println(el.getEmployee().getEmployee_id() + "/" + el.getEmployee().getName() + "/"
+//					+ el.getEmployee().getDepartment().getDepartment_title() + "/"
+//					+ el.getEmployee().getPosition().getPosition_title() + "/" + el.getEmployee().getJob().job_title + "/"
+//					+ el.getEmployee().getPhone_number() + "/" + el.getEmployee().getEmail() + "/" + el.getLeave().getGrant_days()
+//					+ "/" + el.getLeave().getUse_days() + "/" + el.getLeave().getRemain_days());
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}
