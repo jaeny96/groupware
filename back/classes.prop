@@ -1,2 +1,2 @@
-#clasees.prop 
+#classes.prop
 scheduleDAO=com.group.calendar.dao.ScheduleDAOOracle

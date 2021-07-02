@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import com.group.calendar.dto.Schedule;
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.DuplicatedException;
 import com.group.exception.FindException;
@@ -18,7 +20,7 @@ public interface ScheduleDAO {
 	 * @return 해당 월 일정
 	 * @throws FindException 일정이 없을 경우 또는 찾기를 싱패한 경우 발생한다.
 	 */
-	public List<Schedule> skdList() throws FindException;
+	public List<Schedule> skdList(Employee skd_e) throws FindException;
 	
 	/**
 	 * 팀 일정을 조회한다
@@ -26,7 +28,7 @@ public interface ScheduleDAO {
 	 * @return 해당 월 팀 일정
 	 * @throws FindException 일정이 없을 경우 또는 상품찾기를 실패한 경우 발생한다
 	 */
-	public Schedule skdByTeam(String skd_share) throws FindException;
+	public List<Schedule> skdByTeam(String skd_id) throws FindException;
 	
 	/**
 	 * 개인 일정을 조회한다
@@ -34,7 +36,7 @@ public interface ScheduleDAO {
 	 * @return 해당 월 개인 일정
 	 * @throws FindException 일정이 없을 경우 또는 일정찾기를 실패한 경우 발생한다
 	 */
-	public Schedule skdPersonal(String skd_share) throws FindException;
+	public List<Schedule> skdPersonal(String skd_share) throws FindException;
 	
 	/**
 	 * 제목 혹은 내용으로 검색한다
@@ -42,7 +44,7 @@ public interface ScheduleDAO {
 	 * @return 일정내용에 해당하는 일정
 	 * @throws FindException 일정이 없을 경우 또는 일정찾기를 실패한 경우 발생한다
 	 */
-	public Schedule skdByDetail(String skd_title, String skd_content) throws FindException;
+	public List<Schedule> skdByContent(Schedule s) throws FindException;
 
 	
 	/*
@@ -51,7 +53,7 @@ public interface ScheduleDAO {
 	 * @return 일정 상세내용
 	 * @throws FindException 일정 추가 실패시, 중복일정이 있을 경우 발생한다 
 	 */
-	public Schedule skdDetail(String skd_no) throws FindException;
+	public Schedule skdDetail(int skd_no) throws FindException;
 	
 
 	
