@@ -1,0 +1,20 @@
+package com.group.approval.dto;
+
+import java.util.Date;
+import java.util.List;
+
+import com.group.employee.dto.Employee;
+
+public class Document {
+	public String doucment_no;
+	public Employee employee_id;
+	public DocumentType document_type;
+	public String document_title;
+	public String document_content;
+	public Date draft_date;
+	public String document_status;
+	
+	public List<Approval> approvals;
+	public List<Agreement> agreements;
+	public List<Reference> references;
+}
