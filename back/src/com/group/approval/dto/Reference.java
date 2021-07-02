@@ -8,7 +8,7 @@ public class Reference {
 
 	public Document document_no;
 	public Employee employee_id;
-	public Date re_ap_date;
+	public ApprovalStatus ap_type;
 	
 	
 //	public Document getDocument_no() {
