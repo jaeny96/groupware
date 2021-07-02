@@ -39,7 +39,7 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
+			if(rs.next()) {
 				empleave = new EmployeeLeave();
 
 				Employee emp = new Employee();
@@ -66,6 +66,9 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 
 				empleave.setEmployee(emp);
 				empleave.setLeave(leave);
+			}
+			else {
+				//throw exception
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

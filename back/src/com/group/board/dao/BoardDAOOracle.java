@@ -159,18 +159,16 @@ public class BoardDAOOracle implements BoardDAO {
 		}
 
 		String selectBdInfoSQL = "SELECT *\r\n" + "FROM board b \r\n"
-				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n"
-				+ "JOIN boardcomment cm ON b.bd_no = cm.bd_no\r\n" + "WHERE b.bd_no=?";
+				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE b.bd_no=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Board bd = null;
+		Board bd = new Board();
 		try {
 			pstmt = con.prepareStatement(selectBdInfoSQL);
 			pstmt.setString(1, bd_no);
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
-				bd = new Board();
+			if (rs.next()) {
 				bd.setBd_no(rs.getString("bd_no"));
 				Employee emp = new Employee();
 				emp.setEmployee_id(rs.getString("employee_id"));
@@ -179,6 +177,7 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_title(rs.getString("bd_title"));
 				bd.setBd_content(rs.getString("bd_content"));
 				bd.setBd_date(rs.getTimestamp("bd_date"));
+//				System.out.println(bd);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -357,17 +356,17 @@ public class BoardDAOOracle implements BoardDAO {
 //			System.out.println(e.getMessage());
 //		}
 
-		try {
-			BoardDAOOracle dao = new BoardDAOOracle();
-			Employee emp = new Employee();
-			Board bd = new Board();
-			bd.setBd_no("BD7");
-			emp.setEmployee_id("DEV001");
-			bd.setWriter(emp);
-			dao.delete(bd);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			BoardDAOOracle dao = new BoardDAOOracle();
+//			Employee emp = new Employee();
+//			Board bd = new Board();
+//			bd.setBd_no("BD7");
+//			emp.setEmployee_id("DEV001");
+//			bd.setWriter(emp);
+//			dao.delete(bd);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
 
 	}
 }

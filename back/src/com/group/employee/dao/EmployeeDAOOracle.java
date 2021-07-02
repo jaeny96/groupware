@@ -13,7 +13,7 @@ import com.group.employee.dto.Job;
 import com.group.employee.dto.Position;
 import com.group.sql.MyConnection;
 
-public class EmployeeDAOOracle implements EmployeeDAO{
+public class EmployeeDAOOracle implements EmployeeDAO {
 	public EmployeeDAOOracle() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("load success");
@@ -21,27 +21,26 @@ public class EmployeeDAOOracle implements EmployeeDAO{
 
 	@Override
 	public List<Employee> selectAll() {
-		Connection con =null;
+		Connection con = null;
 		try {
-			con=MyConnection.getConnection();
+			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String selectAllSQL = "SELECT *\r\n" + 
-				"FROM department d\r\n" + 
-				"JOIN employee e ON d.department_id = e.department_id\r\n" + 
-				"JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n" + 
-				"WHERE employee_status=1\r\n" + 
-				"ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id";
+		String selectAllSQL = "SELECT *\r\n" + "FROM department d\r\n"
+				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
+				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
+				+ "WHERE employee_status=1\r\n"
+				+ "ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id";
 		System.out.println(selectAllSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> empList = new ArrayList<Employee>();
 		try {
-			pstmt=con.prepareStatement(selectAllSQL);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
+			pstmt = con.prepareStatement(selectAllSQL);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
 				Employee emp = new Employee();
 				emp.setEmployee_id(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
@@ -57,7 +56,7 @@ public class EmployeeDAOOracle implements EmployeeDAO{
 				emp.setJob(j);
 				emp.setPhone_number(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
-				
+
 				empList.add(emp);
 			}
 		} catch (SQLException e) {
@@ -67,57 +66,151 @@ public class EmployeeDAOOracle implements EmployeeDAO{
 		}
 		return empList;
 	}
+
 	@Override
-	public List<Department> selectDepAll() {
+	public List<Employee> selectByDep(String dep_id) {
 		Connection con = null;
 		try {
-			con=MyConnection.getConnection();
+			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		String selectDepAllSQL="SELECT * FROM department "
-				+ "ORDER BY DECODE(department_id,'CEO',1),department_title asc";
-		
-		
-		PreparedStatement pstmt =null;
+		String selectByDepSQL = "SELECT *\r\n" + "FROM department d\r\n"
+				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
+				+ "JOIN position p ON e.position_id=p.position_id\r\n" + "JOIN job j ON e.job_id=j.job_id\r\n"
+				+ "WHERE d.department_id=? AND employee_status=1\r\n" + "ORDER BY p.position_id";
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Department> depList = new ArrayList<Department>();
-		
+		List<Employee> empList = new ArrayList<Employee>();
 		try {
-			pstmt=con.prepareStatement(selectDepAllSQL);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				Department dep = new Department();
+			pstmt = con.prepareStatement(selectByDepSQL);
+			pstmt.setString(1, dep_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				Department d = new Department();
+				d.setDepartment_id(rs.getString("department_id"));
+				d.setDepartment_title(rs.getString("department_title"));
+				emp.setDepartment(d);
+				Position p = new Position();
+				p.setPosition_title(rs.getString("position_title"));
+				emp.setPosition(p);
+				Job j = new Job();
+				j.setJob_title(rs.getString("job_title"));
+				emp.setJob(j);
+				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setEmail(rs.getString("email"));
+
+				empList.add(emp);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
-		return depList;
-	}
-	
-	@Override
-	public int selectAllCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return empList;
+
 	}
 
 	@Override
-	public List<Employee> selectByName(String word) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Employee> selectByWord(String word) {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String selectByNameSQL = "SELECT *\r\n" + "FROM department d\r\n"
+				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
+				+ "JOIN position p ON e.position_id = p.position_id " + "JOIN job j ON e.job_id=j.job_id\r\n"
+				+ "WHERE name LIKE ? AND employee_status=1\r\n" + "ORDER BY department_title, p.position_id";
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Employee> empList = new ArrayList<Employee>();
+		try {
+			pstmt = con.prepareStatement(selectByNameSQL);
+			pstmt.setString(1, "%" + word + "%");
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				Department d = new Department();
+				d.setDepartment_id(rs.getString("department_id"));
+				d.setDepartment_title(rs.getString("department_title"));
+				emp.setDepartment(d);
+				Position p = new Position();
+				p.setPosition_title(rs.getString("position_title"));
+				emp.setPosition(p);
+				Job j = new Job();
+				j.setJob_title(rs.getString("job_title"));
+				emp.setJob(j);
+				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setEmail(rs.getString("email"));
+
+				empList.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+
+		return empList;
 	}
 
 	@Override
-	public Employee selectById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee selectInfo(String name) {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String selectInfoSQL = "SELECT *\r\n"
+				+ "FROM employee e\r\n" + "JOIN department d ON (e.department_id = d.department_id)\r\n"
+				+ "JOIN position p ON (e.position_id = p.position_id)\r\n" + "JOIN job j ON (e.job_id = j.job_id)\r\n"
+				+ "WHERE name=?";
+		Employee emp = new Employee();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = con.prepareStatement(selectInfoSQL);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				Department d = new Department();
+				d.setDepartment_id(rs.getString("department_id"));
+				d.setDepartment_title(rs.getString("department_title"));
+				emp.setDepartment(d);
+				Position p = new Position();
+				p.setPosition_title(rs.getString("position_title"));
+				emp.setPosition(p);
+				Job j = new Job();
+				j.setJob_title(rs.getString("job_title"));
+				emp.setJob(j);
+				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setEmail(rs.getString("email"));
+			} else {
+				// throw exception
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+
+		return emp;
 	}
-	
+
 	public static void main(String[] args) {
 //		try {
 //			EmployeeDAOOracle dao = new EmployeeDAOOracle();
@@ -134,7 +227,44 @@ public class EmployeeDAOOracle implements EmployeeDAO{
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}
+
+//		try {
+//			EmployeeDAOOracle dao = new EmployeeDAOOracle();
+//			String dep_id="DEV";
+//			List<Employee> empList = dao.selectByDep(dep_id);
+//			for (Employee emp : empList)
+//				System.out.println(emp.getEmployee_id() + "/" + emp.getName() + "/"
+//						+ emp.getDepartment().getDepartment_id() + "/" 
+//						+ emp.getDepartment().getDepartment_title() + "/"
+//						+ emp.getPosition().getPosition_title() + "/" 
+//						+ emp.getJob().getJob_title() + "/"
+//						+ emp.getPhone_number() + "/" + emp.getEmail());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+
+//		try {
+//			EmployeeDAOOracle dao = new EmployeeDAOOracle();
+//			String word = "김";
+//			List<Employee> empList = dao.selectByWord(word);
+//			for (Employee emp : empList)
+//				System.out.println(emp.getEmployee_id() + "/" + emp.getName() + "/"
+//						+ emp.getDepartment().getDepartment_id() + "/" + emp.getDepartment().getDepartment_title() + "/"
+//						+ emp.getPosition().getPosition_title() + "/" + emp.getJob().getJob_title() + "/"
+//						+ emp.getPhone_number() + "/" + emp.getEmail());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+
+//		try {
+//			EmployeeDAOOracle dao = new EmployeeDAOOracle();
+//			String name = "임창균";
+//			Employee emp = dao.selectInfo(name);
+//			System.out.println(emp.getEmployee_id() + "/" + emp.getName() + "/" + emp.getDepartment().getDepartment_id()
+//					+ "/" + emp.getDepartment().getDepartment_title() + "/" + emp.getPosition().getPosition_title()
+//					+ "/" + emp.getJob().getJob_title() + "/" + emp.getPhone_number() + "/" + emp.getEmail());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
 	}
-
-
 }
