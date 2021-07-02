@@ -215,14 +215,14 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	public static void main(String[] args) {
-		try {
-			MainDAOOracle dao = new MainDAOOracle();
-			String id="DEV001";
-			Employee emp = dao.selectById(id);
-			System.out.println(emp.getEmployee_id()+"/"+emp.getName()+"/"+emp.getPassword());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			MainDAOOracle dao = new MainDAOOracle();
+//			String id="DEV001";
+//			Employee emp = dao.selectById(id);
+//			System.out.println(emp.getEmployee_id()+"/"+emp.getName());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 //		try {
 //			MainDAOOracle dao = new MainDAOOracle();

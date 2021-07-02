@@ -29,7 +29,7 @@ public class MainDAOOracle implements MainDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String selectByIdSQL = "SELECT * \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
+		String selectByIdSQL = "SELECT employee_id, name \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Employee emp = new Employee();
@@ -41,7 +41,6 @@ public class MainDAOOracle implements MainDAO {
 			if (rs.next()) {
 				emp.setEmployee_id(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
-				emp.setPassword(rs.getString("password"));;
 			} else {
 				// throw exception
 			}
@@ -215,14 +214,14 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	public static void main(String[] args) {
-		try {
-			MainDAOOracle dao = new MainDAOOracle();
-			String id="DEV001";
-			Employee emp = dao.selectById(id);
-			System.out.println(emp.getEmployee_id()+"/"+emp.getName()+"/"+emp.getPassword());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			MainDAOOracle dao = new MainDAOOracle();
+//			String id="DEV001";
+//			Employee emp = dao.selectById(id);
+//			System.out.println(emp.getEmployee_id()+"/"+emp.getName());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 //		try {
 //			MainDAOOracle dao = new MainDAOOracle();
@@ -256,21 +255,24 @@ public class MainDAOOracle implements MainDAO {
 //			e.printStackTrace();
 //		}
 
-//		try {
-//			MainDAOOracle dao = new MainDAOOracle();
-//			String id = "MSD002";
-//			String depTitle = "MSD";
-//			Employee emp = new Employee();
-//			emp.setEmployee_id(id);;
-//			Department dep = new Department();
-//			dep.setDepartment_id(depTitle);
-//			emp.setDepartment(dep);
-//			List<Schedule> skdList = dao.selectSchedule(emp);
-//			for (Schedule skd : skdList) {
-//				System.out.println(skd.getSkd_start_date() + "/" + skd.getSkd_title());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			MainDAOOracle dao = new MainDAOOracle();
+			String id = "MSD002";
+			String depTitle = "MSD";
+			Employee emp = new Employee();
+			emp.setEmployee_id(id);;
+			Department dep = new Department();
+			dep.setDepartment_id(depTitle);
+			emp.setDepartment(dep);
+			List<Schedule> skdList = dao.selectSchedule(emp);
+			for (Schedule skd : skdList) {
+				System.out.println(skd.getSkd_start_date() + "/" + skd.getSkd_title());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+
 	}
 }
