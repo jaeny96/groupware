@@ -3,6 +3,7 @@
 .settings
 /.metadata/
 *.prop
+/.classes.prop
 /build/
 
 /bin/
