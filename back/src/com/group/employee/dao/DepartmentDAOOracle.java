@@ -28,7 +28,7 @@ public class DepartmentDAOOracle implements DepartmentDAO {
 
 		String selectDepAllSQL = "SELECT d.department_id,department_title,count(*)\r\n"
 				+ "FROM employee e JOIN department d ON (e.department_id = d.department_id)\r\n"
-				+ "WHERE employee_status=1 \r\n" + "GROUP BY d.department_id,department_title\r\n"
+				+ "WHERE enabled=1 \r\n" + "GROUP BY d.department_id,department_title\r\n"
 				+ "ORDER BY DECODE(department_id,'CEO',1),department_title";
 
 		PreparedStatement pstmt = null;

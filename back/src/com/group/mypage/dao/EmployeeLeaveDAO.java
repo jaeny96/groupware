@@ -14,7 +14,7 @@ public interface EmployeeLeaveDAO {
 	public EmployeeLeave selectById(String id) throws FindException;
 	/**
 	 * 자신의 정보를 수정한다
-	 * @param el 자신의 정보
+	 * @param emp 자신의 정보
 	 */
 	public void update(Employee emp) throws ModifyException;
 }

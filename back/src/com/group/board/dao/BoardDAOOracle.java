@@ -22,7 +22,7 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public List<Board> selectAll() throws FindException{
+	public List<Board> selectAll() throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -56,7 +56,7 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_date(rs.getTimestamp("bd_date"));
 				bdList.add(bd);
 			}
-			if(bdList.size()==0) {
+			if (bdList.size() == 0) {
 				throw new FindException("게시글이 없습니다.");
 			}
 		} catch (SQLException e) {
@@ -69,8 +69,8 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public List<Board> selectAll(int currentPage) throws FindException{
-		int cnt_per_page = 10;
+	public List<Board> selectAll(int currentPage) throws FindException {
+		int cnt_per_page = 3;
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -115,9 +115,8 @@ public class BoardDAOOracle implements BoardDAO {
 		return bdList;
 	}
 
-	// 일단 제목만 구현함
 	@Override
-	public List<Board> selectByWord(String word) throws FindException{
+	public List<Board> selectByWord(String category, String word) throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -127,7 +126,8 @@ public class BoardDAOOracle implements BoardDAO {
 		}
 
 		String selectByWordSQL = "SELECT * \r\n" + "FROM board b \r\n"
-				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE bd_title LIKE ? ORDER BY bd_no desc";
+				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE " + category
+				+ " LIKE ? ORDER BY bd_no desc";
 //		System.out.println(selectByWordSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -162,7 +162,7 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public Board selectBdInfo(String bd_no) throws FindException{
+	public Board selectBdInfo(String bd_no) throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -202,7 +202,7 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void insert(Board bd) throws AddException{
+	public void insert(Board bd) throws AddException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -232,7 +232,7 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void update(Board bd) throws ModifyException{
+	public void update(Board bd) throws ModifyException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -243,11 +243,11 @@ public class BoardDAOOracle implements BoardDAO {
 
 		String str = "";
 
-		if (!"".equals(bd.getBd_title())) {
+		if (bd.getBd_title() != null) {
 			str += " bd_title='" + bd.getBd_title() + "',";
 		}
 
-		if (!"".equals(bd.getBd_content())) {
+		if (bd.getBd_content() != null) {
 			str += " bd_content='" + bd.getBd_content() + "',";
 		}
 		String updateSQL = "UPDATE board SET " + str.substring(0, str.length() - 1)
@@ -275,7 +275,7 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void delete(Board bd) throws RemoveException{
+	public void delete(Board bd) throws RemoveException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -292,7 +292,7 @@ public class BoardDAOOracle implements BoardDAO {
 			pstmt.setString(1, bd.getBd_no());
 			pstmt.setString(2, bd.getWriter().getEmployee_id());
 			pstmt.executeUpdate();
-			
+
 			System.out.println("게시글을 삭제하였습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -329,7 +329,7 @@ public class BoardDAOOracle implements BoardDAO {
 
 //		try {
 //			BoardDAOOracle dao = new BoardDAOOracle();
-//			List<Board> bdList = dao.selectByWord("공");
+//			List<Board> bdList = dao.selectByWord("name","권");
 //			for (Board bd : bdList) {
 //				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
 //						+ bd.getWriter().getName() + "/" + bd.getBd_date());

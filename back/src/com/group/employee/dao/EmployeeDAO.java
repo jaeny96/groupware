@@ -28,7 +28,7 @@ public interface EmployeeDAO {
 	 * @param id 
 	 * @return 클릭한 사원의 상세 정보
 	 */
-	public Employee selectInfo(String name) throws FindException;
+	public Employee selectInfo(Employee emp) throws FindException;
 	
 
 }

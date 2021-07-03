@@ -13,7 +13,7 @@ public class Employee {
 	public String phone_number;
 	public String email;
 	public Date hire_date;
-	public int employee_status;
+	public int enabled;
 	public String password;
 
 	public Employee() {
@@ -26,11 +26,11 @@ public class Employee {
 	public Employee(String employee_id,Department department) {
 		this(employee_id, null, department, null, null, null, null, null, 1, null);
 	}
-	public Employee(String employee_id, int employee_status, String password) {
+	public Employee(String employee_id, int enabled, String password) {
 		this(employee_id, null, null, null, null, null, null, null, 1, password);
 	}
 
-	public Employee(String employee_id, String phone_number, int employee_status) {
+	public Employee(String employee_id, String phone_number, int enabled) {
 		this(employee_id, null, null, null, null, phone_number, null, null, 1, null);
 	}
 
@@ -50,7 +50,7 @@ public class Employee {
 	}
 
 	public Employee(String employee_id, String name, Department department, Job job, Position position,
-			String phone_number, String email, Date hire_date, int employee_status, String password) {
+			String phone_number, String email, Date hire_date, int enabled, String password) {
 		this.employee_id = employee_id;
 		this.name = name;
 		this.department = department;
@@ -59,7 +59,7 @@ public class Employee {
 		this.phone_number = phone_number;
 		this.email = email;
 		this.hire_date = hire_date;
-		this.employee_status = employee_status;
+		this.enabled = enabled;
 		this.password = password;
 	}
 
@@ -127,12 +127,12 @@ public class Employee {
 		this.hire_date = hire_date;
 	}
 
-	public int getEmployee_status() {
-		return employee_status;
+	public int getenabled() {
+		return enabled;
 	}
 
-	public void setEmployee_status(int employee_status) {
-		this.employee_status = employee_status;
+	public void setenabled(int enabled) {
+		this.enabled = enabled;
 	}
 
 	public String getPassword() {
@@ -147,7 +147,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [employee_id=" + employee_id + ", name=" + name + ", department=" + department + ", job=" + job
 				+ ", position=" + position + ", phone_number=" + phone_number + ", email=" + email + ", hire_date="
-				+ hire_date + ", employee_status=" + employee_status + ", password=" + password + "]";
+				+ hire_date + ", enabled=" + enabled + ", password=" + password + "]";
 	}
 
 }

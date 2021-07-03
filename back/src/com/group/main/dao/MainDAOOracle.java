@@ -31,7 +31,7 @@ public class MainDAOOracle implements MainDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		String selectByIdSQL = "SELECT * \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
+		String selectByIdSQL = "SELECT employee_id, name, password \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Employee emp = new Employee();
@@ -66,7 +66,7 @@ public class MainDAOOracle implements MainDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String selectLeaveSQL = "SELECT grant_days, (grant_days-remain_days), remain_days\r\n" + "FROM leave\r\n"
+		String selectLeaveSQL = "SELECT employee_id, grant_days, (grant_days-remain_days), remain_days\r\n" + "FROM leave\r\n"
 				+ "WHERE employee_id=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -77,6 +77,7 @@ public class MainDAOOracle implements MainDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
+				leave.setEmployee_id(rs.getString("employee_id"));
 				leave.setGrant_days(rs.getInt("grant_days"));
 				leave.setUse_days(rs.getInt(2));
 				leave.setRemain_days(rs.getInt("remain_days"));
@@ -129,6 +130,9 @@ public class MainDAOOracle implements MainDAO {
 
 				docList.add(doc);
 			}
+			if(docList.size()==0) {
+				throw new FindException("결재 예정 문서가 없습니다");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
@@ -169,6 +173,9 @@ public class MainDAOOracle implements MainDAO {
 				bd.setBd_date(rs.getTimestamp("bd_date"));
 
 				bdList.add(bd);
+			}
+			if(bdList.size()==0) {
+				throw new FindException("게시글이 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,6 +220,9 @@ public class MainDAOOracle implements MainDAO {
 				skd.setSkd_title(rs.getString("skd_title"));
 
 				skdList.add(skd);
+			}
+			if(skdList.size()==0) {
+				throw new FindException("일정이 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

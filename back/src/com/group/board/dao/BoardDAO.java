@@ -25,7 +25,7 @@ public interface BoardDAO {
 	 * @param word 제목과 작성자가 가지고 있는 문자
 	 * @return 해당 문자를 제목과 작성자가 가지고 있는 게시글 목록
 	 */
-	public List<Board> selectByWord(String word) throws FindException;
+	public List<Board> selectByWord(String category,String word) throws FindException;
 	/**
 	 * 게시글의 상세 내용을 조회한다
 	 * @param bd_no 게시글 번호

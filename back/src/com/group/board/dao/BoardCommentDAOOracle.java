@@ -82,7 +82,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 
 		String insertSQL = "INSERT INTO boardcomment " + "(bd_no,cm_no,employee_id,cm_content) \r\n"
 				+ "VALUES(?,(SELECT NVL(MAX(cm_no), 0)+1 FROM boardcomment WHERE bd_no=?),?,?)";
-		System.out.println(insertSQL);
+//		System.out.println(insertSQL);
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(insertSQL);

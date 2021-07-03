@@ -1,1 +1,6 @@
 employeeLeaveDAO=com.group.mypage.dao.EmployeeLeaveDAOOracle
+boardDAO=com.group.board.dao.BoardDAOOracle
+boardCommentDAO=com.group.board.dao.BoardCommentDAOOracle
+employeeDAO=com.group.employee.dao.EmployeeDAOOracle
+departmentDAO=com.group.employee.dao.DepartmentDAOOracle
+mainDAO=com.group.main.dao.MainDAOOracle

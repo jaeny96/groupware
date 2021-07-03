@@ -34,6 +34,7 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				+ "JOIN department d ON e.department_id = d.department_id\r\n"
 				+ "JOIN position p ON e.position_id = p.position_id\r\n" + "JOIN job j ON e.job_id = j.job_id\r\n"
 				+ "JOIN leave l ON l.employee_id = e.employee_id \r\n" + "WHERE e.employee_id=?";
+//		System.out.println(selectSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		EmployeeLeave empleave = null;
@@ -42,24 +43,28 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				empleave = new EmployeeLeave();
 
 				Employee emp = new Employee();
 				emp.setEmployee_id(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				Department d = new Department();
+				d.setDepartment_id(rs.getString("department_id"));
 				d.setDepartment_title(rs.getString("department_title"));
 				emp.setDepartment(d);
 				Position p = new Position();
+				p.setPosition_id(rs.getInt("position_id"));
 				p.setPosition_title(rs.getString("position_title"));
 				emp.setPosition(p);
 				Job j = new Job();
+				j.setJob_id(rs.getString("job_id"));
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
 				emp.setPhone_number(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 				emp.setHire_date(rs.getDate("hire_date"));
+				emp.setenabled(rs.getInt("enabled"));
 				emp.setPassword(rs.getString("password"));
 
 				Leave leave = new Leave();
@@ -69,8 +74,7 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 
 				empleave.setEmployee(emp);
 				empleave.setLeave(leave);
-			}
-			else {
+			} else {
 				throw new FindException("정보를 찾을 수 없습니다");
 			}
 		} catch (SQLException e) {
@@ -82,7 +86,7 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 		return empleave;
 	}
 
-	public void update(Employee emp) throws ModifyException{
+	public void update(Employee emp) throws ModifyException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -94,25 +98,26 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 
 		String str = "";
 
-		if (!"".equals(emp.getPhone_number())) {
-			str += " phone_number='"+emp.getPhone_number()+"'";
+		if (emp.getPhone_number() != null) {
+			str += " phone_number='" + emp.getPhone_number() + "',";
 		}
 
-		if (!"".equals(emp.getPassword())) {
-			str += " password='"+emp.getPassword()+"'";
+		if (emp.getPassword() != null) {
+			str += " password='" + emp.getPassword() + "',";
 		}
 
-		String updateSQL = "UPDATE employee SET" + str + " WHERE employee_id=?";
+		String updateSQL = "UPDATE employee SET" + str.substring(0, str.length() - 1) + " WHERE employee_id=?";
 //		System.out.println(updateSQL);
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(updateSQL);
 			pstmt.setString(1, emp.getEmployee_id());
 			int rowcnt = pstmt.executeUpdate();
-			if (rowcnt == 1 && emp.employee_status == 1) {
+			if (rowcnt == 1) {
 				System.out.println(emp.getEmployee_id() + "의 정보가 변경되었습니다.");
 			} else {
-				throw new ModifyException("정보가 변경되지 않았습니다");
+				System.out.println(rowcnt);
+				throw new ModifyException("정보를 변경할 수  없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

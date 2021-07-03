@@ -32,8 +32,8 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 		String selectAllSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
 				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
-				+ "WHERE employee_status=1\r\n"
-				+ "ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id";
+				+ "WHERE enabled=1\r\n"
+				+ "ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id";
 		System.out.println(selectAllSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -82,7 +82,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 		String selectByDepSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
 				+ "JOIN position p ON e.position_id=p.position_id\r\n" + "JOIN job j ON e.job_id=j.job_id\r\n"
-				+ "WHERE d.department_id=? AND employee_status=1\r\n" + "ORDER BY p.position_id";
+				+ "WHERE d.department_id=? AND enabled=1\r\n" + "ORDER BY p.position_id, employee_id";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> empList = new ArrayList<Employee>();
@@ -132,7 +132,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 		String selectByNameSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
 				+ "JOIN position p ON e.position_id = p.position_id " + "JOIN job j ON e.job_id=j.job_id\r\n"
-				+ "WHERE name LIKE ? AND employee_status=1\r\n" + "ORDER BY department_title, p.position_id";
+				+ "WHERE name LIKE ? AND enabled=1\r\n" + "ORDER BY department_title,  p.position_id, employee_id";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -173,7 +173,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 	}
 
 	@Override
-	public Employee selectInfo(String name) throws FindException{
+	public Employee selectInfo(Employee emp) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -185,29 +185,30 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 		String selectInfoSQL = "SELECT *\r\n"
 				+ "FROM employee e\r\n" + "JOIN department d ON (e.department_id = d.department_id)\r\n"
 				+ "JOIN position p ON (e.position_id = p.position_id)\r\n" + "JOIN job j ON (e.job_id = j.job_id)\r\n"
-				+ "WHERE name=?";
-		Employee emp = new Employee();
+				+ "WHERE name=? AND employee_id=?";
+		Employee clickEmp = new Employee();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = con.prepareStatement(selectInfoSQL);
-			pstmt.setString(1, name);
+			pstmt.setString(1, emp.getName());
+			pstmt.setString(2, emp.getEmployee_id());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
+				clickEmp.setEmployee_id(emp.getEmployee_id());
+				clickEmp.setName(emp.getName());
 				Department d = new Department();
 				d.setDepartment_id(rs.getString("department_id"));
 				d.setDepartment_title(rs.getString("department_title"));
-				emp.setDepartment(d);
+				clickEmp.setDepartment(d);
 				Position p = new Position();
 				p.setPosition_title(rs.getString("position_title"));
-				emp.setPosition(p);
+				clickEmp.setPosition(p);
 				Job j = new Job();
 				j.setJob_title(rs.getString("job_title"));
-				emp.setJob(j);
-				emp.setPhone_number(rs.getString("phone_number"));
-				emp.setEmail(rs.getString("email"));
+				clickEmp.setJob(j);
+				clickEmp.setPhone_number(rs.getString("phone_number"));
+				clickEmp.setEmail(rs.getString("email"));
 			} else {
 				throw new FindException("정보를 찾을 수 없습니다");
 			}
@@ -218,7 +219,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 
-		return emp;
+		return clickEmp;
 	}
 
 	public static void main(String[] args) {
@@ -269,7 +270,11 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 //		try {
 //			EmployeeDAOOracle dao = new EmployeeDAOOracle();
 //			String name = "임창균";
-//			Employee emp = dao.selectInfo(name);
+//			String id = "DEV001";
+//			Employee click = new Employee();
+//			click.setName(name);
+//			click.setEmployee_id(id);
+//			Employee emp = dao.selectInfo(click);
 //			System.out.println(emp.getEmployee_id() + "/" + emp.getName() + "/" + emp.getDepartment().getDepartment_id()
 //					+ "/" + emp.getDepartment().getDepartment_title() + "/" + emp.getPosition().getPosition_title()
 //					+ "/" + emp.getJob().getJob_title() + "/" + emp.getPhone_number() + "/" + emp.getEmail());
