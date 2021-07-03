@@ -3,8 +3,11 @@ package com.group.approval.dao;
 import java.util.List;
 
 import com.group.approval.dto.Document;
+import com.group.approval.dto.DocumentType;
 import com.group.approval.exception.AddException;
 import com.group.approval.exception.FindException;
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
 
 public interface DocsWriteDAO {
 	/**
@@ -14,22 +17,16 @@ public interface DocsWriteDAO {
 	 */
 	void draft(Document d) throws AddException;
 	/**
-	 * 2. 문서 종류를 선택한다
-	 * @param document_type
-	 * @throws FindException
-	 */
-	void selectDocsType(String document_type) throws FindException;
-	/**
-	 * 3-1. 결재선을 설정하는 과정에서 참여시킬 사원의 이름을 검색한다
+	 * 2-1. 결재선을 설정하는 과정에서 참여시킬 사원의 이름을 검색한다
 	 * @param name
 	 * @throws FindException
 	 */
-	public List<String> searchByName(String name) throws FindException;
+	public List<Employee> searchByName(String name) throws FindException;
 	/**
-	 * 3-2. 결재선을 설정하는 과정에서 참여시킬 사원의 조직을 검색한다
+	 * 2-2. 결재선을 설정하는 과정에서 참여시킬 사원의 조직을 검색한다
 	 * @param department_title
 	 * @throws FindException
 	 */
-	public List<String> searchByDep(String department_title) throws FindException;
+	public List<Department> searchByDep(String department_title) throws FindException;
 
 }

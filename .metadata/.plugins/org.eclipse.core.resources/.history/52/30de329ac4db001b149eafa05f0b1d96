@@ -1,0 +1,90 @@
+package com.group.approval.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.group.approval.dto.Document;
+import com.group.approval.exception.AddException;
+import com.group.approval.exception.FindException;
+import com.group.sql.MyConnection;
+
+public class DocsWriteDAOOracle implements DocsWriteDAO {
+	public DocsWriteDAOOracle() throws Exception {
+		// JDBC드라이버로드
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		
+	}
+
+	public void draft(Document d) throws AddException {
+		// DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			//System.out.println("success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		}
+		// 문서기안
+		String draftSQL = "INSERT INTO document (document_no, document_type, employee_id, document_title, document_content, document_status)\r\n"
+				+ "VALUES ('?', '?', '?', '?', '?', '?' )";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(draftSQL);
+			pstmt.setString(1, d.getDoucment_no());
+			pstmt.setString(2, d.getDocument_type().getDocument_type());
+			pstmt.setString(3, d.getEmployee_id().getEmployee_id());
+			pstmt.setString(4, d.getDocument_title());
+			pstmt.setString(5, d.getDocument_content());
+			pstmt.setString(6, d.getDocument_status());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("연결실패");
+			return;
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+	}
+
+	public void selectDocsType(String document_type) throws FindException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public List<String> searchByName(String name) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<String> searchByDep(String department_title) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("문서번호: ");
+		String noValue = sc.nextLine();
+		System.out.println("문서타입: ");
+		String typeValue = sc.nextLine();
+		System.out.println("사번: ");
+		String IdValue = sc.nextLine();
+		System.out.println("제목: ");
+		String TitleValue = sc.nextLine();
+		System.out.println("내용: ");
+		String ContValue = sc.nextLine();
+		System.out.println("문서상태: ");
+		String StatusValue = sc.nextLine();
+		try {
+			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+}

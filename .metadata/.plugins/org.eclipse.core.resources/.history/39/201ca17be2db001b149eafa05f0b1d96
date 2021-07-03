@@ -1,0 +1,27 @@
+package com.group.approval.dto;
+
+import java.util.Date;
+
+public class Employee {
+	public String employee_id;
+	public String name;
+	public Employee() {
+		super();
+	}
+	public Employee(String employee_id, String name) {
+		super();
+		this.employee_id = employee_id;
+		this.name = name;
+	}
+	public Employee(String name) {
+		super();
+		this.name = name;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+}

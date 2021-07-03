@@ -1,0 +1,71 @@
+package com.group.approval.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.group.approval.dto.Document;
+import com.group.approval.exception.AddException;
+import com.group.approval.exception.FindException;
+import com.group.sql.MyConnection;
+
+public class DocsWriteDAOOracle implements DocsWriteDAO {
+	public DocsWriteDAOOracle() throws Exception {
+		// JDBC드라이버로드
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		
+	}
+
+	public void draft(Document d) throws AddException {
+		// DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			System.out.println("success");
+		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new AddException(e.getMessage());
+			System.out.println("fail");
+		}
+		// 문서기안
+		String draftSQL = "INSERT INTO document (document_no, document_type, employee_id, document_title, document_content, document_status)\r\n"
+				+ "VALUES ('?', '?', '?', '?', '?', '?' )";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(draftSQL);
+			pstmt.setString(1, d.getDoucment_no());
+			pstmt.setString(2, d.getDocument_type().getDocument_type());
+			pstmt.setString(3, d.getEmployee_id().getEmployee_id());
+			pstmt.setString(4, d.getDocument_title());
+			pstmt.setString(5, d.getDocument_content());
+			pstmt.setString(6, d.getDocument_status());
+			System.out.println("안녕하세요 문서기안입니다");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("연결실패");
+			return;
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+	}
+
+	public void selectDocsType(String document_type) throws FindException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public List<String> searchByName(String name) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<String> searchByDep(String department_title) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static void main(String[] args) throws FindException {
+
+	}
+}

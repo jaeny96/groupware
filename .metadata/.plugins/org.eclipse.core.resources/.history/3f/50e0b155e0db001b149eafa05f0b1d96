@@ -1,0 +1,11 @@
+package com.group.approval.dto;
+
+import java.util.Date;
+
+import com.group.employee.dto.Job;
+
+public class Employee {
+	public String employee_id;
+	public String name;
+
+}
