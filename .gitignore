@@ -8,6 +8,8 @@
 
 .classpath
 
+.project
+
 testMain.java
 
 /.metadata/
