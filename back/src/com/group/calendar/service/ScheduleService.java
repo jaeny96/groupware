@@ -69,9 +69,9 @@ public class ScheduleService {
 	 * @param s
 	 * @throws RemoveException
 	 */
-	public void deleteSkd(Schedule s, String skd_id) throws RemoveException{
+	public void deleteSkd(Schedule s) throws RemoveException{
 	
-		dao.delete(s, skd_id);
+		dao.delete(s);
 	}
 	
 	

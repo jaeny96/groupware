@@ -23,15 +23,20 @@ import com.group.exception.RemoveException;
 import com.group.sql.MyConnection;
 
 
-public class ScheduleDAOOralce implements ScheduleDAO {
+public class ScheduleDAOOracle implements ScheduleDAO {
 
-	
+	public ScheduleDAOOracle() throws Exception{
+		//JDBC드라이버로드
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		System.out.println("JDBC드라이버로드 성공");	
+	}
 	
 	public void insert(Schedule s) throws AddException, DuplicatedException {
 		   
 	      Connection con = null;
 	      try {
 	         con = MyConnection.getConnection();
+	         con.setAutoCommit(false);
 	      } catch (SQLException e) {
 	         e.printStackTrace();
 	      }
@@ -88,6 +93,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		Connection con = null;
 		try {
 				con = MyConnection.getConnection();
+				   con.setAutoCommit(false);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new ModifyException("Connection 연결 오류");
@@ -106,7 +112,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		
 
 		boolean flag = false;
-		
+	
 		if(!skd_type.getSkd_type().equals("")) {
 			updateSQL += "skd_type = '"+skd_type+"'" ;
 			flag = true;
@@ -132,7 +138,8 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String timeformat = time.format(skd_start_date);
 		String timeformat2 = time.format(skd_end_date);
-			
+		
+		//timestamp 미변경 시 코드 보충 필요... 
 		if(!timeformat.equals("")) {
 			if(flag) {
 				updateSQL +=",";
@@ -219,12 +226,13 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		
 	}
 
-	public void delete(Schedule s, String skd_id) throws RemoveException {
+	public void delete(Schedule s) throws RemoveException {
 		
 		
 		Connection con = null;
 		try {
 				con = MyConnection.getConnection();
+				con.setAutoCommit(false);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new RemoveException("Connection 연결 오류");
@@ -233,10 +241,12 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		 String deleteSQL = "delete from schedule \r\n" + 
 		 		" where skd_no= ? AND employee_id = ?"; 
 		 PreparedStatement pstmt = null;
-		
-		 int skd_no = s.getSkd_no();
-		 
 		 Employee emp = new Employee();
+		 
+		 int skd_no = s.getSkd_no();
+		 Employee skd_id = s.getSkd_id();
+		
+		 
 	//	 skd_id = emp.getEmployee_id();
 		 
 		 //emp.setEmployee_id("MSD002");
@@ -245,7 +255,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		 try {
 			pstmt = con.prepareStatement(deleteSQL);
 			pstmt.setInt(1, skd_no);
-			pstmt.setObject(2, skd_id);
+			pstmt.setObject(2, skd_id.getEmployee_id());
 			//.setString(2, skd_id);
 
 			int rowcnt = pstmt.executeUpdate();
@@ -267,7 +277,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 	
 //insert 실행
 //		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
@@ -321,8 +331,8 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 
 // Update 실행
 
-//		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
-//		//skd_id 설정.
+	//	ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
+		//skd_id 설정.
 //		Employee emp = new Employee(); //id 입력 위한 employee 객체 부르기	
 //		//skd_type 설정. scheduleType 객체의 skd_type 변수에 값을 저장  
 //		ScheduleType st = new ScheduleType();
@@ -376,35 +386,63 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		Schedule s = new Schedule();
 		ScheduleType st = new ScheduleType();
 		Employee emp = new Employee();
-		s.setSkd_type(st);
+
+		//변수넣기 
+		int skd_no = 1; //스케쥴번호 입력 
+		String skd_title = "업데이트테스트2";
+		String skd_skd_content = "테스트2";
+		String start = "2021-07-03 17:00:00";
+		String end = "2021-07-03 18:00:00";
+		String skd_share = "p";
+		Timestamp skd_start_date = Timestamp.valueOf(start);
+		Timestamp skd_end_date = Timestamp.valueOf(end);
+		
+		//변수, 객체 넣기 
+		s.setSkd_no(skd_no);
+		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
+		s.setSkd_title(skd_title);
+		s.setSkd_content(skd_skd_content);
+		s.setSkd_start_date(skd_start_date);
+		s.setSkd_end_date(skd_end_date);
+		s.setSkd_share(skd_share);
 		s.setSkd_id(emp);
 		
-	
-		st.setSkd_type("업무");
-		emp.setEmployee_id("CEO001");
-		s.setSkd_title("서비스테스트");
-		s.setSkd_content("서비스");
-		s.setSkd_start_date(skdStartTime());
-		s.setSkd_end_date(skdEndTime());
-		s.setSkd_share("p");
-//	       pstmt.setString(1, skd_type.getSkd_type());
-//	         pstmt.setString(2, skd_id.getEmployee_id());
-//	         pstmt.setString(3, skd_title);
-//	         pstmt.setString(4, skd_content);
-//	         pstmt.setTimestamp(5, skd_start_date);
-//	         pstmt.setTimestamp(6, skd_end_date);
-//	         pstmt.setString(7, skd_share);
-//		
-		try {
-			service.addSkd(s);
-		} catch (AddException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DuplicatedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//id, type 설정 
+		String skd_id = "CEO001"; //id 설정 
+		emp.setEmployee_id(skd_id);//skd_id를 emp 객체에 넣어주기 
+		String type ="업무";
+		st.setSkd_type(type); //type 넣어주기 	
+		service.modifySkd(s);
 		
+//delete service test
+//		s.setSkd_id(emp);
+//		emp.setEmployee_id("CEO001");
+//		s.setSkd_no(24);
+//		service.deleteSkd(s);
+//		
+//insert service test 		
+//		s.setSkd_type(st);
+//		s.setSkd_id(emp);
+//		
+//	
+//		st.setSkd_type("업무");
+//		emp.setEmployee_id("CEO001");
+//		s.setSkd_title("서비스테스트");
+//		s.setSkd_content("서비스");
+//		s.setSkd_start_date(skdStartTime());
+//		s.setSkd_end_date(skdEndTime());
+//		s.setSkd_share("p");
+//
+//		try {
+//			service.addSkd(s);
+//		} catch (AddException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (DuplicatedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		
 	}
 	
@@ -428,7 +466,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 
 	//일정 날짜 시간 : 00분, 시간 : 30분으로 나오게 하는 메서드 
 	//to do : 만약 입력이 없다면 자동 시간 설정, 입력이 있다면 그대로 하도로 해야할듯 
-	public static Timestamp skdStartTime() {
+	public static Timestamp skdStartTime() throws Exception {
 		Date now = new Date();
 		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
 		SimpleDateFormat test2 = new SimpleDateFormat("mm");
@@ -439,7 +477,7 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 		
 		//30분이 넘었을 때. ex. 3:33일 때 4:00를 보여주는 코드 
 		if(Integer.parseInt(test2.format(now))>=30) {
-			ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
+			ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
 			dao.addHoursToJavaUtilDate(now, 1); //1시간을 더해주는 메서드 활용 
 			//System.out.println(test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"); 테스트
 			skd_time = test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"; //날짜 형식을 위해 더해줌. String으로 자동변환
@@ -455,8 +493,8 @@ public class ScheduleDAOOralce implements ScheduleDAO {
 	
 	}
 	
-	public static Timestamp skdEndTime() {
-		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
+	public static Timestamp skdEndTime() throws Exception {
+		ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
 		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
 		SimpleDateFormat test2 = new SimpleDateFormat("mm");
 		

@@ -38,6 +38,6 @@ public interface ScheduleDAO {
 	 */
 	//public void delete(Schedule s) throws RemoveException;
 
-	void delete(Schedule s, String skd_id) throws RemoveException;
+	void delete(Schedule s) throws RemoveException;
 
 }
