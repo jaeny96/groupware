@@ -10,6 +10,9 @@ import java.util.List;
 import com.group.board.dto.Board;
 import com.group.board.dto.BoardComment;
 import com.group.employee.dto.Employee;
+import com.group.exception.AddException;
+import com.group.exception.FindException;
+import com.group.exception.RemoveException;
 import com.group.sql.MyConnection;
 
 public class BoardCommentDAOOracle implements BoardCommentDAO {
@@ -19,12 +22,13 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	@Override
-	public List<BoardComment> selectAll(String bd_no) {
+	public List<BoardComment> selectAll(String bd_no) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectAllSQL = "SELECT *" + "FROM boardcomment cm \r\n"
@@ -54,10 +58,11 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 				cmList.add(cm);
 			}
 			if (cmList.size() == 0) {
-				System.out.println("해당 게시글에 대한 댓글이 없습니다.");
+				throw new FindException("댓글이 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
@@ -66,12 +71,13 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	@Override
-	public void insert(BoardComment cm) {
+	public void insert(BoardComment cm) throws AddException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new AddException(e.getMessage());
 		}
 
 		String insertSQL = "INSERT INTO boardcomment " + "(bd_no,cm_no,employee_id,cm_content) \r\n"
@@ -86,9 +92,10 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			pstmt.setString(4, cm.getCm_content());
 			pstmt.executeUpdate();
 
-			System.out.println("게시글이 추가되었습니다.");
+			System.out.println("댓글이 추가되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new AddException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
@@ -96,12 +103,13 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	@Override
-	public void delete(BoardComment cm) {
+	public void delete(BoardComment cm) throws RemoveException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RemoveException(e.getMessage());
 		}
 
 		String deleteSQL = "DELETE FROM boardcomment WHERE bd_no=? AND cm_no=? AND employee_id=?";
@@ -113,16 +121,11 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			pstmt.setInt(2, cm.getCm_no());
 			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
 			pstmt.executeUpdate();
-			System.out.println("게시글을 삭제하였습니다.");
-
-//			int rowcnt = pstmt.executeUpdate();
-//			if (rowcnt == 1) {
-//				System.out.println("게시글을 삭제하였습니다.");
-//			} else {
-//				// throw exception
-//			}
+			
+			System.out.println("댓글을 삭제하였습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RemoveException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}

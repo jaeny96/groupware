@@ -10,6 +10,8 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.employee.dto.Leave;
 import com.group.employee.dto.Position;
+import com.group.exception.FindException;
+import com.group.exception.ModifyException;
 import com.group.mypage.dto.EmployeeLeave;
 import com.group.sql.MyConnection;
 
@@ -19,12 +21,13 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 //		System.out.println("load success");
 //	}
 
-	public EmployeeLeave selectById(String id) throws Exception {
+	public EmployeeLeave selectById(String id) throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectSQL = "SELECT *\r\n" + "FROM employee e \r\n"
@@ -68,23 +71,25 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				empleave.setLeave(leave);
 			}
 			else {
-				//throw exception
+				throw new FindException("정보를 찾을 수 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
 		return empleave;
 	}
 
-	public void update(Employee emp) throws Exception{
+	public void update(Employee emp) throws ModifyException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 //			System.out.println("connection success");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
 		}
 
 		String str = "";
@@ -107,10 +112,11 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 			if (rowcnt == 1 && emp.employee_status == 1) {
 				System.out.println(emp.getEmployee_id() + "의 정보가 변경되었습니다.");
 			} else {
-				// throw exception
+				throw new ModifyException("정보가 변경되지 않았습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}

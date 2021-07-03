@@ -3,7 +3,11 @@ package com.group.mypage.service;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import com.group.employee.dto.Employee;
+import com.group.exception.FindException;
+import com.group.exception.ModifyException;
 import com.group.mypage.dao.EmployeeLeaveDAO;
+import com.group.mypage.dto.EmployeeLeave;
 
 public class EmployeeLeaveService {
 	private EmployeeLeaveDAO dao;
@@ -25,6 +29,14 @@ public class EmployeeLeaveService {
 		}
 
 	}
+	
+	public EmployeeLeave showDetail(String id) throws FindException{
+		return null;
+	}
+	public void update(Employee emp) throws ModifyException{
+		
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(service);
 	}

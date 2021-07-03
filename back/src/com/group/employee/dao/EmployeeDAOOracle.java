@@ -11,6 +11,7 @@ import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.employee.dto.Position;
+import com.group.exception.FindException;
 import com.group.sql.MyConnection;
 
 public class EmployeeDAOOracle implements EmployeeDAO {
@@ -20,12 +21,13 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> selectAll() {
+	public List<Employee> selectAll() throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 		String selectAllSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
@@ -61,6 +63,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -68,12 +71,13 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> selectByDep(String dep_id) {
+	public List<Employee> selectByDep(String dep_id) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 		String selectByDepSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
@@ -108,6 +112,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -116,12 +121,13 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> selectByWord(String word) {
+	public List<Employee> selectByWord(String word) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 		String selectByNameSQL = "SELECT *\r\n" + "FROM department d\r\n"
 				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
@@ -155,8 +161,10 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 
 				empList.add(emp);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -165,12 +173,13 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 	}
 
 	@Override
-	public Employee selectInfo(String name) {
+	public Employee selectInfo(String name) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectInfoSQL = "SELECT *\r\n"
@@ -200,10 +209,11 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				emp.setPhone_number(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 			} else {
-				// throw exception
+				throw new FindException("정보를 찾을 수 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}

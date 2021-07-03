@@ -13,6 +13,7 @@ import com.group.calendar.dto.Schedule;
 import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
+import com.group.exception.FindException;
 import com.group.sql.MyConnection;
 
 public class MainDAOOracle implements MainDAO {
@@ -22,12 +23,13 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	@Override
-	public Employee selectById(String id) {
+	public Employee selectById(String id) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 		String selectByIdSQL = "SELECT * \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
 		PreparedStatement pstmt = null;
@@ -43,10 +45,11 @@ public class MainDAOOracle implements MainDAO {
 				emp.setName(rs.getString("name"));
 				emp.setPassword(rs.getString("password"));;
 			} else {
-				// throw exception
+				throw new FindException("해당 정보를 찾을 수 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -54,12 +57,13 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	@Override
-	public Leave selectLeave(String id) {
+	public Leave selectLeave(String id) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectLeaveSQL = "SELECT grant_days, (grant_days-remain_days), remain_days\r\n" + "FROM leave\r\n"
@@ -77,10 +81,11 @@ public class MainDAOOracle implements MainDAO {
 				leave.setUse_days(rs.getInt(2));
 				leave.setRemain_days(rs.getInt("remain_days"));
 			} else {
-				// throw exception
+				throw new FindException("휴가 정보를 찾을 수 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -89,12 +94,13 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	@Override
-	public List<Document> selectDocument(String id) {
+	public List<Document> selectDocument(String id) throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectDocumentSQL = "SELECT document_no,document_title,draft_date\r\n"
@@ -125,25 +131,26 @@ public class MainDAOOracle implements MainDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
 		return docList;
 	}
 
-	// 페이지 3 -> 10으로 나중에 변경
 	@Override
-	public List<Board> selectBoard() {
+	public List<Board> selectBoard() throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectBoardSQL = "SELECT bd_no,bd_title,employee_id,bd_date\r\n" + "FROM (SELECT rownum rn, b.* \r\n"
 				+ "        FROM (SELECT * FROM board ORDER BY bd_date desc) b\r\n" + "        )\r\n"
-				+ "WHERE rn BETWEEN 1 AND 3";
+				+ "WHERE rn BETWEEN 1 AND 5";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Board> bdList = new ArrayList<Board>();
@@ -164,8 +171,8 @@ public class MainDAOOracle implements MainDAO {
 				bdList.add(bd);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -173,12 +180,13 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	@Override
-	public List<Schedule> selectSchedule(Employee emp) {
+	public List<Schedule> selectSchedule(Employee emp) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectScheduleSQL = "SELECT skd_start_date ,skd_title\r\n"
@@ -208,6 +216,7 @@ public class MainDAOOracle implements MainDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -215,14 +224,14 @@ public class MainDAOOracle implements MainDAO {
 	}
 
 	public static void main(String[] args) {
-		try {
-			MainDAOOracle dao = new MainDAOOracle();
-			String id="DEV001";
-			Employee emp = dao.selectById(id);
-			System.out.println(emp.getEmployee_id()+"/"+emp.getName()+"/"+emp.getPassword());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			MainDAOOracle dao = new MainDAOOracle();
+//			String id="DEV001";
+//			Employee emp = dao.selectById(id);
+//			System.out.println(emp.getEmployee_id()+"/"+emp.getName()+"/"+emp.getPassword());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 //		try {
 //			MainDAOOracle dao = new MainDAOOracle();

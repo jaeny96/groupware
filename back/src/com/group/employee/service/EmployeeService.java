@@ -1,0 +1,21 @@
+package com.group.employee.service;
+
+import java.util.List;
+
+import com.group.employee.dto.Employee;
+import com.group.exception.FindException;
+
+public class EmployeeService {
+	public List<Employee> showAll() throws FindException{
+		return null;
+	}
+	public List<Employee> showByDept(String dept) throws FindException{
+		return null;
+	}
+	public List<Employee> searchEmp(String word) throws FindException{
+		return null;
+	}
+	public Employee showDetail(String name) throws FindException{
+		return null;
+	}
+}

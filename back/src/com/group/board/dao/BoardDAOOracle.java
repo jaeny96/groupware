@@ -9,6 +9,10 @@ import java.util.List;
 
 import com.group.board.dto.Board;
 import com.group.employee.dto.Employee;
+import com.group.exception.AddException;
+import com.group.exception.FindException;
+import com.group.exception.ModifyException;
+import com.group.exception.RemoveException;
 import com.group.sql.MyConnection;
 
 public class BoardDAOOracle implements BoardDAO {
@@ -18,12 +22,13 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public List<Board> selectAll() {
+	public List<Board> selectAll() throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectAllSQL = "select*\r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
@@ -51,8 +56,12 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_date(rs.getTimestamp("bd_date"));
 				bdList.add(bd);
 			}
+			if(bdList.size()==0) {
+				throw new FindException("게시글이 없습니다.");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -60,13 +69,14 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public List<Board> selectAll(int currentPage) {
+	public List<Board> selectAll(int currentPage) throws FindException{
 		int cnt_per_page = 10;
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 		String selectAllPageSQL = "select * \r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
 				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
@@ -97,8 +107,8 @@ public class BoardDAOOracle implements BoardDAO {
 				bdList.add(bd);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -107,12 +117,13 @@ public class BoardDAOOracle implements BoardDAO {
 
 	// 일단 제목만 구현함
 	@Override
-	public List<Board> selectByWord(String word) {
+	public List<Board> selectByWord(String word) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectByWordSQL = "SELECT * \r\n" + "FROM board b \r\n"
@@ -139,10 +150,11 @@ public class BoardDAOOracle implements BoardDAO {
 				bdList.add(bd);
 			}
 			if (bdList.size() == 0) {
-				System.out.println("일치하는 내용이 없습니다");
+				throw new FindException("일치하는 내용이 없습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, rs);
 		}
@@ -150,12 +162,13 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public Board selectBdInfo(String bd_no) {
+	public Board selectBdInfo(String bd_no) throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		}
 
 		String selectBdInfoSQL = "SELECT *\r\n" + "FROM board b \r\n"
@@ -181,6 +194,7 @@ public class BoardDAOOracle implements BoardDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
@@ -188,12 +202,13 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void insert(Board bd) {
+	public void insert(Board bd) throws AddException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new AddException(e.getMessage());
 		}
 
 		String insertSQL = "INSERT INTO " + "board(bd_no,employee_id,bd_title,bd_content) "
@@ -209,6 +224,7 @@ public class BoardDAOOracle implements BoardDAO {
 			System.out.println("게시글이 추가되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new AddException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
@@ -216,12 +232,13 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void update(Board bd) {
+	public void update(Board bd) throws ModifyException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
 		}
 
 		String str = "";
@@ -246,10 +263,11 @@ public class BoardDAOOracle implements BoardDAO {
 			if (rowcnt == 1) {
 				System.out.println("내용이 변경되었습니다");
 			} else {
-				// throw Exception
+				throw new ModifyException("내용이 변경되지 않았습니다");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
@@ -257,12 +275,13 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	@Override
-	public void delete(Board bd) {
+	public void delete(Board bd) throws RemoveException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RemoveException(e.getMessage());
 		}
 
 		String deleteSQL = "DELETE FROM board WHERE bd_no=? AND employee_id=?";
@@ -273,10 +292,11 @@ public class BoardDAOOracle implements BoardDAO {
 			pstmt.setString(1, bd.getBd_no());
 			pstmt.setString(2, bd.getWriter().getEmployee_id());
 			pstmt.executeUpdate();
+			
 			System.out.println("게시글을 삭제하였습니다.");
-
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RemoveException(e.getMessage());
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
