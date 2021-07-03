@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="com.group.mypage.dao.EmployeeLeaveDAO"/>
 <fullyQualifiedTypeName name="java.util.Properties"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="com.group.employee.dao.DepartmentDAO"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="com.group.main.dao.MainDAOOracle"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
@@ -30,9 +29,14 @@
 <fullyQualifiedTypeName name="com.group.employee.dto.Leave"/>
 <fullyQualifiedTypeName name="com.group.calendar.dto.Schedule"/>
 <fullyQualifiedTypeName name="com.group.mypage.dto.EmployeeLeave"/>
-<fullyQualifiedTypeName name="com.group.exception.ModifyException"/>
-<fullyQualifiedTypeName name="com.group.employee.dto.Department"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.group.board.dao.BoardDAO"/>
+<fullyQualifiedTypeName name="com.group.exception.ModifyException"/>
+<fullyQualifiedTypeName name="com.group.board.dao.BoardCommentDAO"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Employee"/>
 <fullyQualifiedTypeName name="com.group.exception.FindException"/>
+<fullyQualifiedTypeName name="com.group.employee.dao.DepartmentDAO"/>
+<fullyQualifiedTypeName name="com.group.employee.dao.EmployeeDAO"/>
+<fullyQualifiedTypeName name="com.group.main.dao.MainDAO"/>
+<fullyQualifiedTypeName name="com.group.employee.dto.Department"/>
 </qualifiedTypeNameHistroy>
