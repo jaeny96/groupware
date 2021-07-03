@@ -2,10 +2,16 @@ package com.group.calendar.service;
 
 import java.io.FileInputStream;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Formatter;
 
+import javax.xml.crypto.dsig.Transform;
 
 import com.group.calendar.dao.ScheduleDAO;
 import com.group.calendar.dto.Schedule;
@@ -15,6 +21,9 @@ import com.group.exception.FindException;
 
 
 public class ScheduleService {
+	Date sdate; Date edate; 
+	String date; String startdate; String enddate; Timestamp start_date;
+
 	private ScheduleDAO dao;
 	private static ScheduleService service; //선언만해두기
 	public static String envProp; //
@@ -39,7 +48,6 @@ public class ScheduleService {
 		}
 		return service;
 	}
-	
 	
 	/**
 	 * 
@@ -76,7 +84,6 @@ public class ScheduleService {
 		return dao.skdByContent(s);
 	}
 	
-
 	/**
 	 * 
 	 * @param skd_no
@@ -92,9 +99,37 @@ public class ScheduleService {
 	 * @throws FindException
 	 */
 	public List<Schedule> findByDate(Employee skd_id, Date start_date) throws FindException{
+		try {			
+			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+			//skd_start_date를 date형식으로 변한하여 d에 할당
+			Date d = sd.parse(date);
+			//d를 timestamp로 변환
+			start_date = new Timestamp(d.getTime());
+			//기간검색 시작날짜 
+			sdate = sd.parse(startdate);
+			//sdate를 timestamp로 변환
+			Timestamp sdt = new Timestamp(sdate.getTime());
+			//기감검색 끝날짜를 형식맞춘 date타입인 edate에 할당
+			edate = sd.parse(enddate);
+			//edate를 timestamp로 변한 
+			Timestamp edt = new Timestamp(edate.getTime());
+			//기간 검색 조건문 
+			if(start_date.equals(sdt)||(start_date.after(sdt)&& start_date.before(edt))) {
+				
+			}else {
+				throw new FindException("기간에 해당하는 일정이 없습니다.");
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			}
 		return dao.skdList(skd_id);
 	}
+	
+	
+	
 	public static void main(String[] args) {
+		
+		//findSkdAll테스트 
 //		ScheduleService service = ScheduleService.getInstance();
 //		String skd_id = "MSD003";
 //		Department dpt = new Department();
@@ -110,6 +145,7 @@ public class ScheduleService {
 //			e.printStackTrace();
 //		}
 		
+		//findskdPersonal, findskdTeam 테스트
 //		ScheduleService service = ScheduleService.getInstance();
 //		String skd_id = "MSD003";
 //		try {
@@ -122,6 +158,7 @@ public class ScheduleService {
 //			e.printStackTrace();
 //		}
 		
+		//findByContent테스트
 //		ScheduleService service = ScheduleService.getInstance();
 //		String skd_title = "회의";
 //		String skd_content = "회의";
@@ -136,7 +173,8 @@ public class ScheduleService {
 //		}catch(FindException e){
 //			e.printStackTrace();
 //		}
-		
+
+		//findByDetail테스트
 //		ScheduleService service = ScheduleService.getInstance();
 //		int skd_no = 9;
 //		try {
@@ -147,22 +185,28 @@ public class ScheduleService {
 //			e.printStackTrace();
 //		}
 		
-		//미완성
+		//findByDate 테스트
 		ScheduleService service = ScheduleService.getInstance();
 		String skd_id = "MSD003";
 		Department dpt = new Department();
 		dpt.setDepartment_id("MSD");
-		Timestamp start_date = new Timestamp(0);
-		try {
+
+		//skd_start_date
+		service.date = "2021-07-01";
+		//기간검색 시작 날짜 
+		service.startdate = "2021-07-01";
+		//기간검색 끝날짜 
+		service.enddate = "2021-07-30";
+
 		Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
-		Schedule sc = new Schedule(em, start_date);
-		List<Schedule> all = service.findSkdAll(em);
-		for(Schedule s: all) {
-		System.out.println("전체스케줄:"+s);
-		}
-	} catch (FindException e) {
-		e.printStackTrace();
-	}
-		
+		List<Schedule> all;
+			try {
+				all = service.findByDate(em, service.start_date);
+				for(Schedule sk: all) {
+					System.out.println("전체스케줄:"+sk);
+				}
+			}catch (FindException e) {
+				e.printStackTrace();
+			}	
 	}
 }

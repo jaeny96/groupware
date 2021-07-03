@@ -1,10 +1,13 @@
 package com.group.calendar.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +72,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 				s.setSkd_share(rs.getString("skd_share"));
 						
 				list.add(s);
+				
 //			System.out.println("전체스케줄:"+s);
 			}
 			if(list.size() == 0) {
@@ -265,21 +269,21 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 
 	public static void main(String[] args) {
 		//1 Done
-		String skd_id = "MSD002";
-		Department dpt = new Department();
-		dpt.setDepartment_id("MSD");
-		try {
-			ScheduleDAOOracle dao = new ScheduleDAOOracle();
-			Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
-			List<Schedule> all = dao.skdList(em);
-			for(Schedule s: all) {
-				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
-						s.skd_end_date);
-			}
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+//		String skd_id = "MSD002";
+//		Department dpt = new Department();
+//		dpt.setDepartment_id("MSD");
+//		try {
+//			ScheduleDAOOracle dao = new ScheduleDAOOracle();
+//			Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
+//			List<Schedule> all = dao.skdList(em);
+//			for(Schedule s: all) {
+//				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
+//						s.skd_end_date);
+//			}
+//		} catch (Exception e) {
+//			
+//			e.printStackTrace();
+//		}
 		
 		//2 Done
 //		String skd_dpt_id = "MSD";
