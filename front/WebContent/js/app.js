@@ -36038,8 +36038,13 @@
             (t.get = function (e) {
               return this.properties[e];
             }),
-          (t.applyAttr = function (e, t) {
+            (t.applyAttr = function (e, t) {
+              if ((h(e) == "cx" && isNaN(t)) || (h(e) == "cy" && isNaN(t))) {
+                // console.log("cx NaN임");
+                t = 0;
+              }
               this.node.setAttribute(h(e), t);
+              //              this.node.setAttribute(12, 12);
             }),
             (t.remove = function () {
               this.node.parentNode.removeChild(this.node);
@@ -36167,6 +36172,16 @@
                 this.node.setAttribute("height", t);
             }),
             (n.applyTransformParams = function (e, t, n) {
+              if (isNaN(e)) {
+                // console.log("e NaN임");
+                e = 0;
+              }
+              if (isNaN(t)) {
+                t = 0;
+              }
+              if (isNaN(n)) {
+                n = 0;
+              }
               this.rootElement.node.setAttribute(
                 "transform",
                 "scale(" + e + ") translate(" + t + ", " + n + ")"
@@ -42190,4 +42205,4 @@
     n(299), n(300);
   },
 ]);
-//# sourceMappingURL=app.js.map
+// //# sourceMappingURL=app.js.map
