@@ -6,7 +6,7 @@ import java.util.List;
 import com.group.employee.dto.Employee;
 
 public class Document {
-	public String doucment_no;
+	public String document_no;
 	public Employee employee_id;
 	public DocumentType document_type;
 	public String document_title;
@@ -27,10 +27,10 @@ public class Document {
 	}
 	// ++
 
-	public Document(String doucment_no, Employee employee_id, DocumentType document_type, String document_title,
+	public Document(String document_no, Employee employee_id, DocumentType document_type, String document_title,
 			String document_content, Date draft_date, String document_status, List<Approval> approvals,
 			List<Agreement> agreements, List<Reference> references) {
-		this.doucment_no = doucment_no;
+		this.document_no = document_no;
 		this.employee_id = employee_id;
 		this.document_type = document_type;
 		this.document_title = document_title;
@@ -42,12 +42,12 @@ public class Document {
 		this.references = references;
 	}
 
-	public String getDoucment_no() {
-		return doucment_no;
+	public String getDocument_no() {
+		return document_no;
 	}
 
-	public void setDoucment_no(String doucment_no) {
-		this.doucment_no = doucment_no;
+	public void setDocument_no(String document_no) {
+		this.document_no = document_no;
 	}
 
 	public Employee getEmployee_id() {
@@ -124,7 +124,7 @@ public class Document {
 
 	@Override
 	public String toString() {
-		return "Document [doucment_no=" + doucment_no + ", employee_id=" + employee_id + ", document_type="
+		return "Document [document_no=" + document_no + ", employee_id=" + employee_id + ", document_type="
 				+ document_type + ", document_title=" + document_title + ", document_content=" + document_content
 				+ ", draft_date=" + draft_date + ", document_status=" + document_status + ", approvals=" + approvals
 				+ ", agreements=" + agreements + ", references=" + references + "]";

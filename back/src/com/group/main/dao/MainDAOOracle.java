@@ -124,7 +124,7 @@ public class MainDAOOracle implements MainDAO {
 
 			while (rs.next()) {
 				Document doc = new Document();
-				doc.setDoucment_no(rs.getString("document_no"));
+				doc.setDocument_no(rs.getString("document_no"));
 				doc.setDocument_title(rs.getString("document_title"));
 				doc.setDraft_date(rs.getDate("draft_date"));
 

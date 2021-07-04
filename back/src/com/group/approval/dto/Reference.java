@@ -7,15 +7,15 @@ import com.group.employee.dto.Employee;
 public class Reference {
 	public Document document_no;
 	public Employee employee_id;
-	public ApprovalStatus ap_type;
+	public ApprovalStatus re_ap_type;
 	
 	public Reference() {
 	}
 
-	public Reference(Document document_no, Employee employee_id, ApprovalStatus ap_type) {
+	public Reference(Document document_no, Employee employee_id, ApprovalStatus re_re_ap_type) {
 		this.document_no = document_no;
 		this.employee_id = employee_id;
-		this.ap_type = ap_type;
+		this.re_ap_type = re_ap_type;
 	}
 
 	public Document getDocument_no() {
@@ -34,17 +34,17 @@ public class Reference {
 		this.employee_id = employee_id;
 	}
 
-	public ApprovalStatus getAp_type() {
-		return ap_type;
+	public ApprovalStatus getRe_ap_type() {
+		return re_ap_type;
 	}
 
-	public void setAp_type(ApprovalStatus ap_type) {
-		this.ap_type = ap_type;
+	public void setRe_ap_type(ApprovalStatus re_ap_type) {
+		this.re_ap_type = re_ap_type;
 	}
 
 	@Override
 	public String toString() {
-		return "Reference [document_no=" + document_no + ", employee_id=" + employee_id + ", ap_type=" + ap_type + "]";
+		return "Reference [document_no=" + document_no + ", employee_id=" + employee_id + ", re_ap_type=" + re_ap_type + "]";
 	}
 	
 }
