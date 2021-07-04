@@ -21,7 +21,6 @@ public class Agreement {
 	public void setDocument_no(Document document_no) {
 		this.document_no = document_no;
 	}
-
 	public Employee getEmployee_id() {
 		return employee_id;
 	}

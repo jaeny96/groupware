@@ -19,6 +19,8 @@ public class Document {
    private List<Agreement> agreements;
    private List<Reference> references;
    
+   private Employee employee;
+   
    
    //필요한것 : 문서번호, 문서제목, 사원번호(employee), 사원이름(employee), 기안일자, 문서타입 , 참조상태(approval,reference,agreement) 
     
@@ -31,7 +33,13 @@ public class Document {
        this.document_content=document_content;
           
     };
-   public List<Approval> getApprovals() {
+
+	public Document() {
+		super();
+
+	}
+
+	public List<Approval> getApprovals() {
       return approvals;
    }
    public void setApprovals(List<Approval> approvals) {

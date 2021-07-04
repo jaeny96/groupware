@@ -24,7 +24,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 
 	}
 
-	// 문서기안
+	// 1. 문서기안
 	public void draft(Document d) throws AddException {
 		// DB연결
 		Connection con = null;
@@ -72,22 +72,19 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		
-		String searchByNameSQL = "SELECT name\r\n" + 
-				"FROM employee\r\n" + 
-				"where name like ?";
+
+		String searchByNameSQL = "SELECT name\r\n" + "FROM employee\r\n" + "where name like ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> list = new ArrayList<>();
-		List<Department> list2 = new ArrayList<>();
 		try {
 			pstmt = con.prepareStatement(searchByNameSQL);
 			pstmt.setString(1, "%" + word + "%");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Employee em = new Employee();
-				String name = rs.getString("name");
-				em.setName(name);
+//				String name = rs.getString("name");
+				em.setName(rs.getString("name"));
 
 				list.add(em);
 			}
@@ -114,9 +111,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		String searchByDepSQL = "SELECT department_title\r\n" + 
-				"FROM department \r\n" + 
-				"where department_title like ?";
+		String searchByDepSQL = "SELECT department_title\r\n" + "FROM department \r\n"
+				+ "where department_title like ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Department> list = new ArrayList<>();
@@ -164,21 +160,21 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 //		} catch (FindException e) {
 //			e.getMessage();
 //		}
-		
-//		//2-1.사원명으로 사원검색하기
-//		String word = "김";
-//		System.out.println("\"" + word + "\"단어를 포함한 사원목록");
-//		try {
-//			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-//			List<Employee> list = dao.searchByName(word);
-//			for (Employee em : list) {
-//				System.out.println(em.getName());
-//			}
-//		} catch (FindException e) {
-//			System.out.println(e.getMessage());
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+
+		// 2-1.사원명으로 사원검색하기
+		String word = "김";
+		System.out.println("\"" + word + "\"단어를 포함한 사원목록");
+		try {
+			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
+			List<Employee> list = dao.searchByName(word);
+			for (Employee em : list) {
+				System.out.println(em.getName());
+			}
+		} catch (FindException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 //		//2-2.부서명으로 부서검색하기
 //		String word = "롸";
@@ -194,6 +190,6 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}
-		
+
 	}
 }

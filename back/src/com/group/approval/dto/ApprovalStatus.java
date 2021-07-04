@@ -6,7 +6,6 @@ public class ApprovalStatus {
 
 	public ApprovalStatus() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getAp_type() {
