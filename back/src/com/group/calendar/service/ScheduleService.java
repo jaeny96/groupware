@@ -21,9 +21,6 @@ import com.group.exception.FindException;
 
 
 public class ScheduleService {
-	Date sdate; Date edate; 
- String startdate; String enddate; Timestamp tdate;
-
 	private ScheduleDAO dao;
 	private static ScheduleService service; //선언만해두기
 	public static String envProp; //
@@ -37,7 +34,7 @@ public class ScheduleService {
 			System.out.println(className);
 			Class c = Class.forName(className);//JVM에로드
 			System.out.println(c);
-			dao = (ScheduleDAO)c.newInstance();//객체생성 (위에 주석처럼 직접 하드코딩하지 않고 //이렇게 객체생성=구체화된 클라스를 사용하지 않고 일반화된 인터페이스를 사용) 
+			dao = (ScheduleDAO)c.newInstance();//객체생성 (구체화된 클래스를 사용하지 않고 일반화된 인터페이스를 사용) 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,7 +47,7 @@ public class ScheduleService {
 	}
 	
 	/**
-	 * 
+	 * 일정전체를 조회한다
 	 * @param skd_id
 	 * @throws FindException
 	 */
@@ -58,7 +55,7 @@ public class ScheduleService {
 		return dao.skdList(skd_id);
 	}
 	/**
-	 * 
+	 * 팀 일정을 조회한다
 	 * @param skd_id
 	 * @throws FindException
 	 */
@@ -67,7 +64,7 @@ public class ScheduleService {
 	}
 	
 	/**
-	 * 
+	 * 개인 일정을 조회한다
 	 * @param skd_share
 	 * @throws FindException
 	 */
@@ -76,7 +73,7 @@ public class ScheduleService {
 	}
 	
 	/**
-	 * 
+	 * 제목,내용으로 일정을 검색한다
 	 * @param s
 	 * @throws FindException
 	 */
@@ -85,72 +82,22 @@ public class ScheduleService {
 	}
 	
 	/**
-	 * 
+	 * 문서번호로 상세 일정을 검색한다
 	 * @param skd_no
 	 * @throws FindException
+	 * 캘린더에서 날짜 클릭시 문서번호에 해당하는 일정을 호출하여 상세내용 보여주도록 해야함 
 	 */
 	public Schedule findByDetail(int skd_no) throws FindException{
 		return dao.skdDetail(skd_no);
 	}
 	
 	/**
-	 * 
+	 * 기간으로 일정을 검색한다 
 	 * @param skd_id
 	 * @throws FindException
 	 */
-	public List<Schedule> findByDate(Employee skd_id) throws FindException{
-		
-		
-		try {			
-			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-			List<Schedule> list= findSkdAll(skd_id);
-			System.out.println("나오나요"+list);
-			for(Schedule sc: list) {
-				if(list.contains(sc.getSkd_start_date())) {
-					for(Schedule start_date: list)
-					tdate = sc.getSkd_start_date();
-					System.out.println(tdate);
-					
-					sdate = sd.parse(startdate);
-					Timestamp sdt = new Timestamp(sdate.getTime());
-					System.out.println(sdt);
-					
-					edate = sd.parse(enddate);
-					Timestamp edt = new Timestamp(edate.getTime());
-					System.out.println(edate);
-					if(tdate.equals(sdt)||(tdate.after(sdt)&& tdate.before(edt))) {
-						
-				}else {
-						throw new FindException("기간에 해당하는 일정이 없습니다.");
-					}
-				};
-				
-				
-			}
-			
-			
-//			//skd_start_date를 date형식으로 변한하여 d에 할당
-//			Date d = sd.parse(date);
-//			//d를 timestamp로 변환
-//			start_date = new Timestamp(d.getTime());
-//			//기간검색 시작날짜 
-//			sdate = sd.parse(startdate);
-//			//sdate를 timestamp로 변환
-//			Timestamp sdt = new Timestamp(sdate.getTime());
-//			//기감검색 끝날짜를 형식맞춘 date타입인 edate에 할당
-//			edate = sd.parse(enddate);
-//			//edate를 timestamp로 변한 
-//			Timestamp edt = new Timestamp(edate.getTime());
-//			//기간 검색 조건문 
-//			if(start_date.equals(sdt)||(start_date.after(sdt)&& start_date.before(edt))) {
-//				
-//			}else {
-//				throw new FindException("기간에 해당하는 일정이 없습니다.");
-//			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-			}
-		return dao.skdList(skd_id);
+	public List<Schedule> findByDate(Employee skd_e, String sdate, String edate) throws FindException{
+		return dao.skdPeriodList(skd_e, sdate, edate);
 	}
 	
 	
@@ -214,29 +161,22 @@ public class ScheduleService {
 //		}
 		
 		//findByDate 테스트
-		ScheduleService service = ScheduleService.getInstance();
-		String skd_id = "MSD003";
-		Department dpt = new Department();
-		dpt.setDepartment_id("MSD");
-
-		//skd_start_date
-//		service.date = "2021-07-01";
-		//기간검색 시작 날짜 
-		service.startdate = "2021-06-01";
-		//기간검색 끝날짜 
-		service.enddate = "2021-06-30";
-
-		Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
-		List<Schedule> all;
-			try {
-				all = service.findByDate(em);
-//				System.out.println(service.start_date);
-				for(Schedule sk: all) {
-					System.out.println("전체스케줄:"+sk);
-					
-				}
-			}catch (FindException e) {
-				e.printStackTrace();
-			}	
+//		ScheduleService service = ScheduleService.getInstance();
+//		String skd_id = "SEC002";
+//		String sdate = "2021-06-01";
+//		String edate = "2021-06-30";
+//		Department dpt = new Department();
+//		dpt.setDepartment_id("SEC");
+//
+//			try {
+//				Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
+//				List<Schedule> all;
+//				all = service.findByDate(em, sdate, edate);
+//				for(Schedule schedule: all) {
+//					System.out.println("전체스케줄:"+schedule);
+//				}
+//			}catch (FindException e) {
+//				e.printStackTrace();
+//			}	
 	}
 }

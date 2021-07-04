@@ -40,13 +40,12 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 				"skd_start_date,\r\n" + 
 				"skd_end_date, skd_share\r\n" + 
 				"FROM schedule\r\n" + 
-				"WHERE employee_id=? AND skd_share ='p' and skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate) \r\n" + 
+				"WHERE employee_id=? AND skd_share ='p'" + 
 				"UNION ALL\r\n" + 
 				"SELECT skd_type, skd_title,\r\n" + 
 				"skd_start_date,\r\n" + 
 				"skd_end_date, skd_share FROM schedule\r\n" + 
-				"WHERE employee_id like ? and skd_share = 't'and \r\n" + 
-				"skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate) ORDER BY skd_start_date ASC";
+				"WHERE employee_id like ? and skd_share = 't'ORDER BY skd_start_date ASC";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -66,11 +65,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 				s.setSkd_title(rs.getString("skd_title"));
 				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
 				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
-//				Employee e = new Employee();
-//				e.setEmployee_id(rs.getString("employee_id"));
-//				s.setSkd_id(e);
-				s.setSkd_share(rs.getString("skd_share"));
-						
+				s.setSkd_share(rs.getString("skd_share"));		
 				list.add(s);
 				
 //			System.out.println("전체스케줄:"+s);
@@ -87,7 +82,69 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
+	public List<Schedule> skdPeriodList(Employee skd_e, String sdate, String edate) throws FindException {
+	      //DB연결
+	      Connection con = null;
+	      try {
+	         con= MyConnection.getConnection();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	         throw new FindException(e.getMessage());
+	      }
+	      
+	      String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
+	            "skd_start_date,\r\n" + 
+	            "skd_end_date, skd_share\r\n" + 
+	            "FROM schedule\r\n" + 
+	            "WHERE employee_id= ? AND skd_share ='p' AND skd_start_date\r\n" + 
+	            "BETWEEN ? AND ? \r\n" + 
+	            "UNION ALL\r\n" + 
+	            "SELECT skd_type, skd_title,\r\n" + 
+	            "skd_start_date,\r\n" + 
+	            "skd_end_date, skd_share FROM schedule\r\n" + 
+	            "WHERE employee_id like ? and skd_share = 't' AND skd_start_date \r\n" + 
+	            "BETWEEN ? AND ? ORDER BY skd_start_date ASC";   
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      List<Schedule> list = new ArrayList<Schedule>();
+    
 
+	      
+	      try {
+	         pstmt = con.prepareStatement(SkdListSQL);
+	         pstmt.setString(1, skd_e.getEmployee_id());	            
+	         pstmt.setString(2, sdate);
+	         pstmt.setString(3, edate);
+	         pstmt.setString(4, skd_e.getDepartment().getDepartment_id()+"%");
+	         pstmt.setString(5, sdate);
+	         pstmt.setString(6, edate);
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	        	Schedule s = new Schedule();
+	            ScheduleType st = new ScheduleType();
+	            st.setSkd_type(rs.getString("skd_type"));
+	            s.setSkd_type(st);
+	            s.setSkd_title(rs.getString("skd_title"));
+	            s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+	            s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+	            s.setSkd_share(rs.getString("skd_share"));
+	                  
+	            list.add(s);
+//	         System.out.println("전체스케줄:"+s);
+	         }
+	         if(list.size() == 0) {
+	            throw new FindException("일정이 없습니다.");
+	         }
+	         return list;
+	      }catch(SQLException e){
+	         e.printStackTrace();
+	         throw new FindException(e.getMessage());
+	      }finally {
+	         MyConnection.close(con, pstmt, rs);
+	      }
+	   
+	   }
 	public List<Schedule> skdByTeam(String skd_dpt_id) throws FindException {
 		Connection con = null;
 		try {
@@ -140,7 +197,6 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		}
 		
 	}
-
 	public List<Schedule> skdPersonal(String skd_id) throws FindException {
 		Connection con = null;
 		try {
@@ -183,7 +239,6 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
 	public List<Schedule> skdByContent(Schedule s) throws FindException {
 		Connection con = null;
 		try {
@@ -225,7 +280,6 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-		
 	public Schedule skdDetail(int skd_no) throws FindException {
 		Connection con = null;
 		try {
@@ -278,7 +332,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			List<Schedule> all = dao.skdList(em);
 //			for(Schedule s: all) {
 //				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
-//						s.skd_end_date);
+//						s.getSkd_end_date());
 //			}
 //		} catch (Exception e) {
 //			
@@ -286,6 +340,25 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //		}
 		
 		//2 Done
+//		String skd_id = "SEC002";
+//		String sdate = "2021-06-01";
+//		String edate = "2021-06-30";
+//		Department dpt = new Department();
+//		dpt.setDepartment_id("SEC");
+//		try {
+//			ScheduleDAOOracle dao = new ScheduleDAOOracle();
+//			Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
+//			List<Schedule> all = dao.skdPeriodList(em, sdate, edate);
+//			for(Schedule s: all) {
+//				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
+//						s.getSkd_end_date());
+//			}
+//		} catch (Exception e) {
+//			
+//			e.printStackTrace();
+//		}
+		
+		//3 Done
 //		String skd_dpt_id = "MSD";
 //		try {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
@@ -300,7 +373,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			System.out.println(e.getMessage());
 //		}
 		
-		//3 Done
+		//4 Done
 //		String skd_id = "MSD003";
 //		try {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
@@ -315,7 +388,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			System.out.println(e.getMessage());
 //		}
 		
-		//4 Done
+		//5 Done
 //		String skd_title = "휴가";
 //		String skd_content = "휴가";
 //		Employee em = new Employee();
@@ -334,7 +407,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			System.out.println(e.getMessage());
 //		}
 		
-		//5 Done
+		//6 Done
 //		int skd_no = 1;
 //		try {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
