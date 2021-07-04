@@ -36038,7 +36038,7 @@
             (t.get = function (e) {
               return this.properties[e];
             }),
-            (t.applyAttr = function (e, t) {
+          (t.applyAttr = function (e, t) {
               this.node.setAttribute(h(e), t);
             }),
             (t.remove = function () {
