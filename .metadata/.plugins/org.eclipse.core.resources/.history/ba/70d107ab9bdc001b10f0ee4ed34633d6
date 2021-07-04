@@ -1,5 +1,6 @@
 package com.group.sql;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -42,4 +43,28 @@ public class MyConnection {
 		// close 안해주면 메모리 누수(leak)가 생김
 	}
 
+	public static void close(Connection con, CallableStatement cstmt, ResultSet cs) {
+		if (cs != null) {
+			try {
+				cs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (cstmt != null) {
+			try {
+				cstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 }

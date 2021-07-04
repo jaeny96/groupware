@@ -14,6 +14,7 @@ import com.group.approval.dto.Reference;
 import com.group.approval.exception.ModifyException;
 import com.group.approval.exception.UpdateException;
 import com.group.employee.dto.Employee;
+import com.group.sql.DBConnection;
 import com.group.sql.MyConnection;
 
 public class ProcessDocsDAOOracle implements ProcessDocsDAO {
@@ -172,10 +173,10 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			e.printStackTrace();
 		}
 		
-		String refuseCallSQL="call refuse(?,?)";
+		String audmitCallSQL="call refuse(?,?)";
 		CallableStatement cstmt=null;
 		try {
-			cstmt=con.prepareCall(refuseCallSQL);
+			cstmt=con.prepareCall(audmitCallSQL);
 			cstmt.setString(1, document_no);
 			cstmt.setString(2, id);
 			cstmt.execute();
@@ -248,34 +249,5 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}		
-		//approval case. AudmitTest
-//		try {
-//			ProcessDocsDAOOracle dao = new ProcessDocsDAOOracle();
-//			Employee em = new Employee();
-//			Approval ap = new Approval();
-//			// ap_type넣기 위한 처리 ApprovalStatus 상태값 저장 후 -> Approval에 ApprovalStatus객체저장
-//			ApprovalStatus aps = new ApprovalStatus();
-//			aps.setAp_type("승인");
-////			aps.setAp_type("반려");
-//			ap.setAp_type(aps);
-//			// comment
-//			ap.setAp_ap_comment("결재완료");
-//			// employee_id를 넣기 위한 처리 Employee에서 아이디값 저장 후 -> Approval에 Employee객체 저장
-//			em.setEmployee_id("CEO001");
-//			ap.setEmployee_id(em);
-//			// Document를 넣기 위한 처리 Document에서 아이디값 저장 후 -> Approval에 Document객체 저장
-//			Document d = new Document();
-//			d.setDocument_no("CR-회람-20210621-0001");
-//			ap.setDocument_no(d);
-//			// Approval에 필요한값 다 넣었으니 dao에게 보내기
-//			dao.updateApproval(ap);
-//			if("승인".equals(ap.getAp_type().getAp_type())) {
-//				dao.documentAudmit(ap.getDocument_no().getDocument_no(), ap.getEmployee_id().getEmployee_id());				
-//			}else {
-//				dao.documentRefuse(ap.getDocument_no().getDocument_no(),ap.getEmployee_id().getEmployee_id());
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
 	}
 }

@@ -39,7 +39,7 @@ public interface ProcessDocsDAO {
 	 * @param document_no
 	 * @throws ModifyException
 	 */
-	void documentAudmit(String document_no,String id) throws ModifyException;
+	void documentAudmit(String document_no) throws ModifyException;
 
 	/**
 	 * 11.한명이라도 반려시 '반려'로 변경한다.
@@ -47,5 +47,5 @@ public interface ProcessDocsDAO {
 	 * @param document_no
 	 * @throws ModifyException
 	 */
-	void documentRefuse(String document_no,String id) throws ModifyException;
+	void documentRefuse(String document_no) throws ModifyException;
 }
