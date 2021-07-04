@@ -22,7 +22,7 @@ import com.group.exception.FindException;
 
 public class ScheduleService {
 	Date sdate; Date edate; 
-	String date; String startdate; String enddate; Timestamp start_date;
+ String startdate; String enddate; Timestamp tdate;
 
 	private ScheduleDAO dao;
 	private static ScheduleService service; //선언만해두기
@@ -98,27 +98,55 @@ public class ScheduleService {
 	 * @param skd_id
 	 * @throws FindException
 	 */
-	public List<Schedule> findByDate(Employee skd_id, Date start_date) throws FindException{
+	public List<Schedule> findByDate(Employee skd_id) throws FindException{
+		
+		
 		try {			
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-			//skd_start_date를 date형식으로 변한하여 d에 할당
-			Date d = sd.parse(date);
-			//d를 timestamp로 변환
-			start_date = new Timestamp(d.getTime());
-			//기간검색 시작날짜 
-			sdate = sd.parse(startdate);
-			//sdate를 timestamp로 변환
-			Timestamp sdt = new Timestamp(sdate.getTime());
-			//기감검색 끝날짜를 형식맞춘 date타입인 edate에 할당
-			edate = sd.parse(enddate);
-			//edate를 timestamp로 변한 
-			Timestamp edt = new Timestamp(edate.getTime());
-			//기간 검색 조건문 
-			if(start_date.equals(sdt)||(start_date.after(sdt)&& start_date.before(edt))) {
+			List<Schedule> list= findSkdAll(skd_id);
+			System.out.println("나오나요"+list);
+			for(Schedule sc: list) {
+				if(list.contains(sc.getSkd_start_date())) {
+					for(Schedule start_date: list)
+					tdate = sc.getSkd_start_date();
+					System.out.println(tdate);
+					
+					sdate = sd.parse(startdate);
+					Timestamp sdt = new Timestamp(sdate.getTime());
+					System.out.println(sdt);
+					
+					edate = sd.parse(enddate);
+					Timestamp edt = new Timestamp(edate.getTime());
+					System.out.println(edate);
+					if(tdate.equals(sdt)||(tdate.after(sdt)&& tdate.before(edt))) {
+						
+				}else {
+						throw new FindException("기간에 해당하는 일정이 없습니다.");
+					}
+				};
 				
-			}else {
-				throw new FindException("기간에 해당하는 일정이 없습니다.");
+				
 			}
+			
+			
+//			//skd_start_date를 date형식으로 변한하여 d에 할당
+//			Date d = sd.parse(date);
+//			//d를 timestamp로 변환
+//			start_date = new Timestamp(d.getTime());
+//			//기간검색 시작날짜 
+//			sdate = sd.parse(startdate);
+//			//sdate를 timestamp로 변환
+//			Timestamp sdt = new Timestamp(sdate.getTime());
+//			//기감검색 끝날짜를 형식맞춘 date타입인 edate에 할당
+//			edate = sd.parse(enddate);
+//			//edate를 timestamp로 변한 
+//			Timestamp edt = new Timestamp(edate.getTime());
+//			//기간 검색 조건문 
+//			if(start_date.equals(sdt)||(start_date.after(sdt)&& start_date.before(edt))) {
+//				
+//			}else {
+//				throw new FindException("기간에 해당하는 일정이 없습니다.");
+//			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 			}
@@ -192,18 +220,20 @@ public class ScheduleService {
 		dpt.setDepartment_id("MSD");
 
 		//skd_start_date
-		service.date = "2021-07-01";
+//		service.date = "2021-07-01";
 		//기간검색 시작 날짜 
-		service.startdate = "2021-07-01";
+		service.startdate = "2021-06-01";
 		//기간검색 끝날짜 
-		service.enddate = "2021-07-30";
+		service.enddate = "2021-06-30";
 
 		Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
 		List<Schedule> all;
 			try {
-				all = service.findByDate(em, service.start_date);
+				all = service.findByDate(em);
+//				System.out.println(service.start_date);
 				for(Schedule sk: all) {
 					System.out.println("전체스케줄:"+sk);
+					
 				}
 			}catch (FindException e) {
 				e.printStackTrace();
