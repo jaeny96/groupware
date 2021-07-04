@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="enabled"/>
+		<item key="selection" value="icon"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="profile"/>
+			<item value="tables"/>
+			<item value="pages-profile"/>
+			<item value="inde"/>
+			<item value="doucment_no"/>
+			<item value="ap_type"/>
+			<item value="sidebar-brand"/>
 			<item value="employee_status"/>
-			<item value="system.out.println"/>
 		</list>
 		<list key="replacehistory">
+			<item value="profile"/>
+			<item value="Document_no"/>
+			<item value="document_no"/>
+			<item value="re_ap_type"/>
 			<item value="enabled"/>
 		</list>
 	</section>

@@ -13,13 +13,9 @@
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="com.group.main.dao.MainDAOOracle"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
-<fullyQualifiedTypeName name="com.group.sql.MyConnection"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
-<fullyQualifiedTypeName name="java.sql.Timestamp"/>
-<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOracle"/>
 <fullyQualifiedTypeName name="com.group.board.dto.BoardComment"/>
 <fullyQualifiedTypeName name="com.group.exception.AddException"/>
@@ -39,4 +35,10 @@
 <fullyQualifiedTypeName name="com.group.employee.dao.EmployeeDAO"/>
 <fullyQualifiedTypeName name="com.group.main.dao.MainDAO"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Department"/>
+<fullyQualifiedTypeName name="java.sql.Timestamp"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.group.sql.MyConnection"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="com.group.changeTime"/>
 </qualifiedTypeNameHistroy>
