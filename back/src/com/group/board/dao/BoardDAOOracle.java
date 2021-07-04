@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.group.changeTime;
 import com.group.board.dto.Board;
 import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
@@ -19,6 +20,9 @@ public class BoardDAOOracle implements BoardDAO {
 	public BoardDAOOracle() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("load success");
+	}
+	public void alterFormat() {
+		
 	}
 
 	@Override
@@ -308,7 +312,7 @@ public class BoardDAOOracle implements BoardDAO {
 //			List<Board> bdList = dao.selectAll();
 //			for (Board bd : bdList) {
 //				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
-//						+ bd.getWriter().getName() + "/" + bd.getBd_date());
+//						+ bd.getWriter().getName() + "/" + changeTime.modifyTime(bd.getBd_date()));
 //			}
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());

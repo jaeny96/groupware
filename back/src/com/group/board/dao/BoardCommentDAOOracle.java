@@ -4,9 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.group.changeTime;
 import com.group.board.dto.Board;
 import com.group.board.dto.BoardComment;
 import com.group.employee.dto.Employee;
@@ -21,8 +26,10 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 		System.out.println("load success");
 	}
 
+
+
 	@Override
-	public List<BoardComment> selectAll(String bd_no) throws FindException{
+	public List<BoardComment> selectAll(String bd_no) throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -51,7 +58,6 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 				emp.setEmployee_id(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				cm.setCm_writer(emp);
-
 				cm.setCm_date(rs.getTimestamp("cm_date"));
 				cm.setCm_content(rs.getString("cm_content"));
 
@@ -71,7 +77,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	@Override
-	public void insert(BoardComment cm) throws AddException{
+	public void insert(BoardComment cm) throws AddException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -103,7 +109,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	@Override
-	public void delete(BoardComment cm) throws RemoveException{
+	public void delete(BoardComment cm) throws RemoveException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -121,7 +127,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			pstmt.setInt(2, cm.getCm_no());
 			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
 			pstmt.executeUpdate();
-			
+
 			System.out.println("댓글을 삭제하였습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,7 +144,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 //			List<BoardComment> cmList = dao.selectAll(bd_no);
 //			for (BoardComment cm : cmList) {
 //				System.out.println(cm.getBd_no() + "/" + cm.getCm_no() + "/" + cm.getCm_writer().getEmployee_id() + "/"
-//						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + cm.getCm_date());
+//						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + changeTime.modifyTime(cm.getCm_date()));
 //			}
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
