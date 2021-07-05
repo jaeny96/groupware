@@ -5,4 +5,9 @@
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOralce"/>
 <fullyQualifiedTypeName name="com.group.board.dto.Employee"/>
 <fullyQualifiedTypeName name="com.group.calendar.dto.ScheduleType"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.group.exception.FindException"/>
+<fullyQualifiedTypeName name="java.sql.Timestamp"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 </qualifiedTypeNameHistroy>
