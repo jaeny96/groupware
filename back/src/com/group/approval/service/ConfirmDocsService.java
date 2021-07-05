@@ -14,7 +14,8 @@ import com.group.approval.exception.SearchException;
 public class ConfirmDocsService {
 	private ConfirmDocsDAO dao;
 	private static ConfirmDocsService service;
-	private static String envProp="classes.prop";
+	private static String envProp="classes.prop";//back에서만 테스트용
+	//private static String envProp;//front에서만 테스트용
 	
 	private ConfirmDocsService(){
 		Properties env =new Properties();
@@ -22,8 +23,9 @@ public class ConfirmDocsService {
 			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("ConfirmDocsDAO");
 			System.out.println(className);
-			Class c = Class.forName(className);
-			dao = (ConfirmDocsDAO)c.newInstance();
+			//리팩토링 작업	
+			Class c = Class.forName(className);//jvm에 로드 
+			dao = (ConfirmDocsDAO)c.newInstance();// 객체생성 (위에 주석처럼 직접 하드코딩하지 않고 //이렇게 객체생성=구체화된 클라스를 사용하지 않고 일반화된 인터페이스를 사용)
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
