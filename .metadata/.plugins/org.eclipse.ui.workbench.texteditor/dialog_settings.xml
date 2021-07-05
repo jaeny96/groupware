@@ -6,14 +6,14 @@
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="board-regi"/>
+			<item value="쵝,ㄴ"/>
+			<item value="최근"/>
 			<item value="createcircle"/>
 			<item value="circle"/>
 			<item value="profile"/>
 			<item value="tables"/>
 			<item value="pages-profile"/>
-			<item value="inde"/>
-			<item value="doucment_no"/>
-			<item value="ap_type"/>
 		</list>
 		<list key="replacehistory">
 			<item value="profile"/>

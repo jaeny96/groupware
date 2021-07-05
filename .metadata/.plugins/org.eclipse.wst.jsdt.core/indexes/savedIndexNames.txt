@@ -1,9 +1,7 @@
 INDEX VERSION 1.4+C:\Users\JISU\Desktop\JAVAW_OJS\groupware\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2255688318.index
-3826252319.index
-3669547573.index
-2179591660.index
-1459798236.index
-46323547.index
 2001456124.index
-4065852612.index
+46323547.index
+3826252319.index
+1459798236.index
+2179591660.index
+2255688318.index
