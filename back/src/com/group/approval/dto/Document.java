@@ -15,7 +15,7 @@ public class Document {
 	private String document_status;
 	
 	private Employee employee;
-	private DocumentType documentType;
+	private DocumentType document_type;
 	private Approval approval;
 	private Agreement agreement;
 	private Reference reference;
@@ -60,6 +60,12 @@ public class Document {
 	public void setDraft_date(Date draft_date) {
 		this.draft_date = draft_date;
 	}
+	public DocumentType getDocument_type() {
+		return document_type;
+	}
+	public void setDocument_type(DocumentType document_type) {
+		this.document_type = document_type;
+	}
 	public String getDocument_status() {
 		return document_status;
 	}
@@ -72,12 +78,8 @@ public class Document {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	public DocumentType getDocumentType() {
-		return documentType;
-	}
-	public void setDocumentType(DocumentType documentType) {
-		this.documentType = documentType;
-	}
+
+
 	public Approval getApproval() {
 		return approval;
 	}
@@ -100,7 +102,7 @@ public class Document {
 	public String toString() {
 		return "Document [state=" + state + ", document_no=" + document_no + ", document_title=" + document_title
 				+ ", document_content=" + document_content + ", draft_date=" + draft_date + ", document_status="
-				+ document_status + ", employee=" + employee + ", documentType=" + documentType + ", approval="
+				+ document_status + ", employee=" + employee + ", document_type=" + document_type + ", approval="
 				+ approval + ", agreement=" + agreement + ", reference=" + reference + ", approvals=" + approvals + "]";
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
+import com.group.approval.exception.ModifyException;
 import com.group.employee.dto.Employee;
 
 public interface SideDocsDAO {
@@ -50,11 +51,12 @@ public interface SideDocsDAO {
 	 
 	 /**8.
 	  * (진행/승인/반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-	  * @param employee_id
+	  * @param employee_id,document_status
 	  * @throws FindException
 	  */
 	 List<Document> selectByListStatus(String employee_id,String document_status) throws FindException;
 	 
+
 
 	
 }

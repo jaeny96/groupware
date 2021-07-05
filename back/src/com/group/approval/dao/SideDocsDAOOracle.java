@@ -1,5 +1,6 @@
 package com.group.approval.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import com.group.approval.dto.ApprovalStatus;
 import com.group.approval.dto.Document;
 import com.group.approval.dto.DocumentType;
 import com.group.approval.exception.FindException;
+import com.group.approval.exception.ModifyException;
 import com.group.employee.dto.Employee;
 import com.group.sql.MyConnection;
 
@@ -268,7 +270,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
 		    	dt.setDocument_type(rs.getString("employee_id"));
-		    	d.setDocumentType(dt);
+		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
 		    	a.setAp_type(ap);
@@ -357,7 +359,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
 		    	dt.setDocument_type(rs.getString("employee_id"));
-		    	d.setDocumentType(dt);
+		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
 		    	a.setAp_type(ap);
@@ -381,11 +383,22 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 	}
 
 
+
 	public static void main(String[] args) {
 		int result=0;	
 		SideDocsDAOOracle dao; 
 		try {
 			dao = new SideDocsDAOOracle();
+			
+			//프로시저 
+//			Document d = new Document();
+//			Employee em = new Employee();
+//			
+//			em.setEmployee_id("IFR001");
+//			d.setEmployee(em);
+//			d.setDocument_no("CR-회람-20210621-0001");
+//			dao.documentAudmit(d);
+//			
 			String str="DEV001";
 			//(전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
 			result = dao.selectByCountAll(str);
@@ -410,7 +423,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 						d.getEmployee().getEmployee_id()+" "+
 						d.getEmployee().getName()+" "+
 						d.getDraft_date()+" "+
-						d.getDocumentType().getDocument_type()+" "+
+						d.getDocument_type().getDocument_type()+" "+
 						d.getApproval().getAp_type().getApStatus_type());
 			}
 			System.out.println();
@@ -425,7 +438,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 						d.getEmployee().getEmployee_id()+" "+
 						d.getEmployee().getName()+" "+
 						d.getDraft_date()+" "+
-						d.getDocumentType().getDocument_type()+" "+
+						d.getDocument_type().getDocument_type()+" "+
 						d.getApproval().getAp_type().getApStatus_type());
 			}
 		

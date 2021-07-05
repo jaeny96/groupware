@@ -1,0 +1,5 @@
+#classes.prop
+ConfirmDocsDAO=com.group.approval.dao.ConfirmDocsDAOOracle
+SideDocsDAO=com.group.approval.dao.SideDocsDAOOracle
+DocsWriteDAO=com.group.approval.dao.DocsWriteDAOOracle
+ProcessDocsDAO=com.group.approval.dao.ProcessDocsDAOOracle

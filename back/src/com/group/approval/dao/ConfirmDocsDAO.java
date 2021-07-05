@@ -10,17 +10,17 @@ import com.group.employee.dto.Employee;
 public interface ConfirmDocsDAO {
 	/**1.
 	 * (전체)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	 * @param employee_id,ap_type
+	 * @param employee_id,check
 	 * @throws FindException
 	 */
-	List<Document> selectByCheckAll(String employee_id,String ap_type,String check) throws FindException;
+	List<Document> selectByCheckAll(String employee_id,String check) throws FindException;
 
 	/**1.
 	 * (진행/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	 * @param employee_id,ap_type
+	 * @param employee_id,document_status,check
 	 * @throws FindException
 	 */
-	List<Document> selectByCheckStatus(String employee_id,String ap_type,String document_status,String check) throws FindException;
+	List<Document> selectByCheckStatus(String employee_id,String document_status,String check) throws FindException;
 	
 
 	/**3.
@@ -39,9 +39,9 @@ public interface ConfirmDocsDAO {
 	 
 	 /**6.
 	  * 문서에 대해 제목,내용으로 검색할 수 있다. 
-	  * @param title,content
+	  * @param title,content,employee_id
 	  * @throws FindException
-	 * @throws SearchException 
+	  * @throws SearchException 
 	  */
 	 List<Document> selectBySearch(String employee_id,String title,String content) throws FindException, SearchException;
 	 
