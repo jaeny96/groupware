@@ -1,5 +1,6 @@
 package com.group.calendar.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -39,5 +40,8 @@ public interface ScheduleDAO {
 	//public void delete(Schedule s) throws RemoveException;
 
 	void delete(Schedule s) throws RemoveException;
+	
+
+	
 
 }

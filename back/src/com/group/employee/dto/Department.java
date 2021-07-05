@@ -4,4 +4,8 @@ public class Department {
 	public String department_id;
 	public String department_title;
 	public String manager_id;
+	
+
+	
+	
 }
