@@ -41,7 +41,7 @@ public class Document {
 		this.employee = employee;
 		this.document_type = document_type;
 		this.approval = approval;
-		this.agreement = agreements;
+		this.agreement = agreement;
 		this.reference = reference;
 		this.approvals = approvals;
 	}

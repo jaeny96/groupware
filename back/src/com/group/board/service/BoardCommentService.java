@@ -84,7 +84,7 @@ public class BoardCommentService {
 	}
 
 	public static void main(String[] args) {
-		String bd_no = "BD2";
+//		String bd_no = "BD2";
 //		List<BoardComment> cmList;
 //		try {
 //			cmList = service.showCm(bd_no);
