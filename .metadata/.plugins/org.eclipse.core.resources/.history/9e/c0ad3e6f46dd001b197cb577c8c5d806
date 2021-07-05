@@ -1,0 +1,24 @@
+package com.group.approval.service;
+
+import com.group.approval.dao.ProcessDocsDAO;
+
+public class ProcessDocsService {
+	private ProcessDocsDAO dao;
+	private static ProcessDocsService service;
+//	public static String envProp;
+	private ProcessDocsService() {
+		
+	}
+	public static ProcessDocsService getInstance() {
+		if(service == null) {
+			service = new ProcessDocsService();
+		}
+		return service;
+		
+	/**
+	 * @param ap
+	 * @throws UpdateException
+	 */
+		
+	}
+}

@@ -9,7 +9,7 @@ public class Approval {
 	public Document document_no;
 	public Employee employee_id;
 	public ApprovalStatus ap_type;
-	public String ap_step;
+	public int ap_step;
 	public Date ap_ap_date;
 	public String ap_ap_comment;
 	
@@ -36,10 +36,10 @@ public class Approval {
 	public void setAp_type(ApprovalStatus ap_type) {
 		this.ap_type = ap_type;
 	}
-	public String getAp_step() {
+	public int getAp_step() {
 		return ap_step;
 	}
-	public void setAp_step(String ap_step) {
+	public void setAp_step(int ap_step) {
 		this.ap_step = ap_step;
 	}
 	public Date getAp_ap_date() {

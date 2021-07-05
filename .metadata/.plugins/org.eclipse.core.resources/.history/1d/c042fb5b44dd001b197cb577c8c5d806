@@ -1,0 +1,20 @@
+package com.group.approval.service;
+
+import com.group.approval.dao.DocsWriteDAO;
+
+public class DocsWriteService {
+	private DocsWriteDAO dao;
+	private static DocsWriteService service;
+//	public static String envProp;
+	private DocsWriteService() {
+		//envProp설정은 서블릿에서 해줌
+	}
+	public static DocsWriteService getInstance() {	//근데이건 왜 해주는거지
+		if(service == null) {
+			service = new DocsWriteService();
+		}
+		return service;	
+	}
+
+
+}

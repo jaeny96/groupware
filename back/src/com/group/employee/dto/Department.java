@@ -6,7 +6,6 @@ public class Department {
 	public String manager_id;
 
 	public Department() {
-		super();
 	}
 
 	public Department(String department_title) {

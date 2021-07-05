@@ -1,0 +1,51 @@
+package com.group.approval.service;
+
+import java.util.List;
+
+import com.group.approval.dao.DocsWriteDAO;
+import com.group.approval.dto.Document;
+import com.group.approval.exception.AddException;
+import com.group.approval.exception.FindException;
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
+
+public class DocsWriteService {
+	private DocsWriteDAO dao;
+	private static DocsWriteService service;
+//	public static String envProp;
+	private DocsWriteService() {
+		//envProp설정은 서블릿에서 해줌
+	}
+	public static DocsWriteService getInstance() {	//근데이건 왜 해주는거지
+		if(service == null) {
+			service = new DocsWriteService();
+		}
+		return service;	
+	}
+	/**
+	 * 결재문서 기안완료
+	 * @param d
+	 * @throws AddException
+	 */
+	public void complete(Document d) throws AddException{
+		dao.draft(d);
+	}
+	/**
+	 * 사원이름 리스트 조회
+	 * @param name
+	 * @throws FindException
+	 */
+	public List<Employee> staff(String name) throws FindException {
+		return dao.searchByName(name);		
+	}
+	/**
+	 * 부서이름 리스트 조회
+	 * @param department_title
+	 * @return
+	 * @throws FindException
+	 */
+	public List<Department> group(String department_title) throws FindException{
+		return dao.searchByDep(department_title);
+		
+	}
+}

@@ -44,7 +44,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			pstmt = con.prepareStatement(draftSQL);
 			pstmt.setString(1, d.getDocument_no());
 			pstmt.setString(2, d.getDocument_type().getDocument_type());
-			pstmt.setString(3, d.getEmployee_id().getEmployee_id());
+			pstmt.setString(3, d.getEmployee().getEmployee_id());
 			pstmt.setString(4, d.getDocument_title());
 			pstmt.setString(5, d.getDocument_content());
 			int rowcnt = pstmt.executeUpdate();

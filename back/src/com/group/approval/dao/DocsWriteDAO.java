@@ -21,12 +21,12 @@ public interface DocsWriteDAO {
 	 * @param name
 	 * @throws FindException
 	 */
-	public List<Employee> searchByName(String name) throws FindException;
+	List<Employee> searchByName(String name) throws FindException;
 	/**
 	 * 2-2. 결재선을 설정하는 과정에서 참여시킬 사원의 조직을 검색한다
 	 * @param department_title
 	 * @throws FindException
 	 */
-	public List<Department> searchByDep(String department_title) throws FindException;
+	List<Department> searchByDep(String department_title) throws FindException;
 
 }

@@ -1,0 +1,66 @@
+package com.group.approval.service;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
+
+import com.group.approval.dao.ConfirmDocsDAO;
+import com.group.approval.dao.DocsWriteDAO;
+import com.group.approval.dto.Document;
+import com.group.approval.exception.AddException;
+import com.group.approval.exception.FindException;
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
+
+public class DocsWriteService {
+	private DocsWriteDAO dao;
+	private static DocsWriteService service;
+
+	private static String envProp="classes.prop";
+	
+	private DocsWriteService(){
+		Properties env =new Properties();
+		try {
+			env.load(new FileInputStream(envProp));
+			String className = env.getProperty("ConfirmDocsDAO");
+			System.out.println(className);
+			Class c = Class.forName(className);
+			dao = (ConfirmDocsDAO)c.newInstance();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 결재문서 기안완료
+	 * @param d
+	 * @throws AddException
+	 */
+	public void complete(Document d) throws AddException{
+		dao.draft(d);
+	}
+	/**
+	 * 사원이름 리스트 조회
+	 * @param name
+	 * @throws FindException
+	 */
+	public List<Employee> staff(String name) throws FindException {
+		return dao.searchByName(name);		
+	}
+	/**
+	 * 부서이름 리스트 조회
+	 * @param department_title
+	 * @return
+	 * @throws FindException
+	 */
+	public List<Department> group(String department_title) throws FindException{
+		return dao.searchByDep(department_title);
+		
+	}
+}

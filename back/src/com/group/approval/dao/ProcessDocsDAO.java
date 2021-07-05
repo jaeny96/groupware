@@ -26,7 +26,7 @@ public interface ProcessDocsDAO {
 	void updateAgreement(Agreement ag) throws UpdateException;
 
 	/**
-	 * 9. 참조를 요청받은 참조자는 참조를 승인할지 선택한다.
+	 * 9. 참조자는 참조를 승인한다.
 	 * 
 	 * @param d
 	 * @throws UpdateException
@@ -35,16 +35,14 @@ public interface ProcessDocsDAO {
 
 	/**
 	 * 10. 모두 승인처리를 내리면,최종 문서 상태의 값을 '승인'으로 바꾼다.
-	 * 
-	 * @param document_no
+	 * @param document_no, String id
 	 * @throws ModifyException
 	 */
 	void documentAudmit(String document_no,String id) throws ModifyException;
 
 	/**
 	 * 11.한명이라도 반려시 '반려'로 변경한다.
-	 * 
-	 * @param document_no
+	 * @param document_no, String id
 	 * @throws ModifyException
 	 */
 	void documentRefuse(String document_no,String id) throws ModifyException;
