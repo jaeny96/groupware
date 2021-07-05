@@ -2774,3 +2774,6 @@ java.io.IOException: Unable to start language server: HTML Language Server: Proc
 	at org.eclipse.lsp4e.LanguageServiceAccessor.getLanguageServers(LanguageServiceAccessor.java:602)
 	at org.eclipse.lsp4e.ConnectDocumentToLanguageServerSetupParticipant$2.run(ConnectDocumentToLanguageServerSetupParticipant.java:75)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 2 10035 2021-07-05 18:55:48.631
+!MESSAGE The workspace will exit with unsaved changes in this session.
