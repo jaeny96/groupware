@@ -36044,7 +36044,6 @@
                 t = 0;
               }
               this.node.setAttribute(h(e), t);
-              //              this.node.setAttribute(12, 12);
             }),
             (t.remove = function () {
               this.node.parentNode.removeChild(this.node);

@@ -12,6 +12,7 @@ $(function () {
     //클릭된현재객체의 href속성값 얻기 : .attr('href');
     $menuObj.closest("li").attr("class", "sidebar-item");
     var href = $(this).attr("href");
+	console.log(href);
     switch (href) {
       case "board.html":
       case "schedule.html":
@@ -19,6 +20,7 @@ $(function () {
       case "employee.html":
       case "profile.html":
       case "pages-settings.html":
+      case "board-register.html":
       case "main.html":
         $(this).closest("li").attr("class", "sidebar-item active");
         $div.load(href, function (responseTxt, statusTxt, xhr) {

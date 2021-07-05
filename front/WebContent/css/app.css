@@ -5778,6 +5778,10 @@ button.close {
 .align-middle {
   vertical-align: middle !important;
 }
+.align-middle-js {
+  vertical-align: middle !important;
+  color: black;
+}
 .align-bottom {
   vertical-align: bottom !important;
 }
@@ -11892,7 +11896,7 @@ a.sidebar-link {
 a.sidebar-link i,
 a.sidebar-link svg {
   margin-right: 0.75rem;
-  color: rgba(233, 236, 239, 0.5);
+  color: rgba(69, 103, 138, 0.5);
 }
 .sidebar-link:focus {
   outline: 0;
@@ -11954,6 +11958,88 @@ a.sidebar-link svg {
   color: #518be1;
   background: transparent;
 }
+
+.sidebar-link-js,
+a.sidebar-link-js {
+  display: block;
+  padding: 0.625rem 1.625rem;
+  font-weight: 400;
+  transition: background 0.1s ease-in-out;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.013);
+  background: #fff;
+  border-left: 3px solid transparent;
+}
+.sidebar-link-js i,
+.sidebar-link-js svg,
+a.sidebar-link-js i,
+a.sidebar-link-js svg {
+  margin-right: 0.75rem;
+  color: rgba(3, 3, 3, 0.5);
+}
+.sidebar-link-js:focus {
+  outline: 0;
+}
+.sidebar-link-js:hover {
+  background: rgba(233, 233, 233, 0.493);
+  border-left-color: transparent;
+}
+.sidebar-link-js:hover,
+.sidebar-link-js:hover i,
+.sidebar-link-js:hover svg {
+  color: rgba(99, 100, 100, 0.75);
+}
+.sidebar-item.active .sidebar-link-js:hover,
+.sidebar-item.active > .sidebar-link-js {
+  color: #3d3d3d;
+  background: linear-gradient(
+    90deg,
+    rgba(59, 125, 221, 0.1),
+    rgba(59, 125, 221, 0.0875) 50%,
+    transparent
+  );
+  border-left-color: #3b7ddd;
+}
+.sidebar-item.active .sidebar-link-js:hover i,
+.sidebar-item.active .sidebar-link-js:hover svg,
+.sidebar-item.active > .sidebar-link-js i,
+.sidebar-item.active > .sidebar-link-js svg {
+  color: #3d3d3d;
+}
+.sidebar-dropdown .sidebar-link-js {
+  padding: 0.625rem 1.5rem 0.625rem 3.25rem;
+  font-weight: 400;
+  font-size: 90%;
+  border-left: 0;
+  color: #adb5bd;
+  background: transparent;
+}
+.sidebar-dropdown .sidebar-link-js:before {
+  content: "→";
+  display: inline-block;
+  position: relative;
+  left: -14px;
+  transition: all 0.1s ease;
+  transform: translateX(0);
+}
+.sidebar-dropdown .sidebar-item .sidebar-link-js:hover {
+  font-weight: 400;
+  border-left: 0;
+  color: #3d3d3d;
+  background: transparent;
+}
+.sidebar-dropdown .sidebar-item .sidebar-link-js:hover:hover:before {
+  transform: translateX(4px);
+}
+.sidebar-dropdown .sidebar-item.active .sidebar-link-js {
+  font-weight: 400;
+  border-left: 0;
+  color: #518be1;
+  background: transparent;
+}
+
 .sidebar [data-toggle="collapse"] {
   position: relative;
 }
@@ -16825,7 +16911,7 @@ a {
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
-  font-family: Font Awesome\5 Free;
+  font-family: Font awesome\5 Free;
   font-style: normal;
   font-weight: 400;
   font-display: block;
@@ -16843,7 +16929,7 @@ a {
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
-  font-family: Font Awesome\5 Free;
+  font-family: Font awesome\5 Free;
   font-style: normal;
   font-weight: 900;
   font-display: block;
@@ -16857,7 +16943,7 @@ a {
 .fa,
 .far,
 .fas {
-  font-family: Font Awesome\5 Free;
+  font-family: Font awesome\5 Free;
 }
 .fa,
 .fas {
