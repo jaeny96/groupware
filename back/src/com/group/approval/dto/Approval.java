@@ -5,13 +5,26 @@ import java.util.Date;
 import com.group.employee.dto.Employee;
 
 public class Approval {
-	public Document document_no;
-	public Employee employee_id;
-	public ApprovalStatus ap_type;
-	public int ap_step;
-	public Date ap_ap_date;
-	public String ap_ap_comment;
-	
+
+	private Document document_no;
+	private Employee employee_id;
+	private ApprovalStatus ap_type;
+	private int ap_step;
+	private Date ap_ap_date;
+	private String ap_ap_comment;
+
+public Approval() {
+}
+
+public Approval(Document document_no, Employee employee_id, ApprovalStatus ap_type, int ap_step, Date ap_ap_date,
+		String ap_ap_comment) {
+	this.document_no = document_no;
+	this.employee_id = employee_id;
+	this.ap_type = ap_type;
+	this.ap_step = ap_step;
+	this.ap_ap_date = ap_ap_date;
+	this.ap_ap_comment = ap_ap_comment;
+
 	public Approval() {
 	}
 
@@ -78,7 +91,5 @@ public class Approval {
 		return "Approval [document_no=" + document_no + ", employee_id=" + employee_id + ", ap_type=" + ap_type
 				+ ", ap_step=" + ap_step + ", ap_ap_date=" + ap_ap_date + ", ap_ap_comment=" + ap_ap_comment + "]";
 	}
-	
-	
 	
 }
