@@ -24,9 +24,29 @@ var positionArr = ["책임", "선임"];
 //불러온 사원의 사번
 var empIdArr = ["MSD001", "MSD002"];
 
+function openTargetModal(modalId, modalObj) {
+  var openBtn = document.querySelector(modalId);
+  var modal = document.querySelector("#" + modalObj + ">.modal");
+  var overlay = modal.querySelector(".modal_overlay");
+  var xBoxBtn = modal.querySelector("button.xBox");
+  var openModal = () => {
+    modal.classList.remove("hidden");
+  };
+  var closeModal = () => {
+    modal.classList.add("hidden");
+  };
+  if (openBtn != null) {
+    //input에는 없는 overlay 클릭 -> close 기능
+    overlay.addEventListener("click", closeModal);
+    //모달창 열기 버튼
+    openBtn.addEventListener("click", openModal);
+    //모달창 닫기 버튼
+    xBoxBtn.addEventListener("click", closeModal);
+  }
+}
+
 function empClickHandler(e) {
-  var empDetailBtn = e.target;
-  console.log(empDetailBtn);
+  openTargetModal("." + e.target.id + "openDetail", "modalDetail");
 }
 
 function removeEmpElement(target) {
@@ -38,7 +58,10 @@ function createEmpElement(i) {
   var divIcon = document.createElement("div");
   divIcon.setAttribute("class", "fa fa-user fa-3x mr-3");
   var divContent = document.createElement("div");
-  divContent.setAttribute("class", "flex-grow-1 mr-2");
+  divContent.setAttribute(
+    "class",
+    "flex-grow-1 mr-2 " + empIdArr[i] + "openDetail"
+  );
   divContent.setAttribute("id", empIdArr[i]);
   var small = document.createElement("small");
   small.setAttribute("class", "text-muted");
@@ -72,7 +95,6 @@ function selectEmpElement(dept) {
 }
 
 function deptClickHandler(e) {
-  var target = e.target;
   empHeaderObj.innerText = e.target.innerHTML;
   selectEmpElement(e.target.id);
 }
