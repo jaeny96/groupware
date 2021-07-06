@@ -60,8 +60,9 @@ $(function () {
     console.log(href);
     console.log($content);
     switch (href) {
-      case "board.html":
+      case "board-detail.html":
         $content.load(href, function (responseTxt, statusTxt, xhr) {
+          alert("안녕");
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         });

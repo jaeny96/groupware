@@ -12,11 +12,12 @@ $(function () {
   var $titleObj = $(
     "div.wrapper>div.main>main.content div.row div.table-responsive tbody tr td:nth-child(2)>a"
   );
+
   // console.log($titleObj);
 
   //main.content Obj 찾기
   var $content = $("main.content");
-  console.log($content);
+  // console.log($content);
   $registerObj.click(function () {
     var href = $(this).attr("href");
     // console.log(href);

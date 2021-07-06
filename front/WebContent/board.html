@@ -22,6 +22,7 @@
     <title>Tables | AdminKit Demo</title>
 
     <link href="css/app.css" rel="stylesheet" />
+    <script src="js/board.js"></script>
     <script src="jq/load-board.js"></script>
   </head>
 
@@ -31,6 +32,41 @@
         <main class="content"> -->
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">게시판</h1>
+      <form
+        class="d-none d-sm-inline-block col-md-2"
+        method="post"
+        action="board.html"
+      >
+        <div class="input-group input-group-navbar">
+          <div>
+            <div class="btn-group btn-group-sm">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                카테고리
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" id="categoryTitle">제목</a>
+                <a class="dropdown-item" href="#" id="categoryWriter">작성자</a>
+              </div>
+            </div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search…"
+            aria-label="Search"
+            style="width: 50%"
+          />
+          <button class="btn">
+            <div class="fa fa-search"></div>
+          </button>
+        </div>
+      </form>
       <div class="row">
         <div class="col-12">
           <div class="card">
