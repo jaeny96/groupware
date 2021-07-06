@@ -25,7 +25,8 @@ var positionArr = ["책임", "선임"];
 var empIdArr = ["MSD001", "MSD002"];
 
 function empClickHandler(e) {
-  e.target.setAttribute("id", "open");
+  var empDetailBtn = e.target;
+  console.log(empDetailBtn);
 }
 
 function removeEmpElement(target) {

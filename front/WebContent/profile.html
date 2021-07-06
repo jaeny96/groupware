@@ -20,6 +20,61 @@
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
     <link href="css/app.css" rel="stylesheet" />
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.18);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .hidden {
+        display: none;
+      }
+
+      ul {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      ul li {
+        height: 40px;
+      }
+
+      form li > span {
+        float: left;
+        width: 100px;
+      }
+
+      form li > div {
+        float: left;
+        width: 300px;
+      }
+
+      #content_box {
+        width: 300px;
+      }
+
+      .savediv {
+        clear: both;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .buttonplace {
+        float: left;
+      }
+    </style>
     <script src="js/profile.js"></script>
   </head>
 
@@ -40,9 +95,11 @@
                       width="128"
                       height="128"
                     />
-                    <div>
-                      <a class="btn btn-primary btn-sm" href="#">프로필 변경</a>
-                      <a class="btn btn-primary btn-sm" href="#"
+                    <div class="modifyProfileBtnGroup">
+                      <a class="btn btn-primary btn-sm mdGroup" id="openProfile"
+                        >프로필 변경</a
+                      >
+                      <a class="btn btn-primary btn-sm mdGroup" id="openPwd"
                         >비밀번호 변경</a
                       >
                     </div>
@@ -73,10 +130,10 @@
                     <div class="d-flex align-items-start" id="phoneNum">
                       <strong>연락처</strong>
                       <div class="flex-grow-0 ml-3 mb-2">연락처</div>
-                      <a href="#" id="modifyPhoneBtn"
-                        ><small class="text-muted flex-grow-1 ml-2 mt-1"
-                          >연락처 수정</small
-                        ></a
+                      <small class="text-muted flex-grow-1 ml-2 mt-1"
+                        ><a href="#" class="mdGroup" id="modifyPhoneBtn"
+                          >연락처 수정</a
+                        ></small
                       >
                     </div>
                     <div class="d-flex align-items-start" id="email">
@@ -91,6 +148,233 @@
         </main>
       </div>
     </div>
+    <div id="modalProfile">
+      <div class="modal hidden">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+          <div class="card">
+            <div class="card-header">
+              <button
+                class="xBox"
+                style="
+                  float: right;
+                  border-style: 1px solid #6c757d;
+                  border-radius: 7px;
+                  background-color: #6c757d;
+                  color: white;
+                  cursor: pointer;
+                "
+              >
+                X
+              </button>
+              <h4>일정 상세 내역</h4>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 30%">캘린더</th>
+                  <th style="width: 70%">개인일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>종류</td>
+                  <td>업무</td>
+                </tr>
+
+                <tr>
+                  <td>시작 시간</td>
+                  <td>2021-07-01 13:00</td>
+                </tr>
+                <tr>
+                  <td>종료 시간</td>
+                  <td>2021-07-01 14:00</td>
+                </tr>
+                <tr>
+                  <td>내용</td>
+                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- 수정 / 삭제  -->
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0">
+                <button class="btn btn-primary">수정</button>
+
+                <button class="btn btn-secondary deleteBtn">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalPwd">
+      <div class="modal hidden">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+          <div class="card">
+            <div class="card-header">
+              <button
+                class="xBox"
+                style="
+                  float: right;
+                  border-style: 1px solid #6c757d;
+                  border-radius: 7px;
+                  background-color: #6c757d;
+                  color: white;
+                  cursor: pointer;
+                "
+              >
+                X
+              </button>
+              <h4>일정 상세 내역</h4>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 30%">캘린더</th>
+                  <th style="width: 70%">개인일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>종류</td>
+                  <td>업무</td>
+                </tr>
+
+                <tr>
+                  <td>시작 시간</td>
+                  <td>2021-07-01 13:00</td>
+                </tr>
+                <tr>
+                  <td>종료 시간</td>
+                  <td>2021-07-01 14:00</td>
+                </tr>
+                <tr>
+                  <td>내용</td>
+                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- 수정 / 삭제  -->
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0">
+                <button class="btn btn-primary">수정</button>
+
+                <button class="btn btn-secondary deleteBtn">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalPhone">
+      <div class="modal hidden">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+          <div class="card">
+            <div class="card-header">
+              <button
+                class="xBox"
+                style="
+                  float: right;
+                  border-style: 1px solid #6c757d;
+                  border-radius: 7px;
+                  background-color: #6c757d;
+                  color: white;
+                  cursor: pointer;
+                "
+              >
+                X
+              </button>
+              <h4>일정 상세 내역</h4>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 30%">캘린더</th>
+                  <th style="width: 70%">개인일정</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>종류</td>
+                  <td>업무</td>
+                </tr>
+
+                <tr>
+                  <td>시작 시간</td>
+                  <td>2021-07-01 13:00</td>
+                </tr>
+                <tr>
+                  <td>종료 시간</td>
+                  <td>2021-07-01 14:00</td>
+                </tr>
+                <tr>
+                  <td>내용</td>
+                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- 수정 / 삭제  -->
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0">
+                <button class="btn btn-primary">수정</button>
+
+                <button class="btn btn-secondary deleteBtn">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="js/app.js"></script>
+    <script>
+      var targetObj = document.querySelectorAll("a.mdGroup");
+      console.log(targetObj);
+      function openTargetModal(modalId, modalObj) {
+        console.log(modalId);
+        console.log(modalObj);
+        var openBtn = document.querySelector(modalId);
+        var modal = document.querySelector("#" + modalObj + ">.modal");
+        var overlay = modal.querySelector(".modal_overlay");
+        var deleteBtn = modal.querySelector("button.deleteBtn");
+        var xBoxBtn = modal.querySelector("button.xBox");
+        var openModal = () => {
+          modal.classList.remove("hidden");
+        };
+        var closeModal = () => {
+          modal.classList.add("hidden");
+        };
+        //input에는 없는 overlay 클릭 -> close 기능
+        overlay.addEventListener("click", closeModal);
+        //모달창 열기 버튼
+        openBtn.addEventListener("click", openModal);
+        //모달창 닫기 버튼
+        xBoxBtn.addEventListener("click", closeModal);
+      }
+
+      function clickHandler(e) {
+        var targetAId = e.target.id;
+        console.log(targetAId);
+        if (targetAId == "openProfile") {
+          openTargetModal("#" + targetAId, "modalProfile");
+        }
+        if (targetAId == "openPwd") {
+          openTargetModal("#" + targetAId, "modalPwd");
+        }
+        if (targetAId == "modifyPhoneBtn") {
+          console.log(e.target.id);
+          openTargetModal("#" + targetAId, "modalPhone");
+        }
+      }
+
+      function init() {
+        for (var i = 0; i < targetObj.length; i++) {
+          targetObj[i].addEventListener("click", clickHandler);
+        }
+      }
+      init();
+    </script>
   </body>
 </html>

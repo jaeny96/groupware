@@ -87,8 +87,8 @@
 수정, 삭제, 각 일정 버튼마다 해당 화면이 노출되도록  
 -->
 <body>
-     <button id="open">모달창 열기</button>
-    <div class="modal ">
+     <!-- <button id="open">모달창 열기</button> -->
+    <div class="modal">
         <div class="modal_overlay"></div>
 
         <div class="modal_content">
@@ -154,12 +154,7 @@
         </div>
     </div>
     </div>
-
-
-
-
     <script>
-
         const openBtn = window.document.getElementById("open");
         const modal = document.querySelector(".modal");
         const overlay = modal.querySelector(".modal_overlay");
@@ -172,7 +167,6 @@
         const closeModal = () => {
             modal.classList.add("hidden");
         }
-
         const deleteSKD = () =>{
             window.alert('일정을 삭제하시겠습니까?');
         }
