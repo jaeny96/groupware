@@ -18,78 +18,81 @@
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
         var calendar = new FullCalendar.Calendar(calendarEl, {
-         initialView: 'dayGridMonth',
-         locale: 'ko',
-         editable: true,
-         eventLimit: true, /*달력상에 셀 크기보다 많은 이벤트가 등록되어 있는 경우 more로 표기*/
-        dayMaxEventRows:true,
-        customButtons: {
-          addeventButton:{
-            text: '일정 추가',
-            click:function(){
-              alert('일정생성 클릭');
-            }
+          initialView: "dayGridMonth",
+          locale: "ko",
+          editable: true,
+          eventLimit: true /*달력상에 셀 크기보다 많은 이벤트가 등록되어 있는 경우 more로 표기*/,
+          dayMaxEventRows: true,
+          customButtons: {
+            addeventButton: {
+              text: "일정 추가",
+              click: function () {
+                alert("일정생성 클릭");
+              },
+            },
+            teamSchedule: {
+              text: "공유 캘린더",
+            },
+            personalSchedule: {
+              text: "내 캘린더",
+            },
           },
-          teamSchedule:{
-            text: '공유 캘린더'
+          headerToolbar: {
+            left: "addeventButton teamSchedule personalSchedule",
+            center: "title",
+            right: "today prev,next",
           },
-          personalSchedule:{
-            text: '내 캘린더'
-          }
-        },
-       
-        headerToolbar:{
-          left: 'addeventButton teamSchedule personalSchedule',
-          center: 'title',
-          right: 'today prev,next'
-
-        }
-
         });
         calendar.render();
       });
-
-
     </script>
     <style>
-
       body {
         margin: 40px 10px;
         padding: 0;
         font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
         font-size: 14px;
       }
-    
+
       #calendar {
         max-width: 1100px;
         margin: 0 auto;
       }
 
-
-  .fc-addeventButton-button.fc-button-primary{
-    width: 100px;
-    height: 50px;
-  }
-  .fc-teamSchedule-button.fc-button-primary {
-  /* color: #fff;
+      .fc-addeventButton-button.fc-button-primary {
+        width: 100px;
+        height: 50px;
+      }
+      .fc-teamSchedule-button.fc-button-primary {
+        /* color: #fff;
   color: var(--fc-button-text-color, #fff); */
-  background-color: #abd612;
-  background-color: var(--fc-button-bg-color, #e49021);
-  border-color: #2c3e50;
-  border-color: var(--fc-button-border-color, #2b71b8);
-  
-}
-
-.fc-personalSchedule-button.fc-button-primary{
-  /* color: #fff;
+        background-color: #abd612;
+        background-color: var(--fc-button-bg-color, #e49021);
+        border-color: #2c3e50;
+        border-color: var(--fc-button-border-color, #2b71b8);
+      }
+      .fc-personalSchedule-button.fc-button-primary {
+        /* color: #fff;
   color: var(--fc-button-text-color, #fff); */
-  background-color: #abd612;
-  background-color: var(--fc-button-bg-color, #ecd44a);
-  border-color: #2c3e50;
-  border-color: var(--fc-button-border-color, #2b71b8);
-
-}
-    
+        background-color: #abd612;
+        background-color: var(--fc-button-bg-color, #ecd44a);
+        border-color: #2c3e50;
+        border-color: var(--fc-button-border-color, #2b71b8);
+      }
+      .card-body {
+        display: flex;
+        justify-content: flex-end;
+        max-width: 1300px;
+      }
+      .dropdown {
+        display: inline-block;
+      }
+      .dropdown-list > ul {
+        list-style: none;
+      }
+      .dropdown-menu > ul > li a {
+        display: block;
+      }
     </style>
   </head>
 
@@ -105,10 +108,30 @@
                 <h6 class="card-subtitle text-muted">
                   Simply beautiful open source icons
                 </h6> -->
-              </div>
-              <div class="card-body"></div>
-              <div id="calendar"></div>
             </div>
+            <div class="card-body">
+              <form>
+                <!-- <input
+                  type="text"
+                  list = "search_list"
+                  autocomplete="off"
+                  placeholder="일정 검색"
+                /> -->
+                <select name="search_type" style="height: 30px">
+                  <option value="none" selected>검색</option>
+                  <option value="period_search">기간 검색</option>
+                  <option value="content_search">제목 내용 검색</option>
+                </select>
+                <!-- <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">기간 검색</a>
+                <a class="dropdown-item" href="#">제목 내용 검색</a>
+              </div> -->
+                <button type="submit" method="get">
+                  <div class="fa fa-search"></div>
+                </button>
+              </form>
+            </div>
+            <div id="calendar"></div>
           </div>
         </main>
       </div>
