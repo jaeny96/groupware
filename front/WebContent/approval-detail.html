@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style></style>
+    <link href="css/app.css" rel="stylesheet" />
+
+    <link href="css/comment-modal.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid p-0" style="overflow: auto"></div>
+      <h1 class="fa fa-clipboard" style="  margin-left: 10px; margin-top: 20px">
+        전자결재
+      </h1>
+      <hr/>
+      
+      <h2
+        class="text-center font-weight-bolder"
+        style="margin-top: 40px; margin-bottom: 40px"
+      >
+        품의서
+      </h2>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="card">
+            <table class="table table-bordered align-middle">
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    문서 종류
+                  </td>
+                  <td style="width: 35%"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    문서 번호
+                  </td>
+                  <td style="width: 35%"></td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 부서
+                  </td>
+                  <td style="width: 35%"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    기안자
+                  </td>
+                  <td style="width: 35%"></td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 일시
+                  </td>
+                  <td style="width: 35%"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    완료 일시
+                  </td>
+                  <td style="width: 35%"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td
+                    rowspan="3"
+                    class="font-weight-bolder text-center"
+                    style="width: 10%; background-color: #f6f6f6"
+                  >
+                    결재
+                  </td>
+                  <td class="text-center" style="width: 30%">1</td>
+                  <td class="text-center" style="width: 30%">2</td>
+                  <td class="text-center" style="width: 30%">3</td>
+                </tr>
+                <tr onclick="event.cancelBubble = true" ;>
+                  <td style="width: 30%" class="text-center font-weight-bolder">
+                    <img src="img/icons/yes.png" width="100px" /><br />
+                    2021/07/06
+                  </td>
+                  <td
+                    onclick="event.cancelBubble = true";
+                    style="width: 30%"
+                    class="text-center"
+                  >
+                  <input
+                  onclick="button();"
+                  class="modal-btn"
+                  type="checkbox"
+                  id="modal-btn"
+                  name="modal-btn"
+                /> 
+                <label for="modal-btn"
+                  >승인 요망<i
+                    class="text-center"
+                    class="uil uil-expand-arrows"
+                  ></i
+                ></label>
+                <!--modal-->
+                <div class="modal">
+                  <div class="modal-wrap">
+                    <ol
+                      style="
+                        margin-top: 50px;
+                        margin-bottom: 50px;
+                        background-color: rgb(228, 225, 225);
+                      "
+                    >
+                      <li>
+                        <img src="img/icons/yes.png" alt="승인버튼" />
+                      </li>
+                      <li><img src="img/icons/no.png" alt="반려버튼" /></li>
+                    </ol>
+                    <h4 class="font-weight-bold text-center">
+                      코멘트를 작성해 주세요
+                    </h4>
+                    <div class="form-group">
+                      <textarea
+                        sytle="border:none "
+                        rows="5"
+                        cols="40"
+                        placeholder="This is a sample message"
+                      ></textarea>
+                    </div>
+                    <div class="row">
+                      <div style="text-align: right; margin-right: 40px">
+                        <button class="btn btn-purple font-weight-bold">
+                          취소
+                        </button>
+                        <button
+                          type="submit"
+                          class="
+                            btn btn-purple
+                            medium
+                            font-weight-bold
+                            margin-right:10px;
+                          "
+                        >
+                          확인
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                      <!--modal-->
+                  </td> 
+                  <td style="width: 30%" class="text-center"></td>
+                </tr>
+                <tr>
+                  <td style="width: 30%" class="text-center font-weight-bolder">
+                    티파니
+                  </td>
+                  <td
+                    style="width: 30%"
+                    class="text-center font-weight-bolder"
+                  ></td>
+                  <td
+                    style="width: 30%"
+                    class="text-center font-weight-bolder"
+                  ></td>
+                </tr>
+
+                <tr></tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 10%; background-color: #f6f6f6"
+                  >
+                    합의
+                  </td>
+                  <td class="font-weight-bolder" style="width: 90%">
+                    태연 <img src="img/icons/no.png" width="30px" />
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 10%; background-color: #f6f6f6"
+                  >
+                    참조
+                  </td>
+                  <td class="font-weight-bolder" style="width: 90%">
+                    수영
+                    <span class="fa fa-check" style="color: darkmagenta"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2
+            class="font-weight-bolder"
+            style="margin-left: 20px; margin-top: 70px; margin-bottom: 40px"
+          >
+            지출 결의서
+          </h2>
+
+          <div class="card">
+              <p style="text-align: center;">&nbsp;</p>
+              <p style="text-align: center;">결의서</p>
+              <p style="text-align: center;"></p>
+              <p style="text-align: center;">&nbsp;</p>
+              <table class=" table-bordered" style="width: 754.062px; height: 161px; margin-left: auto; margin-right: auto;">
+              <tbody>
+              <tr>
+              <td style="width: 91px;">결재내역</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 105px;">&nbsp;</td>
+              <td style="width: 282.062px;">&nbsp;</td>
+              </tr>
+              <tr>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 105px;">&nbsp;</td>
+              <td style="width: 282.062px;">&nbsp;</td>
+              </tr>
+              <tr>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 105px;">&nbsp;</td>
+              <td style="width: 282.062px;">&nbsp;</td>
+              </tr>
+              <tr>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 105px;">&nbsp;</td>
+              <td style="width: 282.062px;">&nbsp;</td>
+              </tr>
+              <tr>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 91px;">&nbsp;</td>
+              <td style="width: 105px;">&nbsp;</td>
+              <td style="width: 282.062px;">&nbsp;</td>
+              </tr>
+              </tbody>
+
+              
+              </table>
+            </p>
+            </div>
+          <div class="card" style="margin-top: 70px;">
+            <div class="card-header">
+              <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
+                의견
+              </h4>
+            </div>
+            <div class="card-body h-100" syt>
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong style="font-size: 1.3em"> 티파니 </strong>
+                  <small class="text-muted">2021-06-30 18:27</small>
+                  <br />
+                  <div class="border text-sm text-muted p-2 mt-1">
+                    좋습니다.
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong style="font-size: 1.3em"> 티파니 </strong>
+                  <small class="text-muted">2021-06-30 18:27</small>
+
+                  <div class="border text-sm text-muted p-2 mt-1">
+                    좋습니다.
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong style="font-size: 1.3em"> 티파니 </strong>
+                  <small class="text-muted">2021-06-30 18:27</small>
+
+                  <div class="border text-sm text-muted p-2 mt-1">
+                    좋습니다.
+                  </div>
+                </div>
+              </div>
+              <br />
+              <br />
+              <a href="#" class="btn btn-purple btn-block">더보기</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2"></div>
+  
+
+      </div>
+    </div>
+     
+  </body>
+
+
+</html>
