@@ -1,36 +1,42 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
 
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description"
-	content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-<meta name="author" content="AdminKit">
-<meta name="keywords"
-	content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="js/employee.js"></script>
+  </head>
 
-<link href="css/app.css" rel="stylesheet">
-</head>
-
-<body>
-	<div class="wrapper">
+  <body>
+    <!-- <div class="wrapper">
 		<div class="main">
 			<main class="content"> -->
-<div class="container-fluid p-0">
-  <h1 class="h3 mb-3">임직원 정보</h1>
-  <div class="row">
-    <div class="col-md-4 col-xl-3">
-      <div class="card mb-3">
-        <!-- <div class="card-header">
+    <div class="container-fluid p-0">
+      <h1 class="h3 mb-3">임직원 정보</h1>
+      <div class="row">
+        <div class="col-md-4 col-xl-3">
+          <div class="card mb-3">
+            <!-- <div class="card-header">
           <h5 class="card-title mb-0">Employee Details</h5>
         </div> -->
-        <div class="card-body text-left">
-          <!-- <img src="img/avatars/avatar-4.jpg" alt="Christina Mason"
+            <div class="card-body text-left">
+              <!-- <img src="img/avatars/avatar-4.jpg" alt="Christina Mason"
 										class="img-fluid rounded-circle mb-2" width="128" height="128" />
 									<h5 class="card-title mb-0">Christina Mason</h5>
 									<div class="text-muted mb-2">Lead Developer</div>
@@ -40,35 +46,61 @@
 											class="btn btn-primary btn-sm" href="#"><span
 											data-feather="message-square"></span> Message</a>
 									</div> -->
-          <!-- <nav id="sidebar" class="sidebar">
+              <!-- <nav id="sidebar" class="sidebar">
             <div class="sidebar-content js-simplebar"> -->
-          <ul class="sidebar-nav">
-            <li class="sidebar-item">
-              <a
-                data-target="#forms"
-                data-toggle="collapse"
-                class="sidebar-link-js collapsed"
+              <form
+                class="d-none d-sm-inline-block col-md-12 mb-2"
+                method="get"
+                action="board.html"
               >
-                <span class="align-middle-js">부서별</span>
-              </a>
-              <ul id="forms" class="sidebar-dropdown list-unstyled collapse">
-                <li class="sidebar-item">
-                  <a class="sidebar-link-js" href="forms-layouts.html"
-                    >경영지원실(1)</a
+                <div class="input-group input-group-navbar">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search…"
+                    aria-label="Search"
+                  />
+                  <button class="btn">
+                    <div class="fa fa-search"></div>
+                  </button>
+                </div>
+              </form>
+              <ul class="sidebar-nav">
+                <li class="sidebar-item navObj">
+                  <a
+                    data-target="#forms"
+                    data-toggle="collapse"
+                    class="sidebar-link-js collapsed pl-0"
                   >
-                </li>
-                <li class="sidebar-item">
-                  <a class="sidebar-link-js" href="forms-basic-inputs.html"
-                    >기획개발실(1)</a
+                    <span class="align-middle-js">부서별</span>
+                  </a>
+                  <ul
+                    id="forms"
+                    class="sidebar-dropdown list-unstyled collapse"
                   >
+                    <!-- <li class="sidebar-item">
+                      <a
+                        class="sidebar-link-js"
+                        id="MSD"
+                        href="forms-layouts.html"
+                        >경영지원실(1)</a
+                      >
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link-js"
+                        id="DEV"
+                        href="forms-basic-inputs.html"
+                        >기획개발실(1)</a
+                      >
+                    </li> -->
+                  </ul>
                 </li>
               </ul>
-            </li>
-          </ul>
-          <!-- </div>
+              <!-- </div>
           </nav> -->
-        </div>
-        <!-- <hr class="my-0" />
+            </div>
+            <!-- <hr class="my-0" />
         <div class="card-body">
           <h5 class="h6 card-title">Skills</h5>
           <a href="#" class="badge bg-primary mr-1 my-1">HTML</a>
@@ -126,17 +158,23 @@
             </li>
           </ul>
         </div> -->
-      </div>
-    </div>
-
-    <div class="col-md-8 col-xl-9">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="card-title mb-0">클릭한 부서명(사원수)</h5>
+          </div>
         </div>
-        <div class="card-body h-100">
-          사원정보 들어갈거임
-          <!-- <div class="d-flex align-items-start">
+
+        <div class="col-md-8 col-xl-9">
+          <div class="card deptContent">
+            <div class="card-header">
+              <h5 class="card-title mb-0 empHeader">클릭한 부서명(사원수)</h5>
+            </div>
+            <div class="card-body h-100 empBody">
+              <!-- <div class="d-flex align-items-start empContent"> -->
+              <!-- <div class="fa fa-user fa-3x mr-3"></div>
+                <div class="flex-grow-1 mr-2">
+                  이지은<br />
+                  <small class="text-muted">책임</small><br />
+                </div> -->
+              <!-- </div> -->
+              <!-- <div class="d-flex align-items-start">
             <img
               src="img/avatars/avatar-5.jpg"
               width="36"
@@ -306,11 +344,11 @@
           <hr />
           <a href="#" class="btn btn-primary btn-block">Load more</a>
         </div> -->
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- 			</main>
+      <!-- 			</main>
 		</div>
 	</div>
 	<script src="js/app.js"></script>
@@ -318,4 +356,6 @@
 </body>
 
 </html> -->
-</div>
+    </div>
+  </body>
+</html>

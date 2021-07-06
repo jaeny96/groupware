@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='./css/main.css' rel='stylesheet' />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src='./js/main.js'></script>
+    <title>Document</title>
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal_overlay {
+            background-color: rgba(0, 0, 0, 0.18);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        /* .modal_content {
+            position: relative;
+            top: 0px;
+            background-color: white;
+            padding: 25px 0px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            width: 500px;
+            height: 600px;
+        } */
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 20px 10px;
+        }
+
+        ul li {
+            height: 40px;
+        }
+
+        form li>span {
+            float: left;
+            width: 100px;
+
+        }
+
+        form li>div {
+            float: left;
+            width: 300px;
+
+        }
+
+        #content_box {
+            width: 300px;
+        }
+
+        .savediv {
+            clear: both;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buttonplace {
+            float: left;
+        }
+
+   
+    </style>
+
+</head>
+
+<!-- 구현 필요 기능
+수정, 삭제, 각 일정 버튼마다 해당 화면이 노출되도록  
+-->
+<body>
+     <button id="open">모달창 열기</button>
+    <div class="modal ">
+        <div class="modal_overlay"></div>
+
+        <div class="modal_content">
+           
+            <div class="card">
+               
+                    <div class="card-header">
+                        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                        border-radius: 7px;
+                        background-color: #6c757d; 
+                        color: white; cursor: pointer; ">X</button>
+                        <h4>일정 상세 내역</h4>
+                        
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:30%;">캘린더</th>
+                                <th style="width:70%">개인일정</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>종류</td>
+                                <td>업무</td>
+                            </tr>
+
+                            <tr>
+                                <td>시작 시간</td>
+                                <td>2021-07-01 13:00 </td>
+
+                            </tr>
+                            <tr>
+                                <td>종료 시간</td>
+                                <td>2021-07-01 14:00</td>
+
+                            </tr>
+                            <tr>
+                                <td>내용</td>
+                                <td>카페 디플레이스
+                                    이 과장 동행
+                                    최신 버전 홍보 관련 미팅
+                                </td>
+
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <!-- 수정 / 삭제  -->
+                    <div class="mb-3 row">
+                        <div style="text-align: center; margin: 10px 0;">
+                            <button class="btn btn-primary ">   수정   </button>
+                            
+                       
+                            <button class="btn btn-secondary deleteBtn"   >   삭제   </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <script>
+
+        const openBtn = window.document.getElementById("open");
+        const modal = document.querySelector(".modal");
+        const overlay = modal.querySelector(".modal_overlay");
+        const deleteBtn = modal.querySelector("button.deleteBtn");
+        const xBoxBtn = modal.querySelector("button.xBox");
+
+        const openModal = () => {
+            modal.classList.remove("hidden");
+        }
+        const closeModal = () => {
+            modal.classList.add("hidden");
+        }
+
+        const deleteSKD = () =>{
+            window.alert('일정을 삭제하시겠습니까?');
+        }
+        //input에는 없는 overlay 클릭 -> close 기능
+        overlay.addEventListener('click', closeModal);
+        //삭제 버튼
+        deleteBtn.addEventListener('click', deleteSKD);
+        //모달창 열기 버튼 
+        openBtn.addEventListener('click', openModal);
+        //모달창 닫기 버튼
+        xBoxBtn.addEventListener('click', closeModal);
+
+
+    </script>
+</body>
+
+</html>
