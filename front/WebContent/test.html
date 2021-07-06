@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가입</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/basic.css">
+
+    <style>
+        form.signup>label>span::after {
+            content: ' :';
+        }
+
+        .subbtn{
+            display: none;
+        }
+
+        form.signup input:focus{
+            background-color: azure ;
+        }
+
+        form.signup input{
+            outline: none;
+        }
+
+        input[name='pwd'], input.pwdconfirm, input[name='name'], input.baseaddr, input.detailaddr {
+            width: 100%;
+            padding: 12px 20px;
+            margin : 8px 0;
+        }
+
+        input.addrnum{
+            padding: 12px 20px;
+        }
+
+        input.detailaddr{
+            padding: 12px 20px;
+        }
+
+    </style>
+
+    <script>
+    $(function() {
+        var $duplBtn = $('button:first');
+        var $signupBtn = $('form>input.subbtn');
+        var $idInput = $('form>label>input[name=id]');
+
+        // var dupl = document.querySelector('input[name=id]').value();
+
+        // window.addEventListener('click', function() {
+        //     console.log(dupl.get)
+        // });
+
+        $duplBtn.click(function(){
+            //
+            var idValue = $('form>label>input[name=id]').val();
+
+            if(idValue=='id9'){
+                $signupBtn.show();
+            }else if(idValue=='admin'){
+                $idInput.focus();
+             }
+
+         });
+
+         
+        //  if( $idInput.focus()==true){
+        //         $signupBtn.hide();
+        //         return false;
+        //      }
+
+        var $addrSearch = $('form.signup button.addrSearch');
+    
+
+        $addrSearch.click(function(){
+            url = "./searchzip.html";
+            window.open(url, 'searchzip', "top=500, left=500,width=400, height=400");
+           
+        });
+     
+    })
+
+   
+            
+    </script>
+</head>
+
+<body>
+    <form method="POST" action="http://www.daum.net" class="signup">
+        <label>
+            <span>ID</span>
+            <input type="text" name="id" required placeholder="ID를 입력하세요.">
+        </label>
+        
+        <button class="duplBtn">ID 중복 확인</button>
+        
+        <br>
+
+
+
+        <label>
+            <span>PWD</span>
+            <input type="password" name="pwd" required ></label>
+
+            <br>
+    
+        
+        <label>   
+            <span>비밀번호 확인 </span>
+            <input type="password" class="pwdconfirm" required >
+        </label> <br>
+
+        <label>
+            <span>이름</span>
+            <input type="text" name="name" required >
+        </label>
+            <br>
+
+            <label>
+                <span>주소</span>
+                <input type="text" class="addrnum" name="우편번호" maxlength="5" required  readonly>
+            </label> 
+            <button class="addrSearch">우편번호 검색</button>
+                <br>
+
+            <input type="address" class="baseaddr" name="주소" readonly >
+            <br>
+            <input type="address" class="detailaddr" name="주소" required >
+            <br>
+
+            <input class="subbtn" type="submit" value="가입" name="가입" >
+    </form>
+
+</body>
+
+</html>
