@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='./css/main.css' rel='stylesheet' />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src='./js/main.js'></script>
+    <title>Document</title>
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal_overlay {
+            background-color: rgba(0, 0, 0, 0.18);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .modal_content {
+
+            width: 400px;
+            height: 300px;
+
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 20px 10px;
+        }
+
+        ul li {
+            height: 40px;
+        }
+
+        form li>span {
+            float: left;
+            width: 100px;
+
+        }
+
+        form li>div {
+            float: left;
+            width: 300px;
+
+        }
+
+        #content_box {
+            width: 300px;
+        }
+
+        .savediv {
+            clear: both;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buttonplace {
+            float: left;
+        }
+
+   
+    </style>
+
+</head>
+
+<!-- 구현 필요 기능
+수정, 삭제, 각 일정 버튼마다 해당 화면이 노출되도록  
+-->
+<body>
+     <button id="open">모달창 열기</button>
+    <div class="modal hidden">
+        <div class="modal_overlay"></div>
+
+        <div class="modal_content">
+           
+            <div class="card">
+               
+                    <div class="card-header">
+                        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                        border-radius: 7px;
+                        background-color: #6c757d; 
+                        color: white; cursor: pointer; ">X</button>
+                        <h4>일정 검색</h4>
+                        
+                    </div>
+                    <form action="">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:30%;">캘린더</th>
+                                <th style="width:70%;">
+                                <select name="캘린더" id="">
+                                    <option value="전체">전체캘린더</option>
+                                    <option value="공유">공유캘린더</option>
+                                    <option value="개인">내 캘린더</option>
+                                </select>
+                                
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>제목</td>
+                                <td><input type="text" ></td>
+                            </tr>
+
+                            <tr>
+                                <td>내용</td>
+                                <td><input type="text"> </td>
+
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </form>
+                    <!-- 수정 / 삭제  -->
+                    <div class="mb-3 row">
+                        <div style="text-align: center; margin: 10px 0;">
+                            <button class="btn btn-primary " type="submit">   검색   </button>
+                            
+                       
+                            <button class="btn btn-secondary cancelBtn"   >   취소   </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <script>
+
+        const openBtn = window.document.getElementById("open");
+        const modal = document.querySelector(".modal");
+        const overlay = modal.querySelector(".modal_overlay");
+        const cancelBtn = modal.querySelector("button.cancelBtn");
+        const xBoxBtn = modal.querySelector("button.xBox");
+
+        const openModal = () => {
+            modal.classList.remove("hidden");
+        }
+        const closeModal = () => {
+            modal.classList.add("hidden");
+        }
+
+        //input에는 없는 overlay 클릭 -> close 기능
+        overlay.addEventListener('click', closeModal);
+        //모달창닫기
+        cancelBtn.addEventListener('click', closeModal);
+        //모달창 열기 버튼 
+        openBtn.addEventListener('click', openModal);
+        //모달창 닫기 버튼
+        xBoxBtn.addEventListener('click', closeModal);
+
+
+    </script>
+</body>
+
+</html>

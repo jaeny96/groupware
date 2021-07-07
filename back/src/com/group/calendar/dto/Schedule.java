@@ -1,14 +1,12 @@
 package com.group.calendar.dto;
 
-
-
 import java.sql.Timestamp;
 
 import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
-
 public class Schedule {
 
+	//일단 Employee skd_id, Department department_id를 String으로 
 public int skd_no;
 public Employee skd_id;
 public ScheduleType skd_type;
@@ -19,16 +17,6 @@ public Timestamp skd_start_date;
 public Timestamp skd_end_date;
 public String skd_share;
 
-
-
-
-public Schedule() {
-	super();
-	// TODO Auto-generated constructor stub
-}
-
-
-
 public Schedule(Employee skd_id, String skd_title, String skd_content) {		
 	super();
 	this.skd_id = skd_id;
@@ -37,17 +25,43 @@ public Schedule(Employee skd_id, String skd_title, String skd_content) {
 }
 
 
-
 public Schedule(Employee skd_id, Timestamp skd_start_date) {
-	super();
 	this.skd_id = skd_id;
 	this.skd_start_date = skd_start_date;
 }
 
+//
+public Schedule() {};
 
 
-public Schedule(int skd_no, Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content,
-		Timestamp skd_date, Timestamp skd_start_date, Timestamp skd_end_date, String skd_share) {
+//delete용 DTO 
+public Schedule(int skd_no, Employee skd_id) {	
+
+	this(skd_no, skd_id, null, null, null, null, null,null,null);
+}
+
+//update용 DTO
+public Schedule(ScheduleType skd_type, String skd_title, String skd_content, Timestamp skd_start_date, Timestamp skd_end_date,
+		String skd_share) {
+	this(0, null, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share);
+}
+
+//일정추가용 DTO insertSchedule에 활용 
+public Schedule(Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content, 
+		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share){
+	
+	this(0, skd_id, skd_type, skd_title, skd_content, null, skd_start_date, skd_end_date, skd_share);
+	
+}
+
+//메인용
+public Schedule(String skd_title, Timestamp skd_start_date) {
+    this(null, null, skd_title, null, skd_start_date, null, null);
+ }
+
+
+public Schedule(int skd_no, Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content, Timestamp skd_date,
+		Timestamp skd_start_date, Timestamp skd_end_date, String skd_share) {
 	super();
 	this.skd_no = skd_no;
 	this.skd_id = skd_id;
@@ -139,15 +153,5 @@ public String toString() {
 			+ ", skd_content=" + skd_content + ", skd_date=" + skd_date + ", skd_start_date=" + skd_start_date
 			+ ", skd_end_date=" + skd_end_date + ", skd_share=" + skd_share + "]";
 }
-
-
-
-
-
-
-
-
-
-
 
 }

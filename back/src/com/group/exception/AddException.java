@@ -5,4 +5,3 @@ public class AddException extends Exception{
 		super(message);
 	}
 }
-

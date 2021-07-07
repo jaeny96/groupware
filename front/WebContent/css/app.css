@@ -4039,7 +4039,7 @@ fieldset:disabled .btn {
   color: #fff;
 }
 .card {
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   min-width: 0;
