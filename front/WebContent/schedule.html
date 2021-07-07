@@ -13,19 +13,22 @@
   <script src="js/locales-all.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
-  <script >
+  <script>
+    //calendar 전역번수로 선언 
+    var calendar = null;
     //html 로드 후 javascript 로드 
-    document.addEventListener("DOMContentLoaded", function () {
+    $(document).ready(function () {
       //calendar id를 가진div 객체를 변수에 담기
       var calendarEl = document.getElementById("calendar");
-     //풀 캘린더를 활성화
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-      
+      //풀 캘린더를 활성화
+      calendar = new FullCalendar.Calendar(calendarEl, {
+
         initialView: 'dayGridMonth', //1~31 달력 
         locale: 'ko',
-        editable: true,
+        editable: true, // 일정 수정 가능 여부
         eventLimit: true, /*달력상에 셀 크기보다 많은 이벤트가 등록되어 있는 경우 more로 표기*/
         dayMaxEventRows: true,
+        
         customButtons: {
           addeventButton: {
             text: '일정 추가',
@@ -46,44 +49,140 @@
             class: 'personalSchedule'
           }
         },
-
+        //left, center, right 구조 바꾸도록 함 
         headerToolbar: {
           left: 'addeventButton teamSchedule personalSchedule',
           center: 'title',
           right: 'today prev,next'
 
-        }});
+        },
+        //하루 스케쥴 추가, ajax로 작업하기 
+        events: [
+          { //개인캘린더
+            title: '회의',
+            start: '2021-07-01 12:30', 
+            end: '2021-07-01 3:30',
+            backgroundColor: '#28a745'
+          },
+
+          { 
+            //개인캘린더
+            title: '업무',
+            start: '2021-07-01 11:30', 
+            end: '2021-07-01 3:30', 
+            backgroundColor:'#ffc107'
+          },
+
+          {
+            title: '부산출장',
+            start: '2021-07-05 12:30', 
+            end: '2021-07-07 13:30',
+            backgroundColor:'#ffc107',
+            borderColor: '#ffc107'
+          },
+        ],
+
+        eventClick: function(info) {
+          alert('Event: ' + info.event.title);
+          alert('View: ' + info.view.type);
 
 
-    // //모달창을 여는 버튼 객체
-    // const openBtn = document.querySelector("#calendar > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr > div:nth-child(1) > button.fc-addeventButton-button.fc-button.fc-button-primary");
-    // console.log(openBtn);
- 
-    //모달창 객체
-   // const modal = document.querySelector(".modal");
-    //모달창을 닫는 객체
-   // const closeBtn = modal.querySelector("button.cancel");
+  }
 
-    // // 모달창을 여는 함수
-    // const openModal = () => {
-    //   modal.classList.remove("hidden");
-    // }
+      });
 
-    // //모달창을 닫는 함수
-    // const closeModal = () => {
-    //   modal.classList.add("hidden");
-    // }
-    // //클릭 이벤트 선언
-    // closeBtn.addEventListener('click', closeModal);
-    // openBtn.addEventListener('click', openModal);
 
-    //모든 코드를 실행 후 캘린더를 렌더링
+      //         var calendar2 = null;
+      //         calendar2 = new FullCalendar.Calendar(calendarEl, {
+      //   events: [
+      //     {
+      //       title  : 'event1',
+      //       start  : '2010-01-01'
+      //     },
+      //     {
+      //       title  : 'event2',
+      //       start  : '2010-01-05',
+      //       end    : '2010-01-07'
+      //     },
+      //     {
+      //       title  : 'event3',
+      //       start  : '2010-01-09T12:30:00',
+      //       allDay : false // will make the time show
+      //     }
+      //   ]
+      // });
+      // //모달창을 여는 버튼 객체
+      // const openBtn = document.querySelector("#calendar > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr > div:nth-child(1) > button.fc-addeventButton-button.fc-button.fc-button-primary");
+      // console.log(openBtn);
+
+      //모달창 객체
+      // const modal = document.querySelector(".modal");
+      //모달창을 닫는 객체
+      // const closeBtn = modal.querySelector("button.cancel");
+
+      // // 모달창을 여는 함수
+      // const openModal = () => {
+      //   modal.classList.remove("hidden");
+      // }
+
+      // //모달창을 닫는 함수
+      // const closeModal = () => {
+      //   modal.classList.add("hidden");
+      // }
+      // //클릭 이벤트 선언
+      // closeBtn.addEventListener('click', closeModal);
+      // openBtn.addEventListener('click', openModal);
+
+      //모든 코드를 실행 후 캘린더를 렌더링
       calendar.render();
     });
 
-  
 
-   
+    var calendar = new Calendar(calendarEl, {
+      events: [
+        { // this object will be "parsed" into an Event Object
+          title: 'The Title', // a property!
+          start: '2021-07-01', // a property!
+          end: '2021-07-02' // a property! ** see important note below about 'end' **
+        }
+      ]
+    })
+    //전체 저장 함수, 나한테 전체 저장은 필요 없고 형식만 가져오면 됨
+    // function allSave(){
+    //   var allEvent = calendar.getEvents();
+    //  // console.log(allEvent);//테스트 
+
+    //  var events =new Array();
+    //   for(var i=0; i<allEvent.length; i++){
+
+    //     var obj = new Object(); // 아래 데이터를 담을 객체 만들기 
+    //     obj.title = allEvent[i]._def.title;
+    //     obj.allday = allEvent[i]._def.allday;
+    //     obj.start = allEvent[i]._instance.range.start;
+    //     obj.end = allEvent[i].instsance.range.end; //obj의 변수에 넣기
+
+    //      //모든 이벤트가 없어질 때까지,타이틀 갖고오기 테스트vlfdy
+    //      events.push(obj);// 배열에 obj넣기 
+    //   }
+
+    //      // events를 서버에 전송할 때 문자열 형태로넘겨야 해서 String으로 변환할 필ㄹ요가 있음 
+    // var jsondata = JSON.Stringify(events);
+    // console.log(jsondata); //jsondata 콘솔테스트
+
+    // savedata(jsondata); //savedata 메서드에 jsondata 넣기 
+    // }
+
+    // //ajax넣기 
+    // function savedata(jsondata){
+    //   $.ajax
+    // } 
+
+
+
+    //데이터베이스에 저장할 데이터추출하기 
+    //title, start, end 등 라이브러리에서 갖고 오는 
+
+
   </script>
   <style>
     body {
@@ -198,11 +297,7 @@
 
     }
 
-    .card-body {
-      display: flex;
-      justify-content: flex-end;
-      
-    }
+    .card-body {}
 
     .modal {
       position: fixed;
@@ -307,6 +402,7 @@
   </div>
   </div>
 
+  <!-- 모달창 -->
   <div class="modal hidden">
     <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
     <div class="modal_overlay"></div>
@@ -338,12 +434,14 @@
                 <input type="text" class="form-control">
               </div>
             </div>
+            <!-- 시작 -->
             <div class="mb-3 row">
               <label class="col-form-label col-sm-2 text-sm-right">시작</label>
               <div class="col-sm-10">
+                <!-- 날짜 -->
                 <input type="date" style="width: 50%; border: 1px solid #ced4da;">
 
-
+                <!-- 시작시간 -->
                 <select name="start_time" id="__start_time" style="width:40%; border: 1px solid #ced4da;">
                   <option value="00:00">00:00</option>
                   <option value="00:30">00:30</option>
@@ -396,12 +494,15 @@
                 </select>
               </div>
             </div>
+            <!-- 종료 -->
             <div class="mb-3 row">
               <label class="col-form-label col-sm-2 text-sm-right">종료</label>
+
+              <!-- 종료날짜 -->
               <div class="col-sm-10">
                 <input type="date" style="width: 50%; border: 1px solid #ced4da;">
 
-
+                <!-- 종료시간 -->
                 <select name="end_time" id="__end_time" style="width:40%; border: 1px solid #ced4da; ">
                   <option value="00:00">12:00</option>
                   <option value="00:30">12:30</option>
@@ -454,20 +555,25 @@
                 </select>
               </div>
             </div>
+            <!-- 내용 -->
             <div class="mb-3 row">
               <label class="col-form-label col-sm-2 text-sm-right">내용</label>
               <div class="col-sm-10">
+                <!-- 텍스트박스 -->
                 <textarea class="form-control" rows="10"></textarea>
               </div>
             </div>
+            <!-- 팀일정, 개인일정 설정 -->
             <fieldset class="mb-3">
               <div class="row">
                 <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">캘린더</label>
                 <div class="col-sm-10">
                   <label class="form-check">
+                    <!-- 개인일정 -->
                     <input name="radio-3" type="radio" class="form-check-input" checked="">
                     <span class="form-check-label">개인일정</span>
                   </label>
+                  <!-- 팀일정 -->
                   <label class="form-check">
                     <input name="radio-3" type="radio" class="form-check-input">
                     <span class="form-check-label">팀일정</span>
@@ -476,6 +582,8 @@
                 </div>
               </div>
             </fieldset>
+
+            <!-- 저장 , 취소박스-->
             <div class="mb-3 row">
               <div style="text-align: center; margin: 10px 0;">
                 <button type="submit" class="btn btn-primary "> 저장 </button>
