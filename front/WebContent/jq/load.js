@@ -1,8 +1,6 @@
 //main-form 에서 적용할 내용
 $(function () {
   var $content = $("div.wrapper>div.main>main.content");
-  // //main-form 로드 되자마자 main.html 페이지 불러오기
-  // $content.load("main.html");
 
   //sidebar menu Obj 찾기
   var $menuObj = $(
@@ -12,7 +10,6 @@ $(function () {
   var $scheduleBtnObj = $(
     "div.wrapper>div.main>main.content div.row div.scheduleBtn"
   );
-  console.log($scheduleBtnObj);
 
   $menuObj.click(function () {
     //sidebar-item 활성화 모두 풀기
@@ -27,8 +24,6 @@ $(function () {
       case "employee.html":
       case "profile.html":
       case "pages-settings.html":
-      // case "board-register.html":
-      case "main.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
         $(this).closest("li").attr("class", "sidebar-item active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {

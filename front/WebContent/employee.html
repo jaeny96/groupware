@@ -42,6 +42,10 @@
         display: none;
       }
 
+      .modal_content {
+        width: 300px;
+      }
+
       .modal ul {
         list-style: none;
         padding: 20px 10px;
@@ -97,7 +101,7 @@
                     placeholder="Search…"
                     aria-label="Search"
                   />
-                  <button class="btn">
+                  <button class="btn empSearchBtn">
                     <div class="fa fa-search"></div>
                   </button>
                 </div>
@@ -149,41 +153,32 @@
               >
                 X
               </button>
-              <h4>일정 상세 내역</h4>
+              <h4>이름</h4>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="width: 30%">캘린더</th>
-                  <th style="width: 70%">개인일정</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>종류</td>
-                  <td>업무</td>
-                </tr>
-
-                <tr>
-                  <td>시작 시간</td>
-                  <td>2021-07-01 13:00</td>
-                </tr>
-                <tr>
-                  <td>종료 시간</td>
-                  <td>2021-07-01 14:00</td>
-                </tr>
-                <tr>
-                  <td>내용</td>
-                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- 수정 / 삭제  -->
-            <div class="mb-3 row">
-              <div style="text-align: center; margin: 10px 0">
-                <button class="btn btn-primary">수정</button>
-
-                <button class="btn btn-secondary deleteBtn">삭제</button>
+            <div class="card-body h-100 cardBody">
+              <div class="d-flex align-items-start" id="position">
+                <strong>직책</strong>
+                <div class="flex-grow-1 ml-3 mb-2">직책명</div>
+              </div>
+              <div class="d-flex align-items-start" id="employeeId">
+                <strong>사번</strong>
+                <div class="flex-grow-1 ml-3 mb-2">사번</div>
+              </div>
+              <div class="d-flex align-items-start" id="department">
+                <strong>부서</strong>
+                <div class="flex-grow-1 ml-3 mb-2">부서명</div>
+              </div>
+              <div class="d-flex align-items-start" id="job">
+                <strong>직무</strong>
+                <div class="flex-grow-1 ml-3 mb-2">직무명</div>
+              </div>
+              <div class="d-flex align-items-start" id="phoneNum">
+                <strong>연락처</strong>
+                <div class="flex-grow-0 ml-3 mb-2">연락처</div>
+              </div>
+              <div class="d-flex align-items-start" id="email">
+                <strong>이메일</strong>
+                <div class="flex-grow-1 ml-3 mb-2">이메일</div>
               </div>
             </div>
           </div>

@@ -32,11 +32,7 @@
         <main class="content"> -->
     <div class="container-fluid p-0">
       <h1 class="h3 mb-3">게시판</h1>
-      <form
-        class="d-none d-sm-inline-block col-md-3"
-        method="get"
-        action="board.html"
-      >
+      <form class="d-none d-sm-inline-block col-md-3" method="get" action="#">
         <div class="input-group input-group-navbar">
           <div>
             <div class="btn-group btn-group-sm">
@@ -62,7 +58,7 @@
             aria-label="Search"
             style="width: 50%"
           />
-          <button class="btn">
+          <button class="btn bdSearchBtn">
             <div class="fa fa-search"></div>
           </button>
         </div>
@@ -74,12 +70,6 @@
               <a class="btn btn-primary btn-sm" href="board-register.html"
                 >글쓰기</a
               >
-              <!-- <h5 class="card-title">Always responsive</h5>
-                    <h6 class="card-subtitle text-muted">
-                      Across every breakpoint, use
-                      <code>.table-responsive</code>
-                      for horizontally scrolling tables.
-                    </h6> -->
             </div>
             <div class="table-responsive">
               <table class="table mb-0 text-center">
@@ -91,33 +81,7 @@
                     <th scope="col">작성일</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>
-                      <a
-                        class="sidebar-link-js"
-                        style="color: black"
-                        href="board-detail.html"
-                        >Cell</a
-                      >
-                    </td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                </tbody>
+                <tbody class="bdTbody"></tbody>
               </table>
             </div>
           </div>

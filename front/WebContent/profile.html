@@ -167,41 +167,28 @@
               >
                 X
               </button>
-              <h4>일정 상세 내역</h4>
+              <h4 class="mt-2">프로필 변경</h4>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="width: 30%">캘린더</th>
-                  <th style="width: 70%">개인일정</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>종류</td>
-                  <td>업무</td>
-                </tr>
-
-                <tr>
-                  <td>시작 시간</td>
-                  <td>2021-07-01 13:00</td>
-                </tr>
-                <tr>
-                  <td>종료 시간</td>
-                  <td>2021-07-01 14:00</td>
-                </tr>
-                <tr>
-                  <td>내용</td>
-                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- 수정 / 삭제  -->
-            <div class="mb-3 row">
+            <div class="card-body h-100 cardBody">
               <div style="text-align: center; margin: 10px 0">
-                <button class="btn btn-primary">수정</button>
-
-                <button class="btn btn-secondary deleteBtn">삭제</button>
+                <img
+                  src="img/avatars/avatar-4.jpg"
+                  alt="Christina Mason"
+                  class="img-fluid rounded-circle mb-2"
+                  width="128"
+                  height="128"
+                  style="text-align: center"
+                />
+                <form>
+                  <div class="d-flex align-items-start" id="modifyProfileImg">
+                    <div class="flex-grow-1 ml-3 mb-2 mt-3">
+                      <input type="file" name="modiImg" id="modiImg" />
+                    </div>
+                  </div>
+                  <div style="text-align: center; margin: 10px 0">
+                    <button class="btn btn-secondary okBtn">확인</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -227,42 +214,28 @@
               >
                 X
               </button>
-              <h4>일정 상세 내역</h4>
+              <h4 class="mt-2">비밀번호 변경</h4>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="width: 30%">캘린더</th>
-                  <th style="width: 70%">개인일정</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>종류</td>
-                  <td>업무</td>
-                </tr>
-
-                <tr>
-                  <td>시작 시간</td>
-                  <td>2021-07-01 13:00</td>
-                </tr>
-                <tr>
-                  <td>종료 시간</td>
-                  <td>2021-07-01 14:00</td>
-                </tr>
-                <tr>
-                  <td>내용</td>
-                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- 수정 / 삭제  -->
-            <div class="mb-3 row">
-              <div style="text-align: center; margin: 10px 0">
-                <button class="btn btn-primary">수정</button>
-
-                <button class="btn btn-secondary deleteBtn">삭제</button>
+            <div class="card-body h-100 cardBody">
+              <div class="d-flex align-items-start mb-3" id="pwd">
+                <strong>기존 비밀번호</strong>
+                <div class="flex-grow-1 ml-3 mb-2 originPwd"></div>
               </div>
+              <form>
+                <div class="d-flex align-items-start" id="modifyPwd">
+                  <strong>변경할 비밀번호</strong>
+                  <div class="flex-grow-1 ml-3 mb-2">
+                    <input
+                      type="text"
+                      name="modiPhoneNum"
+                      id=" modifyPhoneNum"
+                    />
+                  </div>
+                </div>
+                <div style="text-align: center; margin: 10px 0">
+                  <button class="btn btn-secondary okBtn">확인</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -287,42 +260,28 @@
               >
                 X
               </button>
-              <h4>일정 상세 내역</h4>
+              <h4 class="mt-2">연락처 변경</h4>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th style="width: 30%">캘린더</th>
-                  <th style="width: 70%">개인일정</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>종류</td>
-                  <td>업무</td>
-                </tr>
-
-                <tr>
-                  <td>시작 시간</td>
-                  <td>2021-07-01 13:00</td>
-                </tr>
-                <tr>
-                  <td>종료 시간</td>
-                  <td>2021-07-01 14:00</td>
-                </tr>
-                <tr>
-                  <td>내용</td>
-                  <td>카페 디플레이스 이 과장 동행 최신 버전 홍보 관련 미팅</td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- 수정 / 삭제  -->
-            <div class="mb-3 row">
-              <div style="text-align: center; margin: 10px 0">
-                <button class="btn btn-primary">수정</button>
-
-                <button class="btn btn-secondary deleteBtn">삭제</button>
+            <div class="card-body h-100 cardBody">
+              <div class="d-flex align-items-start mb-3" id="phoneNum">
+                <strong>기존 연락처</strong>
+                <div class="flex-grow-1 ml-3 mb-2 originPhoneNum"></div>
               </div>
+              <form>
+                <div class="d-flex align-items-start" id="modifyPhoneNum">
+                  <strong>변경할 연락처</strong>
+                  <div class="flex-grow-1 ml-3 mb-2">
+                    <input
+                      type="text"
+                      name="modiPhoneNum"
+                      id=" modifyPhoneNum"
+                    />
+                  </div>
+                </div>
+                <div style="text-align: center; margin: 10px 0">
+                  <button class="btn btn-secondary okBtn">확인</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
