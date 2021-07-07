@@ -1,0 +1,119 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <title>Tables | AdminKit Demo</title>
+
+    <link href="./css/main.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="./js/main.js"></script>
+    <script src="js/locales-all.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <style>
+      .input-group-navbar .btn,
+      .input-group-navbar .form-control {
+        float: right;
+        height: calc(2.1875rem + 2px);
+        background: #ffffff;
+        box-shadow: none;
+        border: 0;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+      }
+
+      .input-group > .form-control,
+      .input-group > .form-select {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid p-0">
+      <h3 class="fa fa-search" style="margin-left: 10px; margin-top: 20px">
+        검색 결과
+      </h3>
+      <hr />
+      <div class="col-sm-3" style="margin-left: 20px"></div>
+      <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3" style="margin-bottom: 15px"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="card shceduleContent">
+            <div class="table-responsive">
+              <table class="table mb-0 text-center">
+                <thead style="background-color: #f6f6f6">
+                  <tr>
+                    <th scope="col" style="width: 30%">일자</th>
+                    <th colsapn="2" scope="col" style="width: 30%">일정</th>
+                    <th scope="col" style="width: 40%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="date">21.06.16(수)</th>
+                    <td>오후 6:00~오후 2:00</td>
+                    <td>요구사항정의서 제출</td>
+                  </tr>
+                  <tr>
+                    <th scope="date">2</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                  </tr>
+                  <tr>
+                    <th scope="date">3</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="container-fluid">
+        <div class="row text-muted">
+          <div class="text-center">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>prev</strong></a
+                >
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">1</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">2</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">3</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">4</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>next</strong></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
