@@ -48,9 +48,12 @@ function insertMainLeaveElement() {
 function createMainSkdElement(i) {
   var tr = document.createElement("tr");
   var tdSkdDate = document.createElement("td");
-  tdSkdDate.innerHTML = mainSkdDate[i];
+  var tdSkdDateCenter = document.createElement("center");
+  tdSkdDateCenter.innerHTML = mainSkdDate[i];
+  tdSkdDate.appendChild(tdSkdDateCenter);
   var tdSkdTitle = document.createElement("td");
   tdSkdTitle.innerHTML = mainSkdTitle[i];
+  tdSkdTitle.setAttribute("style", "width:80%");
   // var tdSkdTitleA = document.createElement("a");
   // tdSkdTitleA.innerHTML = mainSkdTitle[i];
   // tdSkdTitleA.setAttribute("class", "sidebar-link-js");
