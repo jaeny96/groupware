@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='./css/main.css' rel='stylesheet' />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src='./js/main.js'></script>
+    <title>Document</title>
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal_overlay {
+            background-color: rgba(0, 0, 0, 0.18);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .modal_content {
+            position: relative;
+            top: 0px;
+            background-color: white;
+            padding: 25px 0px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            width: 500px;
+            height: 700px;
+
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            list-style: none;
+            padding: 20px 10px;
+        }
+
+        ul li {
+            height: 40px;
+        }
+
+        form li>span {
+            float: left;
+            width: 100px;
+
+        }
+
+        form li>div {
+            float: left;
+            width: 300px;
+
+        }
+
+        #content_box {
+            width: 300px;
+        }
+
+        
+    </style>
+
+</head>
+<!-- 구현 필요 기능
+-저장 기능
+-modalOutput.html에서 수정 요청 들어올 시 수정할 수 있도록 
+-저장 -->
+<body>
+  <button id="open">모달창 열기</button>
+   <!-- advice :modal div 의 클래스에 hidden을 추가, 제거함으로써 모달 효과를 낼 수 있습니다. -->
+    <div class="modal hidden">
+        <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
+        <div class="modal_overlay"></div>
+        <!-- advice: 내용은 여기에 담깁니다 -->
+        <div class="modal_content">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>일정 추가</h4>
+                      
+                    </div>
+                    <div class="card-body">
+                        <form>
+                         
+                            <div class="mb-3 row">
+                                <label class="col-form-label col-sm-2 text-sm-right">종류</label>
+                                <div class="col-sm-10">
+                                    <select name="start_time" id="__start_time" style="width:40%; border: 1px solid #ced4da;" >
+                                        <option value="업무">업무</option>
+                                        <option value="외근">외근</option>
+                                        <option value="출장">출장</option>
+                                        <option value="회의">회의</option>
+                                        <option value="휴가">휴가</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-form-label col-sm-2 text-sm-right">제목</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-form-label col-sm-2 text-sm-right">시작</label>
+                                <div class="col-sm-10">
+                                    <input type="date" style="width: 50%; border: 1px solid #ced4da;">
+                               
+                                 
+                                    <select name="start_time" id="__start_time" style="width:40%; border: 1px solid #ced4da;" >
+                                        <option value="00:00">00:00</option>
+                                        <option value="00:30">00:30</option>
+                                        <option value="01:00">01:00</option>
+                                        <option value="01:30">01:30</option>
+                                        <option value="02:00">02:00</option>
+                                        <option value="02:30">02:30</option>
+                                        <option value="03:00">03:00</option>
+                                        <option value="03:30">03:30</option>
+                                        <option value="04:00">04:00</option>
+                                        <option value="04:30">04:30</option>
+                                        <option value="05:00">05:00</option>
+                                        <option value="05:30">05:30</option>
+                                        <option value="06:00">06:00</option>
+                                        <option value="06:30">06:30</option>
+                                        <option value="07:00">07:00</option>
+                                        <option value="07:30">07:30</option>
+                                        <option value="08:00">08:00</option>
+                                        <option value="08:30">08:30</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="09:30">09:30</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="10:30">10:30</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="11:30">11:30</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="12:30">12:30</option>
+                                        value="13:00">13:00</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="14:30">14:30</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="15:30">15:30</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="16:30">16:30</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="17:30">17:30</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="18:30">18:30</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="19:30">19:30</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="20:30">20:30</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="21:30">21:30</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="22:30">22:30</option>
+                                        <option value="23:00">23:00</option>
+                                        <option value="23:30">23:30</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-form-label col-sm-2 text-sm-right">종료</label>
+                                <div class="col-sm-10">
+                                    <input type="date" style="width: 50%; border: 1px solid #ced4da;">
+                               
+                                 
+                                    <select name="end_time" id="__end_time" style="width:40%; border: 1px solid #ced4da; " >
+                                        <option value="00:00">12:00</option>
+                                        <option value="00:30">12:30</option>
+                                        <option value="01:00">01:00</option>
+                                        <option value="01:30">01:30</option>
+                                        <option value="02:00">02:00</option>
+                                        <option value="02:30">02:30</option>
+                                        <option value="03:00">03:00</option>
+                                        <option value="03:30">03:30</option>
+                                        <option value="04:00">04:00</option>
+                                        <option value="04:30">04:30</option>
+                                        <option value="05:00">05:00</option>
+                                        <option value="05:30">05:30</option>
+                                        <option value="06:00">06:00</option>
+                                        <option value="06:30">06:30</option>
+                                        <option value="07:00">07:00</option>
+                                        <option value="07:30">07:30</option>
+                                        <option value="08:00">08:00</option>
+                                        <option value="08:30">08:30</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="09:30">09:30</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="10:30">10:30</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="11:30">11:30</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="12:30">12:30</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="14:30">14:30</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="15:30">15:30</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="16:30">16:30</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="17:30">17:30</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="18:30">18:30</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="19:30">19:30</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="20:30">20:30</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="21:30">21:30</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="22:30">22:30</option>
+                                        <option value="23:00">23:00</option>
+                                        <option value="23:30">23:30</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-form-label col-sm-2 text-sm-right">내용</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control"  rows="10"></textarea>
+                                </div>
+                            </div>
+                            <fieldset class="mb-3">
+                                <div class="row">
+                                    <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">캘린더</label>
+                                    <div class="col-sm-10">
+                                        <label class="form-check">
+                                            <input name="radio-3" type="radio" class="form-check-input" checked="">
+                                            <span class="form-check-label">개인일정</span>
+                                        </label>
+                                        <label class="form-check">
+                                            <input name="radio-3" type="radio" class="form-check-input">
+                                            <span class="form-check-label">팀일정</span>
+                                        </label>
+                                
+                                    </div>
+                                </div>
+                            </fieldset>
+                              <div class="mb-3 row">
+                                <div style="text-align: center; margin: 10px 0;">
+                                    <button type="submit" class="btn btn-primary ">   저장   </button>
+                                
+                         
+                                    <button class="btn btn-secondary cancel"   >   취소   
+                                    </button>
+                                </div>
+                            </div>
+                          
+                        </form>
+                    </div>
+                </div>
+
+            <!-- <div class="savediv">
+                <button type="submit" class="save btn-primary">저장</button>
+                <button class="close">취소</button>
+            </div> -->
+        </div>
+    </div>
+
+
+
+
+    <script>
+        //모달창을 여는 버튼 객체
+        const openBtn = window.document.getElementById("open");
+        //모달창 객체
+        const modal = document.querySelector(".modal");
+        //모달창을 닫는 객체
+        const closeBtn = modal.querySelector("button.cancel");
+
+        // 모달창을 여는 함수
+        const openModal = () => {
+            modal.classList.remove("hidden");
+        }
+
+        //모달창을 닫는 함수
+        const closeModal = () => {
+            modal.classList.add("hidden");
+        }
+        //클릭 이벤트 선언
+        closeBtn.addEventListener('click', closeModal);
+        openBtn.addEventListener('click', openModal);
+
+
+
+    </script>
+</body>
+
+</html>

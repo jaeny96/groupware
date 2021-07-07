@@ -1,14 +1,14 @@
 package com.group.calendar.dto;
 
 public class ScheduleType {
-	public String skd_type;
+	   public String skd_type;
 
-	//++지수 추가
-	public ScheduleType() {
+	   public ScheduleType() {
+		
 	}
-
+	
 	public ScheduleType(String skd_type) {
-		super();
+		
 		this.skd_type = skd_type;
 	}
 
@@ -22,7 +22,8 @@ public class ScheduleType {
 
 	@Override
 	public String toString() {
-		return "ScheduleType [skd_type=" + skd_type + "]";
-	}
-	//++
+		return ""+skd_type+"";
+	}	   
+	
+	   
 }
