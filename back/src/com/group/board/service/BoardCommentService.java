@@ -84,17 +84,17 @@ public class BoardCommentService {
 	}
 
 	public static void main(String[] args) {
-//		String bd_no = "BD2";
-//		List<BoardComment> cmList;
-//		try {
-//			cmList = service.showCm(bd_no);
-//			for (BoardComment cm : cmList) {
-//				System.out.println(cm.getBd_no() + "/" + cm.getCm_no() + "/" + cm.getCm_writer().getEmployee_id() + "/"
-//						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + cm.getCm_date());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		String bd_no = "BD2";
+		List<BoardComment> cmList;
+		try {
+			cmList = service.showCm(bd_no);
+			for (BoardComment cm : cmList) {
+				System.out.println(cm.getBd_no() + "/" + cm.getCm_no() + "/" + cm.getCm_writer().getEmployee_id() + "/"
+						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + cm.getCm_date());
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 
 //		try {
 //			Employee emp = new Employee();

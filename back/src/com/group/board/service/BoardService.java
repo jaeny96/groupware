@@ -102,16 +102,16 @@ public class BoardService {
 	}
 
 	public static void main(String[] args) {
-//		int currentPage=2;
-//		try {
-//			List<Board> bdList = service.showBdAll(currentPage);
-//			for(Board bd : bdList) {
-//				System.out.println(bd.getBd_no()+"/"+bd.getBd_title()+
-//						"/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName() + "/" +bd.getBd_date());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		int currentPage=2;
+		try {
+			List<Board> bdList = service.showBdAll(currentPage);
+			for(Board bd : bdList) {
+				System.out.println(bd.getBd_no()+"/"+bd.getBd_title()+
+						"/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName() + "/" +bd.getBd_date());
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 
 //		String category="name";
 //		String word = "권";

@@ -38,13 +38,13 @@ public class DepartmentService {
 	}
 	
 	public static void main(String[] args) {
-//		try {
-//			List<Department> deptList = service.showDept();
-//			for (Department dept : deptList) {
-//				System.out.println(dept.getDepartment_id() + "/" + dept.getDepartment_title() + "/" + dept.getCount());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			List<Department> deptList = service.showDept();
+			for (Department dept : deptList) {
+				System.out.println(dept.getDepartment_id() + "/" + dept.getDepartment_title() + "/" + dept.getCount());
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 	}
 }

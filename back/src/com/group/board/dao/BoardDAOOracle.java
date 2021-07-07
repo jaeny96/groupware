@@ -307,16 +307,16 @@ public class BoardDAOOracle implements BoardDAO {
 	}
 
 	public static void main(String[] args) {
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			List<Board> bdList = dao.selectAll();
-//			for (Board bd : bdList) {
-//				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
-//						+ bd.getWriter().getName() + "/" + changeTime.modifyTime(bd.getBd_date()));
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+		try {
+			BoardDAOOracle dao = new BoardDAOOracle();
+			List<Board> bdList = dao.selectAll();
+			for (Board bd : bdList) {
+				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
+						+ bd.getWriter().getName() + "/" + changeTime.modifyTime(bd.getBd_date()));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 //		try {
 //			BoardDAOOracle dao = new BoardDAOOracle();

@@ -68,14 +68,14 @@ public class EmployeeLeaveService {
 
 	public static void main(String[] args) {
 		System.out.println(service);
-//		String id = "DEV001";
-//		try {
-//			EmployeeLeave el = service.showDetail(id);
-//			System.out.println(el.getEmployee() + "/" + el.getEmployee().getDepartment() + "/"
-//					+ el.getEmployee().getPosition() + "/" + el.getEmployee().getJob() + el.getLeave());
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		String id = "DEV001";
+		try {
+			EmployeeLeave el = service.showDetail(id);
+			System.out.println(el.getEmployee() + "/" + el.getEmployee().getDepartment() + "/"
+					+ el.getEmployee().getPosition() + "/" + el.getEmployee().getJob() + el.getLeave());
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 
 //		Employee emp = new Employee();
 //		String id = "DEV001";

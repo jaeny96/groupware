@@ -69,14 +69,14 @@ public class EmployeeService {
 	}
 
 	public static void main(String[] args) {
-//		try {
-//			List<Employee> empList = service.showAll();
-//			for(Employee emp : empList) {
-//				System.out.println(emp);				
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			List<Employee> empList = service.showAll();
+			for(Employee emp : empList) {
+				System.out.println(emp);				
+			}
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 
 //		String dept="DEV";
 //		try {

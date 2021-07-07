@@ -138,17 +138,17 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 	}
 
 	public static void main(String[] args) {
-//		try {
-//			BoardCommentDAOOracle dao = new BoardCommentDAOOracle();
-//			String bd_no = "BD2";
-//			List<BoardComment> cmList = dao.selectAll(bd_no);
-//			for (BoardComment cm : cmList) {
-//				System.out.println(cm.getBd_no() + "/" + cm.getCm_no() + "/" + cm.getCm_writer().getEmployee_id() + "/"
-//						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + changeTime.modifyTime(cm.getCm_date()));
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+		try {
+			BoardCommentDAOOracle dao = new BoardCommentDAOOracle();
+			String bd_no = "BD2";
+			List<BoardComment> cmList = dao.selectAll(bd_no);
+			for (BoardComment cm : cmList) {
+				System.out.println(cm.getBd_no() + "/" + cm.getCm_no() + "/" + cm.getCm_writer().getEmployee_id() + "/"
+						+ cm.getCm_writer().getName() + "/" + cm.getCm_content() + "/" + changeTime.modifyTime(cm.getCm_date()));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 //		try {
 //			BoardCommentDAOOracle dao = new BoardCommentDAOOracle();

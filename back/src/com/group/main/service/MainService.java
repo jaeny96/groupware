@@ -100,12 +100,12 @@ public class MainService {
 
 	public static void main(String[] args) {
 		String id = "MSD002";
-//		try {
-//			Employee emp = service.showProfile(id);
-//			System.out.println(emp.getEmployee_id()+"/"+emp.getName());
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Employee emp = service.showProfile(id);
+			System.out.println(emp.getEmployee_id()+"/"+emp.getName());
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
 
 //		String pwd = "DEV0031234";
 //		try {
