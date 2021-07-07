@@ -83,7 +83,7 @@ public interface ScheduleDAO {
 	 */
 	//public void delete(Schedule s) throws RemoveException;
 
-	void delete(Schedule s) throws RemoveException;
+	public void delete(Schedule s) throws RemoveException;
 	
 
 	

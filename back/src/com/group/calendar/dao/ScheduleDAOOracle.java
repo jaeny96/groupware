@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -520,85 +519,6 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		}
 	}
 	
-	
-	//시간 더하는 메서드 
-	public Date addHoursToJavaUtilDate(Date date, int hours) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.add(Calendar.HOUR_OF_DAY, hours);
-	    return calendar.getTime();
-	}
-
-	//시간 빼는 메서드
-	public Date subtractHoursToJavaUtilDate(Date date, int hours) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.add(Calendar.HOUR_OF_DAY, hours);
-	    return calendar.getTime();
-	}
-
-
-	//일정 날짜 시간 : 00분, 시간 : 30분으로 나오게 하는 메서드 
-	//to do : 만약 입력이 없다면 자동 시간 설정, 입력이 있다면 그대로 하도로 해야할듯 
-	public static Timestamp skdStartTime() throws Exception {
-		Date now = new Date();
-		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
-		SimpleDateFormat test2 = new SimpleDateFormat("mm");
-		
-		String skd_time ="";
-		Timestamp timestamp = null;
-		
-		
-		//30분이 넘었을 때. ex. 3:33일 때 4:00를 보여주는 코드 
-		if(Integer.parseInt(test2.format(now))>=30) {
-			ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
-			dao.addHoursToJavaUtilDate(now, 1); //1시간을 더해주는 메서드 활용 
-			//System.out.println(test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"); 테스트
-			skd_time = test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"; //날짜 형식을 위해 더해줌. String으로 자동변환
-			timestamp = Timestamp.valueOf(skd_time); // String을 timestamp로 변환
-			
-		//30분 미만일 때. 3:10일 때 3:30를 보여주는 코드 	
-		}else if(Integer.parseInt(test2.format(now))<30){
-			//System.out.println(test.format(now)+"30");
-			skd_time =test.format(now)+"30:00";
-			timestamp = Timestamp.valueOf(skd_time);
-		}
-		return timestamp;
-	
-	}
-	
-	public static Timestamp skdEndTime() throws Exception {
-		ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
-		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
-		SimpleDateFormat test2 = new SimpleDateFormat("mm");
-		
-		String skd_time ="";
-		Timestamp skdstarttime = skdStartTime();
-
-		Date start = new Date(skdstarttime.getTime()); //timestamp 자료형인 일정시작시간을 date 자료형으로 변환 
-		
-		//start의 시간이 30분일 경우 분을 00으로 변환. start: 4:30, end: 5:00
-		if(Integer.parseInt(test2.format(start))==30) {
-			skd_time = test.format(dao.addHoursToJavaUtilDate(start, 1))+"00:00"; //date to String으로 format 변환 , 1시간 더하기 
-		}else { //start의 시간이 00일 경우 분을 30으로 변환. start: 4:00, end: 4:30
-			skd_time = test.format(start)+"30:00";
-		}
-	
-		Timestamp timestamp = Timestamp.valueOf(skd_time); //String 타입 timestamp로 변환 
-		//System.out.println("일정 시작 시간: "+ skdStartTime());
-		System.out.println("일정 종료 시간: "+timestamp);
-		return timestamp;
-	
-		//	System.out.println("skdstarttime.getTime() : " + skdstarttime.getTime() +"   start" +start);
-		//	System.out.println("1시간 더한거 "+dao.addHoursToJavaUtilDate(start, 1));
-		//		System.out.println("skdtime"+skd_time);
-		//	System.out.println("skdstarttime: "+ skdstarttime); //timestamp 자료형 
-		
-		
-	}
-
-
-
 
 }//class 
 
