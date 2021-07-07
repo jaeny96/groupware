@@ -27,7 +27,7 @@ public class ProcessDocsService {
 			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("ProcessDocsDAO");
 			Class c = Class.forName(className);// JVM에로드
-			dao = (ProcessDocsDAO) c.newInstance();// 객체생성 (위에 주석처럼 직접 하드코딩하지 않고 //이렇게 객체생성=구체화된 클라스를 사용하지 않고 일반화된
+			dao = (ProcessDocsDAO) c.newInstance();	// 객체생성 (위에 주석처럼 직접 하드코딩하지 않고 //이렇게 객체생성=구체화된 클라스를 사용하지 않고 일반화된
 													// 인터페이스를 사용)
 		} catch (Exception e) {
 			e.printStackTrace();

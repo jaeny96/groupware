@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/main.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="./js/main.js"></script>
+    <title>결재선 설정</title>
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.18);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .modal_content {
+        position: relative;
+        top: 0px;
+        background-color: white;
+        padding: 25px 0px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        width: 800px;
+        height: 700px;
+      }
+      .hidden {
+        display: none;
+      }
+      ul {
+        list-style: none;
+        padding: 20px 10px;
+      }
+      ul li {
+        height: 40px;
+      }
+      form li > span {
+        float: left;
+        width: 100px;
+      }
+      form li > div {
+        float: left;
+        width: 300px;
+      }
+      #content_box {
+        width: 300px;
+      }
+      .dropbtn {
+        background-color: #641f85;
+        color: white;
+        padding: 10px 16px 10px 16px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 0.3rem;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown:hover .dropbtn {
+        background-color: #4d0d49;
+      }
+    </style>
+  </head>
+  <!-- 구현 필요 기능
+-저장 기능
+-modalOutput.html에서 수정 요청 들어올 시 수정할 수 있도록 
+-저장 -->
+  <body>
+    <button id="open">결재선 선택</button>
+    <!-- advice :modal div 의 클래스에 hidden을 추가, 제거함으로써 모달 효과를 낼 수 있습니다. -->
+    <div class="modal hidden">
+      <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
+      <div class="modal_overlay"></div>
+      <!-- advice: 내용은 여기에 담깁니다 -->
+      <div class="modal_content">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="font-weight-bolder" style="color: #641f85">
+              결재선 설정
+            </h2>
+          </div>
+          <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <form class="d-none d-sm-inline-block">
+              <div class="input-group input-group-navbar">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchApprovalStaffDep"
+                  placeholder="이름, 부서로 검색"
+                  aria-label="Search"
+                />
+                <button class="btn" type="button" id="searchApprovalBtn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-search align-middle"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </nav>
+
+          <div class="card-body">
+            <form>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <!--<div class="col-12 col-md-6 col-lg-4">-->
+                  <div class="col-4">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="font-weight-bolder card-title mb-0">
+                          사원목록
+                        </h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="dropdown">
+                          <div class="dropbtnCEO">
+                            <button class="dropbtn" style="width: 150px">
+                              대표이사
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="
+                                  feather feather-chevron-down
+                                  align-middle
+                                  mr-2
+                                "
+                              >
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <br />
+                        <div class="dropdown">
+                          <table class="table mb-0">
+                            <tbody>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <!-- <div class="dropbtnDEV">
+                              <button class="dropbtn" style="width: 150px">
+                                기획개발실
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  class="
+                                    feather feather-chevron-down
+                                    align-middle
+                                    mr-2
+                                  "
+                                >
+                                  <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                              </button>
+                            </div>
+                            <div class="dropdown-content">
+                              <a href="#">임창균</a>
+                              <a href="#">김민준</a>
+                              <a href="#">정연주</a>
+                              <a href="#">옥택연</a>
+                              <a href="#">장우영</a>
+                              <a href="#">이준호</a>
+                              <a href="#">이마크</a>
+                              <a href="#">황런쥔</a>
+                              <a href="#">이제노</a>
+                            </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-2 text-center">
+                    <div
+                      class="btn-group btn-group-lg mb-3"
+                      role="group"
+                      aria-label="Large button group"
+                      style="margin-top: 130px"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        id="modalBtnApproval"
+                      >
+                        결재 >
+                      </button>
+                    </div>
+                    <br />
+                    <div
+                      class="btn-group btn-group-lg mb-3"
+                      role="group"
+                      aria-label="Large button group"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        id="modalBtnAgreement"
+                      >
+                        합의 >
+                      </button>
+                    </div>
+                    <br />
+                    <div
+                      class="btn-group btn-group-lg mb-3"
+                      role="group"
+                      aria-label="Large button group"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                        id="modalBtnReference"
+                      >
+                        참조 >
+                      </button>
+                    </div>
+                    <br />
+                  </div>
+
+                  <div class="col-6">
+                    <div class="card-header">
+                      <h5 class="font-weight-bolder" class="card-title">
+                        결재순서
+                      </h5>
+                    </div>
+                    <div class="card">
+                      <div class="col-12">
+                        <div class="card">
+                          <table
+                            class="
+                              table table-striped table-hover table-bordered
+                            "
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  class="font-weight-bolder"
+                                  style="width: 15%"
+                                >
+                                  0
+                                </td>
+                                <td style="width: 20%">결재</td>
+                                <td id="staffZero" style="width: 65%">
+                                  권민수
+                                </td>
+                              </tr>
+                              <tr>
+                                <td
+                                  class="font-weight-bolder"
+                                  tyle="width: 15%"
+                                >
+                                  1
+                                </td>
+                                <td style="width: 20%">결재</td>
+                                <td id="staffOne" style="width: 65%">권민수</td>
+                              </tr>
+                              <tr>
+                                <td
+                                  class="font-weight-bolder"
+                                  style="width: 15%"
+                                >
+                                  2
+                                </td>
+                                <td style="width: 20%">결재</td>
+                                <td id="staffTwo" style="width: 65%">권민수</td>
+                              </tr>
+                              <tr>
+                                <td
+                                  class="font-weight-bolder"
+                                  style="width: 15%"
+                                >
+                                  3
+                                </td>
+                                <td style="width: 20%">결재</td>
+                                <td id="staffThree" style="width: 65%">
+                                  권민수
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <h5 class="card-title mb-0">합의</h5>
+                    <div
+                      class="border text-sm text-muted p-2 mt-1"
+                      id="agreementBox"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        id="agreementBoxBtn"
+                      >
+                        황런쥔
+                      </button>
+                    </div>
+                    <h5 class="card-title mb-0" style="margin-top: 10px">
+                      참조
+                    </h5>
+                    <div
+                      class="border text-sm text-muted p-2 mt-1"
+                      id="referenceBox"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        id="referenceBoxBtn"
+                      >
+                        이제노
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-2 row mt-4">
+                <div style="margin: 10px 0; text-align: center; margin: 10px">
+                  <button class="btn btn-outline-primary" id="apSettingSave">
+                    저장
+                  </button>
+                  <button class="btn btn-secondary cancel" id="apSettingCancel">
+                    취소
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      //모달창을 여는 버튼 객체
+      const openBtn = window.document.getElementById("open");
+      //모달창 객체
+      const modal = document.querySelector(".modal");
+      //모달창을 닫는 객체
+      const closeBtn = modal.querySelector("button.cancel");
+
+      // 모달창을 여는 함수
+      const openModal = () => {
+        modal.classList.remove("hidden");
+      };
+
+      //모달창을 닫는 함수
+      const closeModal = () => {
+        modal.classList.add("hidden");
+      };
+      //클릭 이벤트 선언
+      closeBtn.addEventListener("click", closeModal);
+      openBtn.addEventListener("click", openModal);
+    </script>
+  </body>
+</html>

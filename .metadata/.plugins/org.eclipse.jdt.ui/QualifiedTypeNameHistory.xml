@@ -25,4 +25,6 @@
 <fullyQualifiedTypeName name="com.group.approval.dto.Agreement"/>
 <fullyQualifiedTypeName name="com.group.approval.dto.Reference"/>
 <fullyQualifiedTypeName name="com.group.approval.exception.ModifyException"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
 </qualifiedTypeNameHistroy>
