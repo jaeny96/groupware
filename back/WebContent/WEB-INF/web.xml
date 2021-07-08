@@ -9,7 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <context-param>
     <param-name>env</param-name>
     <param-value>/WEB-INF/classes.prop</param-value>
@@ -123,5 +122,15 @@
   <servlet-mapping>
     <servlet-name>ShowEmpDetailServlet</servlet-name>
     <url-pattern>/showempdetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchEmpServlet</display-name>
+    <servlet-name>SearchEmpServlet</servlet-name>
+    <servlet-class>com.group.employee.control.SearchEmpServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchEmpServlet</servlet-name>
+    <url-pattern>/searchemp</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -29,7 +29,7 @@ public class ShowDeptEmpServlet extends HttpServlet {
 			List<Employee> empList = service.showByDept(dept);
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(empList);
-			System.out.println(jsonStr);
+//			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {

@@ -15,27 +15,25 @@ import com.group.employee.service.EmployeeService;
 import com.group.exception.FindException;
 
 /**
- * Servlet implementation class ShowEmpDetailServlet
+ * Servlet implementation class SearchEmpServlet
  */
-public class ShowEmpDetailServlet extends HttpServlet {
+public class SearchEmpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id = request.getParameter("empId");
-		String name = request.getParameter("empName");
+		String word = request.getParameter("word");
+		System.out.println(word);
 		EmployeeService service;
 		ServletContext sc = getServletContext();
 		EmployeeService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = EmployeeService.getInstance();
 
 		try {
-			Employee empInfo = new Employee();
-			empInfo.setEmployee_id(id);
-			empInfo.setName(name);
-			Employee emp = service.showDetail(empInfo);
+			List<Employee> empList = service.searchEmp(word);
 			ObjectMapper mapper = new ObjectMapper();
-			String jsonStr = mapper.writeValueAsString(emp);
+			String jsonStr = mapper.writeValueAsString(empList);
+//			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
