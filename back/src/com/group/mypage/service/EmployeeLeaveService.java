@@ -11,12 +11,14 @@ import com.group.mypage.dto.EmployeeLeave;
 
 public class EmployeeLeaveService {
 	private EmployeeLeaveDAO dao;
-	private static EmployeeLeaveService service = new EmployeeLeaveService();
-
+	private static EmployeeLeaveService service;
+	public static String envProp;
+		
 	private EmployeeLeaveService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+//			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("employeeLeaveDAO");
 			System.out.println(className);
 			/*
@@ -30,12 +32,12 @@ public class EmployeeLeaveService {
 
 	}
 
-//	public static EmployeeLeaveService getInstance() {
-//		if(service==null) {
-//			service = new EmployeeLeaveService();
-//		}
-//		return service;
-//	}
+	public static EmployeeLeaveService getInstance() {
+		if(service==null) {
+			service = new EmployeeLeaveService();
+		}
+		return service;
+	}
 
 	/**
 	 * 로그인 한 사원의 상세정보를 마이페이지에서 조회한다

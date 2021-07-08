@@ -9,16 +9,10 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>ShowCurrentPageBdServlet</display-name>
-    <servlet-name>ShowCurrentPageBdServlet</servlet-name>
-    <servlet-class>com.group.board.control.ShowCurrentPageBdServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowCurrentPageBdServlet</servlet-name>
-    <url-pattern>/showcurrentpagebd</url-pattern>
-  </servlet-mapping>
+  <context-param>
+    <param-name>env</param-name>
+    <param-value>/WEB-INF/classes.prop</param-value>
+  </context-param>
   <servlet>
     <description></description>
     <display-name>ShowMyDetailServlet</display-name>
@@ -28,5 +22,15 @@
   <servlet-mapping>
     <servlet-name>ShowMyDetailServlet</servlet-name>
     <url-pattern>/showmydetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.group.main.control.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
 </web-app>

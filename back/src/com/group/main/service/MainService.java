@@ -12,10 +12,12 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.dao.MainDAO;
+import com.group.mypage.service.EmployeeLeaveService;
 
 public class MainService {
 	private MainDAO dao;
-	private static MainService service = new MainService();
+	private static MainService service;
+	public static String envProp;
 
 	private MainService() {
 		Properties env = new Properties();
@@ -32,6 +34,13 @@ public class MainService {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static MainService getInstance() {
+		if(service==null) {
+			service = new MainService();
+		}
+		return service;
 	}
 
 	/**
