@@ -122,7 +122,7 @@ function insertProfileInfo() {
 }
 
 function init() {
-  insertProfileInfo();
+/*  insertProfileInfo();
 
   for (var i = 0; i < mainBdId.length; i++) {
     createMainBdElement(i);
@@ -136,7 +136,7 @@ function init() {
     createMainSkdElement(i);
   }
 
-  insertMainLeaveElement();
+  insertMainLeaveElement();*/
 }
 
 init();

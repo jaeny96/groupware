@@ -7,15 +7,17 @@ import java.util.Properties;
 import com.group.employee.dao.EmployeeDAO;
 import com.group.employee.dto.Employee;
 import com.group.exception.FindException;
+import com.group.main.service.MainService;
 
 public class EmployeeService {
 	private EmployeeDAO dao;
-	private static EmployeeService service = new EmployeeService();
-
+	private static EmployeeService service;
+	public static String envProp;
+	
 	private EmployeeService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("employeeDAO");
 			System.out.println(className);
 			/*
@@ -28,6 +30,13 @@ public class EmployeeService {
 		}
 	}
 
+	public static EmployeeService getInstance() {
+		if(service==null) {
+			service = new EmployeeService();
+		}
+		return service;
+	}
+	
 	/**
 	 * 사원 전체를 조회한다
 	 * @return 사원 전체 목록

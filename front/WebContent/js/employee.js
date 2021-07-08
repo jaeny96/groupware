@@ -113,9 +113,9 @@ function createDeptElement(i) {
 }
 
 function init() {
-  for (var i = 0; i < deptArr.length; i++) {
+/*  for (var i = 0; i < deptArr.length; i++) {
     createDeptElement(i);
-  }
+  }*/
 }
 
 init();

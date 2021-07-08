@@ -22,9 +22,9 @@ public class MainService {
 	private MainService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("mainDAO");
-			System.out.println(className);
+//			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -136,7 +136,7 @@ public class MainService {
 //		try {
 //			List<Board> bdList = service.showRecentBd();
 //			for(Board bd : bdList) {
-//				System.out.println(bd.getBd_title()+"/"+bd.getBd_date());
+//				System.out.println(bd.getBd_title()+"/"+bd.getBd_date()+"/"+bd.getWriter().getEmployee_id());
 //			}
 //		} catch (FindException e) {
 //			e.printStackTrace();

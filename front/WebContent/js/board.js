@@ -6,6 +6,8 @@ var bdTitle = ["안녕", "안녕2"];
 var bdWriter = ["오지수", "정연주"];
 var bdDate = ["2021-07-07", "2021-07-07"];
 
+var pageGroup = [1, 2, 3, 4];
+
 var inputGroupObj = document.querySelector("div.input-group");
 var searchObj = inputGroupObj.querySelector("input[type=text]");
 

@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
-
+		System.out.println(id+"/"+pwd);
 //		String id = "DEV003";
 //		String pwd = "DEV0031234";
 
@@ -43,10 +43,12 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginInfo");
 		Map<String, Object> map = new HashMap<>();
-
+		
 		try {
 			Employee loginInfo = service.login(id, pwd);
-			session.setAttribute("loginInfo", loginInfo);
+			session.setAttribute("id", loginInfo.getEmployee_id());
+			session.setAttribute("dept", loginInfo.getDepartment().getDepartment_id());
+			session.setAttribute("pwd", loginInfo.getPassword());
 			map.put("status", 1);
 		} catch (FindException e) {
 			// TODO Auto-generated catch block
@@ -56,7 +58,6 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		jsonStr = mapper.writeValueAsString(map);
-		System.out.println(jsonStr);
 		response.setContentType("application/json;charset=utf-8"); //응답형식지정
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);

@@ -7,15 +7,17 @@ import java.util.Properties;
 import com.group.employee.dao.DepartmentDAO;
 import com.group.employee.dto.Department;
 import com.group.exception.FindException;
+import com.group.main.service.MainService;
 
 public class DepartmentService {
 	private DepartmentDAO dao;
-	private static DepartmentService service = new DepartmentService();
+	private static DepartmentService service;
+	public static String envProp;
 
 	private DepartmentService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("departmentDAO");
 			System.out.println(className);
 			/*
@@ -26,6 +28,13 @@ public class DepartmentService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static DepartmentService getInstance() {
+		if(service==null) {
+			service = new DepartmentService();
+		}
+		return service;
 	}
 	
 	/**

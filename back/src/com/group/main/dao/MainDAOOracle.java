@@ -19,7 +19,7 @@ import com.group.sql.MyConnection;
 public class MainDAOOracle implements MainDAO {
 	public MainDAOOracle() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("load success");
+//		System.out.println("load success");
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class MainDAOOracle implements MainDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		String selectByIdSQL = "SELECT employee_id, name, password \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
+		String selectByIdSQL = "SELECT employee_id, name, password, department_id \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Employee emp = new Employee();
@@ -44,6 +44,9 @@ public class MainDAOOracle implements MainDAO {
 				emp.setEmployee_id(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				emp.setPassword(rs.getString("password"));;
+				Department dept = new Department();
+				dept.setDepartment_id(rs.getString("department_id"));
+				emp.setDepartment(dept);
 			} else {
 				throw new FindException("해당 정보를 찾을 수 없습니다");
 			}
