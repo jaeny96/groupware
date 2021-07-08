@@ -3,6 +3,5 @@ INDEX VERSION 1.4+C:\Users\JISU\Desktop\JAVAW_OJS\groupware\.metadata\.plugins\o
 3826252319.index
 2179591660.index
 1459798236.index
-46323547.index
 2001456124.index
 2255688318.index
