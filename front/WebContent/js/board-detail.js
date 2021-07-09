@@ -15,6 +15,7 @@ var bdDetailDate = "2021-07-07 11:03";
 var bdDetailContent = "배고파";
 var currentLoginEmp = "오지수";
 var currentLoginId = "MSD001";
+
 var cmContent = ["안녕하세요", "넵"];
 var cmWriter = ["오지수", "김정은"];
 var cmWrtierId = ["MSD001", "MSD002"];
@@ -83,10 +84,10 @@ function createBdDatailElement() {
 }
 
 function init() {
-  createBdDatailElement();
-  for (var i = 0; i < cmContent.length; i++) {
-    createCmElement(i);
-  }
+//  createBdDatailElement();
+//  for (var i = 0; i < cmContent.length; i++) {
+//    createCmElement(i);
+//  }
 }
 
 init();

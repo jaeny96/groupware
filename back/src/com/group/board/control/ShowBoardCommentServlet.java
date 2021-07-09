@@ -24,6 +24,7 @@ public class ShowBoardCommentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String bdNo = request.getParameter("bdNo");
+		System.out.println(bdNo);
 		BoardCommentService service;
 		ServletContext sc = getServletContext();
 		BoardCommentService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -34,6 +35,7 @@ public class ShowBoardCommentServlet extends HttpServlet {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(cmList);
+			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {

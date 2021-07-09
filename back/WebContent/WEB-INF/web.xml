@@ -183,4 +183,14 @@
     <servlet-name>ShowBoardCommentServlet</servlet-name>
     <url-pattern>/showboardcomment</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddBoardCommentServlet</display-name>
+    <servlet-name>AddBoardCommentServlet</servlet-name>
+    <servlet-class>com.group.board.control.AddBoardCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddBoardCommentServlet</servlet-name>
+    <url-pattern>/addboardcomment</url-pattern>
+  </servlet-mapping>
 </web-app>

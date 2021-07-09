@@ -17,7 +17,6 @@
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOracle"/>
-<fullyQualifiedTypeName name="com.group.board.dto.BoardComment"/>
 <fullyQualifiedTypeName name="com.group.exception.AddException"/>
 <fullyQualifiedTypeName name="com.group.exception.RemoveException"/>
 <fullyQualifiedTypeName name="com.group.board.dao.BoardDAO"/>
@@ -32,8 +31,6 @@
 <fullyQualifiedTypeName name="com.group.sql.MyConnection"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="com.group.changeTime"/>
-<fullyQualifiedTypeName name="com.group.mypage.service.EmployeeLeaveService"/>
-<fullyQualifiedTypeName name="com.group.mypage.dto.EmployeeLeave"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
@@ -41,7 +38,6 @@
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.group.main.service.MainService"/>
 <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.group.approval.dto.Document"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
@@ -54,4 +50,12 @@
 <fullyQualifiedTypeName name="com.group.employee.service.EmployeeService"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Employee"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Department"/>
+<fullyQualifiedTypeName name="com.group.mypage.service.EmployeeLeaveService"/>
+<fullyQualifiedTypeName name="com.group.mypage.dto.EmployeeLeave"/>
+<fullyQualifiedTypeName name="org.eclipse.jdt.internal.compiler.ast.ThrowStatement"/>
+<fullyQualifiedTypeName name="com.group.exception.CheckException"/>
+<fullyQualifiedTypeName name="com.group.board.service.BoardService"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.group.board.service.BoardCommentService"/>
+<fullyQualifiedTypeName name="com.group.board.dto.BoardComment"/>
 </qualifiedTypeNameHistroy>

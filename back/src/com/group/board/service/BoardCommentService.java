@@ -19,7 +19,7 @@ public class BoardCommentService {
 	private BoardCommentService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("boardCommentDAO");
 			System.out.println(className);
 			/*

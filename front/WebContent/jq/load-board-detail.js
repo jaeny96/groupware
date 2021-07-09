@@ -11,8 +11,11 @@ $(function() {
 	var bdBtnGroupObj = document.querySelector("div.bdBtnGroup");
 	var cmCardBodyObj = document.querySelector("div.cmCardBody");
 	var cmWriterObj = document.querySelector("h5.currentLoginId");
+	var cmTextAreaObj = document.querySelector("textarea");
+	var cmRegisterFormObj = document.querySelector("div.col-md-12 form");
+	console.log(cmRegisterFormObj);
 
-	var bdDetailBdNo=localStorage.getItem('bdNumber');
+	var bdDetailBdNo = localStorage.getItem('bdNumber');
 	var bdDetailTitle;
 	var bdDetailWriter;
 	var bdDetailWriterId;
@@ -22,10 +25,11 @@ $(function() {
 	var currentLoginEmp = loginInfoNameObj.innerText;
 	var currentLoginId = loginInfoIdObj.innerText;
 
-	var cmContent;
-	var cmWriter;
-	var cmWrtierId;
-	var cmDate;
+	var cmNo = new Array();
+	var cmWriter = new Array();
+	var cmWrtierId = new Array();
+	var cmDate = new Array();
+	var cmContent = new Array();
 
 	function createCmElement(i) {
 		var cmBodyDiv = document.createElement("div");
@@ -91,24 +95,8 @@ $(function() {
 
 	var backurlBdDetail = '/back/showbddetail';
 	var backurlCm = '/back/showboardcomment';
+	var backurlAddCm = '/back/addboardcomment';
 
-	$.ajax({
-		url: backurlCm,
-		method: 'get',
-		data: {
-			bdNo: bdDetailBdNo,
-		},
-		success: function(responseData) {
-			bdDetailBdNo = responseData.bd_no;
-			bdDetailTitle = responseData.bd_title;
-			bdDetailWriter = responseData.writer.name;
-			bdDetailWriterId = responseData.writer.employee_id;
-			bdDetailDate = responseData.bd_date;
-			bdDetailContent = responseData.bd_content;
-			createBdDatailElement();
-		},
-	});
-	
 	$.ajax({
 		url: backurlBdDetail,
 		method: 'get',
@@ -126,6 +114,46 @@ $(function() {
 		},
 	});
 
+	$.ajax({
+		url: backurlCm,
+		method: 'get',
+		data: {
+			bdNo: bdDetailBdNo,
+		},
+		success: function(responseData) {
+			$(responseData).each(function(i, e) {
+				cmNo[i] = e.cm_no;
+				cmContent[i] = e.cm_content;
+				cmWriter[i] = e.cm_writer.name;
+				cmWrtierId[i] = e.cm_writer.employee_id;
+				cmDate[i] = e.cm_date;
+			});
+
+			for (var i = 0; i < cmContent.length; i++) {
+				createCmElement(i);
+			}
+		},
+	});
+	function cmRegisterClickHandler(e) {
+		$.ajax({
+			url: backurlAddCm,
+			method: 'post',
+			data: {
+				addTargetBdNo: bdDetailBdNo,
+				addCmWriter: currentLoginEmp,
+				addCmWriterId: currentLoginId,
+				addCmContent: cmTextAreaObj.value
+
+			},
+			success: function(responseData) {
+				alert("댓글이 추가되었습니다!");
+			},
+		});
+		e.preventDefault();
+	}
+	cmRegisterFormObj.addEventListener("submit", cmRegisterClickHandler);
+
+
 
 	var $menuObj = $(
 		"div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li"
@@ -140,15 +168,12 @@ $(function() {
 	var $cmDeleteBtnObj = $(
 		"div.wrapper>div.main>main.content div.row div.card-body a.cmDeleteBtn"
 	);
-	console.log($cmDeleteBtnObj);
 
 	var $content = $("main.content");
-	console.log($content);
 	// $div.load("main.html");
 	$modifyBtnObj.click(function() {
 		//클릭된현재객체의 href속성값 얻기 : .attr('href');
 		var href = $(this).attr("href");
-		console.log(href);
 		switch (href) {
 			case "board-modify.html":
 				$content.load(href, function(responseTxt, statusTxt, xhr) {
@@ -171,7 +196,6 @@ $(function() {
 	$deleteBtnObj.click(function() {
 		//클릭된현재객체의 href속성값 얻기 : .attr('href');
 		var href = $(this).attr("href");
-		console.log(href);
 		switch (href) {
 			case "board.html":
 				$content.load(href, function(responseTxt, statusTxt, xhr) {
