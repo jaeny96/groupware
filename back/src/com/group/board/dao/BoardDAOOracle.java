@@ -84,7 +84,7 @@ public class BoardDAOOracle implements BoardDAO {
 		}
 		String selectAllPageSQL = "select * \r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
 				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
-				+ "            ORDER BY bd_no desc\r\n" + "        ) a\r\n" + "    )\r\n"
+				+ "            ORDER BY  bd_date desc\r\n" + "        ) a\r\n" + "    )\r\n"
 				+ "WHERE rn BETWEEN start_row(?,?) AND end_row(?,?)";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

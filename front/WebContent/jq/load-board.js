@@ -3,8 +3,13 @@ $(function() {
 	var bdPageTitleObj = document.querySelector("h1.h1Title");
 	var btnGroupObj = document.querySelector("div.btn-group");
 	var categoryObj = btnGroupObj.querySelector("div.dropdown-menu");
-	var tBodyObj = document.querySelector("tbody.bdTbody");
+	var bdTableObj = document.querySelector("div.wrapper>div.main>main.content div.row div.table-responsive table");
+	var tBodyObj = null;
 	var pageGroupObj = document.querySelector("ul.pageGroup");
+	
+	var bdSearchCategoryBtnObj = document.querySelector("button.searchBtn");
+	var bdSearchFormObj = document.querySelector("form.searchForm");
+	var bdSearchCategory = null;
 
 	var pageli = null;
 	var pagea = null;
@@ -33,7 +38,7 @@ $(function() {
 	}
 
 	function pageClickHandler(e) {
-		bdPageTitleObj.innerHTML = e.target.id +  " PAGE";
+		bdPageTitleObj.innerHTML = e.target.id + " PAGE";
 	}
 
 	function createPageNum(i) {
@@ -46,6 +51,27 @@ $(function() {
 		pageli.appendChild(pagea);
 		pageli.addEventListener("click", pageClickHandler);
 		pageGroupObj.appendChild(pageli);
+	}
+
+	function removeElement(target) {
+		if (target != null) {
+			target.remove();
+		}
+	}
+
+	function emptyElement(target) {
+		removeElement(target)
+		bdNo = [];
+		bdTitle = [];
+		bdWriter = [];
+		bdDate = [];
+	}
+
+	function createTbodyElement() {
+		tBodyObj = document.createElement("tbody");
+		tBodyObj.setAttribute("class", "bdTbody");
+
+		bdTableObj.appendChild(tBodyObj);
 	}
 
 	function createBdElement(i) {
@@ -71,17 +97,11 @@ $(function() {
 		tr.appendChild(tdWriter);
 		tr.appendChild(tdDate);
 		tBodyObj.appendChild(tr);
-	}
 
-	function categoryHandler(e) {
-		if (e.target.id == "categoryTitle") {
-			searchObj.setAttribute("placeholder", "제목으로 검색하기");
-		} else {
-			searchObj.setAttribute("placeholder", "작성자로 검색하기");
-		}
 	}
-
 	var backurlBdPage = '/back/showbdpage';
+	var backurlBdSearch = '/back/searchboard';
+
 	$.ajax({
 		url: backurlBdPage,
 		method: 'get',
@@ -95,6 +115,8 @@ $(function() {
 				bdWriter[i] = e.writer.name;
 				bdDate[i] = e.bd_date;
 			});
+			removeElement(tBodyObj);
+			createTbodyElement();
 			for (var i = 0; i < bdNo.length; i++) {
 				createBdElement(i);
 			}
@@ -103,7 +125,7 @@ $(function() {
 			);
 
 			$titleObj.click(function(e) {
-				localStorage.setItem('bdNumber',e.target.id);
+				localStorage.setItem('bdNumber', e.target.id);
 				//클릭된현재객체의 href속성값 얻기 : .attr('href');
 				var href = $(this).attr("href");
 				switch (href) {
@@ -119,8 +141,68 @@ $(function() {
 		},
 	});
 
+	function categoryHandler(e) {
+		if (e.target.id == "categoryTitle") {
+			bdSearchCategoryBtnObj.innerHTML="제목";
+			searchObj.setAttribute("placeholder", "제목으로 검색하기");
+			bdSearchCategory = "bd_title";
+		} else {
+			bdSearchCategoryBtnObj.innerHTML="작성자";
+			searchObj.setAttribute("placeholder", "작성자로 검색하기");
+			bdSearchCategory = "name";
+		}
+	}
+
+	function bdSearchFormSubmitHandler(e) {
+		if (bdSearchCategory == null) {
+			alert("카테고리가 지정되지 않았습니다");
+		} else {
+
+			$.ajax({
+				url: backurlBdSearch,
+				method: 'get',
+				data: {
+					bdSearchCategory: bdSearchCategory,
+					bdSearchWord: searchObj.value,
+				},
+				success: function(responseData) {
+					emptyElement(tBodyObj);
+					createTbodyElement();
+					$(responseData).each(function(i, e) {
+						bdNo[i] = e.bd_no;
+						bdTitle[i] = e.bd_title;
+						bdWriter[i] = e.writer.name;
+						bdDate[i] = e.bd_date;
+					});
+					for (var i = 0; i < bdNo.length; i++) {
+						createBdElement(i);
+					}
+					$titleObj = $(
+						"div.wrapper>div.main>main.content div.row div.table-responsive tbody tr td:nth-child(2) a"
+					);
+
+					$titleObj.click(function(e) {
+						localStorage.setItem('bdNumber', e.target.id);
+						//클릭된현재객체의 href속성값 얻기 : .attr('href');
+						var href = $(this).attr("href");
+						switch (href) {
+							case "board-detail.html":
+								$content.load(href, function(responseTxt, statusTxt, xhr) {
+									if (statusTxt == "error")
+										alert("Error: " + xhr.status + ": " + xhr.statusText);
+								});
+								break;
+						}
+						return false;
+					});
+				},
+			});
+		}
+		e.preventDefault();
+	}
 
 	categoryObj.addEventListener("click", categoryHandler);
+	bdSearchFormObj.addEventListener("submit", bdSearchFormSubmitHandler);
 
 	//글쓰기 버튼 클릭 시 글쓰기 페이지로 이동
 	//글쓰기 버튼 찾는 Obj

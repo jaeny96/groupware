@@ -223,4 +223,24 @@
     <servlet-name>AddBoardServlet</servlet-name>
     <url-pattern>/addboard</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchBoardServlet</display-name>
+    <servlet-name>SearchBoardServlet</servlet-name>
+    <servlet-class>com.group.board.control.SearchBoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchBoardServlet</servlet-name>
+    <url-pattern>/searchboard</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveBoardServlet</display-name>
+    <servlet-name>RemoveBoardServlet</servlet-name>
+    <servlet-class>com.group.board.control.RemoveBoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveBoardServlet</servlet-name>
+    <url-pattern>/removeboard</url-pattern>
+  </servlet-mapping>
 </web-app>
