@@ -76,7 +76,7 @@ $(function() {
 		tdBdTitleA.innerHTML = mainBdTitle[i];
 		tdBdTitleA.setAttribute("class", "sidebar-link-js");
 		tdBdTitleA.setAttribute("id", mainBdId[i]);
-		tdBdTitleA.setAttribute("href", "board-detail.html");
+		//		tdBdTitleA.setAttribute("href", "board-detail.html");
 		tdBdTitleA.setAttribute("style", "color:black");
 		tdBdTitle.setAttribute("style", "width:60%");
 		tdBdTitle.appendChild(tdBdTitleA);
@@ -154,6 +154,15 @@ $(function() {
 		},
 	});
 
+
+	function mainBdTitleClickHandler(e) {
+		localStorage.setItem('bdNumber', e.target.id);
+		$(
+			'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board-detail.html"]'
+		).trigger('click');
+
+	}
+
 	$.ajax({
 		url: backurlBd,
 		method: 'get',
@@ -166,6 +175,10 @@ $(function() {
 			});
 			for (var i = 0; i < mainBdId.length; i++) {
 				createMainBdElement(i);
+			}
+			mainBdTitleObj = mainBdTBodyObj.querySelectorAll("tr td:nth-child(1) a");
+			for (var j = 0; j < mainBdTitleObj.length; j++) {
+				mainBdTitleObj[j].addEventListener("click", mainBdTitleClickHandler);
 			}
 		},
 	});

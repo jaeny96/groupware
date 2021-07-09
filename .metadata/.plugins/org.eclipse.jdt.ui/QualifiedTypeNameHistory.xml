@@ -41,21 +41,21 @@
 <fullyQualifiedTypeName name="com.group.approval.dto.Document"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="com.group.board.dto.Board"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Leave"/>
 <fullyQualifiedTypeName name="com.group.calendar.dto.Schedule"/>
 <fullyQualifiedTypeName name="com.group.board.dto.PageBean"/>
 <fullyQualifiedTypeName name="com.group.board.dao.PageBeanDAO"/>
 <fullyQualifiedTypeName name="com.group.employee.service.DepartmentService"/>
 <fullyQualifiedTypeName name="com.group.employee.service.EmployeeService"/>
-<fullyQualifiedTypeName name="com.group.employee.dto.Employee"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Department"/>
 <fullyQualifiedTypeName name="com.group.mypage.service.EmployeeLeaveService"/>
 <fullyQualifiedTypeName name="com.group.mypage.dto.EmployeeLeave"/>
 <fullyQualifiedTypeName name="org.eclipse.jdt.internal.compiler.ast.ThrowStatement"/>
 <fullyQualifiedTypeName name="com.group.exception.CheckException"/>
-<fullyQualifiedTypeName name="com.group.board.service.BoardService"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.group.board.service.BoardCommentService"/>
 <fullyQualifiedTypeName name="com.group.board.dto.BoardComment"/>
+<fullyQualifiedTypeName name="com.group.board.service.BoardService"/>
+<fullyQualifiedTypeName name="com.group.board.dto.Board"/>
+<fullyQualifiedTypeName name="com.group.employee.dto.Employee"/>
 </qualifiedTypeNameHistroy>
