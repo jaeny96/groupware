@@ -22,6 +22,7 @@ public class BoardService {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
+//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("boardDAO");
 			System.out.println(className);
 			/*
@@ -166,13 +167,12 @@ public class BoardService {
 //		int currentPage = 1;
 //		List<Board> bdList;
 //		try {
-//			bdList = service.showBdAll(currentPage);
-//			Board bd = bdList.get(0);
-////			System.out.println(bd);
-//			bd.setBd_title("하하");
-//			bd.setBd_content("힘들군여");
+//			Board bd = new Board();
+//			bd.setBd_no("BD2");
+//			bd.setBd_title("핳");
+//			bd.setBd_content("힘들어여");
 //			service.modifyBd(bd);
-//		} catch (FindException | ModifyException e) {
+//		} catch (ModifyException e) {
 //			e.printStackTrace();
 //		}
 

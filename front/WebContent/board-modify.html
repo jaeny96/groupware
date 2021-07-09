@@ -26,6 +26,7 @@
       rel="stylesheet"
     />
     <link href="css/app.css" rel="stylesheet" />
+    <script src="jq/load-board-modify.js"></script>
     <!-- <script>
       $(document).ready(function () {
         //여기 아래 부분
@@ -49,8 +50,7 @@
             <h1 class="h3 mb-3">게시글 수정</h1>
             <div class="row">
               <div class="col-12">
-                <!--일단 action을 ./main-form.html로 해놓음 후에 변경할것-->
-                <form method="post" action="./main-form.html">
+                <form method="post" id="modifyBdForm">
                   <label style="margin-bottom: 10px"
                     ><span style="font-size: 15px; font-weight: bold"
                       >제목 :</span

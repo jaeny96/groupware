@@ -81,13 +81,13 @@ $(function() {
 		tdBdTitle.setAttribute("style", "width:60%");
 		tdBdTitle.appendChild(tdBdTitleA);
 
-/*		var tdBdWriter = document.createElement("td");
-		tdBdWriter.innerHTML = mainBdWriter[i];*/
+		/*		var tdBdWriter = document.createElement("td");
+				tdBdWriter.innerHTML = mainBdWriter[i];*/
 		var tdBdDate = document.createElement("td");
 		tdBdDate.innerHTML = mainBdDate[i];
 
 		tr.appendChild(tdBdTitle);
-/*		tr.appendChild(tdBdWriter);*/
+		/*		tr.appendChild(tdBdWriter);*/
 		tr.appendChild(tdBdDate);
 
 		mainBdTBodyObj.appendChild(tr);
@@ -215,7 +215,7 @@ $(function() {
 		switch (href) {
 			case "board.html":
 			case "schedule.html":
-			//			case './ui-alerts.html':
+			case 'board-detail.html':
 			case "employee.html":
 			case "mypage.html":
 			case "pages-settings.html":

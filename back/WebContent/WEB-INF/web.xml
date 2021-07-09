@@ -193,4 +193,34 @@
     <servlet-name>AddBoardCommentServlet</servlet-name>
     <url-pattern>/addboardcomment</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveBoardCommentServlet</display-name>
+    <servlet-name>RemoveBoardCommentServlet</servlet-name>
+    <servlet-class>com.group.board.control.RemoveBoardCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveBoardCommentServlet</servlet-name>
+    <url-pattern>/removeboardcomment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChangeBoardDetailServlet</display-name>
+    <servlet-name>ChangeBoardDetailServlet</servlet-name>
+    <servlet-class>com.group.board.control.ChangeBoardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeBoardDetailServlet</servlet-name>
+    <url-pattern>/changeboarddetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddBoardServlet</display-name>
+    <servlet-name>AddBoardServlet</servlet-name>
+    <servlet-class>com.group.board.control.AddBoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddBoardServlet</servlet-name>
+    <url-pattern>/addboard</url-pattern>
+  </servlet-mapping>
 </web-app>

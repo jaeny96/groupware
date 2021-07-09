@@ -31,6 +31,28 @@ $(function() {
 	var cmDate = new Array();
 	var cmContent = new Array();
 
+	var backurlDeleteCm = '/back/removeboardcomment';
+
+	function cmDeleteClickHandler(e) {
+		console.log(e.target.id + currentLoginId);
+		$.ajax({
+			url: backurlDeleteCm,
+			method: 'get',
+			data: {
+				removeTargetCmNo: e.target.id,
+				removeTargetBdNo: bdDetailBdNo,
+				removeCmWriterId: currentLoginId,
+			},
+			success: function(responseData) {
+				alert("댓글이 삭제되었습니다!");
+				$(
+					'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board-detail.html"]'
+				).trigger('click');
+			},
+		});
+		e.preventDefault();
+	}
+
 	function createCmElement(i) {
 		var cmBodyDiv = document.createElement("div");
 		cmBodyDiv.setAttribute("class", "d-flex align-items-start cmBody mb-2");
@@ -48,7 +70,7 @@ $(function() {
 		cmDeleteSmall.setAttribute("class", "float-right text-navy");
 		var cmDeleteA = document.createElement("a");
 		cmDeleteA.setAttribute("class", "cmDeleteBtn");
-		cmDeleteA.setAttribute("href", "board-detail.html");
+		cmDeleteA.setAttribute("id", cmNo[i]);
 		cmDeleteA.innerHTML = "X";
 		cmDeleteSmall.appendChild(cmDeleteA);
 
@@ -77,6 +99,8 @@ $(function() {
 		} else {
 			cmDeleteSmall.removeAttribute("style");
 		}
+
+		cmDeleteSmall.addEventListener("click", cmDeleteClickHandler);
 	}
 
 	function createBdDatailElement() {
@@ -147,6 +171,9 @@ $(function() {
 			},
 			success: function(responseData) {
 				alert("댓글이 추가되었습니다!");
+				$(
+					'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board-detail.html"]'
+				).trigger('click');
 			},
 		});
 		e.preventDefault();
@@ -173,6 +200,8 @@ $(function() {
 	// $div.load("main.html");
 	$modifyBtnObj.click(function() {
 		//클릭된현재객체의 href속성값 얻기 : .attr('href');
+		localStorage.setItem('bdTitle',bdDetailTitle);
+		localStorage.setItem('bdContent',bdDetailContent);
 		var href = $(this).attr("href");
 		switch (href) {
 			case "board-modify.html":
