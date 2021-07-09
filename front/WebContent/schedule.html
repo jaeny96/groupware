@@ -83,28 +83,27 @@
                 var skdInputStartDate = $("#start_date"); //시작날짜
                 var skdInputStartTime = $("#start_time");//시작시간
                 var skdInputEndDate = $("#end_date");//종료날짜
-                var skdInputEndTime = $("#end_Time");//종료시간
+                var skdInputEndTime = $("#end_time");//종료시간
                 var skdInputShare = $('input[name="radio-3"]:checked');
 
-                // //날짜 입력 
-                // if (skdInputStartTime.val() == null || skdInputEndTime.val() == null) {
-                //   alert("시간을 입력하세요.");
-                // } 
-
+                //시간 미입력
+                if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
+                  alert("시간을 입력하세요.");
+                } 
+                
+                //시작일자가 
                 if (new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
                   alert("종료일이 시작일보다 먼저입니다.");
                 } else {
 
-                  if (skdInputShare.val() == 't') {
+                  if (skdInputShare.val() == 'p') {
                     calendar.addEvent({
                       title: skdInputTitle.val(),
                       content: skdInputContent.val(),
-                      start: skdInputStartDate.val(),
-                     startTime: skdInputStartTime.val(),
-                      end: skdInputEndDate.val(),
-                    //  endTime: skdInputEndTime.value,
+                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
+                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
                       allDay: false,
-                      backgroundColor: '#28a745',
+                      backgroundColor: '#ffc107',
                       extendedProps: {
                         calendarType: skdInputType.value,
                         teamOrPersonal: skdInputShare.val()
@@ -115,16 +114,15 @@
                     calendar.addEvent({
                       title: skdInputTitle.val(),
                       content: skdInputContent.val(),
-                      start: skdInputStartDate.val(),
-                      startTime: skdInputStartTime.val(),
-                      end: skdInputEndDate.val(),
-                      //endTime: skdInputEndTime.value,
+                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
+                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
                       allDay: false,
-                      backgroundColor: '#ffc107',
+                      backgroundColor: '#28a745',
                       extendedProps: {
                         calendarType: skdInputType.value,
                         teamOrPersonal: skdInputShare.val()
                       }
+
 
                     })
                   }
@@ -132,16 +130,18 @@
 
                 skdInputObj = {
                   title: skdInputTitle.val(),
-                  content: skdInputContent.val(),
-                  start: skdInputStartDate.val(),
-                  startTime: skdInputStartTime.val(),
-                  end: skdInputEndDate.val(),
-                  endTime: skdInputEndTime.val(),
-                  allDay: false,
-                  extendedProps: {
-                    calendarType: skdInputType.value,
-                    teamOrPersonal: skdInputShare.val()
-                  },
+               
+                      title: skdInputTitle.val(),
+                      content: skdInputContent.val(),
+                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
+                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
+                      allDay: false,
+                      backgroundColor: '#28a745',
+                      extendedProps: {
+                        calendarType: skdInputType.value,
+                        teamOrPersonal: skdInputShare.val()
+                      }
+
                 }
                 //todo : 입력 해결 
                 // $('#calendar').fullCalendar('renderEvent', skdInputObj, true);
@@ -229,8 +229,7 @@
       //시작 시간을 현재 시간으로 
       document.getElementById('start_time').value = new Date(new Date()).toTimeString();
       //종료 시간을 현재 시간으로 
-      document.getElementById('end_time').value = new Date(new Date()).toTimeString();
-
+      document.getElementById('end_time').value =  new Date(new Date()).toTimeString();
 
       // //기간으로 검색하기, 제목내용으로 검색하기 창 설정
       var skdSearchObj = document.getElementById("skdSearch"); //검색입력창
