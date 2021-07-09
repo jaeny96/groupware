@@ -9,8 +9,7 @@
   <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
   <link href="css/app.css" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="./js/main.js"></script>
-  <script src="./js/schedule.js"></script>
+  <script src="js/main.js"></script>
   <script src="js/locales-all.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
@@ -89,7 +88,7 @@
                 //시간 미입력
                 if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
                   alert("시간을 입력하세요.");
-                } 
+                }else{
                 
                 //시작일자가 
                 if (new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
@@ -127,6 +126,7 @@
                     })
                   }
                 }
+              }
 
                 skdInputObj = {
                   title: skdInputTitle.val(),
@@ -472,6 +472,7 @@
       width: 300px;
     }
   </style>
+  
 </head>
 
 <body>
@@ -630,7 +631,7 @@
       <!--card-header div-->
       <table class="table">
         <tbody>
-          <tr id="skdDetailShare">
+          <tr id="skdDetailShare" class="skdDetailShare">
             <td style="width:30%;"><Strong>캘린더</Strong></td>
             <td style="width:70%" class="skdDetailInputData"></td>
           </tr>
@@ -937,6 +938,8 @@
 
 
   </script>
+  
+  <script src="js/schedule.js"></script>
 </body>
 
 </html>
