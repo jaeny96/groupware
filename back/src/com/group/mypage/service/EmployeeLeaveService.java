@@ -61,7 +61,7 @@ public class EmployeeLeaveService {
 					|| (emp.getPassword() != null && !el.getEmployee().getPassword().equals(emp.getPassword()))) {
 				dao.update(emp);
 			} else {
-				System.out.println("변경할 정보가 없습니다.");
+				throw new FindException("변경할 정보가 없습니다.");
 			}
 		} catch (FindException e) {
 			e.printStackTrace();

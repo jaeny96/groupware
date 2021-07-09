@@ -33,7 +33,8 @@ function selectElement() {
 }
 
 function init() {
-  selectElement();
+//  selectElement();
+
 }
 
 init();

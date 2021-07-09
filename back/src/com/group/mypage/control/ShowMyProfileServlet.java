@@ -1,43 +1,44 @@
 package com.group.mypage.control;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.group.approval.dto.Document;
 import com.group.exception.FindException;
 import com.group.mypage.dto.EmployeeLeave;
 import com.group.mypage.service.EmployeeLeaveService;
 
 /**
- * Servlet implementation class ShowMyDetailServlet
+ * Servlet implementation class ShowMyProfileServlet
  */
-public class ShowMyDetailServlet extends HttpServlet {
+public class ShowMyProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
-		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		String id = session.getAttribute("id").toString();
 
-		ServletContext sc = getServletContext();
-		EmployeeLeaveService.envProp=sc.getRealPath(sc.getInitParameter("env"));
 		EmployeeLeaveService service;
+		ServletContext sc = getServletContext();
+		EmployeeLeaveService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = EmployeeLeaveService.getInstance();
-		
-		String id = "DEV001";
+
 		try {
-			EmployeeLeave myinfo = service.showDetail(id);
-			String jsonStr = mapper.writeValueAsString(myinfo);
-			
-			System.out.println(jsonStr);
-			
+			EmployeeLeave el = service.showDetail(id);
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonStr = mapper.writeValueAsString(el);
+			response.setContentType("application/json;charset=utf-8");
+			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -15,16 +15,6 @@
   </context-param>
   <servlet>
     <description></description>
-    <display-name>ShowMyDetailServlet</display-name>
-    <servlet-name>ShowMyDetailServlet</servlet-name>
-    <servlet-class>com.group.mypage.control.ShowMyDetailServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowMyDetailServlet</servlet-name>
-    <url-pattern>/showmydetail</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.group.main.control.LoginServlet</servlet-class>
@@ -132,5 +122,35 @@
   <servlet-mapping>
     <servlet-name>SearchEmpServlet</servlet-name>
     <url-pattern>/searchemp</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowMyProfileServlet</display-name>
+    <servlet-name>ShowMyProfileServlet</servlet-name>
+    <servlet-class>com.group.mypage.control.ShowMyProfileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowMyProfileServlet</servlet-name>
+    <url-pattern>/showmyprofile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChangeMyPhoneNumServlet</display-name>
+    <servlet-name>ChangeMyPhoneNumServlet</servlet-name>
+    <servlet-class>com.group.mypage.control.ChangeMyPhoneNumServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeMyPhoneNumServlet</servlet-name>
+    <url-pattern>/changemyphonenum</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChangeMyPwdServlet</display-name>
+    <servlet-name>ChangeMyPwdServlet</servlet-name>
+    <servlet-class>com.group.mypage.control.ChangeMyPwdServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeMyPwdServlet</servlet-name>
+    <url-pattern>/changemypwd</url-pattern>
   </servlet-mapping>
 </web-app>

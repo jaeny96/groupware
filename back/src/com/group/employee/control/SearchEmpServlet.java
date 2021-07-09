@@ -23,7 +23,7 @@ public class SearchEmpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String word = request.getParameter("word");
-		System.out.println(word);
+//		System.out.println(word);
 		EmployeeService service;
 		ServletContext sc = getServletContext();
 		EmployeeService.envProp = sc.getRealPath(sc.getInitParameter("env"));

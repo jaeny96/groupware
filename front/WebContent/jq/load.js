@@ -217,7 +217,7 @@ $(function() {
 			case "schedule.html":
 			//			case './ui-alerts.html':
 			case "employee.html":
-			case "profile.html":
+			case "mypage.html":
 			case "pages-settings.html":
 				//클릭한 객체의 sidebar-item만 활성화 시키기
 				$(this).closest("li").attr("class", "sidebar-item active");
