@@ -74,7 +74,7 @@ public class BoardDAOOracle implements BoardDAO {
 
 	@Override
 	public List<Board> selectAll(int currentPage) throws FindException {
-		int cnt_per_page = 3;
+		int cnt_per_page = 10;
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();

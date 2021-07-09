@@ -11,15 +11,17 @@ import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
+import com.group.main.service.MainService;
 
 public class BoardService {
 	private BoardDAO dao;
-	private static BoardService service = new BoardService();
+	private static BoardService service;
+	public static String envProp;
 
 	private BoardService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("boardDAO");
 			System.out.println(className);
 			/*
@@ -33,9 +35,17 @@ public class BoardService {
 
 	}
 
+	public static BoardService getInstance() {
+		if (service == null) {
+			service = new BoardService();
+		}
+		return service;
+	}
+
 	/**
 	 * 현재 페이지의 게시글 목록을 조회한다
-	 * @param currentPage 현재 페이지 
+	 * 
+	 * @param currentPage 현재 페이지
 	 * @return 게시글 목록
 	 * @throws FindException
 	 */
@@ -45,8 +55,9 @@ public class BoardService {
 
 	/**
 	 * 게시글(제목, 작성자)을 검색한다
+	 * 
 	 * @param category 제목으로 검색할지 작성자로 검색할지 결정한 카테고리
-	 * @param word 검색할 단어
+	 * @param word     검색할 단어
 	 * @return 단어에 대한 게시글 목록
 	 * @throws FindException
 	 */
@@ -56,6 +67,7 @@ public class BoardService {
 
 	/**
 	 * 특정 게시글 상세정보를 조회한다
+	 * 
 	 * @param bd_no 특정 게시글 번호
 	 * @return 게시글의 상세 정보
 	 * @throws FindException
@@ -66,6 +78,7 @@ public class BoardService {
 
 	/**
 	 * 게시글을 등록한다
+	 * 
 	 * @param bd 등록할 내용 담은 객체
 	 * @throws AddException
 	 */
@@ -79,9 +92,10 @@ public class BoardService {
 
 	/**
 	 * 게시글을 수정한다
+	 * 
 	 * @param bd 변경할 내용 담고 있는 객체
-	 * @throws ModifyException
-	 * 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에 할지 고민중 
+	 * @throws ModifyException 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에
+	 *                         할지 고민중
 	 */
 	public void modifyBd(Board bd) throws ModifyException {
 		if (!"".equals(bd.getBd_title()) && bd.getBd_title() != null) {
@@ -93,9 +107,10 @@ public class BoardService {
 
 	/**
 	 * 게시글을 삭제한다
+	 * 
 	 * @param bd 삭제할 게시글 정보 담은 객체
-	 * @throws RemoveException
-	 * 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에 할지 고민중
+	 * @throws RemoveException 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에
+	 *                         할지 고민중
 	 */
 	public void removeBd(Board bd) throws RemoveException {
 		dao.delete(bd);

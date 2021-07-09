@@ -13,8 +13,9 @@ import com.group.exception.RemoveException;
 
 public class BoardCommentService {
 	private BoardCommentDAO dao;
-	private static BoardCommentService service = new BoardCommentService();
-
+	private static BoardCommentService service;
+	public static String envProp;
+	
 	private BoardCommentService() {
 		Properties env = new Properties();
 		try {
@@ -31,6 +32,13 @@ public class BoardCommentService {
 		}
 	}
 
+	public static BoardCommentService getInstance() {
+		if (service == null) {
+			service = new BoardCommentService();
+		}
+		return service;
+	}
+	
 	/**
 	 * 특정 게시글에 대한 댓글목록을 조회한다
 	 * @param bd_no 특정 게시글 번호

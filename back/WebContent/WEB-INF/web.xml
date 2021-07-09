@@ -153,4 +153,34 @@
     <servlet-name>ChangeMyPwdServlet</servlet-name>
     <url-pattern>/changemypwd</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowBoardPageServlet</display-name>
+    <servlet-name>ShowBoardPageServlet</servlet-name>
+    <servlet-class>com.group.board.control.ShowBoardPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowBoardPageServlet</servlet-name>
+    <url-pattern>/showbdpage</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowBoardDetailServlet</display-name>
+    <servlet-name>ShowBoardDetailServlet</servlet-name>
+    <servlet-class>com.group.board.control.ShowBoardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowBoardDetailServlet</servlet-name>
+    <url-pattern>/showbddetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowBoardCommentServlet</display-name>
+    <servlet-name>ShowBoardCommentServlet</servlet-name>
+    <servlet-class>com.group.board.control.ShowBoardCommentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowBoardCommentServlet</servlet-name>
+    <url-pattern>/showboardcomment</url-pattern>
+  </servlet-mapping>
 </web-app>

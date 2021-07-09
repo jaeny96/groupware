@@ -1,32 +1,45 @@
+var bdPageTitleObj = document.querySelector("h1.h1Title");
 var btnGroupObj = document.querySelector("div.btn-group");
 var categoryObj = btnGroupObj.querySelector("div.dropdown-menu");
 var tBodyObj = document.querySelector("tbody.bdTbody");
 var pageGroupObj = document.querySelector("ul.pageGroup");
 
+var pageli = null;
+var pagea = null;
 var bdTitle = ["안녕", "안녕2"];
 var bdWriter = ["오지수", "정연주"];
 var bdDate = ["2021-07-07", "2021-07-07"];
-var pageGroup = [2, 3, 4];
+var pageGroup = [1, 2, 3, 4];
+var anotherGroup = [5, 6, 7, 8];
 
 var inputGroupObj = document.querySelector("div.input-group");
 var searchObj = inputGroupObj.querySelector("input[type=text]");
 
-function createPageNext(i) {
+function createPageNext() {
 	var nextli = document.createElement("li");
 	nextli.setAttribute("class", "list-inline-item");
 	var nexta = document.createElement("a");
 	nexta.setAttribute("class", "text-muted");
-	var 
-	pageGroupObj.appendChild(pageli);
+	var nextstrong = document.createElement("strong");
+	nextstrong.innerHTML = "next";
+	nexta.appendChild(nextstrong);
+	nextli.appendChild(nexta);
+	pageGroupObj.appendChild(nextli);
+}
+
+function pageClickHandler(e) {
+	bdPageTitleObj.innerHTML=e.target.id+" PAGE";
 }
 
 function createPageNum(i) {
-	var pageli = document.createElement("li");
+	pageli = document.createElement("li");
 	pageli.setAttribute("class", "list-inline-item");
-	var pagea = document.createElement("a");
+	pagea = document.createElement("a");
 	pagea.setAttribute("class", "text-muted");
-	pagea.innerHTML = i + 1;
+	pagea.innerHTML = i;
+	pagea.setAttribute("id", i);
 	pageli.appendChild(pagea);
+	pageli.addEventListener("click", pageClickHandler);
 	pageGroupObj.appendChild(pageli);
 }
 
@@ -65,12 +78,13 @@ function categoryHandler(e) {
 
 function init() {
 	categoryObj.addEventListener("click", categoryHandler);
-	for (var i = 0; i < bdTitle.length; i++) {
+/*	for (var i = 0; i < bdTitle.length; i++) {
 		createBdElement(i);
-	}
+	}*/
 	for (var i = 0; i < pageGroup.length; i++) {
-		createPageNum(i);
+		createPageNum(pageGroup[i]);
 	}
+	createPageNext();
 }
 
 init();
