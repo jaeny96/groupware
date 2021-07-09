@@ -93,6 +93,23 @@ $(function() {
 	var backurlCm = '/back/showboardcomment';
 
 	$.ajax({
+		url: backurlCm,
+		method: 'get',
+		data: {
+			bdNo: bdDetailBdNo,
+		},
+		success: function(responseData) {
+			bdDetailBdNo = responseData.bd_no;
+			bdDetailTitle = responseData.bd_title;
+			bdDetailWriter = responseData.writer.name;
+			bdDetailWriterId = responseData.writer.employee_id;
+			bdDetailDate = responseData.bd_date;
+			bdDetailContent = responseData.bd_content;
+			createBdDatailElement();
+		},
+	});
+	
+	$.ajax({
 		url: backurlBdDetail,
 		method: 'get',
 		data: {
