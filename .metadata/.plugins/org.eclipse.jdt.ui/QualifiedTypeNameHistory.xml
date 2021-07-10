@@ -13,7 +13,6 @@
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="com.group.main.dao.MainDAOOracle"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="com.group.calendar.dao.ScheduleDAOOracle"/>
@@ -43,7 +42,6 @@
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Leave"/>
 <fullyQualifiedTypeName name="com.group.calendar.dto.Schedule"/>
-<fullyQualifiedTypeName name="com.group.board.dto.PageBean"/>
 <fullyQualifiedTypeName name="com.group.board.dao.PageBeanDAO"/>
 <fullyQualifiedTypeName name="com.group.employee.service.DepartmentService"/>
 <fullyQualifiedTypeName name="com.group.employee.service.EmployeeService"/>
@@ -52,10 +50,13 @@
 <fullyQualifiedTypeName name="com.group.mypage.dto.EmployeeLeave"/>
 <fullyQualifiedTypeName name="org.eclipse.jdt.internal.compiler.ast.ThrowStatement"/>
 <fullyQualifiedTypeName name="com.group.exception.CheckException"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.group.board.service.BoardCommentService"/>
 <fullyQualifiedTypeName name="com.group.board.dto.BoardComment"/>
 <fullyQualifiedTypeName name="com.group.board.service.BoardService"/>
-<fullyQualifiedTypeName name="com.group.board.dto.Board"/>
 <fullyQualifiedTypeName name="com.group.employee.dto.Employee"/>
+<fullyQualifiedTypeName name="com.group.board.dto.PageBean"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.group.board.dto.Board"/>
+<fullyQualifiedTypeName name="com.group.board.service.PageBeanService"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

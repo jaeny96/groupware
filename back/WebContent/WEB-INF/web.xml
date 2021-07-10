@@ -263,4 +263,14 @@
     <servlet-name>ShowPageGroupServlet</servlet-name>
     <url-pattern>/showpagegroup</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowTotalPageServlet</display-name>
+    <servlet-name>ShowTotalPageServlet</servlet-name>
+    <servlet-class>com.group.board.control.ShowTotalPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowTotalPageServlet</servlet-name>
+    <url-pattern>/showtotalpage</url-pattern>
+  </servlet-mapping>
 </web-app>

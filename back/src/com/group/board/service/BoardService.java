@@ -24,7 +24,7 @@ public class BoardService {
 			env.load(new FileInputStream(envProp));
 //			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("boardDAO");
-			System.out.println(className);
+//			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */

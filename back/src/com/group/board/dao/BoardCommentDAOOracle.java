@@ -23,7 +23,7 @@ import com.group.sql.MyConnection;
 public class BoardCommentDAOOracle implements BoardCommentDAO {
 	public BoardCommentDAOOracle() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("load success");
+//		System.out.println("load success");
 	}
 
 

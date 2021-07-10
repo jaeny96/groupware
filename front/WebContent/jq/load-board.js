@@ -7,12 +7,12 @@ $(function () {
     "div.wrapper>div.main>main.content div.row div.table-responsive table"
   );
   var tBodyObj = null;
+
+  var pageGroupDivObj = document.querySelector("div.pageGroupDiv");
   var pageGroupObj = document.querySelector("ul.pageGroup");
   var prevBtnObj = document.querySelector(
     "ul.pageGroup>li.list-inline-item:first-child a"
   );
-
-  prevBtnObj.removeAttribute("style");
 
   var bdSearchCategoryBtnObj = document.querySelector("button.searchBtn");
   var bdSearchFormObj = document.querySelector("form.searchForm");
@@ -26,11 +26,13 @@ $(function () {
   var bdWriter = new Array();
   var bdDate = new Array();
   var pageGroup = new Array();
-  var totalPage;
+  var nthPageGroup = localStorage.getItem("bdCurrPageGroup");
   //현재 페이지 기본 세팅 =1
   var currentPage = localStorage.getItem("bdCurrPage");
   //페이지 별 보여줄 게시글 갯수
   var cnt_per_page = 10;
+  //페이지 그룹 당 보여주는 페이지 수
+  var cnt_per_page_group = 4;
 
   var $titleObj;
 
@@ -40,6 +42,7 @@ $(function () {
   var backurlBdPage = "/back/showbdpage";
   var backurlBdSearch = "/back/searchboard";
   var backurlPage = "/back/showpagegroup";
+  var backurlTotalPage = "/back/showtotalpage";
 
   //검색 카테고리 지정 시 이벤트 처리하는 핸들러
   function categoryHandler(e) {
@@ -116,6 +119,45 @@ $(function () {
         currentPage = e.target.id - 1;
       }
       localStorage.setItem("bdCurrPage", currentPage);
+      console.log(
+        cnt_per_page_group *
+          (parseInt(localStorage.getItem("bdCurrPageGroup")) - 1) +
+          "d"
+      );
+      if (
+        currentPage ==
+        cnt_per_page_group *
+          (parseInt(localStorage.getItem("bdCurrPageGroup")) - 1)
+      ) {
+        console.log(
+          cnt_per_page_group *
+            (parseInt(localStorage.getItem("bdCurrPageGroup")) - 1)
+        );
+        localStorage.setItem(
+          "bdCurrPageGroup",
+          parseInt(localStorage.getItem("bdCurrPageGroup")) - 1
+        );
+        //페이지 그룹 반환 하는 ajax
+        $.ajax({
+          url: backurlPage,
+          method: "get",
+          data: { nthPageGroup: localStorage.getItem("bdCurrPageGroup") },
+          success: function (responseData) {
+            removeElement(pageGroupObj);
+            emptyPageElement();
+            createPageNumBigContainer();
+            $(responseData).each(function (i, e) {
+              pageGroup[i] = e;
+            });
+            createPagePrev();
+            for (var i = 0; i < pageGroup.length; i++) {
+              createPageNum(pageGroup[i]);
+            }
+            createPageNext();
+          },
+        });
+      }
+
       $.ajax({
         url: backurlBdPage,
         method: "get",
@@ -157,8 +199,6 @@ $(function () {
       bdPageTitleObj.innerHTML = currentPage + " PAGE";
     } //else
   }
-
-  prevBtnObj.addEventListener("click", prevBtnClickHandler);
 
   //next버튼 클릭 핸들러
   function nextBtnClickHandler(e) {
@@ -170,8 +210,37 @@ $(function () {
       } else {
         currentPage = e.target.id + 1;
       }
-
       localStorage.setItem("bdCurrPage", currentPage);
+      if (
+        currentPage ==
+        cnt_per_page_group * parseInt(localStorage.getItem("bdCurrPageGroup")) +
+          1
+      ) {
+        localStorage.setItem(
+          "bdCurrPageGroup",
+          parseInt(localStorage.getItem("bdCurrPageGroup")) + 1
+        );
+        //페이지 그룹 반환 하는 ajax
+        $.ajax({
+          url: backurlPage,
+          method: "get",
+          data: { nthPageGroup: localStorage.getItem("bdCurrPageGroup") },
+          success: function (responseData) {
+            removeElement(pageGroupObj);
+            emptyPageElement();
+            createPageNumBigContainer();
+            $(responseData).each(function (i, e) {
+              pageGroup[i] = e;
+            });
+            createPagePrev();
+            for (var i = 0; i < pageGroup.length; i++) {
+              createPageNum(pageGroup[i]);
+            }
+            createPageNext();
+          },
+        });
+      }
+
       $.ajax({
         url: backurlBdPage,
         method: "get",
@@ -214,6 +283,26 @@ $(function () {
     } //else
   }
 
+  function createPageNumBigContainer() {
+    pageGroupObj = document.createElement("ul");
+    pageGroupObj.setAttribute("class", "list-inline pageGroup");
+    pageGroupDivObj.appendChild(pageGroupObj);
+  }
+
+  //nextPage 버튼 만들어주는 함수
+  function createPagePrev() {
+    var prevli = document.createElement("li");
+    prevli.setAttribute("class", "list-inline-item");
+    var preva = document.createElement("a");
+    preva.setAttribute("class", "text-muted");
+    var prevstrong = document.createElement("strong");
+    prevstrong.innerHTML = "prev";
+    preva.appendChild(prevstrong);
+    prevli.appendChild(preva);
+    pageGroupObj.appendChild(prevli);
+
+    prevli.addEventListener("click", prevBtnClickHandler);
+  }
   //nextPage 버튼 만들어주는 함수
   function createPageNext() {
     var nextli = document.createElement("li");
@@ -304,9 +393,8 @@ $(function () {
   }
 
   //페이지 그룹 변경 시 기존 페이지 지워주기 위함
-  function emptyPageElement(target) {
-    pagea = [];
-    pageli = [];
+  function emptyPageElement() {
+    pageGroup = [];
   }
 
   //게시글 목록이 들어가는 tbody객체 만들어주는 함수
@@ -385,17 +473,29 @@ $(function () {
   }); //ajax 끝
   bdPageTitleObj.innerHTML = localStorage.getItem("bdCurrPage") + " PAGE";
 
-  //총 페이지 수 반환 하는 ajax
+  //페이지 그룹 반환 하는 ajax
   $.ajax({
     url: backurlPage,
     method: "get",
+    data: { nthPageGroup: 1 },
     success: function (responseData) {
-      totalPage = responseData;
-      console.log("page " + totalPage);
-      for (var i = 1; i < totalPage + 1; i++) {
+      $(responseData).each(function (i, e) {
+        pageGroup[i] = e;
+      });
+      console.log("page " + pageGroup);
+      createPagePrev();
+      for (var i = 1; i < pageGroup.length + 1; i++) {
         createPageNum(i);
       }
       createPageNext();
+    },
+  });
+  //총 페이지 반환하는 ajax
+  $.ajax({
+    url: backurlTotalPage,
+    method: "get",
+    success: function (responseData) {
+      totalPage = responseData;
     },
   });
 

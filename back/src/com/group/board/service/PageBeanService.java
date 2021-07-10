@@ -1,6 +1,7 @@
 package com.group.board.service;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -11,7 +12,7 @@ import com.group.exception.FindException;
 
 public class PageBeanService {
 	private BoardDAO dao;
-	private static PageBeanService service;
+	private static PageBeanService service /*=new PageBeanService() */;
 	public static String envProp;
 
 	private PageBeanService() {
@@ -20,7 +21,7 @@ public class PageBeanService {
 			env.load(new FileInputStream(envProp));
 //			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("boardDAO");
-			System.out.println(className);
+//			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -39,15 +40,6 @@ public class PageBeanService {
 		return service;
 	}
 
-	public int[] createPageGroup(int endIndex) {
-		int[] pageGroup = new int[PageBean.CNT_PER_PAGE_GROUP];
-		for (int i = 0; i < pageGroup.length; i++) {
-			pageGroup[i] = i + 1 + endIndex;
-		}
-		return pageGroup;
-
-	}
-
 	public int selectTotalPage() {
 		int totalPage=0;
 		int temp=PageBean.CNT_PER_PAGE;
@@ -58,21 +50,58 @@ public class PageBeanService {
 			}else {
 				totalPage=(bdList.size()/temp);
 			}
-			System.out.println(bdList.size());
+			
 		} catch (FindException e) {
-			// TODO Auto-generated catch blo ck
 			e.printStackTrace();
 		}
 		
 		return totalPage;
 	}
-	public static void main(String[] args) {
-//		PageBeanService service = new PageBeanService(); 
-//		int[] group = service.createPageGroup(4);
-//		for(int i : group) {
+	public List<Integer> selectPageGroup(int PageGroup) {
+		int totalPage=0;
+		int totalGroupNum=0;
+		int temp=PageBean.CNT_PER_PAGE;
+		int group=PageBean.CNT_PER_PAGE_GROUP;
+		List<Integer> list = new ArrayList<Integer>();
+		int index=0;
+		try { 
+			List<Board> bdList = dao.selectAll();
+			if((bdList.size()%temp)!=0) {
+				totalPage=(bdList.size()/temp)+1;
+			}else {
+				totalPage=(bdList.size()/temp);
+			}
+			
+			if((totalPage%group)!=0) {
+				totalGroupNum=(totalPage/group)+1;	
+			}else {
+				totalGroupNum=(totalPage/group);
+			}
+			
+			if(PageGroup==totalGroupNum) {
+				if((totalPage%group)!=0) {
+					index=(totalPage%group);
+				}else {
+					index=4;					
+				}
+			}else {
+				index=4;
+			}
+
+			for(int i=0; i<index; i++) {
+				list.add(((PageGroup-1)*group)+i+1);
+			}
+
+		} catch (FindException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+//	public static void main(String[] args) {
+//		List<Integer> cnt = service.selectPageGroup(2);
+//		for(int i:cnt) {
 //			System.out.println(i);
 //		}
-//		int cnt = service.selectTotalPage();
-//		System.out.println(cnt);
-	}
+//	}
 }
