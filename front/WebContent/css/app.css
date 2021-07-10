@@ -2722,11 +2722,27 @@ fieldset:disabled .btn {
   pointer-events: none;
   opacity: 0.65;
 }
+
+/*결재버튼*/
 .ap-btn-purple {
   font-size: 1rem;
+  font-weight: 600;
   color: #5b2a8f;
 }
+/*결재버튼*/
+.ap-btn-outline-purple {
+  font-size: 1rem;
+  color: #5b2a8f;
+  border-color: #5b2a8f;
+}
 
+/*결재버튼*/
+.ap-btn-outline-purple:hover {
+  font-size: 1rem;
+  color: #4b1b80;
+  border-color: #5b2a8f;
+  border: 2px;
+}
 
 .btn-primary {
   color: #fff;
