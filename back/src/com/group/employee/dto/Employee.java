@@ -3,18 +3,16 @@ package com.group.employee.dto;
 import java.util.Date;
 
 public class Employee {
-	public String employee_id;
-	public String name;
-
-	public Department department;
-	public Job job;
-	public Position position;
-
-	public String phone_number;
-	public String email;
-	public Date hire_date;
-	public int enabled;
-	public String password;
+	private String employee_id;
+	private String name;
+	private Department department;
+	private Job job;
+	private Position position;
+	private String phone_number;
+	private String email;
+	private Date hire_date;
+	private int enabled;
+	private String password;
 
 	public Employee() {
 	}

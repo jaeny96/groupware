@@ -3,11 +3,12 @@ package com.group.employee.dto;
 import java.util.Date;
 
 public class Leave {
-	public String employee_id;
-	public int grant_days;
-	public int use_days;
-	public int remain_days;
-	public Date grant_year;
+	private String employee_id;
+	private int grant_days;
+	private int use_days;
+	private int remain_days;
+	private Date grant_year;
+	
 	public Leave() {
 		
 	}

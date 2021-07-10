@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 import com.group.employee.dto.Employee;
 
 public class BoardComment {
-	public String bd_no;
-	public int cm_no;
-	public Employee cm_writer;
-	public Timestamp cm_date;
-	public String cm_content;
+	private String bd_no;
+	private int cm_no;
+	private Employee cm_writer;
+	private Timestamp cm_date;
+	private String cm_content;
 
 	public BoardComment() {
 	}

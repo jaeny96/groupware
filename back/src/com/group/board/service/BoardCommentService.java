@@ -81,7 +81,7 @@ public class BoardCommentService {
 		try {
 			cmList = service.showCm(cm.getBd_no());
 			BoardComment compare = cmList.get(cmList.size()-cm.getCm_no());
-			if(compare.getCm_writer().employee_id.equals(cm.getCm_writer().employee_id)) {
+			if(compare.getCm_writer().getEmployee_id().equals(cm.getCm_writer().getEmployee_id())) {
 				dao.delete(cm);
 			}else {
 				System.out.println("댓글을 작성한 작성자가 아닙니다");

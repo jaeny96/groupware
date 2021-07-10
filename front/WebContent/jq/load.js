@@ -1,5 +1,6 @@
 //main-form 에서 적용할 내용
 $(function() {
+	localStorage.setItem("bdCurrPage",1);
 	var mainObj = document.querySelector("div.wrapper>div.main");
 	var mainProfileObj = mainObj.querySelector("div.profileDropdown");
 	var mainLoginIdObj = mainProfileObj.querySelector("span.loginId");

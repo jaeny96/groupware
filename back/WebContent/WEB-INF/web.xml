@@ -243,4 +243,24 @@
     <servlet-name>RemoveBoardServlet</servlet-name>
     <url-pattern>/removeboard</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowSkdDetailServlet</display-name>
+    <servlet-name>ShowSkdDetailServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowSkdDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowSkdDetailServlet</servlet-name>
+    <url-pattern>/showskddetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowPageGroupServlet</display-name>
+    <servlet-name>ShowPageGroupServlet</servlet-name>
+    <servlet-class>com.group.board.control.ShowPageGroupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowPageGroupServlet</servlet-name>
+    <url-pattern>/showpagegroup</url-pattern>
+  </servlet-mapping>
 </web-app>

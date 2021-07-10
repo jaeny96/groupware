@@ -8,10 +8,10 @@ public class Board {
 	public String bd_no;
 
 	// 게시판은 작성자를 가질 수 있다
-	public Employee writer;
-	public String bd_title;
-	public String bd_content;
-	public Timestamp bd_date;
+	private Employee writer;
+	private String bd_title;
+	private String bd_content;
+	private Timestamp bd_date;
 
 	// 게시판은 여러개의 댓글을 가질 수 있다
 	public List<BoardComment> bd_comments;

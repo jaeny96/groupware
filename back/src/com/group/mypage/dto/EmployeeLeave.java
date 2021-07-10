@@ -4,8 +4,8 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 
 public class EmployeeLeave {
-	public Employee employee;
-	public Leave leave;
+	private Employee employee;
+	private Leave leave;
 	
 	public EmployeeLeave() {
 	}

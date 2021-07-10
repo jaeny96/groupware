@@ -2,42 +2,52 @@ package com.group.calendar.dto;
 
 import java.sql.Timestamp;
 
-//import com.group.employee.dto.Department;
+import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 
 public class Schedule {
-	// 일단 Employee skd_id, Department department_id를 String으로
+
 	public int skd_no;
 	public Employee skd_id;
-	public String skd_type;
+	public ScheduleType skd_type;
 	public String skd_title;
 	public String skd_content;
 	public Timestamp skd_date;
 	public Timestamp skd_start_date;
 	public Timestamp skd_end_date;
 	public String skd_share;
-	// ++지수 변경
-	// public Department department_id;
 
 	public Schedule() {
-	};
-
-	// ++지수 추가
-	public Schedule(String skd_title, Timestamp skd_start_date) {
-		this(null, null, skd_title, null, skd_start_date, null, null);
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	//++
-	
-	// 일정추가용 DTO insertSchedule에 활용
-	public Schedule(String skd_type, Employee skd_id, String skd_title, String skd_content, Timestamp skd_start_date,
-			Timestamp skd_end_date, String skd_share) {
-		this.skd_type = skd_type;
+
+	public Schedule(Employee skd_id, String skd_title, String skd_content) {
+		super();
 		this.skd_id = skd_id;
 		this.skd_title = skd_title;
 		this.skd_content = skd_content;
+	}
+
+	public Schedule(Employee skd_id, Timestamp skd_start_date) {
+		super();
+		this.skd_id = skd_id;
+		this.skd_start_date = skd_start_date;
+	}
+
+	public Schedule(int skd_no, Employee skd_id, ScheduleType skd_type, String skd_title, String skd_content,
+			Timestamp skd_date, Timestamp skd_start_date, Timestamp skd_end_date, String skd_share) {
+		super();
+		this.skd_no = skd_no;
+		this.skd_id = skd_id;
+		this.skd_type = skd_type;
+		this.skd_title = skd_title;
+		this.skd_content = skd_content;
+		this.skd_date = skd_date;
 		this.skd_start_date = skd_start_date;
 		this.skd_end_date = skd_end_date;
 		this.skd_share = skd_share;
+
 	}
 
 	public int getSkd_no() {
@@ -56,11 +66,11 @@ public class Schedule {
 		this.skd_id = skd_id;
 	}
 
-	public String getSkd_type() {
+	public ScheduleType getSkd_type() {
 		return skd_type;
 	}
 
-	public void setSkd_type(String skd_type) {
+	public void setSkd_type(ScheduleType skd_type) {
 		this.skd_type = skd_type;
 	}
 
@@ -112,21 +122,11 @@ public class Schedule {
 		this.skd_share = skd_share;
 	}
 
-	// ++지수 변경
-//	public Department getDepartment_id() {
-//		return department_id;
-//	}
-//
-//	public void setDepartment_id(Department department_id) {
-//		this.department_id = department_id;
-//	}
-
-	// ++지수 추가
 	@Override
 	public String toString() {
 		return "Schedule [skd_no=" + skd_no + ", skd_id=" + skd_id + ", skd_type=" + skd_type + ", skd_title="
 				+ skd_title + ", skd_content=" + skd_content + ", skd_date=" + skd_date + ", skd_start_date="
 				+ skd_start_date + ", skd_end_date=" + skd_end_date + ", skd_share=" + skd_share + "]";
 	}
-	// ++
+
 }

@@ -1,4 +1,6 @@
 $(function() {
+	var boardPageGoBtnObj = document.querySelector("button.boardPageGoBtn");
+
 	var loginInfoIdObj = document.querySelector("div.profileDropdown span.loginId");
 	var loginInfoNameObj = document.querySelector("div.profileDropdown span.loginName");
 
@@ -13,7 +15,6 @@ $(function() {
 	var cmWriterObj = document.querySelector("h5.currentLoginId");
 	var cmTextAreaObj = document.querySelector("textarea");
 	var cmRegisterFormObj = document.querySelector("div.col-md-12 form");
-	console.log(cmRegisterFormObj);
 
 	var bdDetailBdNo = localStorage.getItem('bdNumber');
 	var bdDetailTitle;
@@ -32,6 +33,14 @@ $(function() {
 	var cmContent = new Array();
 
 	var backurlDeleteCm = '/back/removeboardcomment';
+
+	function boardPageGoClickHandler() {
+		$(
+			'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board.html"]'
+		).trigger('click');
+	}
+
+	boardPageGoBtnObj.addEventListener("click", boardPageGoClickHandler);
 
 	function cmDeleteClickHandler(e) {
 		console.log(e.target.id + currentLoginId);

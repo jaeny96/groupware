@@ -1,8 +1,8 @@
 package com.group.employee.dto;
 
 public class Position {
-	public int position_id;
-	public String position_title;
+	private int position_id;
+	private String position_title;
 	
 	public Position() {
 	}

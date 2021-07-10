@@ -1,10 +1,10 @@
 package com.group.employee.dto;
 
 public class Department {
-	public String department_id;
-	public String department_title;
-	public String manager_id;
-	public int count;
+	private String department_id;
+	private String department_title;
+	private String manager_id;
+	private int count;
 	
 	public Department() {
 	}
