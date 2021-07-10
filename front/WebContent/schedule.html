@@ -8,6 +8,7 @@
   <link href="./css/main.css" rel="stylesheet" />
   <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
   <link href="css/app.css" rel="stylesheet" />
+  <link href="css/schedule.css" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/locales-all.min.js"></script>
@@ -86,15 +87,12 @@
                 var skdInputShare = $('input[name="radio-3"]:checked');
 
                 //시간 미입력
-                if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
-                  alert("시간을 입력하세요.");
-                }else{
-                
-                //시작일자가 
-                if (new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
+                // if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
+                //   alert("시간을 입력하세요.");
+                // }else 
+                if(new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
                   alert("종료일이 시작일보다 먼저입니다.");
-                } else {
-
+                } else {    
                   if (skdInputShare.val() == 'p') {
                     calendar.addEvent({
                       title: skdInputTitle.val(),
@@ -107,8 +105,10 @@
                         calendarType: skdInputType.value,
                         teamOrPersonal: skdInputShare.val()
                       }
-
+                      
                     })
+                    $('div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="mypage.html"]').trigger('click');
+                  
                   } else {
                     calendar.addEvent({
                       title: skdInputTitle.val(),
@@ -124,29 +124,31 @@
 
 
                     })
+                    $('#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li.sidebar-item.active > a[href="schedule.html"]').trigger('click');
                   }
+                
                 }
-              }
-
-                skdInputObj = {
-                  title: skdInputTitle.val(),
+              
+              //데이터 테스트 
+                // skdInputObj = {
+                //   title: skdInputTitle.val(),
                
-                      title: skdInputTitle.val(),
-                      content: skdInputContent.val(),
-                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
-                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
-                      allDay: false,
-                      backgroundColor: '#28a745',
-                      extendedProps: {
-                        calendarType: skdInputType.value,
-                        teamOrPersonal: skdInputShare.val()
-                      }
+                //       title: skdInputTitle.val(),
+                //       content: skdInputContent.val(),
+                //       start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
+                //       end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
+                //       allDay: false,
+                //       backgroundColor: '#28a745',
+                //       extendedProps: {
+                //         calendarType: skdInputType.value,
+                //         teamOrPersonal: skdInputShare.val()
+                //       }
 
-                }
-                //todo : 입력 해결 
-                // $('#calendar').fullCalendar('renderEvent', skdInputObj, true);
-                console.log(skdInputObj);
-
+                // }
+                // //todo : 입력 해결 
+                // // $('#calendar').fullCalendar('renderEvent', skdInputObj, true);
+                // console.log(skdInputObj);
+           
               });
             }
           },
@@ -295,190 +297,39 @@
 
 
   </script>
-  <style>
-    body {
-      margin: 40px 10px;
-      padding: 0;
-      font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-      font-size: 14px;
-    }
 
-    #calendar {
-      max-width: 100%;
-      margin: 0 auto;
-    }
-
-
-    /* 일정추가버튼 */
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button.fc-addeventButton-button.fc-button.fc-button-primary {
-      /* width: 100px;
-    height: 50px; */
-      display: inline-block;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #495057;
-      text-align: center;
-      vertical-align: middle;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-color: initial;
-      border: 1px solid transparent;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.875rem;
-      border-radius: 0.2rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      color: #fff;
-      background-color: #3b7ddd;
-      border-color: #3b7ddd;
-    }
-
-    /* 공유캘린더 */
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button.fc-teamSchedule-button.fc-button.fc-button-primary {
-      display: inline-block;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #495057;
-      text-align: center;
-      vertical-align: middle;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-color: initial;
-      border: 1px solid transparent;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.875rem;
-      border-radius: 0.2rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      color: #28a745;
-      border-color: #28a745;
-
-    }
-
-    /* 공유캘린더:hover */
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button.fc-teamSchedule-button.fc-button.fc-button-primary:hover {
-      color: #fff;
-      background-color: #28a745;
-      border-color: #28a745;
-
-    }
-
-    /* 내 캘린더 */
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button.fc-personalSchedule-button.fc-button.fc-button-primary {
-      display: inline-block;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #495057;
-      text-align: center;
-      vertical-align: middle;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-color: initial;
-      border: 1px solid transparent;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.875rem;
-      border-radius: 0.2rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      color: #ffc107;
-      border-color: #ffc107;
-
-
-
-    }
-
-    /* 내 캘린더 hover */
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(1)>button.fc-personalSchedule-button.fc-button.fc-button-primary:hover {
-      color: white;
-      background-color: #ffc107;
-      border-color: #ffc107;
-    }
-
-    #calendar>div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr>div:nth-child(2)>h2 {
-      margin: 0 0 0 -150px;
-
-
-    }
-
-
-    /* 모달창 css */
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal_overlay {
-      background-color: rgba(0, 0, 0, 0.18);
-      width: 100%;
-      height: 100%;
-      position: absolute;
-    }
-
-    .modal_content {
-      position: relative;
-      top: 0px;
-      background-color: white;
-      padding: 25px 0px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 10px;
-      width: 500px;
-      height: 700px;
-
-
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    ul {
-      list-style: none;
-      padding: 20px 10px;
-    }
-
-    ul li {
-      height: 40px;
-    }
-
-    form li>span {
-      float: left;
-      width: 100px;
-
-    }
-
-    form li>div {
-      float: left;
-      width: 300px;
-
-    }
-
-    #content_box {
-      width: 300px;
-    }
-  </style>
   
 </head>
 
+
 <body>
+  <div class="wrapper">
+    <div class="main">
+      <main class="content">
+        <div class="container-fluid p-0">
+          <div>
+            <div class="type-calendar btn-group btn-group-sm">
+              <button
+                type="button"
+                class="btn fc-button-primary"
+                id = "teamSkd"
+              >
+                공유 캘린더
+              </button> &nbsp; &nbsp;
+              <button
+                type="button"
+                class="btn fc-button-primary"
+                id = "personalSkd"
+              >
+                내 캘린더
+              </button>
+            </div>
+          </div>
+
+
   <!-- 일정검색란 -->
-  <div class="container-fluid p-0">
-    <form method="get" action="#" class="d-none d-sm-inline-block col-md-3">
+      <div class="container-fluid p-0">
+        <form method="get" action="#" class="d-none d-sm-inline-block col-md-3">
       <div class="input-group input-group-navbar">
         <div>
           <div class="btn-group btn-group-sm">
@@ -505,13 +356,11 @@
 
     <div id="calendar" class=""></div>
   </div>
-  <!-- </div> 
 
-   </div> 
-   </div>
     </main>
   </div>
-  </div> -->
+  </div> 
+
 
   <!-- 스케쥴 입력모달창 -->
   <div class="modal hidden" id="skdInput">
@@ -524,9 +373,10 @@
           <h4>일정 추가</h4>
 
         </div>
-        <div class="card-body">
-          <!-- <form> -->
+        <form class="skdInsertClass">
 
+        <div class="card-body">
+          
           <div class="mb-3 row">
             <label class="col-form-label col-sm-2 text-sm-right">종류</label>
             <div class="col-sm-10">
@@ -603,7 +453,7 @@
           <div class="mb-3 row">
             <div style="text-align: center; margin: 10px 0;">
               <button type="submit" class="btn btn-primary saveBtn"> 저장 </button>
-              <button class="btn btn-secondary cancel"> 취소
+              <button class="btn btn-secondary cancel" type="button"> 취소
               </button>
             </div>
           </div>
@@ -641,21 +491,22 @@
             <td> <Strong>제목</Strong></td>
             <td class="skdDetailInputData">
             </td>
+          </tr> 
 
           <tr id="skdDetailType">
             <td><Strong>종류</Strong></td>
             <td class="skdDetailInputData"></td>
           </tr>
+
           <tr id="skdDetailStartTime">
             <td><Strong>시작 시간</Strong></td>
             <td class="skdDetailInputData"> </td>
 
           </tr>
+
           <tr id="skdDetailEndTime">
             <td><Strong>종료 시간</Strong></td>
             <td class="skdDetailInputData"></td>
-
-          </tr>
 
           </tr>
 
@@ -740,7 +591,7 @@
           <button class="btn btn-primary " type="submit"> 검색 </button>
 
 
-          <button class="btn btn-secondary cancel"> 취소 </button>
+          <button class="btn btn-secondary cancel" type="button"> 취소 </button>
         </div>
       </div>
 
@@ -805,9 +656,7 @@
       <div class="mb-3 row">
         <div style="text-align: center; margin: 10px 0;">
           <button class="btn btn-primary" type="submit"> 검색 </button>
-
-
-          <button class="btn btn-secondary cancel"> 취소 </button>
+          <button class="btn btn-secondary cancel" type="button"> 취소 </button>
         </div>
       </div>
     </div>
@@ -882,7 +731,7 @@
           <button class="btn btn-primary" type="submit"> 검색 </button>
 
 
-          <button class="btn btn-secondary cancel"> 취소 </button>
+          <button type="button" type="button" class="btn btn-secondary cancel"> 취소 </button>
         </div>
       </div>
     </div>
@@ -893,52 +742,6 @@
   </div>
 
   <script src="js/app.js"></script>
-  <script>
-    //modal 만드는 함수
-    //파라미터 : class="modal" 의 id
-    function createModal(id) {
-
-      var modal = document.getElementById(id);
-      modal.classList.remove("hidden");//모달열기
-      var closeBtn = modal.querySelector("button.cancel");
-
-      var overlay = modal.querySelector(".modal_overlay");
-      var deleteBtn = modal.querySelector("button.deleteBtn");
-      var xBoxBtn = modal.querySelector("button.xBox");
-
-
-      //함수
-      var openModal = () => {
-        modal.classList.remove("hidden");
-      }
-      var deleteSKD = () => {
-        window.alert('일정을 삭제하시겠습니까?');
-      }
-      var closeModal = () => {
-        modal.classList.add("hidden");
-      }
-
-      //클릭이벤트
-      //오버레이 부분 클릭 닫기
-      overlay.addEventListener('click', closeModal);
-      //모달창 닫기 버튼
-      if (xBoxBtn != null) {
-        xBoxBtn.addEventListener('click', closeModal);
-      }
-
-      if (closeBtn != null) {
-        closeBtn.addEventListener('click', closeModal);
-      }
-
-      //todo : 삭제 버튼  
-      if (deleteBtn != null) {
-        deleteBtn.addEventListener('click', deleteSKD);
-      }
-    }
-
-
-  </script>
-  
   <script src="js/schedule.js"></script>
 </body>
 

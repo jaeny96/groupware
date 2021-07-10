@@ -44,4 +44,47 @@ function init() {
   }
   
  init();
-  
+ 
+ 
+  //modal 만드는 함수
+    //파라미터 : class="modal" 의 id
+    function createModal(id) {
+
+      var modal = document.getElementById(id);
+      modal.classList.remove("hidden");//모달열기
+      var closeBtn = modal.querySelector("button.cancel");
+
+      var overlay = modal.querySelector(".modal_overlay");
+      var deleteBtn = modal.querySelector("button.deleteBtn");
+      var xBoxBtn = modal.querySelector("button.xBox");
+
+
+      //함수
+      var openModal = () => {
+        modal.classList.remove("hidden");
+      }
+      var deleteSKD = () => {
+        window.alert('일정을 삭제하시겠습니까?');
+      }
+      var closeModal = () => {
+        modal.classList.add("hidden");
+      }
+
+      //클릭이벤트
+      //오버레이 부분 클릭 닫기
+      overlay.addEventListener('click', closeModal);
+      //모달창 닫기 버튼
+      if (xBoxBtn != null) {
+        xBoxBtn.addEventListener('click', closeModal);
+      }
+
+      if (closeBtn != null) {
+        closeBtn.addEventListener('click', closeModal);
+      }
+
+      //todo : 삭제 버튼  
+      if (deleteBtn != null) {
+        deleteBtn.addEventListener('click', deleteSKD);
+      }
+    }
+
