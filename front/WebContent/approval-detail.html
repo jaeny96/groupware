@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/comment-modal.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jq/load-apboard-detail.js"></script>
   </head>
   <body style="overflow-x: hidden"> 
     <div>
@@ -92,18 +94,30 @@
                 <td
                   rowspan="3"
                   class="font-weight-bolder text-center"
-                  style="width: 10%; background-color: #f6f6f6"
+                  style="width: 12%; background-color: #f6f6f6"
                 >
                   결재
                 </td>
-                <td class="text-center" style="width: 30%">1</td>
-                <td class="text-center" style="width: 30%">2</td>
-                <td class="text-center" style="width: 30%">3</td>
+
+                <td class="text-center" style="width: 22%">0</td>
+                <td class="text-center" style="width: 22%">1</td>
+                <td class="text-center" style="width: 22%">2</td>
+                <td class="text-center" style="width: 22%">3</td>
               </tr>
               <tr>
+                  <td
+                  id="apApprovalStep0"
+                  style="width: 22%"
+                  class="text-center font-weight-bolder"
+                >
+              
+                    <img src="img/icons/no.png" width="100px" /><br />
+              
+                  <div id="apApprovalStepDate1">2017-02-12</div>
+                </td>
                 <td
                   id="apApprovalStep1"
-                  style="width: 30%"
+                  style="width: 22%"
                   class="text-center font-weight-bolder"
                 >
               
@@ -113,7 +127,7 @@
                 </td>
                 <td
                   id="apApprovalStep2"
-                  style="width: 30%"
+                  style="width: 22%"
                   class="text-center font-weight-bolder"
                 >
          
@@ -122,21 +136,24 @@
                   </button>
                   <div id="apApprovalStepDate"></div>
                 </td>
-                <td id="apApprovalStep3" style="width: 30%" class="text-center">
+                <td id="apApprovalStep3" style="width: 22%" class="text-center">
       
                   <div id="apApprovalStepDate3"></div>
                 </td>
               </tr>
               <tr>
-                <td style="width: 30%" class="text-center font-weight-bolder">
+                 <td style="width: 22%" class="text-center font-weight-bolder">
+               나
+                </td>
+                <td style="width: 22%" class="text-center font-weight-bolder">
                   티파니
                 </td>
                 <td
-                  style="width: 30%"
+                  style="width: 22%"
                   class="text-center font-weight-bolder"
                 ></td>
                 <td
-                  style="width: 30%"
+                  style="width: 22%"
                   class="text-center font-weight-bolder"
                 ></td>
               </tr>
@@ -150,29 +167,32 @@
               <tr>
                 <td
                   class="font-weight-bolder text-center"
-                  style="width: 10%; background-color: #f6f6f6"
+                  style="width: 12%; height:100px; background-color: #f6f6f6"
                 >
                   합의
                 </td>
                 <td
                   id="apAgreementC"
                   class="font-weight-bolder"
-                  style="width: 90%"
+                  style="width: 88%"
                 >
-                  태연 <img src="img/icons/no.png" width="30px" />
+                  태연   <img src="img/icons/no.png" width="70px" />
+                    <button id="approvalCommentBtn" class="btn ap-btn-outline-purple" style="width:80px; font-size: 0.7rem;"id="open">
+                 승인 요망
+                  </button>
                 </td>
               </tr>
               <tr>
                 <td
                   class="font-weight-bolder text-center"
-                  style="width: 10%; background-color: #f6f6f6"
+                  style="width: 12%; background-color: #f6f6f6"
                 >
                   참조
                 </td>
                 <td
                   id="apReferenceC"
                   class="font-weight-bolder"
-                  style="width: 90%"
+                  style="width: 88%"
                 >
                   수영
                   <span class="fa fa-check" style="color: darkmagenta"></span>
@@ -355,6 +375,7 @@
      </div> 
   </div>
 </body>
+
 </html>
 
   <script>
