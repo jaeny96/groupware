@@ -7,333 +7,348 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="jq/load-apboard-detail.js"></script>
   </head>
-  <body style="overflow-x: hidden"> 
+  <body style="overflow-x: hidden">
     <div>
-    <div class="container-fluid p-0" style="overflow: auto"></div>
-    <h1 class="fa fa-clipboard" style="margin-left: 10px; margin-top: 20px">
-      전자결재
-    </h1>
-    <hr />
+      <div class="container-fluid p-0" style="overflow: auto"></div>
+      <h1 class="fa fa-clipboard" style="margin-left: 10px; margin-top: 20px">
+        전자결재
+      </h1>
+      <hr />
 
-    <h2
-      class="text-center font-weight-bolder"
-      style="margin-top: 40px; margin-bottom: 40px"
-    >
-      품의서
-    </h2>
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <div class="card">
-          <table class="table table-bordered align-middle">
-            <tbody>
-              <tr>
-                <td
-                  id="apDocumentDetailType"
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                >
-                  문서 종류
-                </td>
-                <td style="width: 35%"></td>
-                <td
-                  id="apDocumentDetailNo"
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                  class="d-none d-md-table-cell"
-                >
-                  문서 번호
-                </td>
-                <td style="width: 35%"></td>
-              </tr>
-              <tr>
-                <td
-                  id="apDocumentDetailDep"
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                >
-                  기안 부서
-                </td>
-                <td style="width: 35%"></td>
-                <td
-                  id="apDocumentDetailWriter"
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                  class="d-none d-md-table-cell"
-                >
-                  기안자
-                </td>
-                <td style="width: 35%"></td>
-              </tr>
-              <tr>
-                <td
-                  id="apDocumentDetailDate"
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                >
-                  기안 일시
-                </td>
-                <td style="width: 35%"></td>
-                <td
-                  class="font-weight-bolder text-center"
-                  style="width: 15%; background-color: #f6f6f6"
-                  class="d-none d-md-table-cell"
-                >
-                  완료 일시
-                </td>
-                <td style="width: 35%"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <td
-                  rowspan="3"
-                  class="font-weight-bolder text-center"
-                  style="width: 12%; background-color: #f6f6f6"
-                >
-                  결재
-                </td>
-
-                <td class="text-center" style="width: 22%">0</td>
-                <td class="text-center" style="width: 22%">1</td>
-                <td class="text-center" style="width: 22%">2</td>
-                <td class="text-center" style="width: 22%">3</td>
-              </tr>
-              <tr>
+      <h2
+        class="text-center font-weight-bolder"
+        style="margin-top: 40px; margin-bottom: 40px"
+      >
+        품의서
+      </h2>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="card">
+            <table class="table table-bordered align-middle">
+              <tbody>
+                <tr>
                   <td
-                  id="apApprovalStep0"
-                  style="width: 22%"
-                  class="text-center font-weight-bolder"
-                >
-              
-                    <img src="img/icons/no.png" width="100px" /><br />
-              
-                  <div id="apApprovalStepDate1">2017-02-12</div>
-                </td>
-                <td
-                  id="apApprovalStep1"
-                  style="width: 22%"
-                  class="text-center font-weight-bolder"
-                >
-              
-                    <img src="img/icons/no.png" width="100px" /><br />
-               
-                  <div id="apApprovalStepDate1">2017-02-12</div>
-                </td>
-                <td
-                  id="apApprovalStep2"
-                  style="width: 22%"
-                  class="text-center font-weight-bolder"
-                >
-         
-                  <button id="approvalCommentBtn" class="btn ap-btn-outline-purple" id="open">
-                 승인 요망
-                  </button>
-                  <div id="apApprovalStepDate"></div>
-                </td>
-                <td id="apApprovalStep3" style="width: 22%" class="text-center">
-      
-                  <div id="apApprovalStepDate3"></div>
-                </td>
-              </tr>
-              <tr>
-                 <td style="width: 22%" class="text-center font-weight-bolder">
-               나
-                </td>
-                <td style="width: 22%" class="text-center font-weight-bolder">
-                  티파니
-                </td>
-                <td
-                  style="width: 22%"
-                  class="text-center font-weight-bolder"
-                ></td>
-                <td
-                  style="width: 22%"
-                  class="text-center font-weight-bolder"
-                ></td>
-              </tr>
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    문서 종류
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailType"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    문서 번호
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailNo"></td>
+                </tr>
+                <tr>
+                  <td
+                    id="apDocumentDetailDep"
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 부서
+                  </td>
+                  <td style="width: 35%"></td>
+                  <td
+                    id="apDocumentDetailWriter"
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    기안자
+                  </td>
+                  <td style="width: 35%"></td>
+                </tr>
+                <tr>
+                  <td
+                    id="apDocumentDetailDate"
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 일시
+                  </td>
+                  <td style="width: 35%"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    완료 일시
+                  </td>
+                  <td style="width: 35%"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-              <tr></tr>
-            </tbody>
-          </table>
+          <div class="card">
+            <table class="table table-bordered">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td
+                    rowspan="3"
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; background-color: #f6f6f6"
+                  >
+                    결재
+                  </td>
 
-          <table class="table table-bordered">
+                  <td class="text-center" style="width: 22%">0</td>
+                  <td class="text-center" style="width: 22%">1</td>
+                  <td class="text-center" style="width: 22%">2</td>
+                  <td class="text-center" style="width: 22%">3</td>
+                </tr>
+                <tr>
+                  <td
+                    id="apApprovalStep0"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <img src="img/icons/no.png" width="100px" /><br />
+
+                    <div id="apApprovalStepDate1">2017-02-12</div>
+                  </td>
+                  <td
+                    id="apApprovalStep1"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <img src="img/icons/no.png" width="100px" /><br />
+
+                    <div id="apApprovalStepDate1">2017-02-12</div>
+                  </td>
+                  <td
+                    id="apApprovalStep2"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <button
+                      id="approvalCommentBtn"
+                      class="btn ap-btn-outline-purple"
+                      id="open"
+                    >
+                      승인 요망
+                    </button>
+                    <div id="apApprovalStepDate"></div>
+                  </td>
+                  <td
+                    id="apApprovalStep3"
+                    style="width: 22%"
+                    class="text-center"
+                  >
+                    <div id="apApprovalStepDate3"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 22%" class="text-center font-weight-bolder">
+                    나
+                  </td>
+                  <td style="width: 22%" class="text-center font-weight-bolder">
+                    티파니
+                  </td>
+                  <td
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  ></td>
+                  <td
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  ></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; height: 100px; background-color: #f6f6f6"
+                  >
+                    합의
+                  </td>
+                  <td
+                    id="apAgreementC"
+                    class="font-weight-bolder"
+                    style="width: 88%"
+                  >
+                    태연 <img src="img/icons/no.png" width="70px" />
+                    <button
+                      id="approvalCommentBtn"
+                      class="btn ap-btn-outline-purple"
+                      style="width: 80px; font-size: 0.7rem"
+                      id="open"
+                    >
+                      승인 요망
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; background-color: #f6f6f6"
+                  >
+                    참조
+                  </td>
+                  <td
+                    id="apReferenceC"
+                    class="font-weight-bolder"
+                    style="width: 88%"
+                  >
+                    수영
+                    <span class="fa fa-check" style="color: darkmagenta"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2
+            id="apDocumentDetailTtitle"
+            class="font-weight-bolder"
+            style="margin-left: 20px; margin-top: 70px; margin-bottom: 40px"
+          >
+            지출 결의서
+          </h2>
+
+          <div class="card" id="apDocumentContentTtitle"></div>
+
+          <p style="text-align: center">&nbsp;</p>
+          <p style="text-align: center">결의서</p>
+          <p style="text-align: center"></p>
+          <p style="text-align: center">&nbsp;</p>
+          <table
+            class="table-bordered"
+            style="
+              width: 754.062px;
+              height: 161px;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          >
             <tbody>
               <tr>
-                <td
-                  class="font-weight-bolder text-center"
-                  style="width: 12%; height:100px; background-color: #f6f6f6"
-                >
-                  합의
-                </td>
-                <td
-                  id="apAgreementC"
-                  class="font-weight-bolder"
-                  style="width: 88%"
-                >
-                  태연   <img src="img/icons/no.png" width="70px" />
-                    <button id="approvalCommentBtn" class="btn ap-btn-outline-purple" style="width:80px; font-size: 0.7rem;"id="open">
-                 승인 요망
-                  </button>
-                </td>
+                <td style="width: 91px">결재내역</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 105px">&nbsp;</td>
+                <td style="width: 282.062px">&nbsp;</td>
               </tr>
               <tr>
-                <td
-                  class="font-weight-bolder text-center"
-                  style="width: 12%; background-color: #f6f6f6"
-                >
-                  참조
-                </td>
-                <td
-                  id="apReferenceC"
-                  class="font-weight-bolder"
-                  style="width: 88%"
-                >
-                  수영
-                  <span class="fa fa-check" style="color: darkmagenta"></span>
-                </td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 105px">&nbsp;</td>
+                <td style="width: 282.062px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 105px">&nbsp;</td>
+                <td style="width: 282.062px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 105px">&nbsp;</td>
+                <td style="width: 282.062px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 91px">&nbsp;</td>
+                <td style="width: 105px">&nbsp;</td>
+                <td style="width: 282.062px">&nbsp;</td>
               </tr>
             </tbody>
           </table>
-        </div>
-      
- 
-        <h2
-          id="apDocumentDetailTtitle"
-          class="font-weight-bolder"
-          style="margin-left: 20px; margin-top: 70px; margin-bottom: 40px"
-        >
-          지출 결의서
-        </h2>
-     
-        <div class="card " id="apDocumentContentTtitle">
-          <p>
-                <p style="text-align: center;">&nbsp;</p>
-                <p style="text-align: center;">결의서</p>
-                <p style="text-align: center;"></p>
-                <p style="text-align: center;">&nbsp;</p>
-                <table class=" table-bordered" style="width: 754.062px; height: 161px; margin-left: auto; margin-right: auto;">
-                <tbody>
-                <tr>
-                <td style="width: 91px;">결재내역</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 105px;">&nbsp;</td>
-                <td style="width: 282.062px;">&nbsp;</td>
-                </tr>
-                <tr>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 105px;">&nbsp;</td>
-                <td style="width: 282.062px;">&nbsp;</td>
-                </tr>
-                <tr>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 105px;">&nbsp;</td>
-                <td style="width: 282.062px;">&nbsp;</td>
-                </tr>
-                <tr>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 105px;">&nbsp;</td>
-                <td style="width: 282.062px;">&nbsp;</td>
-                </tr>
-                <tr>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 91px;">&nbsp;</td>
-                <td style="width: 105px;">&nbsp;</td>
-                <td style="width: 282.062px;">&nbsp;</td>
-                </tr>
-                </tbody>
-                </table>
-            </p>
-        </div>
 
-        <div class="card" style="margin-top: 70px">
-          <div class="card-header">
-            <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
-              의견
-            </h4>
-          </div>
-          <div id="apCommentGroup" class="card-body h-100">
-            <div class="d-flex align-items-start">
-              <div class="flex-grow-1">
-                <small class="float-right text-navy">30m ago</small>
-                <strong id="apCommentEmpName " style="font-size: 1.3em">
-                  티파니
-                </strong>
-                <small id="apCommentDate" class="text-muted"
-                  >2021-06-30 18:27</small
-                >
-                <br />
-                <div
-                  id="apCommentContent"
-                  class="border text-sm text-muted p-2 mt-1"
-                >
-                  좋습니다.
+          <div class="card" style="margin-top: 70px">
+            <div class="card-header">
+              <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
+                의견
+              </h4>
+            </div>
+            <div id="apCommentGroup" class="card-body h-100">
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong id="apCommentEmpName " style="font-size: 1.3em">
+                    티파니
+                  </strong>
+                  <small id="apCommentDate" class="text-muted"
+                    >2021-06-30 18:27</small
+                  >
+                  <br />
+                  <div
+                    id="apCommentContent"
+                    class="border text-sm text-muted p-2 mt-1"
+                  >
+                    좋습니다.
+                  </div>
                 </div>
               </div>
-            </div>
-            <br />
-            <div class="d-flex align-items-start">
-              <div class="flex-grow-1">
-                <small class="float-right text-navy">30m ago</small>
-                <strong style="font-size: 1.3em"> 티파니 </strong>
-                <small class="text-muted">2021-06-30 18:27</small>
+              <br />
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong style="font-size: 1.3em"> 티파니 </strong>
+                  <small class="text-muted">2021-06-30 18:27</small>
 
-                <div class="border text-sm text-muted p-2 mt-1">좋습니다.</div>
+                  <div class="border text-sm text-muted p-2 mt-1">
+                    좋습니다.
+                  </div>
+                </div>
               </div>
-            </div>
-            <br />
-            <div class="d-flex align-items-start">
-              <div class="flex-grow-1">
-                <small class="float-right text-navy">30m ago</small>
-                <strong style="font-size: 1.3em"> 티파니 </strong>
-                <small class="text-muted">2021-06-30 18:27</small>
+              <br />
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <small class="float-right text-navy">30m ago</small>
+                  <strong style="font-size: 1.3em"> 티파니 </strong>
+                  <small class="text-muted">2021-06-30 18:27</small>
 
-                <div class="border text-sm text-muted p-2 mt-1">좋습니다.</div>
+                  <div class="border text-sm text-muted p-2 mt-1">
+                    좋습니다.
+                  </div>
+                </div>
               </div>
+              <br />
+              <br />
+              <a href="#" class="btn ap-btn-purple btn-block">더보기</a>
             </div>
-            <br />
-            <br />
-            <a href="#" class="btn ap-btn-purple btn-block">더보기</a>
           </div>
         </div>
+
+        <div class="col-md-2"></div>
       </div>
+    </div>
 
-      <div class="col-md-2"></div>
-
-     </div>
-    
-      <!--modal 시작-->
-     <div class="modal hidden" id="modalApprovalComment">
-        <div class="modal_overlay"></div>
-        <div class="modal_content">
+    <!--modal 시작-->
+    <div class="modal hidden" id="modalApprovalComment">
+      <div class="modal_overlay"></div>
+      <div class="modal_content">
         <div class="card">
           <div class="card-header">
             <h3 class="font-weight-bolder">결재 확인</h3>
           </div>
+        </div>
         <div class="card-body">
-          <form>
-            <div class="text-center">
-              <button class="btn ap-btn-outline-purple text-center">
+          <div class="text-center">
+            <button class="btn ap-btn-outline-purple text-center" type="menu">
               <img
-              id="apCommentOkImg"
+                id="apCommentOkImg"
                 class="rounded mt-1"
                 src="img/icons/yes.png"
                 alt="Placeholder"
@@ -341,73 +356,77 @@
                 height="140"
               />
             </button>
-            <button class="btn ap-btn-outline-purple text-center">
+            <button class="btn ap-btn-outline-purple text-center" type="menu">
               <img
-              id="apCommentNoImg"
+                id="apCommentNoImg"
                 class="rounded mt-1"
                 src="img/icons/no.png"
                 alt="Placeholder"
                 width="140"
                 height="140"
               />
-           </button>
+            </button>
+          </div>
+          <div class="mb-3 row">
+            <label
+              class="basicMent"
+              style="margin-top: 20px"
+              id="apCommentInput "
+              ><h4 class="font-weight-bolder">코멘트를 작성해주세요</h4></label
+            ><br />
+            <div class="commentArea">
+              <textarea class="form-control" rows="5"></textarea>
             </div>
-            <div class="mb-3 row">
-              <label class="basicMent" style="margin-top: 20px" id="apCommentInput "
-                ><h4 class="font-weight-bolder">코멘트를 작성해주세요</h4></label
-              ><br />
-              <div class="commentArea">
-                <textarea class="form-control" rows="5"></textarea>
-              </div>
-            </div>
+          </div>
 
-            <div class="mb-3 row">
-              <div style="text-align: center; margin: 10px 0">
-                <button type="submit" class="btn ap-btn-outline-purple" id="apCommentConfirmBtn">저장</button>
+          <div class="mb-3 row">
+            <div style="text-align: center; margin: 10px 0">
+              <button
+                type="submit"
+                class="btn ap-btn-outline-purple"
+                id="apCommentConfirmBtn"
+              >
+                저장
+              </button>
 
-                <button class="btn btn-secondary cancel" id="apCommentCancelBtn">취소</button>
-              </div>
+              <button class="btn btn-secondary cancel" id="apCommentCancelBtn">
+                취소
+              </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-      <!--modal 끝-->
-     </div> 
-  </div>
-</body>
-
+    </div>
+    <!--modal 끝-->
+  </body>
 </html>
 
-  <script>
-    var modal = document.getElementById("modalApprovalComment");
-    console.log("모달");
-    var openBtn = document.getElementById("approvalCommentBtn");
-    console.log("모달 호출 버튼 클릭");
-    var overlay = document.querySelector(".modal_wrap");
-    console.log("오버레이");
-    var confirmBtn = modal.querySelector(".div.div.form.div.div#apCommentConfirmBtn");
-    console.log("승인버튼");
-    var cancelBtn = modal.querySelector(".div.div.form.div.div#apCommentCancelBtn");
-    console.log("취소버튼");
+<script>
+  var modal = document.getElementById("modalApprovalComment");
+  var openBtn = document.getElementById("approvalCommentBtn");
+  var confirmBtn = modal.querySelector(
+    ".modal.card-body.text-center.row#apCommentConfirmBtn"
+  );
+  var cancelBtn = modal.querySelector(
+    ".modal.card-body.text-center.row#apCommentCancelBtn"
+  );
 
-    const openModal = () => {
-      modal.classList.remove("hidden");
-      console.log("열림");
-    };
+  const openModal = () => {
+    modal.classList.remove("hidden");
+    console.log("열림");
+  };
 
-    const cancelModal = () => {
-      modal.classList.add("hidden");
-      console.log("닫힘");
-    };
+  const cancelModal = () => {
+    modal.classList.add("hidden");
+    console.log("닫힘");
+  };
 
-    const confirmModal = () => {
-      window.alert("확인완료 되었습니다.");
-      console.log("ol");
-    };
+  const confirmModal = () => {
+    window.alert("확인완료 되었습니다.");
+    console.log("ol");
+  };
 
-    openBtn.addEventListener("click", openModal);
-    overlay.addEventListener("click", cancelModal);
-     confirmBtn.addEventListener("click", confirmModal);
-    cancelBtn.addEventListener("click", cancelModal);
-  </script>
-
+  openBtn.addEventListener("click", openModal);
+  //confirmBtn.addEventListener("click", confirmModal);
+  cancelBtn.addEventListener("click", cancelModal);
+</script>
