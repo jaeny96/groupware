@@ -92,11 +92,10 @@
               </children>
             </children>
             <children xsi:type="basic:PartSashContainer" xmi:id="_j3Nhmt7BEeuRFZv-2qYDzg" containerData="8642" selectedElement="_j3Nhm97BEeuRFZv-2qYDzg" horizontal="true">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_j3Nhm97BEeuRFZv-2qYDzg" containerData="5000" selectedElement="_j3Nhnd7BEeuRFZv-2qYDzg">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_j3Nhm97BEeuRFZv-2qYDzg" containerData="5000" selectedElement="_j3NhnN7BEeuRFZv-2qYDzg">
                 <children xsi:type="advanced:Placeholder" xmi:id="_j3NhnN7BEeuRFZv-2qYDzg" elementId="org.eclipse.ui.editorss" containerData="5988" ref="_j3OwW97BEeuRFZv-2qYDzg"/>
                 <children xsi:type="basic:PartStack" xmi:id="_j3Nhnd7BEeuRFZv-2qYDzg" elementId="bottomRight" containerData="2312" selectedElement="_j3NhoN7BEeuRFZv-2qYDzg">
                   <tags>Git</tags>
-                  <tags>active</tags>
                   <children xsi:type="advanced:Placeholder" xmi:id="_j3Nhnt7BEeuRFZv-2qYDzg" elementId="org.eclipse.ui.views.AllMarkersView" ref="_j3OwkN7BEeuRFZv-2qYDzg" closeable="true">
                     <tags>View</tags>
                     <tags>categoryTag:General</tags>
@@ -212,6 +211,7 @@
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_j3OwW97BEeuRFZv-2qYDzg" elementId="org.eclipse.ui.editorss" selectedElement="_V4oxceGAEeu80c6wrpRuRA">
       <children xsi:type="basic:PartStack" xmi:id="_V4oxceGAEeu80c6wrpRuRA" elementId="PartStack@408cabd5" selectedElement="_4jBzAOInEeuZg8GtBXHdIQ">
+        <tags>active</tags>
         <children xsi:type="basic:Part" xmi:id="_bJCYAOIYEeuZg8GtBXHdIQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="load-post-detail.js" iconURI="platform:/plugin/org.eclipse.ui.genericeditor/icons/full/obj16/generic_editor.png" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.ui.genericeditor.GenericEditor&quot; name=&quot;load-post-detail.js&quot; partName=&quot;load-post-detail.js&quot; title=&quot;load-post-detail.js&quot; tooltip=&quot;front/WebContent/jq/load-post-detail.js&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/front/WebContent/jq/load-post-detail.js&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;802&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
@@ -243,10 +243,12 @@
           <tags>org.eclipse.ui.genericeditor.GenericEditor</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_4jBzAOInEeuZg8GtBXHdIQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="post-approvalline-modal.js" iconURI="platform:/plugin/org.eclipse.ui.genericeditor/icons/full/obj16/generic_editor.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.ui.genericeditor.GenericEditor&quot; name=&quot;post-approvalline-modal.js&quot; partName=&quot;post-approvalline-modal.js&quot; title=&quot;post-approvalline-modal.js&quot; tooltip=&quot;front/WebContent/js/post-approvalline-modal.js&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/front/WebContent/js/post-approvalline-modal.js&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;381&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.ui.genericeditor.GenericEditor&quot; name=&quot;post-approvalline-modal.js&quot; partName=&quot;post-approvalline-modal.js&quot; title=&quot;post-approvalline-modal.js&quot; tooltip=&quot;front/WebContent/js/post-approvalline-modal.js&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/front/WebContent/js/post-approvalline-modal.js&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;472&quot; selectionTopPixel=&quot;628&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.ui.genericeditor.GenericEditor</tags>
+          <tags>active</tags>
+          <tags>activeOnClose</tags>
         </children>
       </children>
     </sharedElements>
@@ -310,8 +312,6 @@
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view CommonNavigator.LINKING_ENABLED=&quot;0&quot;>&#xD;&#xA;&lt;lastRecentlyUsedFilters/>&#xD;&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:Server</tags>
-      <tags>active</tags>
-      <tags>activeOnClose</tags>
       <menus xmi:id="_j3Owl97BEeuRFZv-2qYDzg" elementId="org.eclipse.wst.server.ui.ServersView">
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
@@ -440,7 +440,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_j3Owz97BEeuRFZv-2qYDzg" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_4y1PwOIKEeuZg8GtBXHdIQ" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_j3TpDt7BEeuRFZv-2qYDzg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_pX-I0OJNEeustK2IvOGoig" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_j3TpDt7BEeuRFZv-2qYDzg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_j3Ow3N7BEeuRFZv-2qYDzg" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -453,7 +453,10 @@
         <tags>toolbarSeparator</tags>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_j3Ow497BEeuRFZv-2qYDzg" elementId="additions" toBeRendered="false"/>
       </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_68rRIOIKEeuZg8GtBXHdIQ">
+      <children xsi:type="menu:ToolBar" xmi:id="_sStboOJNEeustK2IvOGoig">
+        <tags>Draggable</tags>
+      </children>
+      <children xsi:type="menu:ToolBar" xmi:id="_68rRIOIKEeuZg8GtBXHdIQ" visible="false">
         <tags>Draggable</tags>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="__S0NYOF6Eeu80c6wrpRuRA" visible="false">
@@ -639,7 +642,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_j3PXFd7BEeuRFZv-2qYDzg" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_4y1PzeIKEeuZg8GtBXHdIQ" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_j3TosN7BEeuRFZv-2qYDzg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_pYDoYOJNEeustK2IvOGoig" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_j3TosN7BEeuRFZv-2qYDzg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_j3PXIt7BEeuRFZv-2qYDzg" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
