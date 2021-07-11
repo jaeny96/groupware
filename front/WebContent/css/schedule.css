@@ -1,0 +1,237 @@
+body {
+  /* margin: 40px 10px; */
+  padding: 0;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#calendar {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 일정추가버튼 */
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(1)
+  > button.fc-addeventButton-button.fc-button.fc-button-primary {
+  /* width: 100px;
+  height: 50px; */
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: initial;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #fff;
+  background-color: #3b7ddd;
+  border-color: #3b7ddd;
+}
+
+/* 공유캘린더 */
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(1)
+  > button.fc-teamSchedule-button.fc-button.fc-button-primary {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: initial;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #28a745;
+  border-color: #28a745;
+}
+
+/* 공유캘린더:hover */
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(1)
+  > button.fc-teamSchedule-button.fc-button.fc-button-primary:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+/* 내 캘린더 */
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(1)
+  > button.fc-personalSchedule-button.fc-button.fc-button-primary {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: initial;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #ffc107;
+  border-color: #ffc107;
+}
+
+/* 내 캘린더 hover */
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(1)
+  > button.fc-personalSchedule-button.fc-button.fc-button-primary:hover {
+  color: white;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+#calendar
+  > div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr
+  > div:nth-child(2)
+  > h2 {
+  margin: 0 0 0 -150px;
+}
+
+/* 모달창 css */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_overlay {
+  background-color: rgba(0, 0, 0, 0.18);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.modal_content {
+  position: relative;
+  top: 0px;
+  background-color: white;
+  padding: 25px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  width: 500px;
+  height: 700px;
+}
+
+.hidden {
+  display: none;
+}
+
+ul {
+  list-style: none;
+  padding: 20px 10px;
+}
+
+ul li {
+  height: 40px;
+}
+
+form li > span {
+  float: left;
+  width: 100px;
+}
+
+form li > div {
+  float: left;
+  width: 300px;
+}
+
+#content_box {
+  width: 300px;
+}
+div.type-calendar {
+  float: right;
+  /* margin-top: 30px;  */
+  margin-bottom: 0px;
+}
+#teamSkd {
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: initial;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #28a745;
+  border-color: #28a745;
+}
+#teamSkd:hover {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+#personalSkd {
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: initial;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: #ffc107;
+  border-color: #ffc107;
+}
+#personalSkd:hover {
+  color: white;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}

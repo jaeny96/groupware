@@ -12060,6 +12060,35 @@ a.sidebar-link-js svg {
   transform: rotate(-135deg);
   top: 1.4rem;
 }
+
+/*결재버튼*/
+.ap-btn-purple {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5b2a8f;
+}
+/*결재버튼*/
+.ap-btn-outline-purple {
+  font-size: 1rem;
+  color: #5b2a8f;
+  border-color: #5b2a8f;
+}
+
+/*결재버튼*/
+.ap-btn-outline-purple:hover {
+  font-size: 1rem;
+  color: #4b1b80;
+  border-color: #5b2a8f;
+  border: 2px;
+}
+/*필요해염*/
+.sidebar-approval {
+  background: transparent;
+  padding: 0.2rem 2rem 0.2rem;
+  font-size: 0.75rem;
+  color: #ced4da;
+}
+
 .sidebar-brand {
   font-weight: 600;
   font-size: 1.15rem;

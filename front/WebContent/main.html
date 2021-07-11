@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -63,10 +63,10 @@
               <a
                 data-target="#ui"
                 data-toggle="collapse"
-                class="sidebar-link collapsed"
+                class="sidebar-link collapsed apMenu"
               >
                 <i class="align-middle" data-feather="briefcase"></i>
-                <span class="align-middle">전자결재</span>
+                <span>전자결재</span>
               </a>
               <ul
                 id="ui"
@@ -74,23 +74,77 @@
                 data-parent="#sidebar"
               >
                 <li class="sidebar-item">
-                  <a class="sidebar-link" href="ui-alerts.html">작성하기</a>
-                </li>
-                <li class="sidebar-item"></li>
-                <li class="sidebar-approval">문서함</li>
-                <li class="sidebar-item">
-                  <a class="sidebar-link" href="ui-cards.html">전체</a>
+                  <a class="sidebar-link" href="post.html">작성하기</a>
                 </li>
                 <li class="sidebar-item">
-                  <a class="sidebar-link" href="ui-general.html">대기</a>
-                </li>
-                <li class="sidebar-item">
-                  <a class="sidebar-link" href="ui-grid.html">승인</a>
-                </li>
-                <li class="sidebar-item">
-                  <a class="sidebar-link" href="ui-modals.html">반려</a>
+                  <a
+                    data-target="#docList"
+                    data-toggle="collapse"
+                    class="sidebar-link collapsed"
+                  >
+                    <span>문서함</span>
+                  </a>
                 </li>
               </ul>
+              <ul
+                id="docList"
+                class="sidebar-dropdown list-unstyled collapse"
+                data-parent="#sidebar"
+              >
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="approval-board.html">전체</a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="approval-board-wait.html"
+                    >대기</a
+                  >
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="approval-board-ok.html">승인</a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="approval-board-no.html">반려</a>
+                </li>
+              </ul>
+              <!-- </li> -->
+              <!-- <li class="sidebar-approval">문서함</li> -->
+              <!-- </ul> -->
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-spending.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">지출</span>
+              </a>
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-circular.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">회람</span>
+              </a>
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-business.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">업무</span>
+              </a>
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-account.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">품의서</span>
+              </a>
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-leave.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">휴가</span>
+              </a>
+            </li>
+            <li class="sidebar-item" style="display: none">
+              <a class="sidebar-link" href="post-detail-contact.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">연락</span>
+              </a>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="employee.html">
@@ -98,7 +152,7 @@
                 <span class="align-middle">임직원 정보</span>
               </a>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item" >
               <a class="sidebar-link" href="mypage.html">
                 <i class="align-middle" data-feather="user"></i>
                 <span class="align-middle">나의 정보</span>
@@ -277,5 +331,4 @@
     </div>
     <script src="js/app.js"></script>
     <script src="js/mainpage.js"></script>
-  </body>
 </html>

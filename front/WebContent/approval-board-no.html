@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <title>Tables | AdminKit Demo</title>
+
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>GroupWare Program</title>
+    <style>
+      .input-group-navbar .btn,
+      .input-group-navbar .form-control {
+        float: right;
+        height: calc(2.1875rem + 2px);
+        background: #ffffff;
+        box-shadow: none;
+        border: 0;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+      }
+
+      .input-group > .form-control,
+      .input-group > .form-select {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+      }
+
+      .dropbtn {
+        background-color: #686669;
+        color: white;
+        padding: 3px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .dropbtn:hover,
+      .dropbtn:focus {
+        background-color: #a1a2a3;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      .show {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body style="overflow-x: hidden">
+    <div class="container-fluid p-0">
+      <h1 class="fa fa-clipboard" style="margin-left: 10px; margin-top: 20px">
+        전자결재(반려)
+      </h1>
+      <hr />
+      <div class="col-sm-3" style="margin-left: 20px">
+        <div class="dropdown mt-2">
+          <button onclick="myFunction()" class="dropbtn">문서 상태 선택</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="#" id="apDocumentStatusOk"> 확인</a>
+            <a href="#" id="apDocumentStatusNo"> 미확인</a>
+            <a href="#" id="apDocumentStatusAll"> 모든문서</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="text-right mt-2">
+            <label class="container" id="apSearchGroupCheck"
+              >제목
+              <input type="radio" id="apSearchTitle" name="search" />
+              <span class="checkmark"></span>
+              작성자
+              <input type="radio" id="apSearchWriter" name="search" />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 mb-5">
+          <form class="d-none d-sm-inline-block">
+            <div class="input-group input-group-navbar">
+              <input
+                type="text"
+                id="apInputSearch"
+                class="form-control"
+                placeholder="Search…"
+                aria-label="Search"
+              />
+              <button class="btn" type="button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-search align-middle"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="card">
+            <div class="table-responsive">
+              <table id="apDocumentTable" class="table mb-0 text-center">
+                <thead style="background-color: #f6f6f6">
+                  <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">문서번호</th>
+                    <th scope="col" style="width: 30%">제목</th>
+                    <th scope="col">사원번호</th>
+                    <th scope="col">기안자</th>
+                    <th scope="col">기안일</th>
+                    <th scope="col">구분</th>
+                    <th scope="col">상태</th>
+                  </tr>
+                </thead>
+                <tbody id="apDocumentTbody">
+                  <!-- <tr>
+                    <th scope="row">1</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="container-fluid">
+        <div class="row text-muted">
+          <div class="text-center">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>prev</strong></a
+                >
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">1</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">2</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">3</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">4</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>next</strong></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="jq/load-apboard.js"></script>
