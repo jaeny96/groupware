@@ -2,6 +2,26 @@
 $(function () {
   localStorage.setItem("bdCurrPage", 1);
   localStorage.setItem("bdCurrPageGroup", 1);
+
+  var $dropDownProfileAObj = $("a.dropdownProfile");
+  var $dropDownProfileItemObj = $("div.profileDropdown");
+  $dropDownProfileItemObj.hide();
+  $dropDownProfileAObj.click(function (e) {
+    $dropDownProfileItemObj.slideToggle(300);
+  });
+
+  var $apMenuFirstDropDownAObj = $("a.apMenu");
+  var $apMenuFirstDropDownItemObj = $("ul#docMenuFirst");
+  $apMenuFirstDropDownAObj.click(function (e) {
+    $apMenuFirstDropDownItemObj.slideToggle(300);
+  });
+
+  var $docListDropDownMenuAObj = $("a.docListDropDownMenu");
+  var $docListDropDownMenuItemObj = $("ul#docList");
+  $docListDropDownMenuAObj.click(function (e) {
+    $docListDropDownMenuItemObj.slideToggle(300);
+  });
+
   var mainObj = document.querySelector("div.wrapper>div.main");
   var mainProfileObj = mainObj.querySelector("div.profileDropdown");
   var mainLoginIdObj = mainProfileObj.querySelector("span.loginId");
@@ -214,13 +234,12 @@ $(function () {
   var $menuObj = $(
     "div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a"
   );
-  var $apMenuObj = $(
-    "div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li:nth-child(5)>ul#ui>li>a"
-  );
-  var $apDocMenuObj = $(
-    "div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li:nth-child(5)>ul#docList>li>a"
-  );
-  console.log($apDocMenuObj);
+  var $apMenuObj = $("ul#docMenuFirst a");
+  // var apMenuObj = document.querySelector("ul#docMenuFirst a");
+  // console.log(apMenuObj);
+  var $apDocMenuObj = $("ul#docList a");
+  // var apDocMenuObj = document.querySelector("ul#docList a");
+  // console.log(apDocMenuObj);
   var $scheduleBtnObj = $(
     "div.wrapper>div.main>main.content div.row div.scheduleBtn"
   );
@@ -235,21 +254,43 @@ $(function () {
       case "board.html":
       case "board-detail.html":
       case "schedule.html":
-      case "post.html":
-      case "post-detail-spending.html":
-      case "post-detail-circular.html":
-      case "post-detail-business.html":
-      case "post-detail-account.html":
-      case "post-detail-leave.html":
-      case "post-detail-contact.html":
+      // case "post.html":
+      // case "post-detail-spending.html":
+      // case "post-detail-circular.html":
+      // case "post-detail-business.html":
+      // case "post-detail-account.html":
+      // case "post-detail-leave.html":
+      // case "post-detail-contact.html":
       case "employee.html":
       case "mypage.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
+        // if (
+        //   href == "post-detail-spending.html" ||
+        //   href == "post-detail-circular.html" ||
+        //   href == "post-detail-business.html" ||
+        //   href == "post-detail-account.html" ||
+        //   href == "post-detail-leave.html" ||
+        //   href == "post-detail-contact.html"
+        // ) {
+        //   $content.load(href, function (responseTxt, statusTxt, xhr) {
+        //     $("#summernote").summernote({
+        //       height: 600, // 에디터 높이
+        //       minHeight: null, // 최소 높이
+        //       maxHeight: null, // 최대 높이
+        //       focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+        //       lang: "ko-KR", // 한글 설정
+        //       placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+        //     });
+        //     if (statusTxt == "error")
+        //       alert("Error: " + xhr.status + ": " + xhr.statusText);
+        //   });
+        // } else {
         $(this).closest("li").attr("class", "sidebar-item active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
+        // }
         break;
     }
     return false;
@@ -264,12 +305,34 @@ $(function () {
 
     switch (href) {
       case "post.html":
+      case "post-detail-spending.html":
+      case "post-detail-circular.html":
+      case "post-detail-business.html":
+      case "post-detail-account.html":
+      case "post-detail-leave.html":
+      case "post-detail-contact.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
-        $(this).closest("li").attr("class", "sidebar-item active");
-        $content.load(href, function (responseTxt, statusTxt, xhr) {
-          if (statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        });
+        if (href == "post.html") {
+          $(this).closest("li").attr("class", "sidebar-item active");
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
+        } else {
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            $("#summernote").summernote({
+              height: 600, // 에디터 높이
+              minHeight: null, // 최소 높이
+              maxHeight: null, // 최대 높이
+              focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+              lang: "ko-KR", // 한글 설정
+              placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+            });
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
+        }
+
         break;
     }
     return false;
