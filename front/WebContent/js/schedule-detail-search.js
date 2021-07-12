@@ -27,6 +27,10 @@ var title = titleValue.innerText;
 var start = StartTimeValue.innerText;
 var end = EndTimeValue.innerText;
 var content = ContentValue.innerText;
+
+var skdDate = [];
+var skdTime = [];
+var skdContent = [];
 console.log(typeValue.innerHTML);
 console.log(title + "22222");
 console.log(start + "33333");
@@ -34,20 +38,22 @@ console.log(end);
 console.log(content);
 
 //표만들기
-function createSkdElement(skdDate, skdTime, skdContent) {
+function createSkdElement(i) {
   var tr = document.createElement("tr");
   var tdDate = document.createElement("td");
-  tdDate.innerHTML = skdDate;
+  tdDate.innerHTML = skdDate[i];
   var tdTime = document.createElement("td");
-  tdTime.innerHTML = skdTime;
+  tdTime.innerHTML = skdTime[i];
   var tdContent = document.createElement("td");
   //내용클릭시 모달띄우기
   var a = document.createElement("a");
   a.setAttribute("href", "#");
-  a.addEventListener("click", function () {
+  a.addEventListener("click", function (e) {
+    localStorage.setItem("searchSkdNoDetail", e.target.id);
     createModal("skdDetail");
   });
-  a.innerText = skdContent;
+  a.setAttribute("id", i);
+  a.innerText = skdContent[i];
   //자식에 부모달아주기
   tdContent.appendChild(a);
   tr.appendChild(tdDate);
@@ -60,10 +66,6 @@ function createSkdElement(skdDate, skdTime, skdContent) {
 function init(result) {
   console.log({ result });
 
-  var skdDate = [];
-  var skdTime = [];
-  var skdContent = [];
-
   result.forEach((item) => {
     start = new Date(item.skd_start_date);
     end = new Date(item.skd_end_date);
@@ -74,7 +76,7 @@ function init(result) {
     skdTime.push(moment(start).format("LT") + " ~ " + moment(end).format("LT"));
   });
   for (var i = 0; i < skdDate.length; i++) {
-    createSkdElement(skdDate[i], skdTime[i], skdContent[i]);
+    createSkdElement(i);
   }
 }
 
@@ -82,16 +84,29 @@ function createModalValue(result) {
   console.log({ result });
   let jsonStr = JSON.stringify({ result });
   console.log(jsonStr);
+  console.log(type);
   type = result.skd_type;
-  title = result[7];
-  start = result[6];
-  end = result[2];
+  title = result.skd_title;
+  console.log(title);
+  start = result.skd_start_date;
+  end = result.skd_start_date;
   content = result.skd_content;
 }
 
+var skdTitleDetailSearch;
+var skdContentDetailSearch;
 //modal 만드는 함수
 //파라미터 : class="modal" 의 id
 function createModal(id) {
+  var index = localStorage.getItem("searchSkdNoDetail");
+  var sid = "MSD002";
+  var dept = "MSD";
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const urlParams = Object.fromEntries(urlSearchParams.entries());
+  urlParams.id = sid;
+  urlParams.dept_id = dept;
+
+  // console.log(skdTitleDetailSearch);
   var modal = document.getElementById(id);
   modal.classList.remove("hidden"); //모달열기
   var closeBtn = modal.querySelector("button.cancel");
@@ -127,6 +142,46 @@ function createModal(id) {
   if (deleteBtn != null) {
     deleteBtn.addEventListener("click", deleteSKD);
   }
+
+  // titleValue.innerHTML = skdTitleDetailSearch;
+
+  $.ajax({
+    url: "/back/showbycontent",
+    dataType: "json",
+    data: urlParams,
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        if (index == i) {
+          // console.log(e.skd_title);
+          titleValue.innerHTML = e.skd_title;
+          typeValue.innerHTML = e.skd_type.skd_type;
+          StartTimeValue.innerHTML = e.skd_start_date;
+          EndTimeValue.innerHTML = e.skd_end_date;
+          ContentValue.innerHTML = e.skd_content;
+        }
+      });
+    },
+  });
+
+  $.ajax({
+    url: "/back/showbydate",
+    dataType: "json",
+    data: urlParams,
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        if (index == i) {
+          // console.log(e.skd_title);
+          titleValue.innerHTML = e.skd_title;
+          typeValue.innerHTML = e.skd_type.skd_type;
+          StartTimeValue.innerHTML = e.skd_start_date;
+          EndTimeValue.innerHTML = e.skd_end_date;
+          ContentValue.innerHTML = e.skd_content;
+        }
+      });
+    },
+  });
+
+  console.log(titleValue.innerHTML);
 }
 
 //내용,제목 검색
@@ -146,7 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
     data: urlParams,
     success: function (responseData) {
       init(responseData);
-      createModalValue(responseData);
+
+      // createModalValue(responseData);
     },
   });
 });
@@ -167,7 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
     data: urlParams,
     success: function (responseData) {
       init(responseData);
-      createModalValue(responseData);
+
+      // createModalValue(responseData);
     },
   });
 });

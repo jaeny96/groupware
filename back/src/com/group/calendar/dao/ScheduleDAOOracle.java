@@ -36,13 +36,13 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			throw new FindException(e.getMessage());
 		}
 		
-		String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
+		String SkdListSQL = "SELECT skd_no, skd_type, skd_title,\r\n" + 
 				"skd_start_date,\r\n" + 
 				"skd_end_date, skd_share\r\n" + 
 				"FROM schedule\r\n" + 
 				"WHERE employee_id=? AND skd_share ='p'" + 
 				"UNION ALL\r\n" + 
-				"SELECT skd_type, skd_title,\r\n" + 
+				"SELECT skd_no, skd_type, skd_title,\r\n" + 
 				"skd_start_date,\r\n" + 
 				"skd_end_date, skd_share FROM schedule\r\n" + 
 				"WHERE employee_id like ? and skd_share = 't'ORDER BY skd_start_date ASC";
@@ -60,6 +60,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			while(rs.next()) {
 				Schedule s = new Schedule();
 				ScheduleType st = new ScheduleType();
+				s.setSkd_no(rs.getInt("skd_no"));
 				st.setSkd_type(rs.getString("skd_type"));
 				s.setSkd_type(st);
 				s.setSkd_title(rs.getString("skd_title"));
@@ -92,14 +93,14 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         throw new FindException(e.getMessage());
 	      }
 	      
-	      String SkdListSQL = "SELECT skd_no, skd_type, skd_title, skd_content,\r\n" + 
+	      String SkdListSQL = "SELECT skd_type, skd_title, skd_content,\r\n" + 
 	            "skd_start_date,\r\n" + 
 	            "skd_end_date, skd_share\r\n" + 
 	            "FROM schedule\r\n" + 
 	            "WHERE employee_id= ? AND skd_share ='p' AND skd_start_date\r\n" + 
 	            "BETWEEN ? AND ? \r\n" + 
 	            "UNION ALL\r\n" + 
-	            "SELECT skd_type, skd_title,\r\n" + 
+	            "SELECT skd_type, skd_title,skd_content,\r\n" + 
 	            "skd_start_date,\r\n" + 
 	            "skd_end_date, skd_share FROM schedule\r\n" + 
 	            "WHERE employee_id like ? and skd_share = 't' AND skd_start_date \r\n" + 
@@ -126,6 +127,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	            st.setSkd_type(rs.getString("skd_type"));
 	            s.setSkd_type(st);
 	            s.setSkd_title(rs.getString("skd_title"));
+	            s.setSkd_content(rs.getNString("skd_content"));
 	            s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
 	            s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
 	            s.setSkd_share(rs.getString("skd_share"));
@@ -262,6 +264,10 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			
 			while(rs.next()) {
 				Schedule sc = new Schedule();
+				ScheduleType st = new ScheduleType();
+				st.setSkd_type(rs.getString("skd_type"));
+				sc.setSkd_type(st);
+				sc.setSkd_content(rs.getString("skd_content"));
 				sc.setSkd_start_date(rs.getTimestamp("skd_start_date"));
 				sc.setSkd_end_date(rs.getTimestamp("skd_end_date"));
 				sc.setSkd_title(rs.getString("skd_title"));

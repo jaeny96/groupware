@@ -52,6 +52,7 @@ public class ShowSkdDetailServlet extends HttpServlet {
          List<Schedule> list = service.findSkdAll(em);
 
          jsonStr = mapper.writeValueAsString(list);
+         System.out.println(jsonStr);
          response.setContentType("application/json;charset=utf-8");
          response.getWriter().print(jsonStr);
       //   System.out.println(jsonStr);

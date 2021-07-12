@@ -1,10 +1,11 @@
+var calendar = null;
 document.addEventListener("DOMContentLoaded", function () {
   var Calendar = FullCalendar.Calendar;
   var calendarEl = document.getElementById("calendar");
 
   //   var all_events = new Array();
   //   all_events = loadingEvents();
-  var calendar = new Calendar(calendarEl, {
+  calendar = new Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: "ko",
     height: "100%",
@@ -42,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
                   start: startdate,
                   end: enddate,
                   resource: type,
+                  id: e.skd_no,
+                  extendedProps: { content: e.skd_content },
+
                   color: "#28a745",
                 });
               } else if (type == "p ") {
@@ -50,6 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   start: startdate,
                   end: enddate,
                   resource: type,
+                  id: e.skd_no,
+                  extendedProps: { content: e.skd_content },
                   color: "#ffc107",
                 });
               }
@@ -144,12 +150,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   var enddate = moment(e.skd_end_date).format(
                     "YYYY-MM-DD hh:mm"
                   );
+
                   if (type == "t ") {
                     events.push({
                       title: e.skd_title,
                       start: startdate,
                       end: enddate,
                       resource: type,
+
                       color: "#28a745",
                     });
                   } else if (type == "p ") {
@@ -188,14 +196,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
-
                   events.push({
                     title: e.skd_title,
                     start: startdate,
                     end: enddate,
                     color: "#28a745",
                   });
-                  console.log(events);
+                  //console.log("팀스케줄" + events);
                 });
                 calendar.addEventSource(events);
               }
@@ -229,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     end: enddate,
                     color: "#ffc107",
                   });
-                  console.log(events);
+                  // console.log(events);
                 });
                 calendar.addEventSource(events);
               }
@@ -249,19 +256,16 @@ document.addEventListener("DOMContentLoaded", function () {
     },
 
     //extendedProp 적용
-    eventDidMount: function (info) {
-      //   console.log(info.event.extendedProps);
-      // {calendarType: 캘린더타입, teamOrPersonal: 팀or개인일정}
-    },
+    eventDidMount: function (info) {},
     eventClick: function (info) {
       //일정 클릭했을 때
+      localStorage.setItem("skdNo", info.event.id);
+
       createModal("skdDetail");
     },
   }); //New calendar끝
 
   calendar.render();
-  // console.log({ calendar });
-  // window.asdf = calendar;
 }); //돔이벤트끝
 
 //모달 관련
@@ -316,7 +320,12 @@ initSearchModal();
 
 //modal 만드는 함수
 //파라미터 : class="modal" 의 id
+var skdno;
 function createModal(id) {
+  skdno = localStorage.getItem("skdNo");
+  // var skdid = "MSD002";
+  // var skddept = "MSD";
+
   var modal = document.getElementById(id);
   modal.classList.remove("hidden"); //모달열기
   var closeBtn = modal.querySelector("button.cancel");
@@ -343,17 +352,32 @@ function createModal(id) {
   if (closeBtn != null) {
     closeBtn.addEventListener("click", closeModal);
   }
-
-  //todo : 삭제 버튼 오류
-  //   deleteBtn.addEventListener("click", deleteSKD);
+  //todo : 삭제 버튼
+  if (deleteBtn != null) {
+    deleteBtn.addEventListener("click", deleteSKD);
+  }
+  $.ajax({
+    url: "/back/showbydetail",
+    dataType: "json",
+    data: { skd_no: skdno },
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        titleValue.innerHTML = e.skd_title;
+        typeValue.innerHTML = e.skd_type.skd_type;
+        StartTimeValue.innerHTML = e.skd_start_date;
+        EndTimeValue.innerHTML = e.skd_end_date;
+        ContentValue.innerHTML = e.skd_content;
+      });
+    },
+  });
 }
 
 //상세내역 모달에 데이터
 //일정 상세내역
 var shareObj = document.getElementById("skdDetailShare");
-//console.log(shareObj);
+// console.log(shareObj);
 var shareValue = shareObj.querySelector("td.skdDetailInputData");
-//console.log(shareValue);
+console.log(shareValue);
 var typeObj = document.getElementById("skdDetailType");
 var typeValue = typeObj.querySelector("td.skdDetailInputData");
 //console.log(typeValue);
@@ -367,3 +391,13 @@ var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
 //console.log(EndTimeValue);
 var ContentObj = document.getElementById("skdDetailContent");
 var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
+
+var type = typeValue.innerHTML;
+var title = titleValue.innerText;
+var start = StartTimeValue.innerText;
+var end = EndTimeValue.innerText;
+var content = ContentValue.innerText;
+
+// $.ajax({
+//   url: s,
+// });

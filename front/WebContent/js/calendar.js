@@ -1,10 +1,11 @@
+var calendar = null;
 document.addEventListener("DOMContentLoaded", function () {
   var Calendar = FullCalendar.Calendar;
   var calendarEl = document.getElementById("calendar");
 
   //   var all_events = new Array();
   //   all_events = loadingEvents();
-  var calendar = new Calendar(calendarEl, {
+  calendar = new Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: "ko",
     height: "100%",
@@ -298,6 +299,7 @@ console.log(categoryObj + "카테고리오브젝트");
 
 function categoryHandler(e) {
   if (e.target.id == "skdCategoryPeriod") {
+    console.log("기간검색" + e.target.id);
     createModal("skdSearchPeriod");
   } else if (e.target.id == "skdCategoryTitle") {
     console.log("내용검색" + e.target.id);
@@ -365,3 +367,16 @@ var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
 //console.log(EndTimeValue);
 var ContentObj = document.getElementById("skdDetailContent");
 var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
+
+var allEvent = calendar.getEvents();
+console.log(allEvent);
+
+var type = typeValue.innerHTML;
+var title = titleValue.innerText;
+var start = StartTimeValue.innerText;
+var end = EndTimeValue.innerText;
+var content = ContentValue.innerText;
+
+$.ajax({
+  url: s,
+});
