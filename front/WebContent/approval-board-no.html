@@ -90,20 +90,24 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-9">
-          <div class="text-right mt-2">
-            <label class="container" id="apSearchGroupCheck"
-              >제목
-              <input type="radio" id="apSearchTitle" name="search" />
-              <span class="checkmark"></span>
-              작성자
-              <input type="radio" id="apSearchWriter" name="search" />
-              <span class="checkmark"></span>
-            </label>
+        <div id="allSearchObj" class="text-right mr-5 mb-3">
+          <div id="apSearchGroup" class="text-right mt-2">
+            <input type="radio" id="apSearchTitle" name="apSearch" /><label
+              for="rdPink"
+              >제목</label
+            >
+            <input type="radio" id="apSearchWriter" name="apSearch" /><label
+              for="rdRed"
+              >내용</label
+            >
           </div>
-        </div>
-        <div class="col-md-3 mb-5">
-          <form class="d-none d-sm-inline-block">
+
+          <form
+            class="d-none d-sm-inline-block"
+            id="apSearchFormObj"
+            method="get"
+            action="#"
+          >
             <div class="input-group input-group-navbar">
               <input
                 type="text"
@@ -112,7 +116,7 @@
                 placeholder="Search…"
                 aria-label="Search"
               />
-              <button class="btn" type="button">
+              <button class="btn" id="apSearchButton">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -199,7 +203,7 @@
               <li class="list-inline-item">
                 <a class="text-muted" href="#">1</a>
               </li>
-              <li class="list-inline-item">
+            <!--   <li class="list-inline-item">
                 <a class="text-muted" href="#">2</a>
               </li>
               <li class="list-inline-item">
@@ -207,7 +211,7 @@
               </li>
               <li class="list-inline-item">
                 <a class="text-muted" href="#">4</a>
-              </li>
+              </li> -->
               <li class="list-inline-item">
                 <a href="index.html" class="text-muted"
                   ><strong>next</strong></a
@@ -220,4 +224,4 @@
     </div>
   </body>
 </html>
-<script src="jq/load-apboard.js"></script>
+<script src="jq/load-apboard-no.js"></script>

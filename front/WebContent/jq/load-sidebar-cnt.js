@@ -1,3 +1,7 @@
+$(function () {
+// 이클립스에서 받아오는 url
+var backUrlApDocsList = "/back/sidebarcntall";
+
 var allCntObject = document.getElementById("apAllLink");
 var waitCntObject = document.getElementById("apWaitLink");
 var okCntObject = document.getElementById("apOkLink");
@@ -25,8 +29,7 @@ function createApCntElement() {
   }
 }
 
-// 이클립스에서 받아오는 url
-var backUrlApDocsList = "/back/sidebarcntall";
+
 
 $.ajax({
   url: backUrlApDocsList,
@@ -40,4 +43,5 @@ $.ajax({
     });
     createApCntElement();
   },
+});
 });

@@ -1,4 +1,8 @@
 $(function () {
+  // 이클립스에서 받아오는 url : 맨 위에 있음
+  var backUrlApDocsList = "/back/showdocsdetail";
+  var bacKUrlCheck = "/back/checkuser";
+	
   //구성요소 받아오기
   var tdDetailType = document.getElementById("apDocumentDetailType");
   var tdDetailNo = document.getElementById("apDocumentDetailNo");
@@ -53,8 +57,7 @@ $(function () {
   agButtonTag.setAttribute("id", "approvalCommentBtn");
   agButtonTag.setAttribute("class", "btn");
   agButtonTag.setAttribute("class", "ap-btn-outline-purple");
-  agButtonTag.setAttribute("style", "font-size: 0.7rem");
-  agButtonTag.setAttribute("style", "width: 80px");
+  agButtonTag.setAttribute("style", "width: 90px");
   agButtonTag.innerHTML = "승인 요망";
 
   var imgTag = document.createElement("img");
@@ -193,23 +196,19 @@ $(function () {
 
     //참조
     tdReName.innerText = apDocsReName;
-    if (apDocsReType == "대기") {
-      spanTag.setAttribute("class", "fa fa-question");
-      spanTag.style.color = "#E3CEF6";
-      tdReName.appendChild(spanTag);
+    if (apDocsReType == "대기"||tdReName==null) {
+   
     } else if (apDocsReType != "대기") {
       spanTag.style.color = "#6A0888";
       tdReName.appendChild(spanTag);
     }
   }
-  //console.log(apDocumentDetailBdNo);
-  // function openCommentModal() {
+
   var modal = document.getElementById("modalApprovalComment");
-  // var openBtn = document.getElementById("apCommentConfirmBtn");
-  var confirmBtn = modal.querySelector("button#apCommentConfirmBtn");
-  // console.log(openBtn);
+  var confirmBtn = document.getElementById("apCommentConfirmBtn");
+
   console.log(confirmBtn);
-  var cancelBtn = modal.querySelector("button#apCommentCancelBtn");
+  var cancelBtn = document.getElementById("apCommentCancelBtn");
 
   const openModal = () => {
     modal.classList.remove("hidden");
@@ -225,20 +224,16 @@ $(function () {
     window.alert("확인완료 되었습니다.");
     console.log("ol");
   };
-  // }
-  buttonTag2.addEventListener("click", openModal);
+  
+  buttonTag.addEventListener("click", openModal); 
+  buttonTag1.addEventListener("click", openModal); 
+  buttonTag2.addEventListener("click", openModal); 
+  buttonTag3.addEventListener("click", openModal);
+  agButtonTag.addEventListener("click", openModal); //버튼을 띄워줄려면, 만든건 직접적으로 클릭 이벤트
   confirmBtn.addEventListener("click", confirmModal);
   cancelBtn.addEventListener("click", cancelModal);
-  // 모달창 띄우기
-  // document
-  //   .getElementById("apCommentConfirmBtn")
-  //   .addEventListener("click", function () {
-  //     openCommentModal();
-  //     console.log("실행");
-  //   });
-  // 이클립스에서 받아오는 url
-  var backUrlApDocsList = "/back/showdocsdetail";
-  var bacKUrlCheck = "/back/checkuser";
+
+
   //문서 상세정보 가지고오는 ajax
   $.ajax({
     url: backUrlApDocsList,
@@ -274,13 +269,19 @@ $(function () {
 
         apDocsReName[i] = e.reference.employee_id.name;
         apDocsReType[i] = e.reference.re_ap_type.apStatus_type;
+
       });
+
+	for(var i=0; i<apDocsType.length; i++){
+		console.log(apDocsType[i]);
+	}
 
       for (var i = 0; i < apDocsTitle.length; i++) {
         createApBdElement(i);
       }
     },
   });
+
 
   $.ajax({
     url: bacKUrlCheck,
@@ -295,7 +296,7 @@ $(function () {
 
         console.log(myCehckName);
       });
-
+   
       for (var i = 0; i < apDocsTitle.length; i++) {
         createApBdElement(i);
       }
