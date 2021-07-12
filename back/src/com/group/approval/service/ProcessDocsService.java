@@ -14,7 +14,8 @@ import com.group.approval.exception.UpdateException;
 public class ProcessDocsService {
 	private ProcessDocsDAO dao;
 	private static ProcessDocsService service;
-	private static String envProp="classes.prop";
+	//private static String envProp="classes.prop";
+	public static String envProp;
 	
 	private ProcessDocsService(){
 		Properties env =new Properties();
@@ -37,7 +38,7 @@ public class ProcessDocsService {
 		return service;
 	}
 	
-	/**
+	/** 
 	 * 승인, 반려를 선택하고 원하면 코멘트도 추가(Approval-결재용)
 	 * @param ap
 	 * @throws UpdateException

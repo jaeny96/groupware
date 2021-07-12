@@ -9,11 +9,18 @@ import com.group.employee.dto.Employee;
 
 public interface ConfirmDocsDAO {
 	/**1.
-	 * (전체)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	 * @param employee_id,check
+	 * (전체)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	 * @param employee_id
 	 * @throws FindException
 	 */
-	List<Document> selectByCheckAll(String employee_id,String check) throws FindException;
+	public List<Document> selectByCheckAllOk(String employee_id) throws FindException;
+	
+	/**1.
+	 * (전체)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	 * @param employee_id
+	 * @throws FindException
+	 */
+	public List<Document> selectByCheckAllNo(String employee_id) throws FindException;
 
 	/**1.
 	 * (진행/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 

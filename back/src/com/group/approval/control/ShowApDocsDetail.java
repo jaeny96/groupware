@@ -37,7 +37,7 @@ public class ShowApDocsDetail extends HttpServlet {
 
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(apDocsList);
-			System.out.println(jsonStr);
+			System.out.println("a "+jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		}catch(FindException e) {

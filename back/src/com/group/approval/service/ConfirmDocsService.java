@@ -21,6 +21,7 @@ public class ConfirmDocsService {
 		Properties env =new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
+//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("ConfirmDocsDAO");
 			System.out.println(className);
 			//리팩토링 작업	
@@ -52,7 +53,12 @@ public class ConfirmDocsService {
 	 * @throws FindException
 	 */	
 	public List<Document> findCheckDocsAll(String id,String check) throws FindException{
-		return dao.selectByCheckAll(id,check);
+		if(check.equals("전체")) {
+			return dao.selectByCheckAllOk(id);
+		}else {
+			return dao.selectByCheckAllNo(id);
+		}
+		
 	}
 	
 	/**
@@ -206,33 +212,33 @@ public class ConfirmDocsService {
 		}
 		
 		//제목,내용 검색 
-//		try {
-//			String title="";
-//			String content="연락";
-//			List<Document> searchList = new ArrayList<>();
-//			System.out.println("제목 검색값 :"+title);
-//			System.out.println("내용 검색값 :"+content);
-//			searchList=service.findMySearch("MSD003",title,content);
-//			for(Document d: searchList) {
-//				System.out.println(
-//						d.getState()+" "+
-//						d.getDocument_no()+" "+
-//						d.getDocument_title()+" "+
-//						d.getEmployee().getEmployee_id()+" "+
-//						d.getEmployee().getName()+" "+
-//						d.getDraft_date()+" "+
-//						d.getDocument_type().getDocument_type()+" "+
-//						d.getApproval().getAp_type().getApStatus_type());
-//			}
-//			
-//			System.out.println();
-//		} catch (FindException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SearchException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			String title="";
+			String content="연락";
+			List<Document> searchList = new ArrayList<>();
+			System.out.println("제목 검색값 :"+title);
+			System.out.println("내용 검색값 :"+content);
+			searchList=service.findMySearchTitle(id, "휴가");
+			for(Document d: searchList) {
+				System.out.println(
+						d.getState()+" "+
+						d.getDocument_no()+" "+
+						d.getDocument_title()+" "+
+						d.getEmployee().getEmployee_id()+" "+
+						d.getEmployee().getName()+" "+
+						d.getDraft_date()+" "+
+						d.getDocument_type().getDocument_type()+" "+
+						d.getApproval().getAp_type().getApStatus_type());
+			}
+			
+			System.out.println();
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SearchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		

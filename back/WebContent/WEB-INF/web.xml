@@ -73,4 +73,5 @@
     <servlet-name>ShowUserSearchDocs</servlet-name>
     <url-pattern>/usersearchdocs</url-pattern>
   </servlet-mapping>
+
 </web-app>

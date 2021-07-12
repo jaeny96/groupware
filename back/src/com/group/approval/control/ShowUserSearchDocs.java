@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
+import com.group.approval.exception.SearchException;
 import com.group.approval.service.ConfirmDocsService;
 
 /**
@@ -22,8 +24,10 @@ public class ShowUserSearchDocs extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String loginId = request.getParameter("id");
-		String docsNo = request.getParameter("docsNo");
+		String uId = request.getParameter("id");
+		String uCategory = request.getParameter("searchCategory");
+		String uSearch = request.getParameter("search");
+		System.out.println(uSearch);
 		//요청전달데이터 얻기 
 				
 		ConfirmDocsService service;
@@ -32,18 +36,36 @@ public class ShowUserSearchDocs extends HttpServlet {
 		service = ConfirmDocsService.getInstance();
 		
 		try {
-			List<String> apDocsList = service.findDocsMyCheck(loginId,docsNo);
-			//json라이브러리로 json문자열 형태로 응답
-			ObjectMapper mapper = new ObjectMapper();
-			//보낼때 데이터 포맷
-			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-			String jsonStr = mapper.writeValueAsString(apDocsList);
-			System.out.println(jsonStr);
-			response.setContentType("application/json;charset=utf-8");
-			//데이터 전달S
-			response.getWriter().print(jsonStr);
+			System.out.println(uCategory);
+			if(uCategory.equals("content")) {
+				List<Document> apDocsList = service.findMySearchContent(uId,uSearch);
+				//json라이브러리로 json문자열 형태로 응답
+				ObjectMapper mapper = new ObjectMapper();
+				//보낼때 데이터 포맷
+				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+				String jsonStr = mapper.writeValueAsString(apDocsList);
+				System.out.println(jsonStr);
+				response.setContentType("application/json;charset=utf-8");
+				//데이터 전달S
+				response.getWriter().print(jsonStr);
+			}else {
+				List<Document> apDocsList = service.findMySearchTitle(uId,uSearch);
+				//json라이브러리로 json문자열 형태로 응답
+				ObjectMapper mapper = new ObjectMapper();
+				//보낼때 데이터 포맷
+				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+				String jsonStr = mapper.writeValueAsString(apDocsList);
+				System.out.println(jsonStr);
+				response.setContentType("application/json;charset=utf-8");
+				//데이터 전달S
+				response.getWriter().print(jsonStr);
+			}
+		
 		}catch(FindException e) {
 			e.printStackTrace();
-		}	}
+		}catch(SearchException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

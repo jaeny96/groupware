@@ -31,9 +31,9 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//(전체)사용자는 확인/미확인 문서를 선택해서 볼 수 있다. 
+	//(전체)사용자는 확인 문서를 선택해서 볼 수 있다. 
 	@Override
-	public List<Document> selectByCheckAll(String employee_id,String check) throws FindException {
+	public List<Document> selectByCheckAllOk(String employee_id) throws FindException {
 
 		Connection con = null;
 		try {
@@ -43,27 +43,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			System.out.println("db연동 실패");
 			throw new FindException(e.getMessage());
 		}
-		String sql="";
-		if(check=="미확인") {
-			sql+="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-					"from employee e join (\r\n" + 
-					"SELECT * FROM (select a.*\r\n" + 
-					"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" + 
-					"WHERE a.ap_type='대기' AND a.employee_id=?)\r\n" + 
-					"UNION ALL\r\n" + 
-					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-					"WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + 
-					"UNION ALL\r\n" + 
-					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
-					"WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" + 
-					"JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id\r\n" + 
-					"ORDER BY draft_date ASC";
-				
-		}else if(check=="확인") {
-			sql+="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
+		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
 					"from employee e join ( \r\n" + 
 					"SELECT * FROM (select a.*\r\n" + 
 					"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
@@ -79,7 +59,84 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 					"WHERE ag.ap_type<>'대기' AND ag.employee_id=?))a\r\n" + 
 					"JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id\r\n" + 
 					"ORDER BY draft_date ASC";
-		}	
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs= null;
+		List list = new ArrayList<>();
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, employee_id);
+			pstmt.setString(2, employee_id);
+			pstmt.setString(3, employee_id);
+			rs=pstmt.executeQuery();
+		
+		    while(rs.next()) {
+		    	Document d=new Document();
+		    	Employee emp=new Employee();
+		    	DocumentType dt= new DocumentType();
+		    	Approval a = new Approval();
+		    	ApprovalStatus ap = new ApprovalStatus();
+		    	
+			    d.setDocument_no(rs.getString("document_no"));
+		    	d.setDocument_title(rs.getString("document_title"));
+		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	emp.setName(rs.getString("name"));
+		    	d.setEmployee(emp);
+		    	d.setDraft_date(rs.getDate("dt"));
+		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	d.setDocument_type(dt);
+		    	String s=rs.getString("ap_type");
+		    	ap.setApStatus_type(rs.getString("ap_type"));
+		    	a.setAp_type(ap);
+		    	d.setApproval(a);
+		    	
+		  		list.add(d);
+				
+			}
+		    
+		    if(list.size()==0) {
+			throw new FindException("목록이 존재하지 않습니다.");
+		    }
+		   
+			return list;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+
+	}
+	//(전체)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	@Override
+	public List<Document> selectByCheckAllNo(String employee_id) throws FindException {
+
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("db연동 실패");
+			throw new FindException(e.getMessage());
+		}
+		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
+					"from employee e join (\r\n" + 
+					"SELECT * FROM (select a.*\r\n" + 
+					"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+					"FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" + 
+					"WHERE a.ap_type='대기' AND a.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+					"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
+					"WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+					"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
+					"WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" + 
+					"JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id\r\n" + 
+					"ORDER BY draft_date ASC";
+		
 		PreparedStatement pstmt=null;
 		ResultSet rs= null;
 		List list = new ArrayList<>();
@@ -129,6 +186,9 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 	}
 	
+	//(대기)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+	
+	
 	//(대기/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
 	@Override
 	public List<Document> selectByCheckStatus(String employee_id,String document_status,String check) throws FindException {
@@ -140,9 +200,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			System.out.println("db연동 실패");
 			throw new FindException(e.getMessage());
 		}
-		String sql="";
-		if(check=="미확인") {
-			sql+="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
+		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
 				"from employee e join (\r\n" + 
 				"SELECT * FROM (select a.*\r\n" + 
 				"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
@@ -156,47 +214,10 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 				"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
 				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
 				"WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" + 
-				"JOIN document d ON a.document_no= d.document_no  WHERE document_status=";
-
-				if(document_status=="대기") {
-					sql+="'"+document_status+"'";
-				}else if(document_status=="승인") {
-					sql+="'"+document_status+"'";
-				}else if(document_status=="반려") {
-					sql+="'"+document_status+"'";
-				}				
-				
-				sql+=")) j on e.employee_id = j.employee_id\r\n" + 
+				"JOIN document d ON a.document_no= d.document_no  WHERE document_status= 대기)) j on e.employee_id = j.employee_id\r\n" + 
 				"ORDER BY draft_date ASC";
 				
-		}else if(check=="확인") {
-			sql+="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-					"from employee e join (\r\n" + 
-					"SELECT * FROM (select a.*\r\n" + 
-					"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" + 
-					"WHERE  a.ap_type<>'대기' AND a.employee_id=?)\r\n" + 
-					"UNION ALL\r\n" + 
-					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-					"WHERE r.ap_type<>'대기' AND r.employee_id=?)\r\n" + 
-					"UNION ALL\r\n" + 
-					"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
-					"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
-					"WHERE ag.ap_type<>'대기' AND ag.employee_id=?))a\r\n" + 
-					"JOIN document d ON a.document_no= d.document_no  WHERE document_status=";
-
-					if(document_status=="대기") {
-						sql+="'"+document_status+"'";
-					}else if(document_status=="승인") {
-						sql+="'"+document_status+"'";
-					}else if(document_status=="반려") {
-						sql+="'"+document_status+"'";
-					}				
-					
-					sql+=")) j on e.employee_id = j.employee_id\r\n" + 
-					"ORDER BY draft_date ASC";
-		}	
+		
 		PreparedStatement pstmt=null;
 		ResultSet rs= null;
 		List list = new ArrayList<>();
@@ -295,11 +316,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	list.add(0,rs.getString("name"));
 				list.add(1,rs.getString("a"));
 				list.add(2,rs.getString("ap_step"));
-			}else {
-				System.out.println(111);
-				throw new FindException("승인해야할 곳이 존재하지 않습니다.");
 			}
-	
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
@@ -684,35 +701,35 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			String check="확인";
 		
 			// (전체)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-			List<Document> selectCheckList = new ArrayList<>();
-			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 전체 목록");
-			selectCheckList=dao.selectByCheckAll(id,check);
-			for(Document d: selectCheckList) {	
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			System.out.println();
-			
-			// (진행/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-			List<Document> selectCheckList1 = new ArrayList<>();
-			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 "+documentState+" 목록");
-			selectCheckList1=dao.selectByCheckStatus(id,documentState,check);
-			for(Document d: selectCheckList1) {	
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			System.out.println();
-			
+//			List<Document> selectCheckList = new ArrayList<>();
+//			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 전체 목록");
+//			selectCheckList=dao.selectByCheckAll(id,check);
+//			for(Document d: selectCheckList) {	
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			System.out.println();
+//			
+//			// (진행/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+//			List<Document> selectCheckList1 = new ArrayList<>();
+//			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 "+documentState+" 목록");
+//			selectCheckList1=dao.selectByCheckStatus(id,documentState,check);
+//			for(Document d: selectCheckList1) {	
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			System.out.println();
+//			
 			//사용자는 문서를 선택하면,해당 문서에서 자신이 승인해야하는 부분을 확인할 수 있다.
 			List<String> list =dao.selectByMyClick(id,"CR-회람-20210621-0001");
 			System.out.println("자신의 승인 부분 : "+list.get(0).toString()+" "+list.get(1).toString()+" "+list.get(2).toString());
