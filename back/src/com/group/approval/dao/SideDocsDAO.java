@@ -50,13 +50,28 @@ public interface SideDocsDAO {
 	 
 	 
 	 /**8.
-	  * (진행/승인/반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * (승인)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
 	  * @param employee_id,document_status
 	  * @throws FindException
 	  */
-	 List<Document> selectByListStatus(String employee_id,String document_status) throws FindException;
+	 List<Document> selectByListOk(String employee_id) throws FindException;
 	 
 
-
+	 
+	 /**8.
+	  * (진행)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @param employee_id,document_status
+	  * @throws FindException
+	  */
+	 List<Document> selectByListWait(String employee_id) throws FindException;
+	 
+	 
+	 /**8.
+	  * (반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @param employee_id,document_status
+	  * @throws FindException
+	  */
+	 List<Document> selectByListNo(String employee_id) throws FindException;
+	 
 	
 }

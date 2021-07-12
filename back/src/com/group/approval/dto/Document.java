@@ -12,14 +12,61 @@ public class Document {
 	private String document_title;
 	private String document_content;
 	private Date draft_date;
-	private String document_status;
+	private DocumentType document_status;
 	
 	private Employee employee;
 	private DocumentType document_type;
+	public DocumentType getDocument_type() {
+		return document_type;
+	}
+
+
+
+	public void setDocument_type(DocumentType document_type) {
+		this.document_type = document_type;
+	}
 	private Approval approval;
 	private Agreement agreement;
 	private Reference reference;
 	private List<Approval> approvals;
+	
+	public Document() {}
+	
+
+
+	public Document(String state, String document_no, String document_title, String document_content, Date draft_date,
+			DocumentType document_status, Employee employee, DocumentType document_type, Approval approval,
+			Agreement agreement, Reference reference, List<Approval> approvals) {
+		super();
+		this.state = state;
+		this.document_no = document_no;
+		this.document_title = document_title;
+		this.document_content = document_content;
+		this.draft_date = draft_date;
+		this.document_status = document_status;
+		this.employee = employee;
+		this.document_type = document_type;
+		this.approval = approval;
+		this.agreement = agreement;
+		this.reference = reference;
+		this.approvals = approvals;
+	}
+
+
+
+	public Document(String document_no, String document_title,Employee employee,Employee employee1,Date draft_date,
+			DocumentType document_status,Approval approval) {
+		super();
+		this.document_no = document_no;
+		this.document_title = document_title;
+		this.employee = employee;
+		this.employee = employee1;
+		this.draft_date = draft_date;
+		this.document_status = document_status;
+		this.approval=approval;
+	
+	}
+
 	
 	public List<Approval> getApprovals() {
 		return approvals;
@@ -27,9 +74,7 @@ public class Document {
 	public void setApprovals(List<Approval> approvals) {
 		this.approvals = approvals;
 	}
-	public Document(){
-		super();
-	}
+	
 	public String getState() {
 		return state;
 	}
@@ -60,18 +105,16 @@ public class Document {
 	public void setDraft_date(Date draft_date) {
 		this.draft_date = draft_date;
 	}
-	public DocumentType getDocument_type() {
-		return document_type;
-	}
-	public void setDocument_type(DocumentType document_type) {
-		this.document_type = document_type;
-	}
-	public String getDocument_status() {
+
+	public DocumentType getDocument_status() {
 		return document_status;
 	}
-	public void setDocument_status(String document_status) {
+
+	public void setDocument_status(DocumentType document_status) {
 		this.document_status = document_status;
 	}
+
+
 	public Employee getEmployee() {
 		return employee;
 	}

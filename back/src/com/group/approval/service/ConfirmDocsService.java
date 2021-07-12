@@ -14,8 +14,8 @@ import com.group.approval.exception.SearchException;
 public class ConfirmDocsService {
 	private ConfirmDocsDAO dao;
 	private static ConfirmDocsService service;
-	private static String envProp="classes.prop";//back에서만 테스트용
-	//private static String envProp;//front에서만 테스트용
+	//private static String envProp="classes.prop";//back에서만 테스트용
+	public static String envProp;//front에서만 테스트용
 	
 	private ConfirmDocsService(){
 		Properties env =new Properties();
@@ -89,18 +89,28 @@ public class ConfirmDocsService {
 	}
 	
 	/**6.
-	 * 문서에 대해 제목,내용으로 검색할 수 있다.
+	 * 문서에 대해 제목으로 검색할 수 있다.
 	 * @param id 로그인한 사용자 id
 	 * @param title 제목 검색시 입력값
-	 * @param content 내용 검색시 입력값
 	 * @return 사용자가 입력한 검색어에 일치하는 목록 
 	 * @throws FindException
 	 * @throws SearchException 
 	 */	
-	public List<Document> findMySearch(String id,String title,String content) throws FindException, SearchException{
-		return dao.selectBySearch(id, title, content);
+	public List<Document> findMySearchTitle(String id,String title) throws FindException, SearchException{
+		return dao.selectBySearchTitle(id, title);
 	}
-	 
+	/**6.
+	 * 문서에 대해 내용으로 검색할 수 있다.
+	 * @param id 로그인한 사용자 id
+	 * @param content 내용 검색시 입력값
+	 * @return 사용자가 입력한 검색어에 일치하는 목록 
+	 * @throws FindException
+	 * @throws SearchException 
+	 */ 
+	public List<Document> findMySearchContent(String id,String content) throws FindException, SearchException{
+		return dao.selectBySearchContent(id, content);
+	}
+	
 	public static void main(String[] args) {
 		ConfirmDocsService service = ConfirmDocsService.getInstance();
 		
@@ -196,33 +206,33 @@ public class ConfirmDocsService {
 		}
 		
 		//제목,내용 검색 
-		try {
-			String title="";
-			String content="연락";
-			List<Document> searchList = new ArrayList<>();
-			System.out.println("제목 검색값 :"+title);
-			System.out.println("내용 검색값 :"+content);
-			searchList=service.findMySearch("MSD003",title,content);
-			for(Document d: searchList) {
-				System.out.println(
-						d.getState()+" "+
-						d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			
-			System.out.println();
-		} catch (FindException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SearchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			String title="";
+//			String content="연락";
+//			List<Document> searchList = new ArrayList<>();
+//			System.out.println("제목 검색값 :"+title);
+//			System.out.println("내용 검색값 :"+content);
+//			searchList=service.findMySearch("MSD003",title,content);
+//			for(Document d: searchList) {
+//				System.out.println(
+//						d.getState()+" "+
+//						d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			
+//			System.out.println();
+//		} catch (FindException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SearchException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 		

@@ -46,39 +46,34 @@
                 </tr>
                 <tr>
                   <td
-                    id="apDocumentDetailDep"
                     class="font-weight-bolder text-center"
                     style="width: 15%; background-color: #f6f6f6"
                   >
                     기안 부서
                   </td>
-                  <td style="width: 35%"></td>
+                  <td style="width: 35%" id="apDocumentDetailDep"></td>
                   <td
-                    id="apDocumentDetailWriter"
                     class="font-weight-bolder text-center"
                     style="width: 15%; background-color: #f6f6f6"
                     class="d-none d-md-table-cell"
                   >
                     기안자
                   </td>
-                  <td style="width: 35%"></td>
+                  <td style="width: 35%" id="apDocumentDetailWriter"></td>
                 </tr>
                 <tr>
                   <td
-                    id="apDocumentDetailDate"
                     class="font-weight-bolder text-center"
                     style="width: 15%; background-color: #f6f6f6"
                   >
                     기안 일시
                   </td>
-                  <td style="width: 35%"></td>
+                  <td style="width: 35%" id="apDocumentDetailDate"></td>
                   <td
                     class="font-weight-bolder text-center"
                     style="width: 15%; background-color: #f6f6f6"
                     class="d-none d-md-table-cell"
-                  >
-                    완료 일시
-                  </td>
+                  ></td>
                   <td style="width: 35%"></td>
                 </tr>
               </tbody>
@@ -104,61 +99,83 @@
                   <td class="text-center" style="width: 22%">3</td>
                 </tr>
                 <tr>
+                  <!-- step0 -->
                   <td
                     id="apApprovalStep0"
                     style="width: 22%"
                     class="text-center font-weight-bolder"
                   >
-                    <img src="img/icons/no.png" width="100px" /><br />
-
-                    <div id="apApprovalStepDate1">2017-02-12</div>
+                    <!-- <img src="img/icons/yes.png" width="100px" /> -->
                   </td>
+
+                  <!-- step1 -->
                   <td
                     id="apApprovalStep1"
                     style="width: 22%"
                     class="text-center font-weight-bolder"
                   >
-                    <img src="img/icons/no.png" width="100px" /><br />
-
-                    <div id="apApprovalStepDate1">2017-02-12</div>
+                    <!-- <img
+                      src="img/icons/yes.png"
+                      width="100px"
+                    /> -->
                   </td>
+
+                  <!-- step2 -->
                   <td
                     id="apApprovalStep2"
                     style="width: 22%"
                     class="text-center font-weight-bolder"
                   >
-                    <button
+                    <!-- <button
                       id="approvalCommentBtn"
                       class="btn ap-btn-outline-purple"
                       id="open"
                     >
                       승인 요망
                     </button>
-                    <div id="apApprovalStepDate"></div>
+                    <div id="apApprovalStepDate2"></div> -->
                   </td>
+
+                  <!-- step3 -->
                   <td
                     id="apApprovalStep3"
                     style="width: 22%"
                     class="text-center"
+                  ></td>
+                </tr>
+                <!-- step0 이름 -->
+                <tr>
+                  <td
+                    id="apApprovalStepName0"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate0"></div>
+                  </td>
+                  <!-- step1 이름 -->
+                  <td
+                    id="apApprovalStepName1"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate1"></div>
+                  </td>
+                  <!-- step2 이름 -->
+                  <td
+                    id="apApprovalStepName2"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate2"></div>
+                  </td>
+                  <!-- step3 이름 -->
+                  <td
+                    id="apApprovalStepName3"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
                   >
                     <div id="apApprovalStepDate3"></div>
                   </td>
-                </tr>
-                <tr>
-                  <td style="width: 22%" class="text-center font-weight-bolder">
-                    나
-                  </td>
-                  <td style="width: 22%" class="text-center font-weight-bolder">
-                    티파니
-                  </td>
-                  <td
-                    style="width: 22%"
-                    class="text-center font-weight-bolder"
-                  ></td>
-                  <td
-                    style="width: 22%"
-                    class="text-center font-weight-bolder"
-                  ></td>
                 </tr>
               </tbody>
             </table>
@@ -173,16 +190,20 @@
                     합의
                   </td>
                   <td
-                    id="apAgreementC"
+                    id="apAgreementName"
                     class="font-weight-bolder"
                     style="width: 88%"
                   >
-                    태연 <img src="img/icons/no.png" width="70px" />
+                    태연
+                    <img
+                      id="checkAgConfirmImg"
+                      src="img/icons/no.png"
+                      width="70px"
+                    />
                     <button
                       id="approvalCommentBtn"
                       class="btn ap-btn-outline-purple"
                       style="width: 80px; font-size: 0.7rem"
-                      id="open"
                     >
                       승인 요망
                     </button>
@@ -196,12 +217,15 @@
                     참조
                   </td>
                   <td
-                    id="apReferenceC"
+                    id="apReferenceName"
                     class="font-weight-bolder"
                     style="width: 88%"
                   >
                     수영
-                    <span class="fa fa-check" style="color: darkmagenta"></span>
+                    <div
+                      class="fa fa-question"
+                      style="color: darkmagenta"
+                    ></div>
                   </td>
                 </tr>
               </tbody>
@@ -209,72 +233,75 @@
           </div>
 
           <h2
-            id="apDocumentDetailTtitle"
+            id="apDocumentDetailTitle"
             class="font-weight-bolder"
             style="margin-left: 20px; margin-top: 70px; margin-bottom: 40px"
           >
             지출 결의서
           </h2>
 
-          <div class="card" id="apDocumentContentTtitle"></div>
-
-          <p style="text-align: center">&nbsp;</p>
-          <p style="text-align: center">결의서</p>
-          <p style="text-align: center"></p>
-          <p style="text-align: center">&nbsp;</p>
-          <table
-            class="table-bordered"
-            style="
-              width: 754.062px;
-              height: 161px;
-              margin-left: auto;
-              margin-right: auto;
-            "
+          <div
+            class="card pb-5 pt-3 text-center"
+            id="apDocumentContent"
+            style="background-color: white"
           >
-            <tbody>
-              <tr>
-                <td style="width: 91px">결재내역</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 105px">&nbsp;</td>
-                <td style="width: 282.062px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 105px">&nbsp;</td>
-                <td style="width: 282.062px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 105px">&nbsp;</td>
-                <td style="width: 282.062px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 105px">&nbsp;</td>
-                <td style="width: 282.062px">&nbsp;</td>
-              </tr>
-              <tr>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 91px">&nbsp;</td>
-                <td style="width: 105px">&nbsp;</td>
-                <td style="width: 282.062px">&nbsp;</td>
-              </tr>
-            </tbody>
-          </table>
-
+            <p style="text-align: center">&nbsp;</p>
+            <p style="text-align: center">결의서</p>
+            <p style="text-align: center"></p>
+            <p style="text-align: center">&nbsp;</p>
+            <table
+              class="table-bordered"
+              style="
+                width: 754.062px;
+                height: 161px;
+                margin-left: auto;
+                margin-right: auto;
+              "
+            >
+              <tbody>
+                <tr>
+                  <td style="width: 91px">결재내역</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="card" style="margin-top: 70px">
             <div class="card-header">
               <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
@@ -403,13 +430,11 @@
 
 <script>
   var modal = document.getElementById("modalApprovalComment");
-  var openBtn = document.getElementById("approvalCommentBtn");
-  var confirmBtn = modal.querySelector(
-    ".modal.card-body.text-center.row#apCommentConfirmBtn"
-  );
-  var cancelBtn = modal.querySelector(
-    ".modal.card-body.text-center.row#apCommentCancelBtn"
-  );
+  var openBtn = document.getElementById("apCommentConfirmBtn");
+  var confirmBtn = modal.querySelector("button#apCommentConfirmBtn");
+
+  console.log(confirmBtn);
+  var cancelBtn = modal.querySelector("button#apCommentCancelBtn");
 
   const openModal = () => {
     modal.classList.remove("hidden");
@@ -427,6 +452,6 @@
   };
 
   openBtn.addEventListener("click", openModal);
-  //confirmBtn.addEventListener("click", confirmModal);
+  confirmBtn.addEventListener("click", confirmModal);
   cancelBtn.addEventListener("click", cancelModal);
 </script>

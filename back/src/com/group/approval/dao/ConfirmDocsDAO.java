@@ -43,6 +43,7 @@ public interface ConfirmDocsDAO {
 	  * @throws FindException
 	  * @throws SearchException 
 	  */
-	 List<Document> selectBySearch(String employee_id,String title,String content) throws FindException, SearchException;
-	 
+	 List<Document> selectBySearchTitle(String employee_id,String title) throws FindException, SearchException;
+	 List<Document> selectBySearchContent(String employee_id,String content) throws FindException, SearchException;
+
 }

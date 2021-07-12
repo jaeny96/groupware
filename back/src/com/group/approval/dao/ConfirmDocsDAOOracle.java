@@ -15,6 +15,7 @@ import com.group.approval.dto.DocumentType;
 import com.group.approval.dto.Reference;
 import com.group.approval.exception.FindException;
 import com.group.approval.exception.SearchException;
+import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.sql.MyConnection;
 
@@ -320,34 +321,43 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			throw new FindException(e.getMessage());
 		}
 		//?=사원번호
-		String sql="SELECT d.document_title, d.document_type, d.document_no,e.employee_id,e.name,  to_char(d.draft_date,'yyyy-mm-dd') dt, d.document_content,\r\n" + 
+		String sql="SELECT d.document_title, d.document_type, d.document_no, e.department_id, e.name,  to_char(d.draft_date,'yyyy-mm-dd') dt, d.document_content,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
 				"WHERE employee_id=(SELECT employee_id FROM approval WHERE document_no=? AND ap_step=0)\r\n" + 
 				") ap0,\r\n" + 
 				"(SELECT to_char(ap_date,'yyyy-mm-dd') FROM approval WHERE document_no=? AND ap_step=0)\r\n" + 
-				" apDt0 ,\r\n" + 
+				" apDt0,\r\n" + 
+				" (SELECT ap_type FROM approval WHERE document_no='?' AND ap_step=0)\r\n" + 
+				" apOk0 ,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
 				"WHERE employee_id=(SELECT employee_id FROM approval WHERE document_no=? AND ap_step=1)\r\n" + 
 				") ap1,\r\n" + 
 				"(SELECT  to_char(ap_date,'yyyy-mm-dd') FROM approval WHERE document_no=? AND ap_step=1)\r\n" + 
 				" apDt1 ,\r\n" + 
+				" (SELECT ap_type FROM approval WHERE document_no=? AND ap_step=1)\r\n" + 
+				" apOk1 ,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
 				"WHERE employee_id=(SELECT employee_id FROM approval WHERE document_no=? AND ap_step=2)\r\n" + 
 				") ap2,\r\n" + 
 				"(SELECT  to_char(ap_date,'yyyy-mm-dd') FROM approval WHERE document_no=? AND ap_step=2)\r\n" + 
 				" apDt2 ,\r\n" + 
+				"  (SELECT ap_type FROM approval WHERE document_no=? AND ap_step=2)\r\n" + 
+				" apOk2 ,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
 				"WHERE employee_id=(SELECT employee_id FROM approval WHERE document_no=? AND ap_step=3)\r\n" + 
 				") ap3,\r\n" + 
 				"(SELECT  to_char(ap_date,'yyyy-mm-dd') FROM approval WHERE document_no=? AND ap_step=3)\r\n" + 
 				" apDt3 ,\r\n" + 
+				"  (SELECT ap_type FROM approval WHERE document_no=? AND ap_step=3)\r\n" + 
+				" apOk3 ,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
 				"WHERE employee_id=(SELECT employee_id FROM agreement WHERE document_no=?)) ag\r\n" + 
 				", \r\n" + 
-				"(SELECT  to_char(ap_date,'yyyy-mm-dd') FROM agreement WHERE document_no=?)\r\n" + 
-				" agDt ,\r\n" + 
+				"(SELECT ap_type FROM agreement WHERE document_no=?)\r\n" + 
+				" agOk ,\r\n" + 
 				"(SELECT name FROM employee\r\n" + 
-				"WHERE employee_id=(SELECT employee_id FROM reference WHERE document_no=?)) re\r\n" + 
+				"WHERE employee_id=(SELECT employee_id FROM reference WHERE document_no=?)) re,\r\n" + 
+				"(SELECT ap_type FROM reference WHERE document_no=?) reOk\r\n" + 
 				" FROM document d \r\n" + 
 				"JOIN employee e ON (d.employee_id = e.employee_id)\r\n" + 
 				"WHERE document_no=?";
@@ -369,6 +379,13 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			pstmt.setString(10, document_no);
 			pstmt.setString(11, document_no);
 			pstmt.setString(12, document_no);
+			pstmt.setString(13, document_no);
+			pstmt.setString(14, document_no);
+			pstmt.setString(15, document_no);
+			pstmt.setString(16, document_no);
+//			pstmt.setString(17, document_no);
+//			pstmt.setString(18, document_no);
+//		
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -388,14 +405,43 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		     	Approval a3 = new Approval();
 		    	Reference r = new Reference();
 		    	Agreement ag = new Agreement();
-		    	ApprovalStatus ap = new ApprovalStatus();
-		    	
+		    	ApprovalStatus ap0 = new ApprovalStatus();
+		    	ApprovalStatus ap1 = new ApprovalStatus();
+		    	ApprovalStatus ap2 = new ApprovalStatus();
+		    	ApprovalStatus ap3 = new ApprovalStatus();
+		    	ApprovalStatus ap4 = new ApprovalStatus();
+		    	ApprovalStatus ap5 = new ApprovalStatus();
+		    	Department dep =new Department();
+		    
 		    	//문서내용 받아오기
 		      	d.setDocument_title(rs.getString("document_title"));//document_title
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);//document_type
 		    	d.setDocument_no(rs.getString("document_no"));//document_no
-		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	//emp.setEmployee_id(rs.getString("employee_id"));
+		    	String depp = rs.getString("department_id");
+		    	String depReal="";
+		    	if(dep.equals("CEO")) {
+		    		depReal="대표이사";
+		    	}else if(depp.equals("MSD")) {
+		    		depReal="경영지원실";
+		    	}else if(depp.equals("DEV")) {
+		    		depReal="기획개발실";
+		    	}else if(depp.equals("SVC")) {
+		    		depReal="서비스운영실";
+		    	}else if(depp.equals("IFR")) {
+		    		depReal="인프라운영실";
+		    	}else if(depp.equals("SAL")) {
+		    		depReal="영업부";
+		    	}else if(depp.equals("BIN")) {
+		    		depReal="사업부";
+		    	}else if(depp.equals("SEC")) {
+		    		depReal="정보보안실";
+		    	}
+		    	
+		    	
+		    	dep.setDepartment_title(depReal);
+		    	emp.setDepartment(dep);
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);//name
 		    	d.setDraft_date(rs.getDate("dt"));//draft_date
@@ -406,31 +452,43 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp0.setName(rs.getString("ap0"));
 		    	a0.setEmployee_id(emp0);
 		    	a0.setAp_ap_date(rs.getDate("apDt0"));
-		    	approvals.add(0, a0);
+		    	ap0.setApStatus_type(rs.getString("apOk0"));
+		    	a0.setAp_type(ap0);
+		    	approvals.add(0,a0);
 		    	
 		    	emp1.setName(rs.getString("ap1"));
 		    	a1.setEmployee_id(emp1);
 		    	a1.setAp_ap_date(rs.getDate("apDt1"));
+		     	ap1.setApStatus_type(rs.getString("apOk1"));
+		    	a1.setAp_type(ap1);
 		    	approvals.add(1, a1);
 		    	
 		    	emp2.setName(rs.getString("ap2"));
 		    	a2.setEmployee_id(emp2);
 		    	a2.setAp_ap_date(rs.getDate("apDt2"));
+		    	ap2.setApStatus_type(rs.getString("apOk2"));
+		    	a2.setAp_type(ap2);
 		    	approvals.add(2, a2);
 		    	
 		    	emp3.setName(rs.getString("ap3"));
 		    	a3.setEmployee_id(emp3);
 		    	a3.setAp_ap_date(rs.getDate("apDt3"));
 		    	approvals.add(3, a3);
+		    	ap3.setApStatus_type(rs.getString("apOk3"));
+		    	a3.setAp_type(ap3);
 		    	d.setApprovals(approvals);
 		    	//합의자
 		    	emp4.setName(rs.getString("ag"));
 		    	ag.setEmployee_id(emp4);
-		      	ag.setAg_ap_date(rs.getDate("agDt"));
+		      	//ag.setAg_ap_date(rs.getDate("agDt"));
+		    	ap4.setApStatus_type(rs.getString("agOk"));
+		    	ag.setAg_ap_type(ap4);
 		      	d.setAgreement(ag);
 		    	//참조자
 		       	emp5.setName(rs.getString("re"));
 		    	r.setEmployee_id(emp5);
+		    	ap5.setApStatus_type(rs.getString("reOk"));
+		    	r.setRe_ap_type(ap5);
 		      	d.setReference(r);
 		    	
 		  		list.add(d);
@@ -445,9 +503,9 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 제목,내용으로 검색할 수 있다. 
+	//문서에 대해 제목으로 검색할 수 있다. 
 	@Override
-	public List<Document> selectBySearch(String employee_id,String title, String content) throws FindException,SearchException {
+	public List<Document> selectBySearchTitle(String employee_id,String title) throws FindException,SearchException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -477,17 +535,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 				"(SELECT '기안서류', document_title,d.document_content,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
 				"FROM document d  \r\n" + 
 				"WHERE employee_id=?))a\r\n" + 
-				"JOIN document d ON a.document_no= d.document_no)) j ON e.employee_id = j.employee_id where ";
-		if(!title.equals("")) {
-			sql+="document_title";
-			check=1;
-		}else if(!content.equals("")) {
-			sql+="document_content";
-			check=2;
-		}else if(check==0){
-			throw new SearchException("검색어를 입력해 주세요.");
-		}		
-				sql+=" like ? ORDER BY draft_date ASC";
+				"JOIN document d ON a.document_no= d.document_no)) j ON e.employee_id = j.employee_id where document_title like ? ORDER BY draft_date ASC";
 		
 		PreparedStatement pstmt=null;
 		ResultSet rs= null;
@@ -499,11 +547,93 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			pstmt.setString(2, employee_id);
 			pstmt.setString(3, employee_id);
 			pstmt.setString(4, employee_id);
-			if(check==1) {
-				pstmt.setString(5, "%"+title+"%");
-			}else if(check==2){
-				pstmt.setString(5, "%"+content+"%");	
+			pstmt.setString(5, "%"+title+"%");
+	
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+		    	Document d=new Document();
+		    	Employee emp=new Employee();
+		    	DocumentType dt= new DocumentType();
+		    	Approval a = new Approval();
+		    	ApprovalStatus ap = new ApprovalStatus();
+		    	
+		    	d.setState(rs.getString("state"));
+			    d.setDocument_no(rs.getString("document_no"));
+		    	d.setDocument_title(rs.getString("document_title"));
+		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	emp.setName(rs.getString("name"));
+		    	d.setEmployee(emp);
+		    	d.setDraft_date(rs.getDate("dt"));
+		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	d.setDocument_type(dt);
+		    	String s=rs.getString("ap_type");
+		    	ap.setApStatus_type(rs.getString("ap_type"));
+		    	a.setAp_type(ap);
+		    	d.setApproval(a);
+	
+		  		list.add(d);
+		  		
 			}
+		    
+		    if(list.size()==0) {
+			throw new FindException("검색 목록이 존재하지 않습니다.");
+		    }
+		   
+			return list;			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
+
+	//문서에 대해 내용으로 검색할 수 있다. 
+	@Override
+	public List<Document> selectBySearchContent(String employee_id,String content) throws FindException,SearchException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("db연동 실패");
+			throw new FindException(e.getMessage());
+		}
+		int check=0;
+
+		String sql="";
+		sql+="SELECT state,j.document_no, j.document_title,j.document_content, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type,ap_type\r\n" + 
+				"from employee e join ( \r\n" + 
+				"SELECT * FROM (select a.*\r\n" + 
+				"FROM ((SELECT '결재서류' state, d.document_title,d.document_content, d.document_no, draft_date, d.employee_id,d.document_type,a.ap_type\r\n" + 
+				"FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
+				"WHERE a.employee_id=?)\r\n" + 
+				"UNION \r\n" + 
+				"(SELECT '결재서류', d.document_title,d.document_content, d.document_no, draft_date, d.employee_id, d.document_type,ag.ap_type\r\n" + 
+				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
+				"WHERE ag.employee_id=?)\r\n" + 
+				"UNION \r\n" + 
+				"(SELECT '결재서류',d.document_title,d.document_content,d.document_no, draft_date, d.employee_id,d.document_type,r.ap_type\r\n" + 
+				"FROM reference r JOIN document d ON r.document_no=d.document_no \r\n" + 
+				"WHERE r.employee_id=?)\r\n" + 
+				"UNION\r\n" + 
+				"(SELECT '기안서류', document_title,d.document_content,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
+				"FROM document d  \r\n" + 
+				"WHERE employee_id=?))a\r\n" + 
+				"JOIN document d ON a.document_no= d.document_no)) j ON e.employee_id = j.employee_id where document_content like ? ORDER BY draft_date ASC";
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs= null;
+		List list = new ArrayList<>();
+		try {
+			int cnt=0;
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, employee_id);
+			pstmt.setString(2, employee_id);
+			pstmt.setString(3, employee_id);
+			pstmt.setString(4, employee_id);
+			pstmt.setString(5, "%"+content+"%");	
+		
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 		    	Document d=new Document();
@@ -598,6 +728,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 						d.getDocument_title()+" "+
 						d.getDocument_type().getDocument_type()+" "+
 						d.getDocument_no()+" "+
+						d.getEmployee().getDepartment().getDepartment_title()+" "+
 						d.getEmployee().getName()+" "+
 						d.getEmployee().getEmployee_id()+" "+
 						d.getDraft_date()+" "+
@@ -605,45 +736,50 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 						"\n결재자0="+
 						d.getApprovals().get(0).getEmployee_id().getName()+
 						d.getApprovals().get(0).getAp_ap_date()+
+				        d.getApprovals().get(0).getAp_type().getApStatus_type()+
 						"\n결재자1="+
 						d.getApprovals().get(1).getEmployee_id().getName()+
 						d.getApprovals().get(1).getAp_ap_date()+
+						d.getApprovals().get(1).getAp_type().getApStatus_type()+
 						"\n결재자2="+
 						d.getApprovals().get(2).getEmployee_id().getName()+
 						d.getApprovals().get(2).getAp_ap_date()+
+						d.getApprovals().get(2).getAp_type().getApStatus_type()+
 						"\n결재자3="+
 						d.getApprovals().get(3).getEmployee_id().getName()+
 						d.getApprovals().get(3).getAp_ap_date()+
+						d.getApprovals().get(3).getAp_type().getApStatus_type()+
 						"\n합의자 ="+
 						d.getAgreement().getEmployee_id().getName()+" "+
-						d.getAgreement().getAg_ap_date()+
+						d.getAgreement().getAg_ap_type().getApStatus_type()+
 						"\n참조자="+
-						d.getReference().getEmployee_id().getName()
+						d.getReference().getEmployee_id().getName()+
+						d.getReference().getRe_ap_type().getApStatus_type()
 						);
 			}
 			System.out.println();
 			
 			//문서에 대해 제목,내용으로 검색할 수 있다.
-			String title="";
-			String content="연락";
-			List<Document> searchList = new ArrayList<>();
-			System.out.println("제목 검색값 :"+title);
-			System.out.println("내용 검색값 :"+content);
-			searchList=dao.selectBySearch("MSD003",title,content);
-			for(Document d: searchList) {
-				System.out.println(
-						d.getState()+" "+
-						d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-		} catch (Exception e) {
+//			String title="";
+//			String content="연락";
+//			List<Document> searchList = new ArrayList<>();
+//			System.out.println("제목 검색값 :"+title);
+//			System.out.println("내용 검색값 :"+content);
+//			searchList=dao.selectBySearch("MSD003",title,content);
+//			for(Document d: searchList) {
+//				System.out.println(
+//						d.getState()+" "+
+//						d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+	} catch (Exception e) {
 			e.printStackTrace();
-		}
+	}
 
 	}
 

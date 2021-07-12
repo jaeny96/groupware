@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Properties;
 
 
-
 import com.group.approval.dao.SideDocsDAO;
 import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
 
 public class SideDocsService {
+
 	private SideDocsDAO dao;
 	private static SideDocsService service;
-	private static String envProp="classes.prop";
+	//private static String envProp="classes.prop";
+	public static String envProp;
 	
 	private SideDocsService(){
 		Properties env =new Properties();
@@ -86,6 +87,7 @@ public class SideDocsService {
 	 * @throws FindException
 	 */
 	public List<Document> findDocsAll(String id) throws FindException{
+		
 		return dao.selectByListAll(id);
 	}
 	
@@ -97,11 +99,21 @@ public class SideDocsService {
 	 * @throws FindException
 	 */
 	public List<Document> findDocsStatus(String id,String state) throws FindException{
-		return dao.selectByListStatus(id,state);
+		List<Document> lists=null;
+		if(state.equals("대기")) {
+			lists=dao.selectByListWait(id);
+		}else if(state.equals("승인")){
+			lists=dao.selectByListOk(id);
+		}else if(state.equals("반려")) {
+			lists=dao.selectByListNo(id);
+			
+		}
+		return lists;
 	}
+
 	
 	public static void main(String[] args) {
-		SideDocsService service = SideDocsService.getInstance();
+		service = SideDocsService.getInstance();
 		//사이드바 목록 확인 
 		try {
 			String id="DEV001";
@@ -114,6 +126,11 @@ public class SideDocsService {
 			System.out.println(id+"의 승인 목록개수 : "+result);
 			result=service.findCntNo(id);
 			System.out.println(id+"의 반려 목록개수 : "+result);
+			
+			List<Integer> arrlist =new ArrayList<Integer>();
+			arrlist.add(0, service.findCntAll(id));
+			System.out.println(arrlist.get(0));
+			System.out.println(arrlist);
 			
 		} catch (FindException e) {
 			e.printStackTrace();
