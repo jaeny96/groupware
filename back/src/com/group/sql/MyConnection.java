@@ -12,7 +12,7 @@ public class MyConnection {
 		
 		String url ="jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "groupware";
-		String password = "1234";
+		String password = "groupware";
 		
 		Connection con = null;
 		con = DriverManager.getConnection(url, user, password);		

@@ -10,10 +10,16 @@
   <link href="css/app.css" rel="stylesheet" />
   <link href="css/schedule.css" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+  
   <script src="js/main.js"></script>
+  <script src="js/app.js"></script>
   <script src="js/locales-all.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="jq/modifySchedule.js"></script>
+  <script src="jq/deleteSchedule.js"></script>
+  <script src="jq/addSchedule.js"></script>
   <script>
     //calendar 전역번수로 선언 
     var calendar = null;
@@ -71,12 +77,16 @@
                 modal.classList.add("hidden");
               });
 
+              var skdInputForm = document.getElementById('skdInput');
+
               //저장버튼 클릭이벤트
 
-              $("button.saveBtn").on("click", function () {
+              $("button.skdInsertSaveBtn").on("click", function (e) {
 
                 var selectOption = document.getElementById("skdType");
-                var skdInputType = selectOption.options[selectOption.selectedIndex]; //일정종류
+                var skdInputType = $("#skdType option:selected");
+
+
 
                 var skdInputTitle = $("#input_title"); //제목
                 var skdInputContent = $("#input_content"); //내용
@@ -86,69 +96,112 @@
                 var skdInputEndTime = $("#end_time");//종료시간
                 var skdInputShare = $('input[name="radio-3"]:checked');
 
-                //시간 미입력
-                // if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
-                //   alert("시간을 입력하세요.");
-                // }else 
-                if(new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
-                  alert("종료일이 시작일보다 먼저입니다.");
-                } else {    
-                  if (skdInputShare.val() == 'p') {
-                    calendar.addEvent({
-                      title: skdInputTitle.val(),
-                      content: skdInputContent.val(),
-                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
-                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
-                      allDay: false,
-                      backgroundColor: '#ffc107',
-                      extendedProps: {
-                        calendarType: skdInputType.value,
-                        teamOrPersonal: skdInputShare.val()
-                      }
-                      
-                    })
-                    $('div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="mypage.html"]').trigger('click');
-                  
+                console.log(skdInputType.val());
+                console.log(skdInputShare.val());
+
+                if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
+                  alert("시간을 입력하세요.");
+                } else
+                  if (new Date(skdInputEndDate.val()) - new Date(skdInputStartDate.val()) < 0) {
+                    alert("종료일이 시작일보다 먼저입니다.");
                   } else {
-                    calendar.addEvent({
-                      title: skdInputTitle.val(),
-                      content: skdInputContent.val(),
-                      start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
-                      end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
-                      allDay: false,
-                      backgroundColor: '#28a745',
-                      extendedProps: {
-                        calendarType: skdInputType.value,
-                        teamOrPersonal: skdInputShare.val()
-                      }
+                    if (skdInputShare.val() == 'p') {
+                      calendar.addEvent(
+                        {
+                          title: skdInputTitle.val(),
+                          content: skdInputContent.val(),
+                          start: skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                          end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                          allDay: false,
+                          backgroundColor: '#ffc107',
+                          calendarType: skdInputType.val(),
+                          teamOrPersonal: skdInputShare.val()
 
 
-                    })
-                    $('#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li.sidebar-item.active > a[href="schedule.html"]').trigger('click');
+                        })
+
+                      var skdInsertObj = document.querySelector('#skdInput > div.modal_content > div > form'); // 
+                      console.log(skdInsertObj);
+                      //일정 저장 버튼 
+                      var skdInsertBtn = skdInsertObj.querySelector("button.skdInsertSaveBtn");
+                      console.log(skdInsertBtn);
+                      var skdInsertUrl = '/back/addschedule';
+
+                      $.ajax({
+                        url: skdInsertUrl,
+                        method: 'post',
+                        datatype: 'json',
+                        data: {
+                          title: skdInputTitle.val(),
+                          content: skdInputContent.val(),
+                          start: skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                          end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                          allDay: false,
+                          backgroundColor: '#ffc107',
+                          calendarType: skdInputType.val(),
+                          teamOrPersonal: skdInputShare.val()
+                        },
+                        success: function () {
+                          alert('일정이 추가되었습니다');
+                          $('#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li.sidebar-item.active > a').trigger('click');
+
+                        },
+                        error: function (request, status, error) {
+                          alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        }
+
+                      });
+                      e.preventDefault(); //이걸 해줘야 하나? 
+
+
+                    } else {
+                      calendar.addEvent({
+                        title: skdInputTitle.val(),
+                        content: skdInputContent.val(),
+                        start: skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                        end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                        allDay: false,
+                        backgroundColor: '#28a745',
+                        extendedProps: {
+                          calendarType: skdInputType.val(),
+                          teamOrPersonal: skdInputShare.val()
+                        }
+                      })
+
+                      $.ajax({
+                        url: skdInsertUrl,
+                        method: 'post',
+                        datatype: 'json',
+                        data: {
+                          title: skdInputTitle.val(),
+                          content: skdInputContent.val(),
+                          start: skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                          end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                          allDay: false,
+                          backgroundColor: '#28a745',
+                          extendedProps: {
+                            calendarType: skdInputType.val(),
+                            teamOrPersonal: skdInputShare.val()
+                          }
+                        },
+                        success: function () {
+                          alert('일정이 추가되었습니다');
+                          $('#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li.sidebar-item.active > a').trigger('click');
+
+                        },
+                        error: function (request, status, error) {
+                          alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        }
+
+                      });
+                      e.preventDefault(); //이걸 해줘야 하나? 
+                      // $("#demo-calendar").fullCalendar('addEventSource', JSON, true); 
+
+                    }
+
                   }
-                
-                }
-              
-              //데이터 테스트 
-                // skdInputObj = {
-                //   title: skdInputTitle.val(),
-               
-                //       title: skdInputTitle.val(),
-                //       content: skdInputContent.val(),
-                //       start: skdInputStartDate.val() + " "+skdInputStartTime.val(),
-                //       end: skdInputEndDate.val() + " "+skdInputEndTime.val(),
-                //       allDay: false,
-                //       backgroundColor: '#28a745',
-                //       extendedProps: {
-                //         calendarType: skdInputType.value,
-                //         teamOrPersonal: skdInputShare.val()
-                //       }
 
-                // }
-                // //todo : 입력 해결 
-                // // $('#calendar').fullCalendar('renderEvent', skdInputObj, true);
-                // console.log(skdInputObj);
-           
+
               });
             }
           },
@@ -172,33 +225,18 @@
           right: 'dayGridWeek,dayGridMonth today prev,next'
 
         },
-        //하루 스케쥴 추가, ajax로 작업하기 
+        //   하루 스케쥴 추가, ajax로 작업하기 
         events: [
-          { //개인캘린더
-            title: '회의',
-            start: '2021-07-01 12:30',
-            end: '2021-07-01 3:30',
-            backgroundColor: '#28a745'
-
-          },
-
           {
-            //개인캘린더
-            title: '업무',
-            start: '2021-07-01 11:30',
-            end: '2021-07-01 3:30',
-            backgroundColor: '#ffc107'
+            start: "2021-07-01 11:00",
+            end: "2021-07-01 11:00",
+            title: "테스트"
           },
-
           {
-            title: '부산출장',
-            start: '2021-07-05 12:30',
-            end: '2021-07-07 13:30',
-            backgroundColor: '#ffc107',
-            borderColor: 'white'
 
-          },
-        ],
+          }],
+
+
 
         //extendedProp 적용
         eventDidMount: function (info) {
@@ -231,11 +269,10 @@
       //시작 시간을 현재 시간으로 
       document.getElementById('start_time').value = new Date(new Date()).toTimeString();
       //종료 시간을 현재 시간으로 
-      document.getElementById('end_time').value =  new Date(new Date()).toTimeString();
+      document.getElementById('end_time').value = new Date(new Date()).toTimeString();
 
       // //기간으로 검색하기, 제목내용으로 검색하기 창 설정
       var skdSearchObj = document.getElementById("skdSearch"); //검색입력창
-
       var categoryObj = document.querySelector("div.dropdown-menu");
 
       function categoryHandler(e) {
@@ -298,7 +335,7 @@
 
   </script>
 
-  
+
 </head>
 
 
@@ -309,57 +346,49 @@
         <div class="container-fluid p-0">
           <div>
             <div class="type-calendar btn-group btn-group-sm">
-              <button
-                type="button"
-                class="btn fc-button-primary"
-                id = "teamSkd"
-              >
+              <button type="button" class="btn fc-button-primary" id="teamSkd">
                 공유 캘린더
               </button> &nbsp; &nbsp;
-              <button
-                type="button"
-                class="btn fc-button-primary"
-                id = "personalSkd"
-              >
+              <button type="button" class="btn fc-button-primary" id="personalSkd">
                 내 캘린더
               </button>
             </div>
           </div>
+        </div>
 
-
-  <!-- 일정검색란 -->
-      <div class="container-fluid p-0">
-        <form method="get" action="#" class="d-none d-sm-inline-block col-md-3">
-      <div class="input-group input-group-navbar">
-        <div>
-          <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              검색
-            </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" id="skdCategoryAll">전체 검색</a>
-              <!--todo and option 
+        <!-- 일정검색란 -->
+        <div class="container-fluid p-0">
+          <form method="get" action="#" class="d-none d-sm-inline-block col-md-3">
+            <div class="input-group input-group-navbar">
+              <div>
+                <div class="btn-group btn-group-sm">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    검색
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="skdCategoryAll">전체 검색</a>
+                    <!--todo and option 
               1. input 창에 검색 시 기본적으로 전체 검색될 것
               2. 기간으로 검색 시 modal창 띄울 것
               3. 제목, 내용으로 검색 시 modal  창 띄울 것  -->
-              <a class="dropdown-item" href="#" id="skdCategoryPeriod">기간으로 검색</a>
-              <a class="dropdown-item" href="#" id="skdCategoryTitle">제목, 내용으로 검색</a>
+                    <a class="dropdown-item" href="#" id="skdCategoryPeriod">기간으로 검색</a>
+                    <a class="dropdown-item" href="#" id="skdCategoryTitle">제목, 내용으로 검색</a>
 
+                  </div>
+                </div>
+              </div>
+              <input type="text" class="form-control" placeholder="Search…" aria-label="Search" style="width: 25%"
+                id="skdSearch" />
             </div>
-          </div>
+          </form>
+
+          <div id="calendar" class=""></div>
         </div>
-        <input type="text" class="form-control" placeholder="Search…" aria-label="Search" style="width: 25%"
-          id="skdSearch" />
-      </div>
-    </form>
 
-    <div id="calendar" class=""></div>
+      </main>
+    </div>
   </div>
-
-    </main>
-  </div>
-  </div> 
 
 
   <!-- 스케쥴 입력모달창 -->
@@ -373,95 +402,95 @@
           <h4>일정 추가</h4>
 
         </div>
-        <form class="skdInsertClass">
+        <form action="#" class="skdInsertClass">
 
-        <div class="card-body">
-          
-          <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">종류</label>
-            <div class="col-sm-10">
-              <select name="skdType" id="skdType" style="width:40%; border: 1px solid #ced4da;">
-                <option value="업무">업무</option>
-                <option value="외근">외근</option>
-                <option value="출장">출장</option>
-                <option value="회의">회의</option>
-                <option value="휴가">휴가</option>
-              </select>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">제목</label>
-            <div class="col-sm-10">
-              <input type="text" id="input_title" class="form-control">
-            </div>
-          </div>
-          <!-- 시작 -->
-          <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">시작</label>
-            <div class="col-sm-10">
-              <!-- 날짜 -->
-              <input type="date" id="start_date" style="width: 50%; border: 1px solid #ced4da" />
+          <div class="card-body">
 
-              <!-- 시작시간 -->
-              <input type="time" id="start_time" style="width:40%; border: 1px solid #ced4da;">
-
-            </div>
-          </div>
-          <!-- 종료 -->
-          <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">종료</label>
-
-            <!-- 종료날짜 -->
-            <div class="col-sm-10">
-              <input type="date" id="end_date" style="width: 50%; border: 1px solid #ced4da;">
-
-              <!-- 종료시간 -->
-
-              <input type="time" id="end_time" style="width:40%; border: 1px solid #ced4da;">
-
-            </div>
-          </div>
-          <!-- 내용 -->
-          <div class="mb-3 row">
-            <label class="col-form-label col-sm-2 text-sm-right">내용</label>
-            <div class="col-sm-10">
-              <!-- 텍스트박스 -->
-              <textarea class="form-control" id="input_content" rows="10"></textarea>
-            </div>
-          </div>
-          <!-- 팀일정, 개인일정 설정 -->
-          <fieldset class="mb-3">
-            <div class="row">
-              <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">캘린더</label>
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">종류</label>
               <div class="col-sm-10">
-                <label class="form-check">
-                  <!-- 개인일정 -->
-                  <input name="radio-3" type="radio" class="form-check-input" value="p" checked="">
-                  <span class="form-check-label">개인일정</span>
-                </label>
-                <!-- 팀일정 -->
-                <label class="form-check">
-                  <input name="radio-3" type="radio" class="form-check-input" value="t">
-                  <span class="form-check-label">팀일정</span>
-                </label>
+                <select name="skdType" id="skdType" style="width:40%; border: 1px solid #52575c;">
+                  <option value="업무">업무</option>
+                  <option value="외근">외근</option>
+                  <option value="출장">출장</option>
+                  <option value="회의">회의</option>
+                  <option value="휴가">휴가</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">제목</label>
+              <div class="col-sm-10">
+                <input type="text" id="input_title" class="form-control">
+              </div>
+            </div>
+            <!-- 시작 -->
+            <div class="mbi-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">시작</label>
+              <div class="col-sm-10">
+                <!-- 날짜 -->
+                <input type="date" id="start_date" style="width: 50%; border: 1px solid #ced4da" />
+
+                <!-- 시작시간 -->
+                <input type="time" id="start_time" style="width:40%; border: 1px solid #ced4da;">
 
               </div>
             </div>
-          </fieldset>
+            <!-- 종료 -->
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">종료</label>
 
-          <!-- 저장 , 취소박스-->
-          <div class="mb-3 row">
-            <div style="text-align: center; margin: 10px 0;">
-              <button type="submit" class="btn btn-primary saveBtn"> 저장 </button>
-              <button class="btn btn-secondary cancel" type="button"> 취소
-              </button>
+              <!-- 종료날짜 -->
+              <div class="col-sm-10">
+                <input type="date" id="end_date" style="width: 50%; border: 1px solid #ced4da;">
+
+                <!-- 종료시간 -->
+
+                <input type="time" id="end_time" style="width:40%; border: 1px solid #ced4da;">
+
+              </div>
             </div>
-          </div>
+            <!-- 내용 -->
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">내용</label>
+              <div class="col-sm-10">
+                <!-- 텍스트박스 -->
+                <textarea class="form-control" id="input_content" rows="10"></textarea>
+              </div>
+            </div>
+            <!-- 팀일정, 개인일정 설정 -->
+            <fieldset class="mb-3">
+              <div class="row">
+                <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">캘린더</label>
+                <div class="col-sm-10">
+                  <label class="form-check">
+                    <!-- 개인일정 -->
+                    <input name="radio-3" type="radio" class="form-check-input" value="p" checked="">
+                    <span class="form-check-label">개인일정</span>
+                  </label>
+                  <!-- 팀일정 -->
+                  <label class="form-check">
+                    <input name="radio-3" type="radio" class="form-check-input" value="t">
+                    <span class="form-check-label">팀일정</span>
+                  </label>
 
-          </form>
-        </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- 저장 , 취소박스-->
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0;">
+                <button type="submit" class="btn btn-primary skdInsertSaveBtn"> 저장 </button>
+                <button class="btn btn-secondary cancel" type="button"> 취소
+                </button>
+              </div>
+            </div>
+
+        </form>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- 스케쥴 상세내역 -->
@@ -491,7 +520,7 @@
             <td> <Strong>제목</Strong></td>
             <td class="skdDetailInputData">
             </td>
-          </tr> 
+          </tr>
 
           <tr id="skdDetailType">
             <td><Strong>종류</Strong></td>
@@ -524,14 +553,116 @@
       <!-- 수정 / 삭제  -->
       <div class="mb-3 row ">
         <div style="text-align: center; margin: 10px 0;">
-          <button class="btn btn-primary "> 수정 </button>
+          <button class="btn btn-primary modifyBtn" id="skdModifyBtn"> 수정 </button>
           <button class="btn btn-secondary deleteBtn"> 삭제 </button>
         </div>
         <!--수정삭제 div-->
       </div>
       <!--수정삭제 부모div-->
+    </div>
+  </div>
 
 
+  <!-- 스케쥴 수정 -->
+  <div class="modal hidden" id="skdModifyDetail">
+    <div class="modal_overlay"></div>
+
+    <div class="modal_content">
+
+      <div class="card-header">
+        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                    border-radius: 7px;
+                    background-color: #6c757d; 
+                    color: white; cursor: pointer; ">X</button>
+        <h4>일정 수정</h4>
+
+      </div>
+      <form action="" id="modifySkdContent">
+        <!--card-header div-->
+        <table class="table">
+          <tbody>
+            <tr id="skdUpdateShare" class="skdUpdateShare">
+              <td style="width:30%;"><Strong>캘린더</Strong></td>
+              <td style="width:70%" class="skdUpdateInputData">
+                <div class="col-sm-10">
+                  <label class="form-check">
+                    <!-- 개인일정 -->
+                    <input name="radio-2" type="radio" class="form-check-input" value="p" checked="">
+                    <span class="form-check-label">개인일정</span>
+                  </label>
+                  <!-- 팀일정 -->
+                  <label class="form-check">
+                    <input name="radio-2" type="radio" class="form-check-input" value="t">
+                    <span class="form-check-label">팀일정</span>
+                  </label>
+              </td>
+            </tr>
+
+
+            <tr id="skdUpdateTitle">
+              <td> <Strong>제목</Strong></td>
+              <td class="skdUpdateInputData">
+                <input id="update_title" type="text">
+              </td>
+            </tr>
+
+            <tr id="skdUpdateType">
+              <td><Strong>종류</Strong></td>
+              <td class="skdUpdateInputData">
+                <div class="col-sm-10">
+                  <select name="skdUpdateTypeSelect" id="skdUpdateTypeSelect" style="width:40%; border: 1px solid #52575c;">
+                    <option value="업무">업무</option>
+                    <option value="외근">외근</option>
+                    <option value="출장">출장</option>
+                    <option value="회의">회의</option>
+                    <option value="휴가">휴가</option>
+                  </select>
+                </div>
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateStartTime">
+              <td><Strong>시작 시간</Strong></td>
+
+              <td class="skdUpdateInputData">
+                <input id="start_date_update" type="date">
+                <input id="start_time_update" type="time">
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateEndTime">
+              <td><Strong>종료 시간</Strong></td>
+              <td class="skdUpdateInputData">
+                <input id="end_date_update" type="date">
+                <input id="end_time_update" type="time">
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateContent">
+              <td><Strong>내용</Strong></td>
+              <td class="skdUpdateInputData">
+                <textarea name="" id="input_content_update" cols="30" rows="5"></textarea>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+        <!--form 닫기-->
+        <!-- 저장/취소  -->
+        <div class="mb-3 row ">
+          <div style="text-align: center; margin: 10px 0;">
+            <button type="submit" class="btn btn-primary modifySkdSubmit" id="modifySubmitBtn"> 저장 </button>
+            <button class="btn btn-secondary cancel"> 취소 </button>
+          </div>
+          <!--저장/취소 div-->
+        </div>
+        <!--저장/취소부모div-->
+      </form>
     </div>
     <!--modal-content div-->
   </div>
@@ -663,8 +794,7 @@
 
 
   </div>
-  </div>
-  </div>
+
 
   <!--스케쥴 제목내용기간 전체 검색-->
   <div class="modal hidden" id="skdSearchAll">
@@ -738,11 +868,13 @@
 
 
   </div>
-  </div>
-  </div>
 
-  <script src="js/app.js"></script>
+
+
   <script src="js/schedule.js"></script>
+
+
+
 </body>
 
 </html>
