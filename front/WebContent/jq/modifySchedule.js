@@ -1,39 +1,63 @@
 $(function(){
 
+//localStorage 값 받아오기 
+var skdOriginType = localStorage.getItem('skd_type');
+var skdOriginTitle =  localStorage.getItem('skd_title');
+var skdOriginContent =  localStorage.getItem('skd_content');
+var skdOriginStartDate = localStorage.getItem('skd_start_date'); //시작날짜
+var skdOriginStartTime = localStorage.getItem('skd_start_time');
+var skdOriginEndDate = localStorage.getItem('skd_end_date');//종료날짜
+var skdOriginEndTime = localStorage.getItem('skd_end_time');//종료시간
+var skdOriginShare = localStorage.getItem('skd_share');
+
+//경로
 var backSkdModify= '/back/modifyschedule';
+
+
 var modifySkdFormObj = $('#modifySkdContent');
- console.log(modifySkdFormObj);
 var modifySkdSubmitBtn = $('button.modifySkdSubmit');
-console.log("mmmmmmmmmmmm"+modifySkdSubmitBtn);
-var skdUpdateType = $("#skdUpdateTypeSelect option:selected");
-console.log(skdUpdateType.val());
+var skdUpdateTypeObj = $("#skdUpdateTypeSelect");//problem
+
+var skdUpdateTypeValue = '업무';
+skdUpdateTypeObj.change(function(){
+ console.log(this.value);
+ skdUpdateTypeValue=this.value+"";
+});
+
 var skdUpdateTitle = $('#update_title');
-console.log('야호2');
-console.log(skdUpdateTitle.val());
 var skdUpdateContent = $("#input_content_update"); //내용
-console.log(skdUpdateContent.val());
 var skdUpdateStartDate = $("#start_date_update"); //시작날짜
-var test = document.querySelector("label.form-check");
-console.log(test);
 var skdUpdateStartTime = $("#start_time_update");//시작시간
-console.log(skdUpdateStartDate.val() + " " + skdUpdateStartTime.val());
 var skdUpdateEndDate = $("#end_date_update");//종료날짜
 var skdUpdateEndTime = $("#end_time_update");//종료시간
-console.log(skdUpdateEndDate.val() + " " + skdUpdateEndTime.val());
-var skdUpdateShare = $('input[name="radio-2"]:checked').val();
-console.log(skdUpdateShare);
+var skdUpdateShare2 = $('input[name="radio-2"]'); //problem$(':radio[name="radioValue"]:checked').val();
+// var skdUpdateShare = $('input[name="radio-2"]:checked'); //problem$(':radio[name="radioValue"]:checked').val();
+var test='p';
+skdUpdateShare2.change(function(){
+  console.log(this.value);
+  test = this.value;
+  console.log(test);
+})
 
 
+//기존 값 넣기 
+skdUpdateTitle.attr('value', skdOriginTitle) ;
+skdUpdateContent.val(skdOriginContent);
+skdUpdateStartDate.val(skdOriginStartDate);
+skdUpdateStartTime.val(skdOriginStartTime);
+skdUpdateEndDate.val(skdOriginEndDate);
+skdUpdateEndTime.val(skdOriginEndTime);
+//skdUpdateType.val(skdOriginType);
+
+//시간, content는 가능
+//dropdown, radio는 불가 
+//skdUpdateShare(skdOriginShare);
 
 
 
 function modifySkdSubmitHandler(e) {
-console.log(skdUpdateShare);
-
-
-    //변수를  가져와야 하나? 
-    
-    if (skdUpdateShare == "p"){
+// console.log(skdUpdateShare);
+    if (test == "p"){
 		$.ajax({
       
 			url: backSkdModify,
@@ -45,10 +69,8 @@ console.log(skdUpdateShare);
         end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
         allDay: false,
         backgroundColor: '#ffc107',
-        extendedProps: {
-          calendarType: skdUpdateType.val(),
-          teamOrPersonal: skdUpdateShare
-        }
+        calendarType: skdUpdateTypeValue,
+        teamOrPersonal: test
 
 			},
 			success: function() {
@@ -61,7 +83,7 @@ console.log(skdUpdateShare);
 		});
 		e.preventDefault();
 
- }else{
+ }else if(test == "t"){
   $.ajax({
     url: backSkdModify,
     method: "post",
@@ -72,10 +94,8 @@ console.log(skdUpdateShare);
       end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
       allDay: false,
       backgroundColor: '#28a745',
-      extendedProps: {
-        calendarType: skdUpdateType.val(),
-        teamOrPersonal: skdUpdateShare
-      }
+        calendarType: skdUpdateTypeValue,
+        teamOrPersonal: test
 
     }  ,
     success: function() {
