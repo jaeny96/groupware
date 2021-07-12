@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
+
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <title>Tables | AdminKit Demo</title>
+
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="js/board.js"></script>
+    <script src="jq/load-board.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="main">
+        <main class="content">
+    <div class="container-fluid p-0">
+      <h1 class="h3 mb-3 h1Title">1 PAGE</h1>
+      <form class="d-none d-sm-inline-block col-md-3" method="get" action="#">
+        <div class="input-group input-group-navbar">
+          <div>
+            <div class="btn-group btn-group-sm">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                카테고리
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" id="categoryTitle">제목</a>
+                <a class="dropdown-item" href="#" id="categoryWriter">작성자</a>
+              </div>
+            </div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search…"
+            aria-label="Search"
+            style="width: 50%"
+          />
+          <button class="btn bdSearchBtn">
+            <div class="fa fa-search"></div>
+          </button>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <a class="btn btn-primary btn-sm" href="board-register.html"
+                >글쓰기</a
+              >
+            </div>
+            <div class="table-responsive">
+              <table class="table mb-0 text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">글번호</th>
+                    <th scope="col" style="width: 65%">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
+                  </tr>
+                </thead>
+                <tbody class="bdTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </main> -->
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row text-muted">
+          <!-- <div class="col-12 text-left">
+                <p class="mb-0">
+                <a href="index.html" class="text-muted"
+                  ><strong>prev</strong></a
+                >
+                &copy;
+                </p>
+              </div> -->
+          <div class="col-12 text-center">
+            <ul class="list-inline pageGroup">
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>prev</strong></a
+                >
+              </li>
+<!--               <li class="list-inline-item">
+                <a class="text-muted" href="#">1</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">2</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">3</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">4</a>
+              </li> -->
+<!--               <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>next</strong></a
+                >
+              </li> -->
+            </ul>
+          </div>
+          <!-- <div class="col-12 text-right">
+                <p class="mb-0">
+                <a href="index.html" class="text-muted"
+                  ><strong>next</strong></a
+                >
+                &copy;
+                </p>
+              </div> -->
+        </div>
+      </div>
+    </footer>
+    <!-- </main>
+        <script src="js/app.js"></script>
+      </div>
+    </div> -->
+  </body>
+</html>

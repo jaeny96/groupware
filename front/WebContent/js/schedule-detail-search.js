@@ -1,31 +1,53 @@
 var skdTBodyObj = document.querySelector("tbody.skdTbody");
-console.log(skdTBodyObj);
+//상세내역 모달에 데이터
+var shareObj = document.getElementById("skdDetailShare");
+//console.log(shareObj);
+var shareValue = shareObj.querySelector("td.skdDetailInputData");
+//console.log(shareValue);
+var typeObj = document.getElementById("skdDetailType");
+var typeValue = typeObj.querySelector("td.skdDetailInputData");
+//console.log(typeValue);
+var titleObj = document.getElementById("skdDetailTitle");
+var titleValue = titleObj.querySelector("td.skdDetailInputData");
 
-//임시데이터
-var skdDate = ["21.06.16(수)", "21.07.16(수)", "21.08.16(수)", "21.08.16(수)"];
-var skdTime = [
-  "오전 6:00~오후 2:00",
-  "오전 9:00~오전 11:00",
-  "오전 01:00~오후 03:00",
-  "오전 01:00~오후 03:00",
-];
-var skdContent = ["요구사항정의서 제출", "팀회의", "외부미팅", "아무개"];
+var StartTimeObj = document.getElementById("skdDetailStartTime");
+var StartTimeValue = StartTimeObj.querySelector("td.skdDetailInputData");
+
+//console.log(StartTimeValue);
+var EndTimeObj = document.getElementById("skdDetailEndTime");
+var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
+
+//console.log(EndTimeValue);
+var ContentObj = document.getElementById("skdDetailContent");
+var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
+
+var type = typeValue.innerHTML;
+//typeValue.innerHTML = "회의";
+var title = titleValue.innerText;
+var start = StartTimeValue.innerText;
+var end = EndTimeValue.innerText;
+var content = ContentValue.innerText;
+console.log(typeValue.innerHTML);
+console.log(title + "22222");
+console.log(start + "33333");
+console.log(end);
+console.log(content);
 
 //표만들기
-function createSkdElement(i) {
+function createSkdElement(skdDate, skdTime, skdContent) {
   var tr = document.createElement("tr");
   var tdDate = document.createElement("td");
-  tdDate.innerHTML = skdDate[i];
+  tdDate.innerHTML = skdDate;
   var tdTime = document.createElement("td");
-  tdTime.innerHTML = skdTime[i];
+  tdTime.innerHTML = skdTime;
   var tdContent = document.createElement("td");
-  //내용클릭시 모달띄워야함...
+  //내용클릭시 모달띄우기
   var a = document.createElement("a");
   a.setAttribute("href", "#");
   a.addEventListener("click", function () {
     createModal("skdDetail");
   });
-  a.innerText = skdContent[i];
+  a.innerText = skdContent;
   //자식에 부모달아주기
   tdContent.appendChild(a);
   tr.appendChild(tdDate);
@@ -33,13 +55,39 @@ function createSkdElement(i) {
   tr.appendChild(tdContent);
   skdTBodyObj.appendChild(tr);
 }
+
 //일정개수만큼 표를 생성하여 데이터 넣는 함수
-function init() {
+function init(result) {
+  console.log({ result });
+
+  var skdDate = [];
+  var skdTime = [];
+  var skdContent = [];
+
+  result.forEach((item) => {
+    start = new Date(item.skd_start_date);
+    end = new Date(item.skd_end_date);
+    title = item.skd_title;
+
+    skdContent.push(title);
+    skdDate.push(moment(start).format("YY-MM-DD"));
+    skdTime.push(moment(start).format("LT") + " ~ " + moment(end).format("LT"));
+  });
   for (var i = 0; i < skdDate.length; i++) {
-    createSkdElement(i);
+    createSkdElement(skdDate[i], skdTime[i], skdContent[i]);
   }
 }
-init();
+
+function createModalValue(result) {
+  console.log({ result });
+  let jsonStr = JSON.stringify({ result });
+  console.log(jsonStr);
+  type = result.skd_type;
+  title = result[7];
+  start = result[6];
+  end = result[2];
+  content = result.skd_content;
+}
 
 //modal 만드는 함수
 //파라미터 : class="modal" 의 id
@@ -80,3 +128,46 @@ function createModal(id) {
     deleteBtn.addEventListener("click", deleteSKD);
   }
 }
+
+//내용,제목 검색
+document.addEventListener("DOMContentLoaded", function () {
+  var id = "MSD002";
+  //var dept = "MSD";
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const urlParams = Object.fromEntries(urlSearchParams.entries());
+  urlParams.id = id;
+  // urlParams.dept = dept;
+  // const encoded = encodeURIComponent(urlParams);
+
+  console.log({ urlParams });
+  $.ajax({
+    url: "/back/showbycontent",
+    dataType: "json",
+    data: urlParams,
+    success: function (responseData) {
+      init(responseData);
+      createModalValue(responseData);
+    },
+  });
+});
+
+//기간검색
+document.addEventListener("DOMContentLoaded", function () {
+  var id = "MSD002";
+  var dept = "MSD";
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const urlParams = Object.fromEntries(urlSearchParams.entries());
+  urlParams.id = id;
+  urlParams.dept_id = dept;
+
+  console.log({ urlParams });
+  $.ajax({
+    url: "/back/showbydate",
+    dataType: "json",
+    data: urlParams,
+    success: function (responseData) {
+      init(responseData);
+      createModalValue(responseData);
+    },
+  });
+});

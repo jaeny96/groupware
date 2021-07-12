@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
+
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jq/load.js"></script>
+    <title>GroupWare Program</title>
+    <script src="js/summernote/summernote-lite.js"></script>
+    <script src="js/summernote/lang/summernote-ko-KR.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
+      rel="stylesheet"
+    />
+    <!-- <script src="jq/summernote.js"></script> -->
+    <link href="css/app.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <nav id="sidebar" class="sidebar">
+        <div class="sidebar-content js-simplebar">
+          <a class="sidebar-brand text-md-center mt-2" href="main.html">
+            <img src="img/icons/logo.png" />
+          </a>
+
+          <ul class="sidebar-nav">
+            <li class="sidebar-header"></li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="main.html">
+                <i class="align-middle" data-feather="sliders"></i>
+                <span class="align-middle">메인페이지</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="board.html">
+                <i class="align-middle" data-feather="list"></i>
+                <span class="align-middle">게시판</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="schedule.html">
+                <i class="align-middle" data-feather="coffee"></i>
+                <span class="align-middle">일정 관리</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a
+                data-target="#ui"
+                data-toggle="collapse"
+                class="sidebar-link collapsed"
+              >
+                <i class="align-middle" data-feather="briefcase"></i>
+                <span class="align-middle">전자결재</span>
+              </a>
+              <ul
+                id="ui"
+                class="sidebar-dropdown list-unstyled collapse"
+                data-parent="#sidebar"
+              >
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="ui-alerts.html">작성하기</a>
+                </li>
+                <li class="sidebar-item"></li>
+                <li class="sidebar-approval">문서함</li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="ui-cards.html">전체</a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="ui-general.html">대기</a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="ui-grid.html">승인</a>
+                </li>
+                <li class="sidebar-item">
+                  <a class="sidebar-link" href="ui-modals.html">반려</a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="employee.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">임직원 정보</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="mypage.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">나의 정보</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+          <a class="sidebar-toggle d-flex">
+            <i class="hamburger align-self-center"></i>
+          </a>
+          <div class="navbar-collapse collapse">
+            <ul class="navbar-nav navbar-align">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-icon dropdown-toggle d-inline-block d-sm-none"
+                  href="#"
+                  data-toggle="dropdown"
+                >
+                  <i class="align-middle" data-feather="settings"></i>
+                </a>
+                <a
+                  class="nav-link dropdown-toggle d-none d-sm-inline-block"
+                  href="#"
+                  data-toggle="dropdown"
+                >
+                  <img
+                    src="img/avatars/avatar.jpg"
+                    class="avatar img-fluid rounded mr-1"
+                    alt="Charles Hall"
+                  />
+                  <!-- <span class="text-dark">Charles Hall</span> -->
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-right py-0 profileDropdown"
+                >
+                  <div class="mt-2"></div>
+                  <div class="dropdown-item">
+                    <strong class="mr-2">사번</strong
+                    ><span class="loginId"></span>
+                  </div>
+                  <div class="dropdown-item">
+                    <strong class="mr-2">이름</strong
+                    ><span class="loginName"></span>
+                  </div>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main class="content">
+          <div class="container-fluid p-0">
+            <!-- <div class="row mb-2 mb-xl-3">
+              <div class="col-auto d-none d-sm-block">
+                <h3><strong>Analytics</strong> Dashboard</h3>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-12 col-md-6 d-flex order-2 order-xxl-3">
+                <div class="card flex-fill w-100">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">최근 게시글</h5>
+                  </div>
+                  <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                      <table class="table mb-0">
+                        <tbody class="mainBdTbody">
+                          <!-- <tr>
+                            <td>Vanessa Tucker</td>
+                            <td>864-348-0485</td>
+                            <td class="d-none d-md-table-cell">
+                              June 21, 1961
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>William Harris</td>
+                            <td>914-939-2458</td>
+                            <td class="d-none d-md-table-cell">May 15, 1948</td>
+                          </tr>
+                          <tr>
+                            <td>Sharon Lessman</td>
+                            <td>704-993-5435</td>
+                            <td class="d-none d-md-table-cell">
+                              September 14, 1965
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Christina Mason</td>
+                            <td>765-382-8195</td>
+                            <td class="d-none d-md-table-cell">
+                              April 2, 1971
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Robin Schneiders</td>
+                            <td>202-672-1407</td>
+                            <td class="d-none d-md-table-cell">
+                              October 12, 1966
+                            </td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 d-flex order-1 order-xxl-1">
+                <div class="card flex-fill">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">결재 예정 문서</h5>
+                  </div>
+                  <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                      <table class="table mb-0">
+                        <tbody class="mainApTbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 d-flex order-2 order-xxl-3">
+                <div class="card flex-fill w-100">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0 float-left">오늘 일정</h5>
+                    <div class="mb-2 float-right scheduleBtn">
+                      <a href="schedule.html">
+                        <i
+                          class="align-middle mr-2"
+                          data-feather="plus-circle"
+                        ></i
+                      ></a>
+                    </div>
+                  </div>
+                  <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                      <table class="table mb-0">
+                        <tbody class="mainSkdTbody">
+                          <!-- <tr>
+                            <td>Vanessa Tucker</td>
+                            <td>864-348-0485</td>
+                            <td class="d-none d-md-table-cell">
+                              June 21, 1961
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>William Harris</td>
+                            <td>914-939-2458</td>
+                            <td class="d-none d-md-table-cell">May 15, 1948</td>
+                          </tr>
+                          <tr>
+                            <td>Sharon Lessman</td>
+                            <td>704-993-5435</td>
+                            <td class="d-none d-md-table-cell">
+                              September 14, 1965
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Christina Mason</td>
+                            <td>765-382-8195</td>
+                            <td class="d-none d-md-table-cell">
+                              April 2, 1971
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Robin Schneiders</td>
+                            <td>202-672-1407</td>
+                            <td class="d-none d-md-table-cell">
+                              October 12, 1966
+                            </td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 d-flex order-1 order-xxl-1">
+                <div class="card flex-fill">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">휴가 정보</h5>
+                  </div>
+                  <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                      <table
+                        class="table table-bordered"
+                        style="text-align: center"
+                      >
+                        <thead>
+                          <tr>
+                            <th>올해 부여된 휴가 일수</th>
+                            <th>사용한 휴가 일수</th>
+                            <th>남은 휴가 일수</th>
+                          </tr>
+                        </thead>
+                        <tbody class="mainLeaveTbody">
+                          <tr>
+                            <td class="mainGrantDays"></td>
+                            <td class="mainUseDays"></td>
+                            <td
+                              class="d-none d-md-table-cell mainRemainDays"
+                            ></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row text-muted">
+              <div class="col-6 text-left">
+                <p class="mb-0">
+                  <a href="index.html" class="text-muted"
+                    ><strong>AdminKit Demo</strong></a
+                  >
+                  &copy;
+                </p>
+              </div>
+              <div class="col-6 text-right">
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    <a class="text-muted" href="#">Support</a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="text-muted" href="#">Help Center</a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="text-muted" href="#">Privacy</a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="text-muted" href="#">Terms</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/mainpage.js"></script>
+  </body>
+</html>

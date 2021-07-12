@@ -92,7 +92,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         throw new FindException(e.getMessage());
 	      }
 	      
-	      String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
+	      String SkdListSQL = "SELECT skd_no, skd_type, skd_title, skd_content,\r\n" + 
 	            "skd_start_date,\r\n" + 
 	            "skd_end_date, skd_share\r\n" + 
 	            "FROM schedule\r\n" + 
@@ -157,8 +157,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 				"skd_end_date, 'yyyy-mm-dd hh24:mi'\r\n" + 
 				" FROM SCHEDULE\r\n" + 
 				"WHERE employee_id IN (SELECT employee_id FROM employee WHERE department_id =?)\r\n" + 
-				"AND skd_share='t' \r\n" + 
-				"AND skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate)";
+				"AND skd_share='t'";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Schedule> list = new ArrayList<>();
@@ -207,7 +206,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		String skdPersonalSQL = "select skd_type, skd_title,\r\n" + 
 				"skd_start_date, skd_end_date \r\n" + 
 				"from schedule\r\n" + 
-				"where employee_id= ? AND skd_share='p' AND skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate)";
+				"where employee_id= ? AND skd_share='p'";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Schedule> list = new ArrayList<>();
@@ -247,7 +246,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			throw new FindException(e.getMessage());
 		}
 		PreparedStatement pstmt = null;
-		String skdByContentSQL = "SELECT skd_start_date, skd_end_date, skd_title, skd_share\r\n" + 
+		String skdByContentSQL = "SELECT skd_no, skd_type, skd_title, skd_content, skd_start_date, skd_end_date, skd_share\r\n" + 
 				"FROM schedule\r\n" + 
 				"where employee_id= ? AND (skd_title like ? \r\n" + 
 				"OR skd_content like ?)";

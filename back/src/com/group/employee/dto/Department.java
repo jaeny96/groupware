@@ -9,6 +9,10 @@ public class Department {
 	public Department() {
 	}
 
+	public Department(String department_id,String department_title,int count) {
+		this(department_id,department_title,null,count);
+	}
+	
 	public Department(String department_id, String department_title, String manager_id, int count) {
 		this.department_id = department_id;
 		this.department_title = department_title;

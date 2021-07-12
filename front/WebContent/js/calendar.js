@@ -1,190 +1,367 @@
-var AppCalendar = (function () {
-  var calendar = null;
-  // var containerEl = document.getElementById("event_box"); // 별도로 이벤트를 Drag&Drop 하기 위한 영역
+document.addEventListener("DOMContentLoaded", function () {
+  var Calendar = FullCalendar.Calendar;
   var calendarEl = document.getElementById("calendar");
 
-  function initCalendar() {
-    new FullCalendar.Draggable(containerEl, {
-      itemSelector: ".external-event",
-      eventData: function (eventEl) {
-        return {
-          title: eventEl.innerText.trim(),
-        };
-      },
-    });
+  //   var all_events = new Array();
+  //   all_events = loadingEvents();
+  var calendar = new Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    locale: "ko",
+    height: "100%",
+    editable: true,
+    eventLimit: true /*달력상에 셀 크기보다 많은 이벤트가 등록되어 있는 경우 more로 표기*/,
+    dayMaxEventRows: true,
+    navLinks: true,
+    selectable: true,
 
-    calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: "prevYear,prev,next,nextYear today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-      },
-      locale: "ko",
-      weekNumbers: true,
-      businessHours: true,
-      navLinks: true,
-      editable: true,
-      dayMaxEvents: true,
-      selectable: true,
-      select: function (arg) {
-        var title = prompt("Event Title:");
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay,
+    navLinkWeekClick: function (weekStart, jsEvent) {
+      console.log("week start", weekStart.toISOString());
+      console.log("coords", jsEvent.pageX, jsEvent.pageY);
+    },
+    events: function (info, successCallback, failureCallback) {
+      var id = "MSD002";
+      var dept = "MSD";
+      $.ajax({
+        url: "/back/showskddetail",
+        dataType: "json",
+        data: { id: id, dept: dept },
+        async: false,
+        success: function (result) {
+          var events = [];
+          if (result != null) {
+            $.each(result, function (i, e) {
+              var type = e.skd_share;
+              var enddate = e.skd_end_date;
+              var startdate = moment(e.skd_start_date).format(
+                "YYYY-MM-DD hh:mm"
+              );
+              var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
+              if (type == "t ") {
+                events.push({
+                  title: e.skd_title,
+                  start: startdate,
+                  end: enddate,
+                  resource: type,
+                  color: "#28a745",
+                });
+              } else if (type == "p ") {
+                events.push({
+                  title: e.skd_title,
+                  start: startdate,
+                  end: enddate,
+                  resource: type,
+                  color: "#ffc107",
+                });
+              }
+              console.log(events);
+            });
+            successCallback(events);
+          }
+        },
+      });
+    },
+    customButtons: {
+      addeventButton: {
+        text: "일정 추가",
+        id: "modalInputBtn",
+        click: function () {
+          //modal 띄우기
+          const modal = document.getElementById("skdInput");
+          const closeBtn = document.querySelector("button.cancel");
+          modal.classList.remove("hidden");
+          $(closeBtn).on("click", function () {
+            modal.classList.add("hidden");
           });
-        }
-        calendar.unselect();
-      },
-      unselect: function (arg) {},
-      droppable: true,
-      drop: function (arg) {
-        if ($("#drop-remove").is(":checked")) {
-          arg.draggedEl.remove();
-        }
-      },
-      eventReceive: function (arg) {
-        AppCalendar.saveEvent("in", arg);
-      },
-      eventClick: function (arg) {
-        if (confirm("일정을 삭제하시겠습니까?")) {
-          arg.event.remove();
-        }
-      },
-      eventAdd: function (arg) {
-        AppCalendar.saveEvent("in", arg);
-      },
-      eventChange: function (arg) {
-        AppCalendar.saveEvent("up", arg);
-      },
-      eventRemove: function (arg) {
-        AppCalendar.delEvent(arg);
-      },
-      eventSources: [
-        {
-          url: "ajax URL",
-          method: "POST",
-          extraParams: {
-            mode: "schedule",
-            act: "list",
-          },
-        },
-      ],
-    });
+          //저장버튼 클릭이벤트
+          $("button.saveBtn").on("click", function () {
+            var selectOption = document.getElementById("skdType");
+            var skdInputType = selectOption.options[selectOption.selectedIndex]; //일정종류
 
-    calendar.render();
-  }
+            var skdInputTitle = $("#input_title"); //제목
+            var skdInputContent = $("#input_content"); //내용
+            var skdInputStartDate = $("#start_date"); //시작날짜
+            var skdInputStartTime = $("#start_time"); //시작시간
+            var skdInputEndDate = $("#end_date"); //종료날짜
+            var skdInputEndTime = $("#end_time"); //종료시간
+            var skdInputShare = $('input[name="radio-3"]:checked');
 
-  return {
-    addEvent: function (title) {
-      if (title.length > 0) {
-        title = title.length === 0 ? "Untitled Event" : title;
-        var html = $(
-          '<div class="external-event label label-default">' + title + "</div>"
-        );
-        jQuery("#event_box").append(html);
-      }
-    },
-
-    saveEvent: function (act, arg) {
-      var allday = arg.event.allDay ? 1 : 0;
-      $.post(
-        "ajax URL",
-        {
-          idx: arg.event.groupId,
-          title: arg.event.title,
-          start: arg.event.startStr,
-          end: arg.event.endStr,
-          alldate: allday,
-          act: "proc",
-          mode: "schedule",
-        },
-        function (data) {
-          if (data.Result == "ok") {
-            if (act == "in") {
-              arg.event.setProp("groupId", data.idx); // 신규 추가된 일정의 일련번호
-              //arg.event.setExtendedProp( "idx", "123123" );
+            if (skdInputContent.val() == null || skdInputContent.val() == "") {
+              alert("내용을 입력하세요.");
+            } else if (
+              skdInputStartDate.val() == "" ||
+              skdInputEndDate.val() == ""
+            ) {
+              alert("날짜를 입력하세요.");
+            } else if (
+              new Date(skdInputEndDate.val()) -
+                new Date(skdInputStartDate.val()) <
+              0
+            ) {
+              alert("종료일이 시작일보다 먼저입니다.");
+            } else {
             }
-          } else {
-            alert("일정 저장중 오류가 발생하였습니다.");
-          }
+
+            skdInputObj = {
+              title: skdInputTitle.val(),
+              content: skdInputContent.val(),
+              start: skdInputStartDate.val(),
+              startTime: skdInputStartTime.val(),
+              end: skdInputEndDate.val(),
+              endTime: skdInputEndTime.val(),
+              allDay: false,
+              extendedProps: {
+                calendarType: skdInputType.value,
+                teamOrPersonal: skdInputShare.val(),
+              },
+            };
+
+            //todo : 입력 해결
+            // $('#calendar').fullCalendar('renderEvent', skdInputObj, true);
+            console.log(skdInputObj);
+          });
         },
-        "json"
-      );
+      },
+      allSchedule: {
+        text: "전체 캘린더",
+        click: function (info, successCallback, failureCallback) {
+          var id = "MSD002";
+          var dept = "MSD";
+          $.ajax({
+            url: "/back/showskddetail",
+            dataType: "json",
+            data: { id: id, dept: dept },
+            async: false,
+            success: function (result) {
+              calendar.removeAllEventSources();
+              var events = [];
+
+              if (result != null) {
+                $.each(result, function (i, e) {
+                  var type = e.skd_share;
+                  var startdate = moment(e.skd_start_date).format(
+                    "YYYY-MM-DD hh:mm"
+                  );
+                  var enddate = moment(e.skd_end_date).format(
+                    "YYYY-MM-DD hh:mm"
+                  );
+                  if (type == "t ") {
+                    events.push({
+                      title: e.skd_title,
+                      start: startdate,
+                      end: enddate,
+                      resource: type,
+                      color: "#28a745",
+                    });
+                  } else if (type == "p ") {
+                    events.push({
+                      title: e.skd_title,
+                      start: startdate,
+                      end: enddate,
+                      resource: type,
+                      color: "#ffc107",
+                    });
+                  }
+                  console.log("전체버튼" + events);
+                });
+                calendar.addEventSource(events);
+              }
+            },
+          });
+        },
+      },
+      teamSchedule: {
+        text: "공유 캘린더",
+        click: function (info, successCallback, failureCallback) {
+          var dept = "MSD";
+          $.ajax({
+            url: "/back/showteamskd",
+            dataType: "json",
+            data: { dept_id: dept },
+            async: false,
+            success: function (result) {
+              calendar.removeAllEventSources();
+              var events = [];
+              if (result != null) {
+                $.each(result, function (i, e) {
+                  var enddate = e.skd_end_date;
+                  var startdate = moment(e.skd_start_date).format(
+                    "YYYY-MM-DD hh:mm"
+                  );
+                  var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
+
+                  events.push({
+                    title: e.skd_title,
+                    start: startdate,
+                    end: enddate,
+                    color: "#28a745",
+                  });
+                  console.log(events);
+                });
+                calendar.addEventSource(events);
+              }
+            },
+          });
+        },
+      },
+      personalSchedule: {
+        text: "내 캘린더",
+        click: function (info, successCallback, failureCallback) {
+          var id = "MSD002";
+          $.ajax({
+            url: "/back/showpersonalskd",
+            dataType: "json",
+            data: { skd_id: id },
+            async: false,
+            success: function (result) {
+              calendar.removeAllEventSources();
+              var events = [];
+              if (result != null) {
+                $.each(result, function (i, e) {
+                  var enddate = e.skd_end_date;
+                  var startdate = moment(e.skd_start_date).format(
+                    "YYYY-MM-DD hh:mm"
+                  );
+                  var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
+
+                  events.push({
+                    title: e.skd_title,
+                    start: startdate,
+                    end: enddate,
+                    color: "#ffc107",
+                  });
+                  console.log(events);
+                });
+                calendar.addEventSource(events);
+              }
+            },
+          });
+        },
+      },
+      weekSchedule: {
+        text: "주간",
+        class: "weekSchedule",
+      },
+    },
+    headerToolbar: {
+      left: "addeventButton allSchedule teamSchedule personalSchedule",
+      center: "title",
+      right: "dayGridWeek,dayGridMonth today prev,next",
     },
 
-    delEvent: function (arg) {
-      var allday = event.allDay ? 1 : 0;
-      $.post(
-        "ajax URL",
-        {
-          idx: arg.event.groupId,
-          title: arg.event.title,
-          start: arg.event.startStr,
-          end: arg.event.endStr,
-          alldate: allday,
-          act: "delete",
-          mode: "schedule",
-        },
-        function (data) {
-          if (data.Result == "ok") {
-          } else {
-            alert("일정 삭제중 오류가 발생하였습니다.");
-          }
-        },
-        "json"
-      );
+    //extendedProp 적용
+    eventDidMount: function (info) {
+      //   console.log(info.event.extendedProps);
+      // {calendarType: 캘린더타입, teamOrPersonal: 팀or개인일정}
     },
+    eventClick: function (info) {
+      //일정 클릭했을 때
+      createModal("skdDetail");
+    },
+  }); //New calendar끝
 
-    //main function to initiate the module
-    init: function () {
-      initCalendar();
-    },
+  calendar.render();
+  // console.log({ calendar });
+  // window.asdf = calendar;
+}); //돔이벤트끝
+
+//모달 관련
+//시작 날짜를 현재 날짜로
+document.getElementById("start_date").value = new Date()
+  .toISOString()
+  .substring(0, 10);
+//종료 날짜를 현재 날짜로
+document.getElementById("end_date").value = new Date()
+  .toISOString()
+  .substring(0, 10);
+
+//시작 시간을 현재 시간으로
+document.getElementById("start_time").value = new Date(
+  new Date()
+).toTimeString();
+//종료 시간을 현재 시간으로
+document.getElementById("end_time").value = new Date(new Date()).toTimeString();
+
+/////////////////////////////////////////////////////일정검색 드롭다운메뉴시작
+//전체 검색 모달 창
+//var modalSearchAll = document.querySelector("div#skdSearchAll");
+//모달 창 내용(제목, 내용, 시작일, 종료일)
+// var modalSearchAllTitle = modalSearchAll.querySelector("input.allTitle");
+// var modalSearchAllContent = modalSearchAll.querySelector("input.allContent");
+// var modalSearchAllSDate = modalSearchAll.querySelector("input.allSDate");
+// var modalSerchAllEDate = modalSearchAll.querySelector("input.allEDate");
+
+//기간으로 검색하기, 제목내용으로 검색하기 창 설정
+var skdSearchObj = document.getElementById("skdSearch");
+//검색 드롭다운메뉴
+var categoryObj = document.querySelector("div.dropdown-menu");
+console.log(categoryObj + "카테고리오브젝트");
+
+function categoryHandler(e) {
+  if (e.target.id == "skdCategoryPeriod") {
+    createModal("skdSearchPeriod");
+  } else if (e.target.id == "skdCategoryTitle") {
+    console.log("내용검색" + e.target.id);
+    createModal("skdSearchTitle");
+    // } else if (e.target.id == "skdCategoryAll") {
+    //   createModal("skdSearchAll");
+    // }
+  }
+}
+function initSearchModal() {
+  categoryObj.addEventListener("click", categoryHandler);
+}
+
+initSearchModal();
+////////////////////////////////////////////일정검색 드롭다운메뉴
+
+//modal 만드는 함수
+//파라미터 : class="modal" 의 id
+function createModal(id) {
+  var modal = document.getElementById(id);
+  modal.classList.remove("hidden"); //모달열기
+  var closeBtn = modal.querySelector("button.cancel");
+  var overlay = modal.querySelector(".modal_overlay");
+  var deleteBtn = modal.querySelector("button.deleteBtn");
+  var xBoxBtn = modal.querySelector("button.xBox");
+
+  //함수
+  var openModal = () => {
+    modal.classList.remove("hidden");
   };
-})();
+  var deleteSKD = () => {
+    window.alert("일정을 삭제하시겠습니까?");
+  };
+  var closeModal = () => {
+    modal.classList.add("hidden");
+  };
 
-//종류
-// //1. dateClick 날짜셀을클릭할때 발생하는 이벤트 2. eventClick일정을 클릭할때 발생하는 이벤트
-// //방법
-// //캘린더 초기화 시 클릭이벤트 추가
-// var calendar = new Calender(calendarEl, {
-//   dateClick: function () {
-//     alert("날짜를 클릭하였습니다.");
-//   },
-// });
+  //클릭이벤트
+  //오버레이 부분 클릭 닫기
+  overlay.addEventListener("click", closeModal);
+  //모달창 닫기 버튼
+  xBoxBtn.addEventListener("click", closeModal);
+  closeBtn.addEventListener("click", closeModal);
 
-// //캘린더 초기화 후 클릭이벤트 추가
-// calendar.on("dateClick", function (info) {
-//   console.log("clicked on" + info.dateStr);
-// });
+  //todo : 삭제 버튼 오류
+  //   deleteBtn.addEventListener("click", deleteSKD);
+}
 
-// //Setter
-// // calendar.addEvent({ title: "evt4", start: "2019-09-04", end: "2019-09-06" });
-// var calendar = new calendar(calendarEl, {
-//   events: [
-//     {
-//       title: "Event1",
-//       start: "2021-07-07",
-//     },
-//     {
-//       title: "Event2",
-//       start: "2021-07-05",
-//     },
-//     // etc...
-//   ],
-//   color: "yellow", // an option!
-//   textColor: "black", // an option!
-// });
-// //Getter getEvents()메소드를 통해 calendar 객체가 갖고 있는 이벤트를 모두 배열타입으로 가져올수있다.
-// var arrCal = calendar.getEvnets();
-// alert(arrCal[0].title);
-
-// //캘린더 getEvents()메소드를 통해 calendar객체가 갖고있는 이벤트를 배열타입으로
-// function getallEvents() {
-//   var allEvent = calendar.getEvents();
-//   console.log(allEvnet);
-// }
-
-// //calendar.addEvent(evnet[, source])
+//상세내역 모달에 데이터
+//일정 상세내역
+var shareObj = document.getElementById("skdDetailShare");
+//console.log(shareObj);
+var shareValue = shareObj.querySelector("td.skdDetailInputData");
+//console.log(shareValue);
+var typeObj = document.getElementById("skdDetailType");
+var typeValue = typeObj.querySelector("td.skdDetailInputData");
+//console.log(typeValue);
+var titleObj = document.getElementById("skdDetailTitle");
+var titleValue = titleObj.querySelector("td.skdDetailInputData");
+var StartTimeObj = document.getElementById("skdDetailStartTime");
+var StartTimeValue = StartTimeObj.querySelector("td.skdDetailInputData");
+//console.log(StartTimeValue);
+var EndTimeObj = document.getElementById("skdDetailEndTime");
+var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
+//console.log(EndTimeValue);
+var ContentObj = document.getElementById("skdDetailContent");
+var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
