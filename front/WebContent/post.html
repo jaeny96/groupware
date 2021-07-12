@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
     <title>앙큼개발그룹웨어 | AdminKit Demo</title>
-
+    <script src="jq/load-post-detail.js"></script>
     <link href="css/app.css" rel="stylesheet" />
   </head>
 
@@ -64,16 +64,15 @@
                           class = "documentTypeSelect"
                           name="document_type" 
                           id="documentTypeSelect" 
-                          onchange="if(this.value) location.href=(this.value);"
                           style="width:60%; border: 1px solid #ced4da;" >
-                            <option value="#">선택</option>                           
-                            <option value="post-detail-spending.html">지출</option>
-                            <option value="post-detail-circular.html">회람</option>
-                            <option value="post-detail-business.html">업무</option>
-                            <option value="post-detail-account.html">품의서</option>
-                            <option value="post-detail-leave.html">휴가</option>
-                            <option value="post-detail-contact.html">연락</option>                            
-                            </select>
+                          <option value="#">선택</option>                           
+                          <option value="post-detail-spending.html">지출</option>
+                          <option value="post-detail-circular.html">회람</option>
+                          <option value="post-detail-business.html">업무</option>
+                          <option value="post-detail-account.html">품의서</option>
+                          <option value="post-detail-leave.html">휴가</option>
+                          <option value="post-detail-contact.html">연락</option>                            
+                        </select>
                         </div>
                         <div class="mb-3 col-md-6">
                           <label class="form-label" for="inputWriter">작성자</label>

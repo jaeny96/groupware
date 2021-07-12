@@ -16,15 +16,15 @@ import com.group.employee.dto.Employee;
 public class DocsWriteService {
 	private DocsWriteDAO dao;
 	private static DocsWriteService service;
-
-	private static String envProp="classes.prop";	//back에서만 테스트용
-//	public static String envProp;	//front테스트용
-
+//	private static DocsWriteService service=new DocsWriteService();
+//	private static String envProp="classes.prop";	//back에서만 테스트용
+	public static String envProp;	//front테스트용
 
 	private DocsWriteService() {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
+//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("DocsWriteDAO");
 			System.out.println(className);
 			Class c = Class.forName(className);
@@ -42,7 +42,7 @@ public class DocsWriteService {
 	}
 
 	/**
-	 * 결재문서 기안완료
+	 * 결재문서 기안
 	 * 
 	 * @param d
 	 * @throws AddException
@@ -57,8 +57,8 @@ public class DocsWriteService {
 	 * @param name
 	 * @throws FindException
 	 */
-	public List<Employee> staff(String name) throws FindException {
-		return dao.searchByName(name);
+	public List<Employee> staff(String word) throws FindException {
+		return dao.searchByName(word);
 	}
 
 	/**
@@ -68,25 +68,43 @@ public class DocsWriteService {
 	 * @return
 	 * @throws FindException
 	 */
-	public List<Department> group(String department_title) throws FindException {
-		return dao.searchByDep(department_title);
-
+//	public List<Department> group(String department_title) throws FindException {
+//		return dao.searchByDep(department_title);
+//
+//	}
+	/**
+	 * 사원 전체를 조회한다
+	 * @return 사원 전체 목록
+	 * @throws FindException
+	 */
+	public List<Employee> showAll() throws FindException {
+		return dao.searchApLineStaff();
 	}
+	
+	
 	public static void main(String[] args) {
-		   DocsWriteService service = DocsWriteService.getInstance();
-		      
-		      String word = "김";
-		      System.out.println("\"" + word + "\"단어를 포함한 사원목록");
-		      try {
-		         
-		         List<Employee> list = service.staff(word);
-		         for (Employee em : list) {
-		            System.out.println(em.getName());
-		         }
-		      } catch (FindException e) {
-		         System.out.println(e.getMessage());
-		      } catch (Exception e) {
-		         System.out.println(e.getMessage());
-		      }
+//		   DocsWriteService service = DocsWriteService.getInstance();
+//		      try {
+//				List<Employee> empList = service.staff("경영지원실");
+//				for(Employee e : empList) {
+//					System.out.println(e);
+//				}
+//			} catch (FindException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		      String word = "김";
+//		      System.out.println("\"" + word + "\"단어를 포함한 사원목록");
+//		      try {
+//		         
+//		         List<Employee> list = service.staff(word);
+//		         for (Employee em : list) {
+//		            System.out.println(em.getName());
+//		         }
+//		      } catch (FindException e) {
+//		         System.out.println(e.getMessage());
+//		      } catch (Exception e) {
+//		         System.out.println(e.getMessage());
+//		      }
 	}
 }

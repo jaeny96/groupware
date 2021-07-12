@@ -14,6 +14,8 @@ import com.group.approval.dto.DocumentType;
 import com.group.approval.exception.AddException;
 import com.group.approval.exception.FindException;
 import com.group.employee.dto.Employee;
+import com.group.employee.dto.Job;
+import com.group.employee.dto.Position;
 import com.group.employee.dto.Department;
 import com.group.sql.MyConnection;
 
@@ -63,7 +65,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 	}
 
 	// 2-1. 사원이름을 검색해 결재선에 넣을 사원을 조회한다
-	public List<Employee> searchByName(String word) throws FindException {
+	public List<Employee> searchByName(String deptName) throws FindException {
 		// DB연결
 		Connection con = null;
 		try {
@@ -73,19 +75,28 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String searchByNameSQL = "SELECT name\r\n" + "FROM employee\r\n" + "where name like ?";
+		String searchByNameSQL = "SELECT e.name, e.employee_id, d.department_id, d.department_title \r\n" + 
+				"FROM department d\r\n" + 
+				"JOIN employee e ON d.department_id = e.department_id\r\n" + 
+				"JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n" + 
+				"WHERE d.department_title=? AND enabled=1\r\n" + 
+				"ORDER BY p.position_id, employee_id";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> list = new ArrayList<>();
 		try {
 			pstmt = con.prepareStatement(searchByNameSQL);
-			pstmt.setString(1, "%" + word + "%");
+			pstmt.setString(1, deptName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Employee em = new Employee();
 //				String name = rs.getString("name");
+				em.setEmployee_id(rs.getString("employee_id"));
 				em.setName(rs.getString("name"));
-
+				Department dept = new Department();
+				dept.setDepartment_id(rs.getString("department_id"));
+				dept.setDepartment_title(rs.getString("department_title"));
+				em.setDepartment(dept);
 				list.add(em);
 			}
 			if (list.size() == 0) {
@@ -100,10 +111,49 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		}
 		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
 	}
+//
+//	// 2-2. 부서이름을 검색해 결재선에 넣을 사원이 속한 조직을 조회한다
+//	public List<Department> searchByDep(String word) throws FindException {
+//		// DB연결
+//		Connection con = null;
+//		try {
+//			con = MyConnection.getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		}
+//		String searchByDepSQL = "SELECT department_title\r\n" + "FROM department \r\n"
+//				+ "where department_title like ?";
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		List<Department> list = new ArrayList<>();
+//		try {
+//			pstmt = con.prepareStatement(searchByDepSQL);
+//			pstmt.setString(1, "%" + word + "%");
+//			rs = pstmt.executeQuery();
+//			while (rs.next()) {
+//				Department dep = new Department();
+//				String department_title = rs.getString("department_title");
+//				dep.setDepartment_title(department_title);
+//
+//				list.add(dep);
+//			}
+//			if (list.size() == 0) {
+//				throw new FindException("해당 부서가 없습니다");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		} finally {
+//			// DB연결해제
+//			MyConnection.close(con, pstmt, rs);
+//		}
+//		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
+//	}
 
-	// 2-2. 부서이름을 검색해 결재선에 넣을 사원이 속한 조직을 조회한다
-	public List<Department> searchByDep(String word) throws FindException {
-		// DB연결
+	// 3. 전체 사원의 이름, 부서 정보 갖고오기
+	@Override
+	public List<Employee> searchApLineStaff() throws FindException{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -111,35 +161,48 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		String searchByDepSQL = "SELECT department_title\r\n" + "FROM department \r\n"
-				+ "where department_title like ?";
+		String selectNameDepSQL = "SELECT e.name, department_title\r\n" + 
+				"FROM department d\r\n" + 
+				"JOIN employee e ON d.department_id = e.department_id\r\n" + 
+				"JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n" + 
+				"WHERE enabled=1\r\n" + 
+				"ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id";
+		System.out.println(selectNameDepSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Department> list = new ArrayList<>();
+		List<Employee> empList = new ArrayList<Employee>();
 		try {
-			pstmt = con.prepareStatement(searchByDepSQL);
-			pstmt.setString(1, "%" + word + "%");
+			pstmt = con.prepareStatement(selectNameDepSQL);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				Department dep = new Department();
-				String department_title = rs.getString("department_title");
-				dep.setDepartment_title(department_title);
 
-				list.add(dep);
-			}
-			if (list.size() == 0) {
-				throw new FindException("해당 부서가 없습니다");
+			while (rs.next()) {
+				Employee emp = new Employee();
+				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setName(rs.getString("name"));
+				Department d = new Department();
+				d.setDepartment_id(rs.getString("department_id"));
+				d.setDepartment_title(rs.getString("department_title"));
+				emp.setDepartment(d);
+				Position p = new Position();
+				p.setPosition_title(rs.getString("position_title"));
+				emp.setPosition(p);
+				Job j = new Job();
+				j.setJob_title(rs.getString("job_title"));
+				emp.setJob(j);
+				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setEmail(rs.getString("email"));
+
+				empList.add(emp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		} finally {
-			// DB연결해제
 			MyConnection.close(con, pstmt, rs);
 		}
-		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
-	}
-
+		return empList;
+	}	
+	
 	public static void main(String[] args) throws Exception {
 //		//1.기안하기test
 //		Scanner sc = new Scanner(System.in);
@@ -161,20 +224,20 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 //			e.getMessage();
 //		}
 
-		// 2-1.사원명으로 사원검색하기
-		String word = "김";
-		System.out.println("\"" + word + "\"단어를 포함한 사원목록");
-		try {
-			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-			List<Employee> list = dao.searchByName(word);
-			for (Employee em : list) {
-				System.out.println(em.getName());
-			}
-		} catch (FindException e) {
-			System.out.println(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//		// 2-1.사원명으로 사원검색하기
+//		String word = "김";
+//		System.out.println("\"" + word + "\"단어를 포함한 사원목록");
+//		try {
+//			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
+//			List<Employee> list = dao.searchByName(word);
+//			for (Employee em : list) {
+//				System.out.println(em.getName());
+//			}
+//		} catch (FindException e) {
+//			System.out.println(e.getMessage());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
 
 //		//2-2.부서명으로 부서검색하기
 //		String word = "롸";

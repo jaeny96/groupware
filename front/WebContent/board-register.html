@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <title>Tables | AdminKit Demo</title>
+    <script src="js/summernote/summernote-lite.js"></script>
+    <script src="js/summernote/lang/summernote-ko-KR.js"></script>
+    <!-- <link rel="stylesheet" href="css/summernote/summernote-lite.css" />-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/app.css" rel="stylesheet" />
+    <!-- <script>
+      $(document).ready(function () {
+        //여기 아래 부분
+        $("#summernote").summernote({
+          height: 600, // 에디터 높이
+          minHeight: null, // 최소 높이
+          maxHeight: null, // 최대 높이
+          focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+          lang: "ko-KR", // 한글 설정
+          placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+        });
+      });
+    </script> -->
+    <script src="jq/load-board-register.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="main">
+        <main class="content">
+          <div class="container-fluid p-0">
+            <h1 class="h3 mb-3">게시글 등록</h1>
+            <div class="row">
+              <div class="col-12">
+                <form method="post" id="addBdForm">
+                  <label style="margin-bottom: 10px"
+                    ><span style="font-size: 15px; font-weight: bold"
+                      >제목 :</span
+                    >
+                    <input
+                      type="text"
+                      name="title"
+                      id="insertTitle"
+                      placeholder="제목을 입력하세요"
+                      style="
+                        width: 1000px;
+                        height: 30px;
+                        border: 0 solid black;
+                      "
+                  /></label>
+                  <textarea
+                    class="writeBd"
+                    id="summernote"
+                    name="editordata"
+                  ></textarea>
+                  <input
+                    class="mt-4"
+                    type="file"
+                    name="fileUploadBoard"
+                    id="fileUploadBoard"
+                  />
+                  <button class="btn btn-primary btn-sm mt-4 float-right">
+                    등록
+                  </button>
+                </form>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </main>
+        <script src="js/app.js"></script>
+      </div>
+    </div>
+  </body>
+</html>

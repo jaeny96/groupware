@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
+
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="jq/load-employee.js"></script>
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.18);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .hidden {
+        display: none;
+      }
+
+      .modal_content {
+        width: 300px;
+      }
+
+      .modal ul {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .modal ul li {
+        height: 40px;
+      }
+
+      .modal form li > span {
+        float: left;
+        width: 100px;
+      }
+
+      .modal form li > div {
+        float: left;
+        width: 300px;
+      }
+
+      .modal > #content_box {
+        width: 300px;
+      }
+
+      .savediv {
+        clear: both;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .buttonplace {
+        float: left;
+      }
+    </style>
+    <script src="js/employee.js"></script>
+  </head>
+
+  <body>
+    <div class="container-fluid p-0">
+      <h1 class="h3 mb-3">임직원 정보</h1>
+      <div class="row">
+        <div class="col-md-4 col-xl-3">
+          <div class="card mb-3">
+            <div class="card-body text-left">
+              <form
+                class="d-none d-sm-inline-block col-md-12 mb-2 searchEmp"
+                method="get"
+                action="employee.html"
+              >
+                <div class="input-group input-group-navbar">
+                  <input
+                    type="text"
+                    class="form-control searchWord"
+                    placeholder="Search…"
+                    aria-label="Search"
+                  />
+                  <button class="btn empSearchBtn">
+                    <div class="fa fa-search"></div>
+                  </button>
+                </div>
+              </form>
+              <ul class="sidebar-nav">
+                <li class="sidebar-item navObj">
+                  <a
+                    data-target="#forms"
+                    data-toggle="collapse"
+                    class="sidebar-link-js collapsed pl-0"
+                  >
+                    <span class="align-middle-js">부서별</span>
+                  </a>
+                  <ul
+                    id="forms"
+                    class="sidebar-dropdown list-unstyled collapse"
+                  ></ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 col-xl-9">
+          <div class="card deptContent">
+            <div class="card-header">
+              <h5 class="card-title mb-0 empHeader">전체</h5>
+            </div>
+            <div class="card-body h-100 empBody"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalDetail">
+      <div class="modal hidden">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+          <div class="card">
+            <div class="card-header">
+              <button
+                class="xBox"
+                style="
+                  float: right;
+                  border-style: 1px solid #6c757d;
+                  border-radius: 7px;
+                  background-color: #6c757d;
+                  color: white;
+                  cursor: pointer;
+                "
+              >
+                X
+              </button>
+              <h4>이름</h4>
+            </div>
+            <div class="card-body h-100 cardBody">
+              <div class="d-flex align-items-start" id="position">
+                <strong>직책</strong>
+                <div class="flex-grow-1 ml-3 mb-2">직책명</div>
+              </div>
+              <div class="d-flex align-items-start" id="employeeId">
+                <strong>사번</strong>
+                <div class="flex-grow-1 ml-3 mb-2">사번</div>
+              </div>
+              <div class="d-flex align-items-start" id="department">
+                <strong>부서</strong>
+                <div class="flex-grow-1 ml-3 mb-2">부서명</div>
+              </div>
+              <div class="d-flex align-items-start" id="job">
+                <strong>직무</strong>
+                <div class="flex-grow-1 ml-3 mb-2">직무명</div>
+              </div>
+              <div class="d-flex align-items-start" id="phoneNum">
+                <strong>연락처</strong>
+                <div class="flex-grow-0 ml-3 mb-2">연락처</div>
+              </div>
+              <div class="d-flex align-items-start" id="email">
+                <strong>이메일</strong>
+                <div class="flex-grow-1 ml-3 mb-2">이메일</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

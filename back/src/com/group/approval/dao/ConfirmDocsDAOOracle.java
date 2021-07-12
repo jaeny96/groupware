@@ -244,10 +244,6 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 	}
 
 
-
-
-
-
 	//사용자는 문서를 선택하면,해당 문서에서 자신이 승인해야하는 부분을 확인할 수 있다.
 	@Override
 	public List<String> selectByMyClick(String employee_id, String document_no) throws FindException {

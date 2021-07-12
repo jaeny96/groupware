@@ -22,7 +22,6 @@ public interface ConfirmDocsDAO {
 	 */
 	List<Document> selectByCheckStatus(String employee_id,String document_status,String check) throws FindException;
 	
-
 	/**3.
 	 * 사용자는 문서를 선택하면,해당 문서에서 자신이 승인해야하는 부분을 확인할 수 있다.
 	 * @param employee_id,document_no
