@@ -1,13 +1,13 @@
 package com.group.calendar.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -31,9 +31,313 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("JDBC드라이버로드 성공");	
 	}
+
 	
+	public List<Schedule> skdList(Employee skd_e) throws FindException {
+		//DB연결
+		Connection con = null;
+		try {
+			con= MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}
+		
+		String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
+				"skd_start_date,\r\n" + 
+				"skd_end_date, skd_share\r\n" + 
+				"FROM schedule\r\n" + 
+				"WHERE employee_id=? AND skd_share ='p' and skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate) \r\n" + 
+				"UNION ALL\r\n" + 
+				"SELECT skd_type, skd_title,\r\n" + 
+				"skd_start_date,\r\n" + 
+				"skd_end_date, skd_share FROM schedule\r\n" + 
+				"WHERE employee_id like ? and skd_share = 't'and \r\n" + 
+				"skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate) ORDER BY skd_start_date ASC";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Schedule> list = new ArrayList<Schedule>();
+
+		try {
+			pstmt = con.prepareStatement(SkdListSQL);
+			pstmt.setString(1, skd_e.getEmployee_id());
+			pstmt.setString(2, skd_e.getDepartment().getDepartment_id()+"%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Schedule s = new Schedule();
+				ScheduleType st = new ScheduleType();
+				st.setSkd_type(rs.getString("skd_type"));
+				s.setSkd_type(st);
+				s.setSkd_title(rs.getString("skd_title"));
+				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+//				Employee e = new Employee();
+//				e.setEmployee_id(rs.getString("employee_id"));
+//				s.setSkd_id(e);
+				s.setSkd_share(rs.getString("skd_share"));
+						
+				list.add(s);
+				
+//			System.out.println("전체스케줄:"+s);
+			}
+			if(list.size() == 0) {
+				throw new FindException("일정이 없습니다.");
+			}
+//			System.out.println(list.size());
+			return list;
+		}catch(SQLException e){
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
+
+	public List<Schedule> skdPeriodList(Employee skd_e, String sdate, String edate) throws FindException {
+	      //DB연결
+	      Connection con = null;
+	      try {
+	         con= MyConnection.getConnection();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	         throw new FindException(e.getMessage());
+	      }
+	      
+	      String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
+	            "skd_start_date,\r\n" + 
+	            "skd_end_date, skd_share\r\n" + 
+	            "FROM schedule\r\n" + 
+	            "WHERE employee_id= ? AND skd_share ='p' AND skd_start_date\r\n" + 
+	            "BETWEEN ? AND ? \r\n" + 
+	            "UNION ALL\r\n" + 
+	            "SELECT skd_type, skd_title,\r\n" + 
+	            "skd_start_date,\r\n" + 
+	            "skd_end_date, skd_share FROM schedule\r\n" + 
+	            "WHERE employee_id like ? and skd_share = 't' AND skd_start_date \r\n" + 
+	            "BETWEEN ? AND ? ORDER BY skd_start_date ASC";   
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      List<Schedule> list = new ArrayList<Schedule>();
+  
+
+	      
+	      try {
+	         pstmt = con.prepareStatement(SkdListSQL);
+	         pstmt.setString(1, skd_e.getEmployee_id());	            
+	         pstmt.setString(2, sdate);
+	         pstmt.setString(3, edate);
+	         pstmt.setString(4, skd_e.getDepartment().getDepartment_id()+"%");
+	         pstmt.setString(5, sdate);
+	         pstmt.setString(6, edate);
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	        	Schedule s = new Schedule();
+	            ScheduleType st = new ScheduleType();
+	            st.setSkd_type(rs.getString("skd_type"));
+	            s.setSkd_type(st);
+	            s.setSkd_title(rs.getString("skd_title"));
+	            s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+	            s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+	            s.setSkd_share(rs.getString("skd_share"));
+	                  
+	            list.add(s);
+//	         System.out.println("전체스케줄:"+s);
+	         }
+	         if(list.size() == 0) {
+	            throw new FindException("일정이 없습니다.");
+	         }
+	         return list;
+	      }catch(SQLException e){
+	         e.printStackTrace();
+	         throw new FindException(e.getMessage());
+	      }finally {
+	         MyConnection.close(con, pstmt, rs);
+	      }
+	   
+	   }
 	
-	
+	public List<Schedule> skdByTeam(String skd_dpt_id) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+		}
+		String skdByTeamSQL = "SELECT skd_type, skd_title,\r\n" + 
+				"skd_start_date, 'yyyy-mm-dd hh24:mi',\r\n" + 
+				"skd_end_date, 'yyyy-mm-dd hh24:mi'\r\n" + 
+				" FROM SCHEDULE\r\n" + 
+				"WHERE employee_id IN (SELECT employee_id FROM employee WHERE department_id =?)\r\n" + 
+				"AND skd_share='t' \r\n" + 
+				"AND skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Schedule> list = new ArrayList<>();
+		
+		try {
+			pstmt = con.prepareStatement(skdByTeamSQL);
+			pstmt.setString(1, skd_dpt_id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Schedule s = new Schedule();
+				ScheduleType st = new ScheduleType();
+				st.setSkd_type(rs.getString("skd_type"));
+				String skd_title = rs.getString("skd_title");
+				Timestamp skd_start_date = rs.getTimestamp("skd_start_date");
+				Timestamp skd_end_date = rs.getTimestamp("skd_end_date");
+
+			//	System.out.println("결과값:"+skd_title + skd_start_date+skd_end_date);
+				s.setSkd_type(st);
+				s.setSkd_title(skd_title);
+				s.setSkd_start_date(skd_start_date);
+				s.setSkd_end_date(skd_end_date);
+
+				list.add(s);
+				
+			}
+			if(list.size()==0) {
+			throw new FindException(skd_dpt_id+"부서에 해당하는 일정이 없습니다.");
+			}
+			return list;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+			
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		
+	}
+
+	public List<Schedule> skdPersonal(String skd_id) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+		}
+		String skdPersonalSQL = "select skd_type, skd_title,\r\n" + 
+				"skd_start_date, skd_end_date \r\n" + 
+				"from schedule\r\n" + 
+				"where employee_id= ? AND skd_share='p' AND skd_start_date BETWEEN TRUNC(sysdate,'MM') AND LAST_DAY(sysdate)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Schedule> list = new ArrayList<>();
+		
+		try {
+			pstmt = con.prepareStatement(skdPersonalSQL);
+			pstmt.setNString(1, skd_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Schedule s = new Schedule();
+				ScheduleType st = new ScheduleType();
+				st.setSkd_type(rs.getString("skd_type"));
+				s.setSkd_type(st);
+				s.setSkd_title(rs.getString("skd_title"));
+				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+				list.add(s);
+//				System.out.println(s);
+			}
+			if(list.size()==0) {
+			throw new FindException("일정이 없습니다.");
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
+
+	public List<Schedule> skdByContent(Schedule s) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+		}
+		PreparedStatement pstmt = null;
+		String skdByContentSQL = "SELECT skd_start_date, skd_end_date, skd_title, skd_share\r\n" + 
+				"FROM schedule\r\n" + 
+				"where employee_id= ? AND (skd_title like ? \r\n" + 
+				"OR skd_content like ?)";
+		ResultSet rs = null;
+		List<Schedule> list = new ArrayList<>();
+
+		try {
+			pstmt = con.prepareStatement(skdByContentSQL);
+			pstmt.setString(1, s.getSkd_id().employee_id);
+			pstmt.setString(2, "%"+s.getSkd_title()+"%");
+			pstmt.setString(3, "%"+s.getSkd_content()+"%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Schedule sc = new Schedule();
+				sc.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+				sc.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+				sc.setSkd_title(rs.getString("skd_title"));
+				sc.setSkd_share(rs.getString("skd_share"));
+				list.add(sc);
+			}
+			if(list.size()==0) {
+				throw new FindException("일정이 없습니다.");
+			} return list;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
+		
+	public Schedule skdDetail(int skd_no) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+		}
+		PreparedStatement pstmt = null;
+		String skdByContentSQL = "SELECT skd_type,skd_title,skd_content,skd_date,skd_start_date, skd_end_date, skd_share \r\n" + 
+				"FROM schedule \r\n" + 
+				"WHERE skd_no=?";
+		ResultSet rs = null;
+		
+		try {
+			pstmt = con.prepareStatement(skdByContentSQL);
+			pstmt.setInt(1, skd_no);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				Schedule s = new Schedule();
+				ScheduleType st = new ScheduleType();
+				st.setSkd_type(rs.getString("skd_type"));
+				s.setSkd_type(st);
+				s.setSkd_title(rs.getString("skd_title"));
+				s.setSkd_content(rs.getString("skd_content"));
+				s.setSkd_date(rs.getTimestamp("skd_date"));
+				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
+				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+				return s;
+			}
+				throw new FindException("일정이 없습니다.");
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		
+	}
+
 	public void insert(Schedule s) throws AddException, DuplicatedException {
 		   
 	      Connection con = null;
@@ -224,9 +528,6 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 				
 			}
 		
-			
-		
-		
 	}
 
 	public void delete(Schedule s) throws RemoveException {
@@ -279,341 +580,4 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		}
 	}
 
-
-	public static void main(String[] args) throws Exception {
-	
-//insert 실행
-//		ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
-//	      String type="출장";
-//	      String id = "MSD002";
-//
-//	      Employee emp = new Employee();
-//	      emp.setEmployee_id(id);
-//	      
-//	      String title = "포천출장";
-//	      String content ="포천회의";
-//	      String start = "2021-08-09 09:00:00";
-//	      Timestamp start_date=Timestamp.valueOf(start);
-//	      System.out.println(start_date);
-//	      String end="2021-08-09 18:00:00";
-//	      Timestamp end_date=Timestamp.valueOf(end);
-//	      String share="p";
-//	      
-//	      Schedule skd = new Schedule();
-//	      skd.setSkd_type(type);
-//	      skd.setSkd_id(emp);
-//	      skd.setSkd_title(title);
-//	      skd.setSkd_content(content);
-//	      skd.setSkd_start_date(start_date);
-//	      skd.setSkd_end_date(end_date);
-//	      skd.setSkd_share(share);
-//	      
-//	      try {
-//			dao.insert(skd);
-//		} catch (AddException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (DuplicatedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	      
-		
-		
-//	DELETE 실행 
-//		try {
-//			//emp.setEmployee_id("MSD002");
-//			s.setSkd_no(3);
-//			dao.delete(s, "DEV001");
-//
-//		} catch (RemoveException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-
-// Update 실행
-
-	//	ScheduleDAOOralce dao = new ScheduleDAOOralce(); 
-		//skd_id 설정.
-//		Employee emp = new Employee(); //id 입력 위한 employee 객체 부르기	
-//		//skd_type 설정. scheduleType 객체의 skd_type 변수에 값을 저장  
-//		ScheduleType st = new ScheduleType();
-//	
-//		//변수넣기 
-//		int skd_no = 41; //스케쥴번호 입력 
-//		String skd_title = "업데이트테스트4";
-//		String skd_skd_content = "";
-//		String start = "2021-07-22 15:00:00";
-//		String end = "2021-07-22 16:00:00";
-//		String skd_share = "p";
-//		Timestamp skd_start_date = Timestamp.valueOf(start);
-//		Timestamp skd_end_date = Timestamp.valueOf(end);
-//
-//		String skd_id = "CEO001"; //id 설정 
-//		emp.setEmployee_id(skd_id);//skd_id를 emp 객체에 넣어주기 
-//		String type ="";
-//		st.setSkd_type(type); //type 넣어주기 
-//
-//		
-//		
-//		Schedule s = new Schedule();
-//		//pstmt의 ? 값 설정 
-//		s.setSkd_id(emp); //id에 emp 객체 넣어주기 
-//		s.setSkd_no(skd_no); //skd_no 변경 		
-//
-//		//update 구문들 
-//		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
-//		s.setSkd_title(skd_title);
-//		s.setSkd_content(skd_skd_content);
-//		s.setSkd_start_date(skd_start_date);
-//		s.setSkd_end_date(skd_end_date);
-//		s.setSkd_share(skd_share);
-//		
-//		//test
-//		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
-//		s.setSkd_title(skd_title);
-//		s.setSkd_content(skd_skd_content);
-//		s.setSkd_start_date(skd_start_date);
-//		s.setSkd_end_date(skd_end_date);
-//		s.setSkd_share(skd_share);
-//		
-//		try {
-//			dao.update(s);
-//		} catch (ModifyException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-//		ScheduleService service = new ScheduleService();
-//		Schedule s = new Schedule();
-//		ScheduleType st = new ScheduleType();
-//		Employee emp = new Employee();
-
-		//update test2 
-//		//변수넣기 
-//		int skd_no = 1; //스케쥴번호 입력 
-//		String skd_title = "업데이트테스트2";
-//		String skd_skd_content = "테스트2";
-//		String start = "2021-07-03 17:00:00";
-//		String end = "2021-07-03 18:00:00";
-//		String skd_share = "p";
-//		Timestamp skd_start_date = Timestamp.valueOf(start);
-//		Timestamp skd_end_date = Timestamp.valueOf(end);
-//		
-//		//변수, 객체 넣기 
-//		s.setSkd_no(skd_no);
-//		s.setSkd_type(st); //skd_type 변수에 값이 저장된 ScheduleType 객체를 s 객체에 넣음
-//		s.setSkd_title(skd_title);
-//		s.setSkd_content(skd_skd_content);
-//		s.setSkd_start_date(skd_start_date);
-//		s.setSkd_end_date(skd_end_date);
-//		s.setSkd_share(skd_share);
-//		s.setSkd_id(emp);
-//		
-//		//id, type 설정 
-//		String skd_id = "CEO001"; //id 설정 
-//		emp.setEmployee_id(skd_id);//skd_id를 emp 객체에 넣어주기 
-//		String type ="업무";
-//		st.setSkd_type(type); //type 넣어주기 	
-//		service.modifySkd(s);
-		
-//delete service test
-//		s.setSkd_id(emp);
-//		emp.setEmployee_id("CEO001");
-//		s.setSkd_no(24);
-//		service.deleteSkd(s);
-//		
-//insert service test 		
-//		s.setSkd_type(st);
-//		s.setSkd_id(emp);
-//		
-//	
-//		st.setSkd_type("업무");
-//		emp.setEmployee_id("CEO001");
-//		s.setSkd_title("서비스테스트");
-//		s.setSkd_content("서비스");
-//		s.setSkd_start_date(skdStartTime());
-//		s.setSkd_end_date(skdEndTime());
-//		s.setSkd_share("p");
-//
-//		try {
-//			service.addSkd(s);
-//		} catch (AddException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (DuplicatedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		
-	}
-	
-	
-	//시간 더하는 메서드 
-	public Date addHoursToJavaUtilDate(Date date, int hours) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.add(Calendar.HOUR_OF_DAY, hours);
-	    return calendar.getTime();
-	}
-
-	//시간 빼는 메서드
-	public Date subtractHoursToJavaUtilDate(Date date, int hours) {
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTime(date);
-	    calendar.add(Calendar.HOUR_OF_DAY, hours);
-	    return calendar.getTime();
-	}
-
-
-	//일정 날짜 시간 : 00분, 시간 : 30분으로 나오게 하는 메서드 
-	//to do : 만약 입력이 없다면 자동 시간 설정, 입력이 있다면 그대로 하도로 해야할듯 
-	public static Timestamp skdStartTime() throws Exception {
-		Date now = new Date();
-		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
-		SimpleDateFormat test2 = new SimpleDateFormat("mm");
-		
-		String skd_time ="";
-		Timestamp timestamp = null;
-		
-		
-		//30분이 넘었을 때. ex. 3:33일 때 4:00를 보여주는 코드 
-		if(Integer.parseInt(test2.format(now))>=30) {
-			ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
-			dao.addHoursToJavaUtilDate(now, 1); //1시간을 더해주는 메서드 활용 
-			//System.out.println(test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"); 테스트
-			skd_time = test.format(dao.addHoursToJavaUtilDate(now, 1))+"00:00"; //날짜 형식을 위해 더해줌. String으로 자동변환
-			timestamp = Timestamp.valueOf(skd_time); // String을 timestamp로 변환
-			
-		//30분 미만일 때. 3:10일 때 3:30를 보여주는 코드 	
-		}else if(Integer.parseInt(test2.format(now))<30){
-			//System.out.println(test.format(now)+"30");
-			skd_time =test.format(now)+"30:00";
-			timestamp = Timestamp.valueOf(skd_time);
-		}
-		return timestamp;
-	
-	}
-	
-	public static Timestamp skdEndTime() throws Exception {
-		ScheduleDAOOracle dao = new ScheduleDAOOracle(); 
-		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:");
-		SimpleDateFormat test2 = new SimpleDateFormat("mm");
-		
-		String skd_time ="";
-		Timestamp skdstarttime = skdStartTime();
-
-		Date start = new Date(skdstarttime.getTime()); //timestamp 자료형인 일정시작시간을 date 자료형으로 변환 
-		
-		//start의 시간이 30분일 경우 분을 00으로 변환. start: 4:30, end: 5:00
-		if(Integer.parseInt(test2.format(start))==30) {
-			skd_time = test.format(dao.addHoursToJavaUtilDate(start, 1))+"00:00"; //date to String으로 format 변환 , 1시간 더하기 
-		}else { //start의 시간이 00일 경우 분을 30으로 변환. start: 4:00, end: 4:30
-			skd_time = test.format(start)+"30:00";
-		}
-	
-		Timestamp timestamp = Timestamp.valueOf(skd_time); //String 타입 timestamp로 변환 
-		//System.out.println("일정 시작 시간: "+ skdStartTime());
-		System.out.println("일정 종료 시간: "+timestamp);
-		return timestamp;
-	
-		//	System.out.println("skdstarttime.getTime() : " + skdstarttime.getTime() +"   start" +start);
-		//	System.out.println("1시간 더한거 "+dao.addHoursToJavaUtilDate(start, 1));
-		//		System.out.println("skdtime"+skd_time);
-		//	System.out.println("skdstarttime: "+ skdstarttime); //timestamp 자료형 
-		
-		
-	}
-
-
-
-	//미정언니
-//
-//	@Override
-//	public List<Schedule> skdList(Timestamp skd_start_date, Timestamp skd_end_date) throws FindException {
-//		//DB연결
-//		Connection con = null;
-//		try {
-//			con= MyConnection.getConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		}
-//		
-//		String SkdListSQL = "SELECT skd_type, skd_title,\r\n" + 
-//				"skd_start_date,\r\n" + 
-//				"skd_end_date, skd_share\r\n" + 
-//				"FROM schedule\r\n" + 
-//				"WHERE employee_id= ? AND skd_share ='p' AND skd_start_date\r\n" + 
-//				"BETWEEN ? AND ? \r\n" + 
-//				"UNION ALL\r\n" + 
-//				"SELECT skd_type, skd_title,\r\n" + 
-//				"skd_start_date,\r\n" + 
-//				"skd_end_date, skd_share FROM schedule\r\n" + 
-//				"WHERE employee_id like ? and skd_share = 't' AND skd_start_date \r\n" + 
-//				"BETWEEN ? AND ?";	
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		List<Schedule> list = new ArrayList<Schedule>();
-//		
-//		Schedule s = new Schedule();
-//		Employee emp = new Employee();
-//		
-////		SimpleDateFormat test = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//
-////		//시작 날짜 매개변수로 받아오기 
-////		Date start = new Date(skd_start_date.getTime());
-////		Timestamp skdstart = test.format(start);
-////		System.out.println(skdstart);
-////		//끝나는 날짜 매개변수로 받아오기 
-////		Date end = new Date(skd_end_date.getTime());
-////		String skdend = test.format(end);
-////		System.out.println(skdend);
-//		
-//		try {
-//			
-//			pstmt = con.prepareStatement(SkdListSQL);
-//			pstmt.setString(1, s.getSkd_id().getEmployee_id());
-//			pstmt.setTimestamp(2, skd_start_date);
-//			pstmt.setTimestamp(3, skd_end_date);
-//			pstmt.setString(4, s.getDepartment_id().getDepartment_id()+"%");
-//			pstmt.setTimestamp(5, skd_start_date);
-//			pstmt.setTimestamp(6, skd_end_date);
-//			rs = pstmt.executeQuery();
-//			
-//			while(rs.next()) {
-//				ScheduleType st = new ScheduleType();
-//				st.setSkd_type(rs.getString("skd_type"));
-//				s.setSkd_type(st);
-//				System.out.println(st);
-//				s.setSkd_title(rs.getString("skd_title"));
-//				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-//				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
-//				emp.setEmployee_id(rs.getString("employee_id"));
-//				s.setSkd_id(emp);
-//				s.setSkd_share(rs.getString("skd_share"));
-//						
-//				list.add(s);
-////			System.out.println("전체스케줄:"+s);
-//			}
-//			if(list.size() == 0) {
-//				throw new FindException("일정이 없습니다.");
-//			}
-////			System.out.println(list.size());
-//			return list;
-//		}catch(SQLException e){
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		}finally {
-//			MyConnection.close(con, pstmt, rs);
-//		}
-//	
-//	}
-
-}//class 
-
-
-
-
+}
