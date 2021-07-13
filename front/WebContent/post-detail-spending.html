@@ -19,6 +19,7 @@
 
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
     <title>앙큼개발그룹웨어 | AdminKit Demo</title>
+    <script src="jq/load-post-detail.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/summernote/summernote-lite.js"></script>
     <script src="js/summernote/lang/summernote-ko-KR.js"></script>
@@ -119,7 +120,8 @@
         background-color: #4d0d49;
       }
     </style>
-    <script src="js/post-approvalline-modal.js"></script>
+
+    <script src="jq/approval-draft-register.js"></script>
   </head>
 
   <body>
@@ -146,35 +148,22 @@
             </svg>
             <h1 class="fa feather-clipboard activity h3 mb-3">전자결재</h1>
             <hr />
-            <button
-              class="btn btn-approvalsetting"
-              id="draftComplete"
-              style="margin-bottom: 20px"
-            >
-              <i
-                class="fas fa-check"
-                style="
-                  padding-right: 10px;
-                  padding-left: 0px;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                "
-              ></i>
-              기안하기
-            </button>
+
             <div class="container-fluid p-0">
               <div class="row">
                 <div class="col-lg-2"></div>
-                <div class="col-lg-8">
-                  <div class="card">
-                    <div class="card-header">
-                      <h5 class="card-title font-weight-bolder">기본설정</h5>
-                    </div>
-                    <div class="card-body">
-                      <form>
+                <form id="addApform">
+                  <div class="col-lg-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <h5 class="card-title font-weight-bolder">기본설정</h5>
+                      </div>
+                      <div class="card-body">
+                        <!-- <form> -->
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label
+                              name="approvaldocs-title"
                               class="form-label"
                               for="document_select"
                               style="margin-right: 20px"
@@ -184,9 +173,9 @@
                               class="documentTypeSelect"
                               name="document_type"
                               id="documentTypeSelect"
-                              onchange="if(this.value) location.href=(this.value);"
                               style="width: 60%; border: 1px solid #ced4da"
                             >
+                              <!-- onchange="if(this.value) location.href=(this.value);" -->
                               <option value="#">지출</option>
                               <option value="post.html">선택</option>
                               <option value="post-detail-circular.html">
@@ -213,22 +202,15 @@
                               style="margin-right: 20px"
                               >작성자</label
                             >
-                            <input
-                              type="text"
-                              class="form-writer"
-                              id="inputname1"
-                              placeholder="이름"
-                              style="border: 1px solid #ced4da"
-                            />
+                            <span id="docWriterLoginName"></span>
                           </div>
                         </div>
-                      </form>
+                        <!-- </form> -->
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-body">
-                      <form>
+                    <div class="card">
+                      <div class="card-body">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label
@@ -259,57 +241,67 @@
                                   결재
                                 </td>
 
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center zeroLine"
+                                  style="width: 22%"
+                                >
                                   0
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center oneLine"
+                                  style="width: 22%"
+                                >
                                   1
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center twoLine"
+                                  style="width: 22%"
+                                >
                                   2
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center threeLine"
+                                  style="width: 22%"
+                                >
                                   3
                                 </td>
                               </tr>
                               <tr>
                                 <td
                                   id="apApprovalStep0"
-                                  style="width: 22%"
+                                  style="width: 22%; height: 0px"
                                   class="text-center font-weight-bolder"
                                 >
-                                  <img
-                                    src="img/icons/no.png"
+                                  <!-- <img
+                                    src="img/icons/yes.png"
                                     width="100px"
-                                  /><br />
-
-                                  <div id="apApprovalStepDate1">2017-02-12</div>
+                                  /><br /> -->
+                                  <!-- <div id="apApprovalStepDate1">2017-02-12</div> -->
                                 </td>
                                 <td
                                   id="apApprovalStep1"
                                   style="width: 22%"
                                   class="text-center font-weight-bolder"
                                 >
-                                  <img
+                                  <!-- <img
                                     id="checkApConfirmImg"
                                     src="img/icons/no.png"
                                     width="100px"
-                                  /><br />
+                                  /><br /> -->
 
-                                  <div id="apApprovalStepDate1">2017-02-12</div>
+                                  <!-- <div id="apApprovalStepDate1">2017-02-12</div> -->
                                 </td>
                                 <td
                                   id="apApprovalStep2"
                                   style="width: 22%"
                                   class="text-center font-weight-bolder"
                                 >
-                                  <button
-                                    id="approvalCommentBtn"
+                                  <!-- <button
+                                    id="agreementCommentBtn"
                                     class="btn ap-btn-outline-purple"
-                                    id="open"
                                   >
                                     승인 요망
-                                  </button>
+                                  </button> -->
                                   <div id="apApprovalStepDate"></div>
                                 </td>
                                 <td
@@ -322,28 +314,40 @@
                               </tr>
                               <tr>
                                 <td
-                                  id="apApprovalStepName0"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName0
+                                  "
                                 >
-                                  나
+                                  <!-- 나 -->
                                 </td>
                                 <td
-                                  id="apApprovalStepName1"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName1
+                                  "
                                 >
-                                  티파니
+                                  <!-- 티파니 -->
                                 </td>
                                 <td
-                                  id="apApprovalStepName2"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName2
+                                  "
                                 ></td>
                                 <td
-                                  id="apApprovalStepName3"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName3
+                                  "
                                 ></td>
                               </tr>
                             </tbody>
@@ -363,24 +367,22 @@
                                   합의
                                 </td>
                                 <td
-                                  id="apAgreementName"
-                                  class="font-weight-bolder"
+                                  class="font-weight-bolder apAgreementName"
                                   style="width: 88%"
                                 >
-                                  태연
-                                  <img
+                                  <!-- 태연 -->
+                                  <!-- <img
                                     id="checkAgConfirmImg"
                                     src="img/icons/no.png"
                                     width="70px"
-                                  />
-                                  <button
+                                  /> -->
+                                  <!-- <button
                                     id="approvalCommentBtn"
                                     class="btn ap-btn-outline-purple"
                                     style="width: 80px; font-size: 0.7rem"
-                                    id="open"
                                   >
                                     승인 요망
-                                  </button>
+                                  </button> -->
                                 </td>
                               </tr>
                               <tr>
@@ -391,47 +393,46 @@
                                   참조
                                 </td>
                                 <td
-                                  id="apReferenceName"
-                                  class="font-weight-bolder"
+                                  class="font-weight-bolder apReferenceName"
                                   style="width: 88%"
                                 >
-                                  수영
-                                  <span
+                                  <!-- 수영 -->
+                                  <!-- <span
                                     class="fa fa-check"
                                     style="color: darkmagenta"
-                                  ></span>
+                                  ></span> -->
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                      </form>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-header">
-                      <div class="mb-3 col-md-12">
-                        <label
-                          class="form-label font-weight-bolder"
-                          for="inputWriter"
-                          style="margin-right: 20px"
-                          >제목</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="inputname"
-                          rows="1"
-                          style="border: 1px solid #ced4da"
-                        /><br />
-                        <label
-                          class="form-label font-weight-bolder"
-                          for="document_select"
-                          style="margin-top: 20px"
-                          >상세입력</label
-                        >
-                        <form method="post">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="mb-3 col-md-12">
+                          <label
+                            class="form-label font-weight-bolder"
+                            for="inputWriter"
+                            style="margin-right: 20px"
+                            >제목</label
+                          >
+                          <input
+                            name="apdocstitle"
+                            type="text"
+                            class="form-control"
+                            id="inputtitle"
+                            rows="1"
+                            style="border: 1px solid #ced4da"
+                          /><br />
+                          <label
+                            class="form-label font-weight-bolder"
+                            for="document_select"
+                            style="margin-top: 20px"
+                            >상세입력</label
+                          >
+                          <!-- <form> -->
                           <textarea id="summernote" name="editordata">
                           <p style="text-align: center;">&nbsp;</p>
                           <p style="text-align: center;">결의서</p>
@@ -490,13 +491,58 @@
 
                             <input class="upload-name" value="파일선택" />
                           </div>
-                        </form>
+                          <button
+                            type="button"
+                            class="
+                              btn btn-outline-danger
+                              float-right
+                              btn-approvalsetting
+                            "
+                            id="draftComplete"
+                            style="margin-bottom: 20px"
+                          >
+                            <!-- type="submit" -->
+                            <i
+                              class="fas fa-check"
+                              style="
+                                padding-right: 10px;
+                                padding-left: 0px;
+                                padding-top: 10px;
+                                padding-bottom: 10px;
+                              "
+                            ></i>
+                            기안하기1
+                          </button>
+                          <button
+                            type="button"
+                            class="
+                              btn btn-outline-danger
+                              float-right
+                              btn-approvalsetting
+                            "
+                            id="draftComplete2"
+                            style="margin-bottom: 20px"
+                          >
+                            <!-- type="submit" -->
+                            <i
+                              class="fas fa-check"
+                              style="
+                                padding-right: 10px;
+                                padding-left: 0px;
+                                padding-top: 10px;
+                                padding-bottom: 10px;
+                              "
+                            ></i>
+                            기안하기2
+                          </button>
+
+                          <!-- </form> -->
+                        </div>
                       </div>
+                      <div class="card-body"></div>
                     </div>
-                    <div class="card-body"></div>
                   </div>
-                  <div class="col-lg-2"></div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -575,36 +621,36 @@
                       >
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineCeo"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          대표이사 <span class="fa fa-sort-down"></span>
+                          대표이사<span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
-                          <tbody>
-                            <tr
+                          <tbody class="CEOTbody">
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">권보아</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineDev"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          기획 개발실 <span class="fa fa-sort-down"></span>
+                          기획개발실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table
                           class="table mb-0"
                           id="devTable"
                           style="width: 200px"
                         >
-                          <tbody id="dev">
+                          <tbody class="DEVTbody">
                             <!-- <tr
                                 class="listInner"
                                 onclick="javascript:getNameForApLine(this);"
@@ -627,19 +673,19 @@
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineMsd"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          경영 지원실 <span class="fa fa-sort-down"></span>
+                          경영지원실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table
                           class="table mb-0"
                           id="msdTable"
                           style="width: 200px"
                         >
-                          <tbody id="apTbody">
-                            <tr
+                          <tbody class="MSDTbody">
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -656,20 +702,20 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">오지수</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineSvc"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          서비스 운영실 <span class="fa fa-sort-down"></span>
+                          서비스운영실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
-                          <tbody id="apTbody">
-                            <tr
+                          <tbody class="SVCTbody">
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -686,21 +732,21 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">이채린</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
 
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineIfr"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          인프라 운영실 <span class="fa fa-sort-down"></span>
+                          인프라운영실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
-                          <tbody id="apTbody">
-                            <tr
+                          <tbody class="IFRTbody">
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -717,21 +763,21 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">박수영</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
 
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineSal"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
                           영업부 <span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
-                          <tbody class="apTbody">
-                            <tr
+                          <tbody class="SALTbody">
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -748,7 +794,72 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">김정은</td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                        <button
+                          type="button"
+                          class="btn btn-success text-left apLineBin"
+                          style="width: 200px"
+                          id="agreementBoxBtn"
+                        >
+                          사업부 <span class="fa fa-sort-down"></span>
+                        </button>
+                        <table class="table mb-0" style="width: 200px">
+                          <tbody class="BINTbody">
+                            <!-- <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">이주헌</td>
                             </tr>
+                            <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">박미정</td>
+                            </tr>
+                            <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">김정은</td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                        <button
+                          type="button"
+                          class="
+                            btn btn-success
+                            text-left
+                            agreementBoxBtn
+                            apLineSec
+                          "
+                          style="width: 200px"
+                          id="agreementBoxBtn"
+                        >
+                          정보보안실 <span class="fa fa-sort-down"></span>
+                        </button>
+                        <table class="table mb-0" style="width: 200px">
+                          <tbody class="SECTbody">
+                            <!-- <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">이주헌</td>
+                            </tr>
+                            <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">박미정</td>
+                            </tr>
+                            <tr
+                              class="listInner"
+                              onclick="javascript:getNameForApLine(this);"
+                            >
+                              <td class="apStaffName">김정은</td>
+                            </tr> -->
                           </tbody>
                         </table>
                       </div>
@@ -896,9 +1007,15 @@
     </div>
 
     <!--결재선 설정 모달창 끝 -->
-
-    <script src="js/app.js"></script>
     <script>
+      var docDraftWriterObj = document.querySelector("span#docWriterLoginName");
+      //현재 로그인한 사용자의 이름
+      var loginInfoNameObj = document.querySelector(
+        "div.profileDropdown span.loginName"
+      );
+
+      docDraftWriterObj.innerHTML = loginInfoNameObj.innerText;
+
       var modal = document.getElementById("modalApprovalSetting");
       var overlay = modal.querySelector("div.modal_overlay");
       // console.log(overlay);
@@ -928,23 +1045,23 @@
       saveBtn.addEventListener("click", saveModal);
       cancelBtn.addEventListener("click", cancelModal);
 
-//       $(document).ready(function () {
-        //여기 아래 부분
-        // $("#summernote").summernote({
-        //   height: 600, // 에디터 높이
-        //   minHeight: null, // 최소 높이
-        //   maxHeight: null, // 최대 높이
-        //   focus: true, // 에디터 로딩후 포커스를 맞출지 여부
-        //   lang: "ko-KR", // 한글 설정
-        //   placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
-        // });
-//       });
+      // $(document).ready(function () {
+      //   //여기 아래 부분
+      //   $("#summernote").summernote({
+      //     height: 600, // 에디터 높이
+      //     minHeight: null, // 최소 높이
+      //     maxHeight: null, // 최대 높이
+      //     focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+      //     lang: "ko-KR", // 한글 설정
+      //     placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+      //   });
+      // });
 
-      $("#file").on("change", function () {
-        //파일업로드 함수
-        var fileName = $("#file").val();
-        $(".upload-name").val(fileName);
-      });
+      // $("#file").on("change", function () {
+      //   //파일업로드 함수
+      //   var fileName = $("#file").val();
+      //   $(".upload-name").val(fileName);
+      // });
 
       //결재선 모달창 검색기능
       function filter() {
@@ -972,9 +1089,6 @@
         var orgBColorApLine = "#8977ad";
         var orgTColorApLine = "#ffffff";
 
-        // var noApLine = "";
-        // var no1ApLine = "";
-
         for (var i = 0; i < trApLine.length; i++) {
           if (trApLine[i] != target) {
             trApLine[i].style.backgroundColor = backColorApLine;
@@ -983,22 +1097,19 @@
             trApLine[i].style.backgroundColor = orgBColorApLine;
             trApLine[i].style.color = orgTColorApLine;
             var tdApLine = trApLine[i].getElementsByTagName("td");
-            // noApLine = cardbodyApLine[0].innerText;
-            // console.log(noApLine);
-            // no1ApLine = cardbodyApLine[1].innerText;
-            // console.log(no1ApLine);
           }
         }
       }
-      // //이름 담는 테이블 행 객체
-      // var ApLineListTdObj = document.querySelector("");
-
-      // //불러온 부서번호
-      // var ApLineDepArr = ["DEV"];
-      // //불러온 사원 이름명
-      // var ApLineStaffArr = ["임창균"];
-      // //부서별 사원 내용 생성
-      // function createApLineElement(i) {}
     </script>
+    <script src="js/app.js"></script>
+    <script src="js/ceo-aplineemplist.js"></script>
+    <script src="js/msd-aplineemplist.js"></script>
+    <script src="js/dev-aplineemplist.js"></script>
+    <script src="js/svc-aplineemplist.js"></script>
+    <script src="js/ifr-aplineemplist.js"></script>
+    <script src="js/sal-aplineemplist.js"></script>
+    <script src="js/bin-aplineemplist.js"></script>
+    <script src="js/sec-aplineemplist.js"></script>
+    <!-- <script src="js/post-approvalline-modal.js"></script> -->
   </body>
 </html>

@@ -1,14 +1,7 @@
 package com.group.approval.dto;
 
 public class DocumentType {
-	public String document_type;
-
-	public DocumentType() {
-	}
-
-	public DocumentType(String document_type) {
-		this.document_type = document_type;
-	}
+	private String document_type;
 
 	public String getDocument_type() {
 		return document_type;
@@ -22,5 +15,6 @@ public class DocumentType {
 	public String toString() {
 		return "DocumentType [document_type=" + document_type + "]";
 	}
-
+   
+	
 }

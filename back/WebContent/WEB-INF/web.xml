@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>back</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"> <display-name>back</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -273,4 +272,283 @@
     <servlet-name>ShowTotalPageServlet</servlet-name>
     <url-pattern>/showtotalpage</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowApDocsAllServlet</display-name>
+    <servlet-name>ShowApDocsAllServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsAllServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowApDocsAllServlet</servlet-name>
+    <url-pattern>/showapdocsall</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowApDocsStatusServlet</display-name>
+    <servlet-name>ShowApDocsStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowApDocsStatusServlet</servlet-name>
+    <url-pattern>/showapdocsstatus</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowSideBarCntAll</display-name>
+    <servlet-name>ShowSideBarCntAll</servlet-name>
+    <servlet-class>com.group.approval.control.ShowSideBarCntAll</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowSideBarCntAll</servlet-name>
+    <url-pattern>/sidebarcntall</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowApDocsDetail</display-name>
+    <servlet-name>ShowApDocsDetail</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowApDocsDetail</servlet-name>
+    <url-pattern>/showdocsdetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckUserApDocsDetail</display-name>
+    <servlet-name>CheckUserApDocsDetail</servlet-name>
+    <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckUserApDocsDetail</servlet-name>
+    <url-pattern>/checkuser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowUserSearchDocs</display-name>
+    <servlet-name>ShowUserSearchDocs</servlet-name>
+    <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowUserSearchDocs</servlet-name>
+    <url-pattern>/usersearchdocs</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogoutServlet</display-name>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.group.main.control.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckedLoginedServlet</display-name>
+    <servlet-name>CheckedLoginedServlet</servlet-name>
+    <servlet-class>com.group.main.control.CheckedLoginedServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckedLoginedServlet</servlet-name>
+    <url-pattern>/checkedlogined</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardFileUploadServlet</display-name>
+    <servlet-name>BoardFileUploadServlet</servlet-name>
+    <servlet-class>com.group.board.control.BoardFileUploadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardFileUploadServlet</servlet-name>
+    <url-pattern>/boardfileupload</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowApLineStaffListServlet</display-name>
+    <servlet-name>ShowApLineStaffListServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApLineStaffListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowApLineStaffListServlet</servlet-name>
+    <url-pattern>/showaplinestafflist</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddApprovalDocsServlet</display-name>
+    <servlet-name>AddApprovalDocsServlet</servlet-name>
+    <servlet-class>com.group.approval.control.AddApprovalDocsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddApprovalDocsServlet</servlet-name>
+    <url-pattern>/addapprovaldocs</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddApprovalLineEmpServlet</display-name>
+    <servlet-name>AddApprovalLineEmpServlet</servlet-name>
+    <servlet-class>com.group.approval.control.AddApprovalLineEmpServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddApprovalLineEmpServlet</servlet-name>
+    <url-pattern>/addapprovallineemp</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddApDocsServlet</display-name>
+    <servlet-name>AddApDocsServlet</servlet-name>
+    <servlet-class>com.group.approval.control.AddApDocsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddApDocsServlet</servlet-name>
+    <url-pattern>/addapdocs</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddAgreementLineEmpServlet</display-name>
+    <servlet-name>AddAgreementLineEmpServlet</servlet-name>
+    <servlet-class>com.group.approval.control.AddAgreementLineEmpServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddAgreementLineEmpServlet</servlet-name>
+    <url-pattern>/addagreementlineemp</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SelectAllPickStatusServlet</display-name>
+    <servlet-name>SelectAllPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectAllPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectAllPickStatusServlet</servlet-name>
+    <url-pattern>/selectallpick</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <description></description>
+    <display-name>SelectByCommentsServlet</display-name>
+    <servlet-name>SelectByCommentsServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectByCommentsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectByCommentsServlet</servlet-name>
+    <url-pattern>/selectbycomments</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <description></description>
+    <display-name>SelectWaitPickStatusServlet</display-name>
+    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectWaitPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
+    <url-pattern>/selectwaitpick</url-pattern>
+  </servlet-mapping> <servlet>
+    <description></description>
+    <display-name>AddScheduleServlet</display-name>
+    <servlet-name>AddScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.AddScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddScheduleServlet</servlet-name>
+    <url-pattern>/addschedule</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>deleteScheduleServlet</display-name>
+    <servlet-name>deleteScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.deleteScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteScheduleServlet</servlet-name>
+    <url-pattern>/deleteschedule</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>modifyScheduleServlet</display-name>
+    <servlet-name>modifyScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.modifyScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modifyScheduleServlet</servlet-name>
+    <url-pattern>/modifyschedule</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>ShowTeamSkd</display-name>
+    <servlet-name>ShowTeamSkd</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowTeamSkd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowTeamSkd</servlet-name>
+    <url-pattern>/showteamskd</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowPersonalSkd</display-name>
+    <servlet-name>ShowPersonalSkd</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowPersonalSkd</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowPersonalSkd</servlet-name>
+    <url-pattern>/showpersonalskd</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowByContent</display-name>
+    <servlet-name>ShowByContent</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowByContent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowByContent</servlet-name>
+    <url-pattern>/showbycontent</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowByDetail</display-name>
+    <servlet-name>ShowByDetail</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowByDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowByDetail</servlet-name>
+    <url-pattern>/showbydetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ShowByDate</display-name>
+    <servlet-name>ShowByDate</servlet-name>
+    <servlet-class>com.group.calendar.control.ShowByDate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowByDate</servlet-name>
+    <url-pattern>/showbydate</url-pattern>
+  </servlet-mapping>
+<!--  <servlet> -->
+<!--     <description></description> -->
+<!--     <display-name>ShowApDocsDetail</display-name> -->
+<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
+<!--     <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet-mapping> -->
+<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
+<!--     <url-pattern>/showdocsdetail</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--    <servlet> -->
+<!--     <description></description> -->
+<!--     <display-name>ShowUserSearchDocs</display-name> -->
+<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
+<!--     <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet-mapping> -->
+<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
+<!--     <url-pattern>/usersearchdocs</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet> -->
+<!--     <description></description> -->
+<!--     <display-name>CheckUserApDocsDetail</display-name> -->
+<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
+<!--     <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet-mapping> -->
+<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
+<!--     <url-pattern>/checkuser</url-pattern> -->
+<!--   </servlet-mapping> -->
 </web-app>

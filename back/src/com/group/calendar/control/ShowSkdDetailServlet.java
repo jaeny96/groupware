@@ -24,16 +24,20 @@ import com.group.exception.FindException;
 public class ShowSkdDetailServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
 
+
+
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       ObjectMapper mapper;
       mapper = new ObjectMapper();
       mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm"));
       String jsonStr = "";
       
+//      HttpSession session = request.getSession();
+//      session.getAttribute("loginInfo");
+//      Employee e = (Employee)session.getAttribute("loginInfo");
+      
       String id = request.getParameter("id");
       String dept = request.getParameter("dept");
-//      HttpSession session = request.getSession();
-//      Schedule s = (Schedule)session.getAttribute("id");
       ScheduleService service;
       ServletContext sc = getServletContext();
       ScheduleService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -42,16 +46,16 @@ public class ShowSkdDetailServlet extends HttpServlet {
       try {
          Department dpt_id = new Department();
          dpt_id.setDepartment_id(dept);
-         Employee em = new Employee(id, dpt_id);
-//         Employee em = new Employee();
-//         em.setEmployee_id(id);
-//         em.setDepartment(dpt_id);
+         Employee em = new Employee(id, null, dpt_id, null, null, null, null, null, 1, null);
+         em.setEmployee_id(id);
+         em.setDepartment(dpt_id);
          List<Schedule> list = service.findSkdAll(em);
-         
+
          jsonStr = mapper.writeValueAsString(list);
+         System.out.println(jsonStr);
          response.setContentType("application/json;charset=utf-8");
          response.getWriter().print(jsonStr);
-         System.out.println(jsonStr);
+      //   System.out.println(jsonStr);
       } catch (FindException e) {
          e.printStackTrace();
       }
