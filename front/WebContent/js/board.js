@@ -81,10 +81,10 @@ function init() {
 /*	for (var i = 0; i < bdTitle.length; i++) {
 		createBdElement(i);
 	}*/
-	for (var i = 0; i < pageGroup.length; i++) {
+/*	for (var i = 0; i < pageGroup.length; i++) {
 		createPageNum(pageGroup[i]);
-	}
-	createPageNext();
+	}*/
+//	createPageNext();
 }
 
 init();

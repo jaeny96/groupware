@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/comment-modal.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jq/load-apboard-detail.js"></script>
+  </head>
+  <body style="overflow-x: hidden">
+    <div>
+      <div class="container-fluid p-0" style="overflow: auto"></div>
+      <h1 class="fa fa-clipboard" style="margin-left: 10px; margin-top: 20px">
+        전자결재
+      </h1>
+      <hr />
+
+      <h2
+        class="text-center font-weight-bolder"
+        style="margin-top: 40px; margin-bottom: 40px"
+      >
+        품의서
+      </h2>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="card">
+            <table class="table table-bordered align-middle">
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    문서 종류
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailType"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    문서 번호
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailNo"></td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 부서
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailDep"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  >
+                    기안자
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailWriter"></td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                  >
+                    기안 일시
+                  </td>
+                  <td style="width: 35%" id="apDocumentDetailDate"></td>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 15%; background-color: #f6f6f6"
+                    class="d-none d-md-table-cell"
+                  ></td>
+                  <td style="width: 35%"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <table class="table table-bordered">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td
+                    rowspan="3"
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; background-color: #f6f6f6"
+                  >
+                    결재
+                  </td>
+
+                  <td class="text-center" style="width: 22%">0</td>
+                  <td class="text-center" style="width: 22%">1</td>
+                  <td class="text-center" style="width: 22%">2</td>
+                  <td class="text-center" style="width: 22%">3</td>
+                </tr>
+                <tr>
+                  <!-- step0 -->
+                  <td
+                    id="apApprovalStep0"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <!-- <img src="img/icons/yes.png" width="100px" /> -->
+                  </td>
+
+                  <!-- step1 -->
+                  <td
+                    id="apApprovalStep1"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <!-- <img
+                      src="img/icons/yes.png"
+                      width="100px"
+                    /> -->
+                  </td>
+
+                  <!-- step2 -->
+                  <td
+                    id="apApprovalStep2"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <!-- <button
+                      id="approvalCommentBtn"
+                      class="btn ap-btn-outline-purple"
+                      id="open"
+                    >
+                      승인 요망
+                    </button>
+                    <div id="apApprovalStepDate2"></div> -->
+                  </td>
+
+                  <!-- step3 -->
+                  <td
+                    id="apApprovalStep3"
+                    style="width: 22%"
+                    class="text-center"
+                  ></td>
+                </tr>
+                <!-- step0 이름 -->
+                <tr>
+                  <td
+                    id="apApprovalStepName0"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate0"></div>
+                  </td>
+                  <!-- step1 이름 -->
+                  <td
+                    id="apApprovalStepName1"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate1"></div>
+                  </td>
+                  <!-- step2 이름 -->
+                  <td
+                    id="apApprovalStepName2"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate2"></div>
+                  </td>
+                  <!-- step3 이름 -->
+                  <td
+                    id="apApprovalStepName3"
+                    style="width: 22%"
+                    class="text-center font-weight-bolder"
+                  >
+                    <div id="apApprovalStepDate3"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; height: 100px; background-color: #f6f6f6"
+                  >
+                    합의
+                  </td>
+                  <td
+                    id="apAgreementName"
+                    class="font-weight-bolder"
+                    style="width: 88%"
+                  >
+                    태연
+                    <img
+                      id="checkAgConfirmImg"
+                      src="img/icons/no.png"
+                      width="70px"
+                    />
+                    <button
+                      id="approvalCommentBtn"
+                      class="btn ap-btn-outline-purple"
+                      style="width: 80px; font-size: 0.7rem"
+                    >
+                      승인 요망
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bolder text-center"
+                    style="width: 12%; background-color: #f6f6f6"
+                  >
+                    참조
+                  </td>
+                  <td
+                    id="apReferenceName"
+                    class="font-weight-bolder"
+                    style="width: 88%"
+                  >
+                    수영
+                    <div
+                      class="fa fa-question"
+                      style="color: darkmagenta"
+                    ></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2
+            id="apDocumentDetailTitle"
+            class="font-weight-bolder"
+            style="margin-left: 20px; margin-top: 70px; margin-bottom: 40px"
+          >
+            지출 결의서
+          </h2>
+
+          <div
+            class="card pb-5 pt-3 text-center"
+            id="apDocumentContent"
+            style="background-color: white"
+          >
+            <p style="text-align: center">&nbsp;</p>
+            <p style="text-align: center">결의서</p>
+            <p style="text-align: center"></p>
+            <p style="text-align: center">&nbsp;</p>
+            <table
+              class="table-bordered"
+              style="
+                width: 754.062px;
+                height: 161px;
+                margin-left: auto;
+                margin-right: auto;
+              "
+            >
+              <tbody>
+                <tr>
+                  <td style="width: 91px">결재내역</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 91px">&nbsp;</td>
+                  <td style="width: 105px">&nbsp;</td>
+                  <td style="width: 282.062px">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card" >
+            <div class="card-header">
+              <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
+                의견
+              </h4>
+            </div>
+            <div class="card-body ">
+              <table id="apDocumentTable" class="table mb-0 text-center">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20%">사원번호</th>
+                    <th scope="col">코멘트 내용</th>
+                    <th scope="col" style="width: 20%">날짜</th>
+                  </tr>
+                </thead>
+                <tbody id="apCommentTbody">
+                 
+                
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+
+    <!--modal 시작-->
+    <div class="modal hidden" id="modalApprovalComment">
+      <div class="modal_overlay"></div>
+      <div class="modal_content">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="font-weight-bolder">결재 확인</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <button class="btn ap-btn-outline-purple text-center" type="menu">
+              <img
+                id="apCommentOkImg"
+                class="rounded mt-1"
+                src="img/icons/yes.png"
+                alt="Placeholder"
+                width="140"
+                height="140"
+              />
+            </button>
+            <button class="btn ap-btn-outline-purple text-center" type="menu">
+              <img
+                id="apCommentNoImg"
+                class="rounded mt-1"
+                src="img/icons/no.png"
+                alt="Placeholder"
+                width="140"
+                height="140"
+              />
+            </button>
+          </div>
+          <div class="mb-3 row">
+            <label
+              class="basicMent"
+              style="margin-top: 20px"
+              id="apCommentInput "
+              ><h4 class="font-weight-bolder">코멘트를 작성해주세요</h4></label
+            ><br />
+            <div class="commentArea">
+              <textarea class="form-control" rows="5"></textarea>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <div style="text-align: center; margin: 10px 0">
+              <button
+                type="submit"
+                class="btn ap-btn-outline-purple"
+                id="apCommentConfirmBtn"
+              >
+                저장
+              </button>
+
+              <button class="btn btn-secondary cancel" id="apCommentCancelBtn">
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--modal 끝-->
+  </body>
+</html>

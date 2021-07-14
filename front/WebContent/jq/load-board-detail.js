@@ -1,7 +1,10 @@
 $(function () {
+  var boardPageGoBtnObj = document.querySelector("button.boardPageGoBtn");
+
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
   );
+  console.log(loginInfoIdObj.innerHTML);
   var loginInfoNameObj = document.querySelector(
     "div.profileDropdown span.loginName"
   );
@@ -12,12 +15,11 @@ $(function () {
   var infoWriterObj = detailInfoObj.querySelector("small.bdDetailWriter");
   var infoDateObj = detailInfoObj.querySelector("small.bdDetailDate");
   var detailContentObj = document.querySelector("div.bdDetailContent");
-  var bdBtnGroupObj = document.querySelector("div.bdBtnGroup");
+  var bdBtnGroupObj = document.querySelector("div#bdBtnGroupModify");
   var cmCardBodyObj = document.querySelector("div.cmCardBody");
   var cmWriterObj = document.querySelector("h5.currentLoginId");
   var cmTextAreaObj = document.querySelector("textarea");
   var cmRegisterFormObj = document.querySelector("div.col-md-12 form");
-  console.log(cmRegisterFormObj);
 
   var bdDetailBdNo = localStorage.getItem("bdNumber");
   var bdDetailTitle;
@@ -35,11 +37,41 @@ $(function () {
   var cmDate = new Array();
   var cmContent = new Array();
 
+  var backurlDeleteCm = "/back/removeboardcomment";
+
+  function boardPageGoClickHandler() {
+    $(
+      'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board.html"]'
+    ).trigger("click");
+  }
+
+  boardPageGoBtnObj.addEventListener("click", boardPageGoClickHandler);
+
+  function cmDeleteClickHandler(e) {
+    console.log(e.target.id + currentLoginId);
+    $.ajax({
+      url: backurlDeleteCm,
+      method: "get",
+      data: {
+        removeTargetCmNo: e.target.id,
+        removeTargetBdNo: bdDetailBdNo,
+        removeCmWriterId: currentLoginId,
+      },
+      success: function (responseData) {
+        alert("댓글이 삭제되었습니다!");
+        $(
+          'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board-detail.html"]'
+        ).trigger("click");
+      },
+    });
+    e.preventDefault();
+  }
+
   function createCmElement(i) {
     var cmBodyDiv = document.createElement("div");
     cmBodyDiv.setAttribute("class", "d-flex align-items-start cmBody mb-2");
     var profileImg = document.createElement("img");
-    profileImg.setAttribute("src", "img/avatars/avatar-5.jpg");
+    profileImg.setAttribute("src", "img/avatars/avatar-4.jpg");
     profileImg.setAttribute("width", "36");
     profileImg.setAttribute("height", "36");
     profileImg.setAttribute("class", "rounded-circle mr-2 mb-2");
@@ -52,7 +84,7 @@ $(function () {
     cmDeleteSmall.setAttribute("class", "float-right text-navy");
     var cmDeleteA = document.createElement("a");
     cmDeleteA.setAttribute("class", "cmDeleteBtn");
-    cmDeleteA.setAttribute("href", "board-detail.html");
+    cmDeleteA.setAttribute("id", cmNo[i]);
     cmDeleteA.innerHTML = "X";
     cmDeleteSmall.appendChild(cmDeleteA);
 
@@ -81,6 +113,8 @@ $(function () {
     } else {
       cmDeleteSmall.removeAttribute("style");
     }
+
+    cmDeleteSmall.addEventListener("click", cmDeleteClickHandler);
   }
 
   function createBdDatailElement() {
@@ -88,8 +122,9 @@ $(function () {
     infoWriterObj.innerHTML = bdDetailWriter;
     infoDateObj.innerHTML = bdDetailDate;
     detailContentObj.innerHTML = bdDetailContent;
-
-    if (currentLoginId != bdDetailWriterId) {
+    console.log("writer 아이디 " + bdDetailWriterId);
+    console.log(bdBtnGroupObj);
+    if (loginInfoIdObj.innerHTML != bdDetailWriterId) {
       bdBtnGroupObj.setAttribute("style", "display:none");
     } else {
       bdBtnGroupObj.removeAttribute("style");
@@ -150,6 +185,9 @@ $(function () {
       },
       success: function (responseData) {
         alert("댓글이 추가되었습니다!");
+        $(
+          'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board-detail.html"]'
+        ).trigger("click");
       },
     });
     e.preventDefault();
@@ -174,6 +212,8 @@ $(function () {
   // $div.load("main.html");
   $modifyBtnObj.click(function () {
     //클릭된현재객체의 href속성값 얻기 : .attr('href');
+    localStorage.setItem("bdTitle", bdDetailTitle);
+    localStorage.setItem("bdContent", bdDetailContent);
     var href = $(this).attr("href");
     switch (href) {
       case "board-modify.html":
@@ -194,18 +234,24 @@ $(function () {
     return false;
   });
 
-  $deleteBtnObj.click(function () {
-    //클릭된현재객체의 href속성값 얻기 : .attr('href');
-    var href = $(this).attr("href");
-    switch (href) {
-      case "board.html":
-        $content.load(href, function (responseTxt, statusTxt, xhr) {
-          if (statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        });
-        break;
-    }
-    return false;
+  var backurlRemoveBd = "/back/removeboard";
+
+  $deleteBtnObj.click(function (e) {
+    $.ajax({
+      url: backurlRemoveBd,
+      method: "get",
+      data: {
+        removeTargetBdNo: bdDetailBdNo,
+        removeWriterId: currentLoginId,
+      },
+      success: function (responseData) {
+        alert("댓글이 삭제되었습니다!");
+        $(
+          'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="board.html"]'
+        ).trigger("click");
+      },
+    });
+    e.preventDefault();
   });
   $cmDeleteBtnObj.click(function () {
     //클릭된현재객체의 href속성값 얻기 : .attr('href');

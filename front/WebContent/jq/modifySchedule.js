@@ -1,19 +1,19 @@
 $(function () {
   //localStorage 값 받아오기
-  var skdOriginType = localStorage.getItem("skd_type");
-  var skdOriginTitle = localStorage.getItem("skd_title");
-  var skdOriginContent = localStorage.getItem("skd_content");
-  var skdOriginStartDate = localStorage.getItem("skd_start_date");
-  //시작날짜
-  var skdOriginStartTime = localStorage.getItem("skd_start_time");
-  var skdOriginEndDate = localStorage.getItem("skd_end_date");
-  //종료날짜
-  var skdOriginEndTime = localStorage.getItem("skd_end_time");
-  //종료시간
-  var skdOriginShare = localStorage.getItem("skd_share");
+  // var skdOriginType = localStorage.getItem("skd_type");
+  // var skdOriginTitle = localStorage.getItem("skd_title");
+  // var skdOriginContent = localStorage.getItem("skd_content");
+  // var skdOriginStartDate = localStorage.getItem("skd_start_date");
+  // //시작날짜
+  // var skdOriginStartTime = localStorage.getItem("skd_start_time");
+  // var skdOriginEndDate = localStorage.getItem("skd_end_date");
+  // //종료날짜
+  // var skdOriginEndTime = localStorage.getItem("skd_end_time");
+  // //종료시간
+  // var skdOriginShare = localStorage.getItem("skd_share");
 
-  console.log(skdOriginTitle);
-  console.log(skdOriginContent);
+  // console.log(skdOriginTitle);
+  // console.log(skdOriginContent);
   //경로
   var backSkdModify = "/back/modifyschedule";
 
@@ -43,17 +43,17 @@ $(function () {
   });
 
   //기존 값 넣기
-  skdUpdateTitle.attr("value", skdOriginTitle);
-  skdUpdateContent.val(skdOriginContent);
-  skdUpdateStartDate.val(skdOriginStartDate);
-  skdUpdateStartTime.val(skdOriginStartTime);
-  skdUpdateEndDate.val(skdOriginEndDate);
-  skdUpdateEndTime.val(skdOriginEndTime);
-  skdUpdateType.val(skdOriginType);
+  // skdUpdateTitle.attr("value", skdOriginTitle);
+  // skdUpdateContent.val(skdOriginContent);
+  // skdUpdateStartDate.val(skdOriginStartDate);
+  // skdUpdateStartTime.val(skdOriginStartTime);
+  // skdUpdateEndDate.val(skdOriginEndDate);
+  // skdUpdateEndTime.val(skdOriginEndTime);
+  // skdUpdateType.val(skdOriginType);
 
   //시간, content는 가능
   //dropdown, radio는 불가
-  skdUpdateShare(skdOriginShare);
+  // skdUpdateShare(skdOriginShare);
 
   function modifySkdSubmitHandler(e) {
     // console.log(skdUpdateShare);

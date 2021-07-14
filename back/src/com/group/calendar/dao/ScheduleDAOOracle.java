@@ -261,7 +261,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 
 		try {
 			pstmt = con.prepareStatement(skdByContentSQL);
-			pstmt.setString(1, s.getSkd_id().employee_id);
+			pstmt.setString(1, s.getSkd_id().getEmployee_id());
 			pstmt.setString(2, "%"+s.getSkd_title()+"%");
 			pstmt.setString(3, "%"+s.getSkd_content()+"%");
 			rs = pstmt.executeQuery();
