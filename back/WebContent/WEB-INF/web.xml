@@ -15,6 +15,36 @@
   </context-param>
   <servlet>
     <description></description>
+    <display-name>AddScheduleServlet</display-name>
+    <servlet-name>AddScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.AddScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddScheduleServlet</servlet-name>
+    <url-pattern>/addschedule</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>deleteScheduleServlet</display-name>
+    <servlet-name>deleteScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.deleteScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>deleteScheduleServlet</servlet-name>
+    <url-pattern>/deleteschedule</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>modifyScheduleServlet</display-name>
+    <servlet-name>modifyScheduleServlet</servlet-name>
+    <servlet-class>com.group.calendar.control.modifyScheduleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>modifyScheduleServlet</servlet-name>
+    <url-pattern>/modifyschedule</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.group.main.control.LoginServlet</servlet-class>

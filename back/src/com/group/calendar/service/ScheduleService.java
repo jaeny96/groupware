@@ -17,7 +17,11 @@
 	import com.group.calendar.dto.Schedule;
 	import com.group.employee.dto.Department;
 	import com.group.employee.dto.Employee;
-	import com.group.exception.FindException;
+import com.group.exception.AddException;
+import com.group.exception.DuplicatedException;
+import com.group.exception.FindException;
+import com.group.exception.ModifyException;
+import com.group.exception.RemoveException;
 	
 	
 	public class ScheduleService {
@@ -102,6 +106,37 @@
 			return dao.skdPeriodList(skd_e, sdate, edate);
 		}
 		
+
+		   //일정추가 메서드
+		   /**
+		    * @param s
+		    * @throws AddException
+		    */
+
+		   public void addSkd(Schedule s) throws AddException, DuplicatedException{
+		      dao.insert(s);
+		   }
+		   
+
+		   /**
+		    * 일정업데이트 메서드
+		    * @param s
+		    * @throws ModifyException
+		    */
+		   public void modifySkd(Schedule s) throws ModifyException{
+		      dao.update(s);
+		   }
+		   
+		   /**
+		    * 일정삭제 메서드
+		    * @param s
+		    * @throws RemoveException
+		    */
+		   public void deleteSkd(Schedule s) throws RemoveException{
+		   
+		      dao.delete(s);
+		   }
+
 		
 		
 		public static void main(String[] args) {

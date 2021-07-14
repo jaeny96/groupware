@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="css/main.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+  <link href="css/app.css" rel="stylesheet" />
+  <link href="css/schedule.css" rel="stylesheet" />
+</head>
+<body>
+  <div>
+    <!-- <div class="main">
+      <main class="content">
+        <div class="container-fluid p-0">
+        일정검색란 -->
+        <!-- <div class="container-fluid p-0">
+          <form method="get" action="#" class="d-none d-sm-inline-block col-md-3">
+            <div class="input-group input-group-navbar"> --> -->
+              <div>
+                <div class="btn-group btn-group-sm">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    검색
+                  </button>
+                  <div class="dropdown-menu">
+                    <!-- <a class="dropdown-item" href="#" id="skdCategoryAll">전체 검색</a> -->
+                    <!--todo and option 
+              1. input 창에 검색 시 기본적으로 전체 검색될 것
+              2. 기간으로 검색 시 modal창 띄울 것
+              3. 제목, 내용으로 검색 시 modal  창 띄울 것  -->
+                    <a class="dropdown-item" href="#" id="skdCategoryPeriod">기간으로 검색</a>
+                    <a class="dropdown-item" href="#" id="skdCategoryTitle">제목, 내용으로 검색</a>
+
+                  </div>
+                </div>
+              </div>
+              <!-- <input type="text" class="form-control" placeholder="Search…" aria-label="Search" style="width: 25%"
+                id="skdSearch" /> -->
+            </div>
+          </form>
+          <div id="calendar"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+
+  <!-- 스케쥴 입력모달창 -->
+  <div class="modal hidden" id="skdInput">
+    <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
+    <div class="modal_overlay"></div>
+    <!-- advice: 내용은 여기에 담깁니다 -->
+    <div class="modal_content">
+      <div class="card">
+        <div class="card-header" style="padding: 0 20px;">
+          <h4>일정 추가</h4>
+        </div>
+        <form action="#" class="skdInsertClass">
+          <div class="card-body">
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">종류</label>
+              <div class="col-sm-10">
+                <select name="skdType" id="skdType" style="width:40%; border: 1px solid #52575c;">
+                  <option value="업무">업무</option>
+                  <option value="외근">외근</option>
+                  <option value="출장">출장</option>
+                  <option value="회의">회의</option>
+                  <option value="휴가">휴가</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">제목</label>
+              <div class="col-sm-10">
+                <input type="text" id="input_title" class="form-control">
+              </div>
+            </div>
+            <!-- 시작 -->
+            <div class="mbi-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">시작</label>
+              <div class="col-sm-10">
+                <!-- 날짜 -->
+                <input type="date" id="start_date" style="width: 50%; border: 1px solid #ced4da" />
+
+                <!-- 시작시간 -->
+                <input type="time" id="start_time" style="width:40%; border: 1px solid #ced4da;">
+
+              </div>
+            </div>
+            <!-- 종료 -->
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">종료</label>
+
+              <!-- 종료날짜 -->
+              <div class="col-sm-10">
+                <input type="date" id="end_date" style="width: 50%; border: 1px solid #ced4da;">
+
+                <!-- 종료시간 -->
+
+                <input type="time" id="end_time" style="width:40%; border: 1px solid #ced4da;">
+
+              </div>
+            </div>
+            <!-- 내용 -->
+            <div class="mb-3 row">
+              <label class="col-form-label col-sm-2 text-sm-right">내용</label>
+              <div class="col-sm-10">
+                <!-- 텍스트박스 -->
+                <textarea class="form-control" id="input_content" rows="10"></textarea>
+              </div>
+            </div>
+            <!-- 팀일정, 개인일정 설정 -->
+            <fieldset class="mb-3">
+              <div class="row">
+                <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">캘린더</label>
+                <div class="col-sm-10">
+                  <label class="form-check">
+                    <!-- 개인일정 -->
+                    <input name="radio-3" type="radio" class="form-check-input" value="p" checked="">
+                    <span class="form-check-label">개인일정</span>
+                  </label>
+                  <!-- 팀일정 -->
+                  <label class="form-check">
+                    <input name="radio-3" type="radio" class="form-check-input" value="t">
+                    <span class="form-check-label">팀일정</span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <!-- 저장 , 취소박스-->
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0;">
+                <button type="submit" class="btn btn-primary skdInsertSaveBtn"> 저장 </button>
+                <button class="btn btn-secondary cancel" type="button"> 취소
+                </button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- 스케쥴 상세내역 -->
+  <div class="modal hidden" id="skdDetail">
+    <div class="modal_overlay"></div>
+
+    <div class="modal_content">
+
+      <div class="card-header">
+        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                    border-radius: 7px;
+                    background-color: #6c757d; 
+                    color: white; cursor: pointer; ">X</button>
+        <h4>일정 상세 내역</h4>
+      </div>
+      <!--card-header div-->
+      <table class="table">
+        <tbody>
+          <tr id="skdDetailShare" class="skdDetailShare">
+            <td style="width:30%;"><Strong>캘린더</Strong></td>
+            <td style="width:70%" class="skdDetailInputData"></td>
+          </tr>
+          <tr id="skdDetailTitle">
+            <td> <Strong>제목</Strong></td>
+            <td class="skdDetailInputData">
+            </td>
+          </tr>
+          <tr id="skdDetailType">
+            <td><Strong>종류</Strong></td>
+            <td class="skdDetailInputData"></td>
+          </tr>
+          <tr id="skdDetailStartTime">
+            <td><Strong>시작 시간</Strong></td>
+            <td class="skdDetailInputData"> </td>
+            <td class="skdDetailInputData"> </td>
+          </tr>
+          <tr id="skdDetailEndTime">
+            <td><Strong>종료 시간</Strong></td>
+            <td class="skdDetailInputData"></td>
+            <td class="skdDetailInputData"> </td>
+          </tr>
+          <tr id="skdDetailContent">
+            <td><Strong>내용</Strong></td>
+            <td class="skdDetailInputData">
+            </td>
+
+          </tr>
+
+
+        </tbody>
+      </table>
+      <!-- 수정 / 삭제  -->
+      <div class="mb-3 row ">
+        <div style="text-align: center; margin: 10px 0;">
+          <button class="btn btn-primary modifyBtn" id="skdModifyBtn"> 수정 </button>
+          <button class="btn btn-secondary deleteBtn"> 삭제 </button>
+        </div>
+        <!--수정삭제 div-->
+      </div>
+      <!--수정삭제 부모div-->
+    </div>
+  </div>
+  <!-- 스케쥴 수정 -->
+  <div class="modal hidden" id="skdModifyDetail">
+    <div class="modal_overlay"></div>
+
+    <div class="modal_content">
+
+      <div class="card-header">
+        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                    border-radius: 7px;
+                    background-color: #6c757d; 
+                    color: white; cursor: pointer; ">X</button>
+        <h4>일정 수정</h4>
+
+      </div>
+      <form action="" id="modifySkdContent">
+        <!--card-header div-->
+        <table class="table">
+          <tbody>
+            <tr id="skdUpdateShare" class="skdUpdateShare">
+              <td style="width:30%;"><Strong>캘린더</Strong></td>
+              <td style="width:70%" class="skdUpdateInputData">
+                <div class="col-sm-10">
+                  <label class="form-check">
+                    <!-- 개인일정 -->
+                    <input name="radio-2" type="radio" class="form-check-input" value="p" checked="">
+                    <span class="form-check-label">개인일정</span>
+                  </label>
+                  <!-- 팀일정 -->
+                  <label class="form-check">
+                    <input name="radio-2" type="radio" class="form-check-input" value="t">
+                    <span class="form-check-label">팀일정</span>
+                  </label>
+              </td>
+            </tr>
+
+
+            <tr id="skdUpdateTitle">
+              <td> <Strong>제목</Strong></td>
+              <td class="skdUpdateInputData">
+                <input id="update_title" type="text">
+              </td>
+            </tr>
+
+            <tr id="skdUpdateType">
+              <td><Strong>종류</Strong></td>
+              <td class="skdUpdateInputData">
+                <div class="col-sm-10">
+                  <select name="skdUpdateTypeSelect" id="skdUpdateTypeSelect" style="width:40%; border: 1px solid #52575c;">
+                    <option value="업무">업무</option>
+                    <option value="외근">외근</option>
+                    <option value="출장">출장</option>
+                    <option value="회의">회의</option>
+                    <option value="휴가">휴가</option>
+                  </select>
+                </div>
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateStartTime">
+              <td><Strong>시작 시간</Strong></td>
+
+              <td class="skdUpdateInputData">
+                <input id="start_date_update" type="date">
+                <input id="start_time_update" type="time">
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateEndTime">
+              <td><Strong>종료 시간</Strong></td>
+              <td class="skdUpdateInputData">
+                <input id="end_date_update" type="date">
+                <input id="end_time_update" type="time">
+              </td>
+
+            </tr>
+
+            <tr id="skdUpdateContent">
+              <td><Strong>내용</Strong></td>
+              <td class="skdUpdateInputData">
+                <textarea name="" id="input_content_update" cols="30" rows="5"></textarea>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+        <!--form 닫기-->
+        <!-- 저장/취소  -->
+        <div class="mb-3 row ">
+          <div style="text-align: center; margin: 10px 0;">
+            <button type="submit" class="btn btn-primary modifySkdSubmit" id="modifySubmitBtn"> 저장 </button>
+            <button class="btn btn-secondary cancel"> 취소 </button>
+          </div>
+          <!--저장/취소 div-->
+        </div>
+        <!--저장/취소부모div-->
+      </form>
+    </div>
+    <!--modal-content div-->
+  </div>
+  <!--modal div-->
+
+  <!--스케쥴 기간검색-->
+  <div class="modal hidden" id="skdSearchPeriod">
+    <div class="modal_overlay"></div>
+
+    <div class="modal_content">
+      <div class="card-header">
+        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                    border-radius: 7px;
+                    background-color: #6c757d; 
+                    color: white; cursor: pointer; ">X</button>
+        <h4>일정 검색</h4>
+      </div>
+      <form action="">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:30%;">캘린더</th>
+              <th style="width:70%">
+                <select name="캘린더">
+                  <option value="">전체캘린더</option>
+                  <option value="t">공유캘린더</option>
+                  <option value="p">내 캘린더</option>
+                </select>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>시작일</td>
+              <td><input type="date"></td>
+            </tr>
+
+            <tr>
+              <td>종료일</td>
+              <td><input type="date"> </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <!-- 검색, 취소 -->
+      <div class="mb-3 row">
+        <div style="text-align: center; margin: 10px 0;">
+          <button class="btn btn-primary " type="submit"> 검색 </button>
+
+
+          <button class="btn btn-secondary cancel" type="button"> 취소 </button>
+        </div>
+      </div>
+    </div>
+    <!--modal-content div-->
+  </div>
+  <!--modal-->
+
+  <!--스케쥴 제목내용검색-->
+  <div class="modal hidden" id="skdSearchTitle">
+    <div class="modal_overlay"></div>
+
+    <div class="modal_content">
+      <div class="card-header">
+        <button class="xBox" style="float: right; border-style: 1px solid #6c757d; 
+                  border-radius: 7px;
+                  background-color: #6c757d; 
+                  color: white; cursor: pointer; ">X</button>
+        <h4>제목, 내용 검색</h4>
+      </div>
+      <form action="">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:30%;">캘린더</th>
+              <th style="width:70%;">
+                <select name="캘린더">
+                  <option value="">전체캘린더</option>
+                  <!-- <option value="p">공유캘린더</option>
+                  <option value="t">내 캘린더</option> -->
+                </select>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>제목</td>
+              <td><input type="text" class="pTitle" /></td>
+            </tr>
+
+            <tr>
+              <td>내용</td>
+              <td><input type="text" class = "pContent"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <!-- 수정 / 삭제  -->
+      <div class="mb-3 row">
+        <div style="text-align: center; margin: 10px 0;">
+          <button class="btn btn-primary" type="submit"> 검색 </button>
+          <button class="btn btn-secondary cancel" type="button"> 취소 </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <script src="js/app.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/locales-all.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+  <script src="js/schedule.js"></script>
+  <script src="jq/load-schedule.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+  <script src="jq/modifySchedule.js"></script>
+  <script src="jq/deleteSchedule.js"></script>
+  <script src="jq/addSchedule.js"></script>
+
+</body>
+</html>

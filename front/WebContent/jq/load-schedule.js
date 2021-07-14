@@ -6,6 +6,10 @@ $(function () {
   var modalPeriodSearch = document.querySelector("div#skdSearchPeriod");
   var modalContentSearch = document.querySelector("div#skdSearchTitle");
 
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
+
   //전체검색 모달 창 내용(제목, 내용, 시작일, 종료일)
   // var modalSearchAllTitle = modalSearchAll.querySelector("input.allTitle");
   // var modalSearchAllContent = modalSearchAll.querySelector("input.allContent");
@@ -24,6 +28,8 @@ $(function () {
   //기간검색 데이터 받아오기
   $searchResultP.on("click", function () {
     var href = $(this).attr("href");
+    // var id = loginInfoIdObj.innerHTML;
+    // var dept = id.substring(0, 3);
     var id = "MSD002";
     var dept = "MSD";
     //input날짜 값
@@ -66,6 +72,7 @@ $(function () {
   //내용검색 데이터 받아오기
   $searchResultC.on("click", function () {
     var href = $(this).attr("href");
+    // var id = loginInfoIdObj.innerHTML;
     var id = "MSD002";
     var titlev = modalContentSearch.querySelector("input.pTitle");
     var title = titlev.value;

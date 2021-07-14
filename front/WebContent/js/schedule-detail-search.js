@@ -1,3 +1,6 @@
+//로그인정보
+var loginInfoIdObj = document.querySelector("div.profileDropdown span.loginId");
+
 var skdTBodyObj = document.querySelector("tbody.skdTbody");
 //상세내역 모달에 데이터
 var shareObj = document.getElementById("skdDetailShare");
@@ -99,6 +102,8 @@ var skdContentDetailSearch;
 //파라미터 : class="modal" 의 id
 function createModal(id) {
   var index = localStorage.getItem("searchSkdNoDetail");
+  // var id = loginInfoIdObj.innerHTML;
+  // var dept = id.substring(0, 3);
   var sid = "MSD002";
   var dept = "MSD";
   const urlSearchParams = new URLSearchParams(window.location.search);
@@ -186,6 +191,8 @@ function createModal(id) {
 
 //내용,제목 검색
 document.addEventListener("DOMContentLoaded", function () {
+  // var id = loginInfoIdObj.innerHTML;
+
   var id = "MSD002";
   //var dept = "MSD";
   const urlSearchParams = new URLSearchParams(window.location.search);
@@ -209,6 +216,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //기간검색
 document.addEventListener("DOMContentLoaded", function () {
+  // var id = loginInfoIdObj.innerHTML;
+  // var dept = id.substring(0, 3);
   var id = "MSD002";
   var dept = "MSD";
   const urlSearchParams = new URLSearchParams(window.location.search);
