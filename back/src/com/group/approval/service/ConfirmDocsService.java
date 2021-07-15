@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.group.approval.dao.ConfirmDocsDAO;
+import com.group.approval.dto.Approval;
 import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
 import com.group.approval.exception.SearchException;
@@ -53,24 +54,32 @@ public class ConfirmDocsService {
 	 * @throws FindException
 	 */	
 	public List<Document> findCheckDocsAll(String id,String check) throws FindException{
-		if(check.equals("전체")) {
-			return dao.selectByCheckAllOk(id);
-		}else {
-			return dao.selectByCheckAllNo(id);
+		List<Document> lists=null;
+		if(check.equals("확인")) {
+			lists= dao.selectByCheckAllOk(id);
+		}else if(check.equals("미확인")){
+			lists= dao.selectByCheckAllNo(id);
 		}
+		return lists;
 		
 	}
 	
 	/**
-	 * (대기/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+	 * (대기)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
 	 * @param id 로그인한 사용자 id
 	 * @param check 확인 or 미확인 선택값 
 	 * @param docsState 최종문서 상태값 = 사이드바에서 선택한 값 
 	 * @return 사용자가 선택한 결과값 목록
 	 * @throws FindException
 	 */	
-	public List<Document> findCheckDocsState(String id,String docsState,String check) throws FindException{
-		return dao.selectByCheckStatus(id,docsState,check);
+	public List<Document> findCheckDocsWait(String id,String check) throws FindException{
+		List<Document> lists=null;
+		if(check.equals("확인")) {
+			lists= dao.selectByCheckOkWait(id);
+		}else if(check.equals("미확인")){
+			lists= dao.selectByCheckNoWait(id);
+		}
+		return lists;
 	}
 
 	/**
@@ -117,6 +126,14 @@ public class ConfirmDocsService {
 		return dao.selectBySearchContent(id, content);
 	}
 	
+	/**
+	 * 코멘트를 확인할 수 있다. 
+	 * @param args
+	 */
+    public List<Approval> findByComments(String docNo) throws FindException{
+    	return dao.selectByComments(docNo);
+    }
+	
 	public static void main(String[] args) {
 		ConfirmDocsService service = ConfirmDocsService.getInstance();
 		
@@ -140,19 +157,19 @@ public class ConfirmDocsService {
 			}
 			System.out.println();
 			
-			List<Document> selectCheckList1 = new ArrayList<>();
-			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 "+documentState+" 목록");
-			selectCheckList1=service.findCheckDocsState(id,documentState,check);
-			for(Document d: selectCheckList1) {	
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			System.out.println();
+//			List<Document> selectCheckList1 = new ArrayList<>();
+//			System.out.println(id+"사원이 받은 문서들의 "+check+"값의 "+documentState+" 목록");
+//			selectCheckList1=service.findCheckDocsState(id,documentState,check);
+//			for(Document d: selectCheckList1) {	
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			System.out.println();
 						
 			
 		

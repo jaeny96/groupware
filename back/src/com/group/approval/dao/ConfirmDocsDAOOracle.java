@@ -186,12 +186,11 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 	}
 	
-	//(대기)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	
-	
-	//(대기/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+	//(대기)사용자는 미확인 문서를 선택해서 볼 수 있다. 
 	@Override
-	public List<Document> selectByCheckStatus(String employee_id,String document_status,String check) throws FindException {
+	public List<Document> selectByCheckNoWait(String employee_id) throws FindException {
+	
+
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -201,28 +200,27 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			throw new FindException(e.getMessage());
 		}
 		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-				"from employee e join (\r\n" + 
+				"from employee e join ( \r\n" + 
 				"SELECT * FROM (select a.*\r\n" + 
 				"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
 				"FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" + 
-				"WHERE  a.ap_type='대기' AND a.employee_id=?)\r\n" + 
+				"WHERE  a.ap_type='대기' AND a.employee_id='DEV001')\r\n" + 
 				"UNION ALL\r\n" + 
 				"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
 				"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-				"WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + 
+				"WHERE r.ap_type='대기'  AND r.employee_id='DEV001')\r\n" + 
 				"UNION ALL\r\n" + 
 				"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
 				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
-				"WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" + 
-				"JOIN document d ON a.document_no= d.document_no  WHERE document_status= 대기)) j on e.employee_id = j.employee_id\r\n" + 
+				"WHERE ag.ap_type='대기' AND ag.employee_id='DEV001'))a\r\n" + 
+				"JOIN document d ON a.document_no= d.document_no  WHERE document_status='대기')) j on e.employee_id = j.employee_id\r\n" + 
 				"ORDER BY draft_date ASC";
-				
 		
 		PreparedStatement pstmt=null;
 		ResultSet rs= null;
 		List list = new ArrayList<>();
-		
 		try {
+			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, employee_id);
 			pstmt.setString(2, employee_id);
@@ -235,7 +233,8 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	DocumentType dt= new DocumentType();
 		    	Approval a = new Approval();
 		    	ApprovalStatus ap = new ApprovalStatus();
-				d.setDocument_no(rs.getString("document_no"));
+		    	
+			    d.setDocument_no(rs.getString("document_no"));
 		    	d.setDocument_title(rs.getString("document_title"));
 		    	emp.setEmployee_id(rs.getString("employee_id"));
 		    	emp.setName(rs.getString("name"));
@@ -264,7 +263,252 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
+	
+	//(대기)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	@Override
+	public List<Document> selectByCheckOkWait(String employee_id) throws FindException {
 
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("db연동 실패");
+			throw new FindException(e.getMessage());
+		}
+		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
+				"from employee e join ( \r\n" + 
+				"SELECT * FROM (select a.*\r\n" + 
+				"FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+				"FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" + 
+				"WHERE  a.ap_type='대기' AND a.employee_id='DEV001')\r\n" + 
+				"UNION ALL\r\n" + 
+				"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+				"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
+				"WHERE r.ap_type='대기'  AND r.employee_id='DEV001')\r\n" + 
+				"UNION ALL\r\n" + 
+				"(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n" + 
+				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
+				"WHERE ag.ap_type='대기' AND ag.employee_id='DEV001'))a\r\n" + 
+				"JOIN document d ON a.document_no= d.document_no  WHERE document_status='대기')) j on e.employee_id = j.employee_id\r\n" + 
+				"ORDER BY draft_date ASC";
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs= null;
+		List list = new ArrayList<>();
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, employee_id);
+			pstmt.setString(2, employee_id);
+			pstmt.setString(3, employee_id);
+			rs=pstmt.executeQuery();
+		
+		    while(rs.next()) {
+		    	Document d=new Document();
+		    	Employee emp=new Employee();
+		    	DocumentType dt= new DocumentType();
+		    	Approval a = new Approval();
+		    	ApprovalStatus ap = new ApprovalStatus();
+		    	
+			    d.setDocument_no(rs.getString("document_no"));
+		    	d.setDocument_title(rs.getString("document_title"));
+		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	emp.setName(rs.getString("name"));
+		    	d.setEmployee(emp);
+		    	d.setDraft_date(rs.getDate("dt"));
+		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	d.setDocument_type(dt);
+		    	String s=rs.getString("ap_type");
+		    	ap.setApStatus_type(rs.getString("ap_type"));
+		    	a.setAp_type(ap);
+		    	d.setApproval(a);
+		    	
+		  		list.add(d);
+				
+			}
+		    
+		    if(list.size()==0) {
+			throw new FindException("목록이 존재하지 않습니다.");
+		    }
+		   
+			return list;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+
+	}
+	
+	/*
+	 * //(반려)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	 * 
+	 * @Override public List<Document> selectByCheckAllNo(String employee_id) throws
+	 * FindException {
+	 * 
+	 * Connection con = null; try { con = MyConnection.getConnection();
+	 * }catch(SQLException e) { e.printStackTrace(); System.out.println("db연동 실패");
+	 * throw new FindException(e.getMessage()); } String
+	 * sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n"
+	 * + "from employee e join (\r\n" + "SELECT * FROM (select a.*\r\n" +
+	 * "FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" +
+	 * "WHERE a.ap_type='대기' AND a.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" +
+	 * "WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" +
+	 * "WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" +
+	 * "JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id\r\n"
+	 * + "ORDER BY draft_date ASC";
+	 * 
+	 * PreparedStatement pstmt=null; ResultSet rs= null; List list = new
+	 * ArrayList<>(); try {
+	 * 
+	 * pstmt = con.prepareStatement(sql); pstmt.setString(1, employee_id);
+	 * pstmt.setString(2, employee_id); pstmt.setString(3, employee_id);
+	 * rs=pstmt.executeQuery();
+	 * 
+	 * while(rs.next()) { Document d=new Document(); Employee emp=new Employee();
+	 * DocumentType dt= new DocumentType(); Approval a = new Approval();
+	 * ApprovalStatus ap = new ApprovalStatus();
+	 * 
+	 * d.setDocument_no(rs.getString("document_no"));
+	 * d.setDocument_title(rs.getString("document_title"));
+	 * emp.setEmployee_id(rs.getString("employee_id"));
+	 * emp.setName(rs.getString("name")); d.setEmployee(emp);
+	 * d.setDraft_date(rs.getDate("dt"));
+	 * dt.setDocument_type(rs.getString("employee_id")); d.setDocument_type(dt);
+	 * String s=rs.getString("ap_type");
+	 * ap.setApStatus_type(rs.getString("ap_type")); a.setAp_type(ap);
+	 * d.setApproval(a);
+	 * 
+	 * list.add(d);
+	 * 
+	 * }
+	 * 
+	 * if(list.size()==0) { throw new FindException("목록이 존재하지 않습니다."); }
+	 * 
+	 * return list; }catch(SQLException e) { e.printStackTrace(); throw new
+	 * FindException(e.getMessage()); }finally { MyConnection.close(con, pstmt, rs);
+	 * }
+	 * 
+	 * }
+	 * 
+	 * //(대기)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	 * 
+	 * @Override public List<Document> selectByCheckAllNo(String employee_id) throws
+	 * FindException {
+	 * 
+	 * Connection con = null; try { con = MyConnection.getConnection();
+	 * }catch(SQLException e) { e.printStackTrace(); System.out.println("db연동 실패");
+	 * throw new FindException(e.getMessage()); } String
+	 * sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n"
+	 * + "from employee e join (\r\n" + "SELECT * FROM (select a.*\r\n" +
+	 * "FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" +
+	 * "WHERE a.ap_type='대기' AND a.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" +
+	 * "WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" +
+	 * "WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" +
+	 * "JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id\r\n"
+	 * + "ORDER BY draft_date ASC";
+	 * 
+	 * PreparedStatement pstmt=null; ResultSet rs= null; List list = new
+	 * ArrayList<>(); try {
+	 * 
+	 * pstmt = con.prepareStatement(sql); pstmt.setString(1, employee_id);
+	 * pstmt.setString(2, employee_id); pstmt.setString(3, employee_id);
+	 * rs=pstmt.executeQuery();
+	 * 
+	 * while(rs.next()) { Document d=new Document(); Employee emp=new Employee();
+	 * DocumentType dt= new DocumentType(); Approval a = new Approval();
+	 * ApprovalStatus ap = new ApprovalStatus();
+	 * 
+	 * d.setDocument_no(rs.getString("document_no"));
+	 * d.setDocument_title(rs.getString("document_title"));
+	 * emp.setEmployee_id(rs.getString("employee_id"));
+	 * emp.setName(rs.getString("name")); d.setEmployee(emp);
+	 * d.setDraft_date(rs.getDate("dt"));
+	 * dt.setDocument_type(rs.getString("employee_id")); d.setDocument_type(dt);
+	 * String s=rs.getString("ap_type");
+	 * ap.setApStatus_type(rs.getString("ap_type")); a.setAp_type(ap);
+	 * d.setApproval(a);
+	 * 
+	 * list.add(d);
+	 * 
+	 * }
+	 * 
+	 * if(list.size()==0) { throw new FindException("목록이 존재하지 않습니다."); }
+	 * 
+	 * return list; }catch(SQLException e) { e.printStackTrace(); throw new
+	 * FindException(e.getMessage()); }finally { MyConnection.close(con, pstmt, rs);
+	 * }
+	 * 
+	 * }
+	 * 
+	 * 
+	 * //(대기)사용자는 확인or미확인 문서를 선택해서 볼 수 있다.
+	 * 
+	 * 
+	 * //(대기/승인/반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다.
+	 * 
+	 * @Override public List<Document> selectByCheckStatus(String employee_id,String
+	 * document_status,String check) throws FindException { Connection con = null;
+	 * try { con = MyConnection.getConnection(); }catch(SQLException e) {
+	 * e.printStackTrace(); System.out.println("db연동 실패"); throw new
+	 * FindException(e.getMessage()); } String
+	 * sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n"
+	 * + "from employee e join (\r\n" + "SELECT * FROM (select a.*\r\n" +
+	 * "FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM approval a JOIN document d ON a.document_no=d.document_no\r\n" +
+	 * "WHERE  a.ap_type='대기' AND a.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" +
+	 * "WHERE r.ap_type='대기' AND r.employee_id=?)\r\n" + "UNION ALL\r\n" +
+	 * "(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type\r\n"
+	 * + "FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" +
+	 * "WHERE ag.ap_type='대기' AND ag.employee_id=?))a\r\n" +
+	 * "JOIN document d ON a.document_no= d.document_no  WHERE document_status= 대기)) j on e.employee_id = j.employee_id\r\n"
+	 * + "ORDER BY draft_date ASC";
+	 * 
+	 * 
+	 * PreparedStatement pstmt=null; ResultSet rs= null; List list = new
+	 * ArrayList<>();
+	 * 
+	 * try { pstmt = con.prepareStatement(sql); pstmt.setString(1, employee_id);
+	 * pstmt.setString(2, employee_id); pstmt.setString(3, employee_id);
+	 * rs=pstmt.executeQuery();
+	 * 
+	 * while(rs.next()) { Document d=new Document(); Employee emp=new Employee();
+	 * DocumentType dt= new DocumentType(); Approval a = new Approval();
+	 * ApprovalStatus ap = new ApprovalStatus();
+	 * d.setDocument_no(rs.getString("document_no"));
+	 * d.setDocument_title(rs.getString("document_title"));
+	 * emp.setEmployee_id(rs.getString("employee_id"));
+	 * emp.setName(rs.getString("name")); d.setEmployee(emp);
+	 * d.setDraft_date(rs.getDate("dt"));
+	 * dt.setDocument_type(rs.getString("employee_id")); d.setDocument_type(dt);
+	 * String s=rs.getString("ap_type");
+	 * ap.setApStatus_type(rs.getString("ap_type")); a.setAp_type(ap);
+	 * d.setApproval(a);
+	 * 
+	 * list.add(d);
+	 * 
+	 * }
+	 * 
+	 * if(list.size()==0) { throw new FindException("목록이 존재하지 않습니다."); }
+	 * 
+	 * return list; }catch(SQLException e) { e.printStackTrace(); throw new
+	 * FindException(e.getMessage()); }finally { MyConnection.close(con, pstmt, rs);
+	 * } }
+	 */
 
 
 
@@ -283,7 +527,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 		//? : 사번,문서번호 x3 = 6
 		String sql= 
-				"SELECT e.name,a,j.ap_step\r\n" + 
+				"SELECT e.employee_id,a,j.ap_step\r\n" + 
 				"from employee e join ( \r\n" + 
 				"SELECT * FROM (select a.*\r\n" + 
 				"FROM ((SELECT a.employee_id,a.document_no,'결재' a,a.ap_step\r\n" + 
@@ -294,7 +538,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 				"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
 				"WHERE r.employee_id=? AND r.document_no=?)\r\n" + 
 				"UNION ALL\r\n" + 
-				"(SELECT ag.employee_id,ag.document_no,'승인' a,-1\r\n" + 
+				"(SELECT ag.employee_id,ag.document_no,'합의' a,-1\r\n" + 
 				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no\r\n" + 
 				"WHERE ag.employee_id=? AND ag.document_no=?))a\r\n" + 
 				"JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id";
@@ -313,7 +557,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			rs=pstmt.executeQuery();
 			
 		    if(rs.next()) {		  
-		    	list.add(0,rs.getString("name"));
+		    	list.add(0,rs.getString("employee_id"));
 				list.add(1,rs.getString("a"));
 				list.add(2,rs.getString("ap_step"));
 			}
@@ -689,7 +933,57 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
+	
+	@Override
+	public List<Approval> selectByComments(String document_no) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("db연동 실패");
+			throw new FindException(e.getMessage());
+		}
 
+		String sql="";
+		sql+="select a.* from(\r\n" + 
+				"(select employee_id,ap_date,ap_comment from approval where document_no=? and ap_comment is not null) \r\n" + 
+				"union all \r\n" + 
+				"(select employee_id,ap_date,ap_comment from agreement where document_no=? and ap_comment is not null))a ORDER BY ap_date ASC";
+		PreparedStatement pstmt=null;
+		ResultSet rs= null;
+		List list = new ArrayList<>();
+		try {
+			int cnt=0;
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, document_no);
+			pstmt.setString(2, document_no);
+		
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Employee e = new Employee();
+		    	Approval a = new Approval();
+		    	e.setEmployee_id(rs.getString("employee_id"));
+		    	a.setEmployee_id(e);
+		    	a.setAp_ap_date(rs.getDate("ap_date"));
+		    	a.setAp_ap_comment(rs.getString("ap_comment"));
+	
+		  		list.add(a);
+		  		
+			}
+		    
+		    if(list.size()==0) {
+			throw new FindException("검색 목록이 존재하지 않습니다.");
+		    }
+		   
+			return list;			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
 	public static void main(String[] args) {
 		ConfirmDocsDAOOracle dao; 
 
@@ -801,4 +1095,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 	}
 
 
-}
+	}
+
+
+

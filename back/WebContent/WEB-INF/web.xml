@@ -9,11 +9,11 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <context-param>
-    <param-name>env</param-name>
-    <param-value>/WEB-INF/classes.prop</param-value>
-  </context-param>
-  <servlet>
+	  <context-param>
+	    <param-name>env</param-name>
+	    <param-value>/WEB-INF/classes.prop</param-value>
+	  </context-param>
+	 <servlet>
     <description></description>
     <display-name>ShowApDocsAllServlet</display-name>
     <servlet-name>ShowApDocsAllServlet</servlet-name>
@@ -35,43 +35,74 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowSideBarCntAll</display-name>
-    <servlet-name>ShowSideBarCntAll</servlet-name>
-    <servlet-class>com.group.approval.control.ShowSideBarCntAll</servlet-class>
+    <display-name>ShowSideBarCntAllServlet</display-name>
+    <servlet-name>ShowSideBarCntAllServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowSideBarCntAllServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ShowSideBarCntAll</servlet-name>
+    <servlet-name>ShowSideBarCntAllServlet</servlet-name>
     <url-pattern>/sidebarcntall</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowApDocsDetail</display-name>
-    <servlet-name>ShowApDocsDetail</servlet-name>
-    <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class>
+    <display-name>ShowApDocsDetailServlet</display-name>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsDetailServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ShowApDocsDetail</servlet-name>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
     <url-pattern>/showdocsdetail</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>CheckUserApDocsDetail</display-name>
-    <servlet-name>CheckUserApDocsDetail</servlet-name>
-    <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class>
+    <display-name>CheckUserApDocsDetailServlet</display-name>
+    <servlet-name>CheckUserApDocsDetailServlet</servlet-name>
+    <servlet-class>com.group.approval.control.CheckUserApDocsDetailServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CheckUserApDocsDetail</servlet-name>
+    <servlet-name>CheckUserApDocsDetailServlet</servlet-name>
     <url-pattern>/checkuser</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowUserSearchDocs</display-name>
-    <servlet-name>ShowUserSearchDocs</servlet-name>
-    <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class>
+    <display-name>ShowUserSearchDocsServlet</display-name>
+    <servlet-name>ShowUserSearchDocsServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowUserSearchDocsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ShowUserSearchDocs</servlet-name>
+    <servlet-name>ShowUserSearchDocsServlet</servlet-name>
     <url-pattern>/usersearchdocs</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SelectAllPickStatusServlet</display-name>
+    <servlet-name>SelectAllPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectAllPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectAllPickStatusServlet</servlet-name>
+    <url-pattern>/selectallpick</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SelectWaitPickStatusServlet</display-name>
+    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectWaitPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
+    <url-pattern>/selectwaitpick</url-pattern>
+  </servlet-mapping>
 
+
+    <servlet>
+    <description></description>
+    <display-name>SelectByCommentsServlet</display-name>
+    <servlet-name>SelectByCommentsServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectByCommentsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectByCommentsServlet</servlet-name>
+    <url-pattern>/selectbycomments</url-pattern>
+  </servlet-mapping>
 </web-app>
