@@ -302,58 +302,25 @@
               </tbody>
             </table>
           </div>
-          <div class="card" style="margin-top: 70px">
+          <div class="card" >
             <div class="card-header">
               <h4 class="mb-0 font-weight-bolder" style="color: rebeccapurple">
                 의견
               </h4>
             </div>
-            <div id="apCommentGroup" class="card-body h-100">
-              <div class="d-flex align-items-start">
-                <div class="flex-grow-1">
-                  <small class="float-right text-navy">30m ago</small>
-                  <strong id="apCommentEmpName " style="font-size: 1.3em">
-                    티파니
-                  </strong>
-                  <small id="apCommentDate" class="text-muted"
-                    >2021-06-30 18:27</small
-                  >
-                  <br />
-                  <div
-                    id="apCommentContent"
-                    class="border text-sm text-muted p-2 mt-1"
-                  >
-                    좋습니다.
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="d-flex align-items-start">
-                <div class="flex-grow-1">
-                  <small class="float-right text-navy">30m ago</small>
-                  <strong style="font-size: 1.3em"> 티파니 </strong>
-                  <small class="text-muted">2021-06-30 18:27</small>
-
-                  <div class="border text-sm text-muted p-2 mt-1">
-                    좋습니다.
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="d-flex align-items-start">
-                <div class="flex-grow-1">
-                  <small class="float-right text-navy">30m ago</small>
-                  <strong style="font-size: 1.3em"> 티파니 </strong>
-                  <small class="text-muted">2021-06-30 18:27</small>
-
-                  <div class="border text-sm text-muted p-2 mt-1">
-                    좋습니다.
-                  </div>
-                </div>
-              </div>
-              <br />
-              <br />
-              <a href="#" class="btn ap-btn-purple btn-block">더보기</a>
+            <div class="card-body ">
+              <table id="apDocumentTable" class="table mb-0 text-center">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20%">사원번호</th>
+                    <th scope="col">코멘트 내용</th>
+                    <th scope="col" style="width: 20%">날짜</th>
+                  </tr>
+                </thead>
+                <tbody id="apCommentTbody">
+                 
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -427,31 +394,3 @@
     <!--modal 끝-->
   </body>
 </html>
-
-<!-- <script>
-  var modal = document.getElementById("modalApprovalComment");
-  var openBtn = document.getElementById("apCommentConfirmBtn");
-  var confirmBtn = modal.querySelector("button#apCommentConfirmBtn");
-
-  console.log(confirmBtn);
-  var cancelBtn = modal.querySelector("button#apCommentCancelBtn");
-
-  const openModal = () => {
-    modal.classList.remove("hidden");
-    console.log("열림");
-  };
-
-  const cancelModal = () => {
-    modal.classList.add("hidden");
-    console.log("닫힘");
-  };
-
-  const confirmModal = () => {
-    window.alert("확인완료 되었습니다.");
-    console.log("ol");
-  };
-
-  openBtn.addEventListener("click", openModal);
-  confirmBtn.addEventListener("click", confirmModal);
-  cancelBtn.addEventListener("click", cancelModal);
-</script> -->
