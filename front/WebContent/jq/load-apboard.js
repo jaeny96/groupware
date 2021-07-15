@@ -1,7 +1,7 @@
 //board 페이지에 적용
 $(function () {
- // 이클립스에서 받아오는 url
- var backUrlApDocsList = "/back/showapdocsall";
+  // 이클립스에서 받아오는 url
+  var backUrlApDocsList = "/back/showapdocsall";
 
   //
   //테이블 객체
@@ -135,7 +135,7 @@ $(function () {
     var tdStatus = document.createElement("td");
     tdStatus.innerHTML = apBdStatus[i];
     var tdCheck = document.createElement("td");
-     if (apBdCheck[i] == "대기"||apBdCheck[i]==null) {
+    if (apBdCheck[i] == "대기" || apBdCheck[i] == null) {
       console.log(tdCheck[i]);
       tdCheck.innerHTML = "미확인";
     } else if (apBdCheck[i] != "대기") {
@@ -153,41 +153,87 @@ $(function () {
     tr.appendChild(tdCheck);
     tBodyObject.appendChild(tr);
   }
-  //2. 확인/미확인 선택하면 해당 정보만 들고오는 함수
-  function dropDownStatusHandler(e) {
-    console.log(e);
-
+	//확인 미확인 하는 변수 
+  var nowStatus = "";
+  var btnGroupObj = document.getElementById("apBtnGroup");
+  var $categoryObj = $("div.categoryDropdown");
+ console.log(btnGroupObj);
+ console.log($categoryObj);
+ 
+ //확인 미확인값 가지고 오는 함수
+  var apChangeStatusBtnObj = document.getElementById("apDropDownStatusGroup");
+  function statusHandler(e) {
+	console.log(e.target);
+	console.log(e.target.id);
     if (e.target.id == "apDocumentStatusOk") {
-      console.log(e);
-
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        if (apBdCheck[i] === "확인") {
-          createApBdElement(i);
-        }
-      }
-    }
-
-    if (e.target.id == "apDocumentStatusNo") {
-      console.log(e);
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        if (apBdCheck[i] === "미확인") {
-          createApBdElement(i);
-        }
-      }
-    }
-
-    if (e.target.id == "apDocumentStatusAll") {
-      console.log(e);
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        createApBdElement(i);
-      }
+      apChangeStatusBtnObj.innerHTML = "확인";
+      nowStatus = "확인";
+	 console.log(nowStatus);
+	  bdSearchFromSubmitHandler(e);
+    } if (e.target.id == "apDocumentStatusNo") {
+      apChangeStatusBtnObj.innerHTML  = "미확인";
+      nowStatus = "미확인";
+	  bdSearchFromSubmitHandler(e);
+	 console.log(nowStatus);
+    } if (e.target.id == "apDocumentStatusAll") {
+      apChangeStatusBtnObj.innerHTML  = "모든문서";
+      nowStatus = "모든문서";
+	  bdSearchFromSubmitHandler(e);
+	 console.log(nowStatus);
     }
   }
+  btnGroupObj.addEventListener("click",function(){
+	$categoryObj.toggle();
+ });
+	$categoryObj.click(statusHandler);
 
+	//확인 미확인 하는 것 
+  function bdSearchFromSubmitHandler(e) {
+    if (nowStatus == "모든문서") {
+   $('div.wrapper>nav.sidebar>div.sidebar-content>a.sidebar-brand>ul.simplebar-nav>li.sidebar-item>ul.sidebar-dropdown>li.sidebar-item>a[href="approval-detail.html"]'
+     ).trigger("click");    //나중에 전체 문서를 불러오기 
+    } else {
+      $.ajax({
+        url: "/back/selectallpick",
+        method: "get",
+        data: {
+          id: "DEV001",
+          check: nowStatus,
+        },
+        success: function (responseData) { 
+          emptyBdElement(tBodyObject);
+          createTbodyElement();
+          $(responseData).each(function (i, e) {
+            apBdNo[i] = e.document_no;
+            apBdTitle[i] = e.document_title;
+            apBdEmp[i] = e.employee.employee_id;
+            apBdEmpName[i] = e.employee.name;
+            apBdDate[i] = e.draft_date;
+            apBdStatus[i] = e.document_type.document_type;
+            apBdCheck[i] = e.approval.ap_type.apStatus_type;
+			
+          });
 
+          for (var i = 0; i < apBdTitle.length; i++) {
+            createApBdElement(i);
+          }
+          $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
+
+          console.log($titleObj);
+
+          $titleObj.click(function (e) {
+            localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
+            $(
+              'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="approval-detail.html"]'
+            ).trigger("click");
+          });
+        },
+      });
+    }
+    e.preventDefault();
+  }
+
+ 
   //첫 화면 조회하는 ajax
   $.ajax({
     url: backUrlApDocsList,
@@ -224,20 +270,5 @@ $(function () {
     },
   });
 
-  //dropdown동작 관련
-  function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-  window.onclick = function (event) {
-    if (!event.target.matches(".dropbtn")) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains("show")) {
-          openDropdown.classList.remove("show");
-        }
-      }
-    }
-  };
+
 });

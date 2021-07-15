@@ -29,13 +29,15 @@ function createApCntElement() {
   }
 }
 
-
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
 
 $.ajax({
   url: backUrlApDocsList,
   method: "get",
   data: {
-    id: "DEV001",
+    id: loginInfoIdObj.innerText,
   },
   success: function (responseData) {
     $(responseData).each(function (i, e) {

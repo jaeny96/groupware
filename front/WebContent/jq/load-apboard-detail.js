@@ -2,7 +2,7 @@ $(function () {
   // 이클립스에서 받아오는 url : 맨 위에 있음
   var backUrlApDocsList = "/back/showdocsdetail";
   var bacKUrlCheck = "/back/checkuser";
-	
+
   //구성요소 받아오기
   var tdDetailType = document.getElementById("apDocumentDetailType");
   var tdDetailNo = document.getElementById("apDocumentDetailNo");
@@ -196,8 +196,7 @@ $(function () {
 
     //참조
     tdReName.innerText = apDocsReName;
-    if (apDocsReType == "대기"||tdReName==null) {
-   
+    if (apDocsReType == "대기" || tdReName == null) {
     } else if (apDocsReType != "대기") {
       spanTag.style.color = "#6A0888";
       tdReName.appendChild(spanTag);
@@ -224,15 +223,14 @@ $(function () {
     window.alert("확인완료 되었습니다.");
     console.log("ol");
   };
-  
-  buttonTag.addEventListener("click", openModal); 
-  buttonTag1.addEventListener("click", openModal); 
-  buttonTag2.addEventListener("click", openModal); 
+
+  buttonTag.addEventListener("click", openModal);
+  buttonTag1.addEventListener("click", openModal);
+  buttonTag2.addEventListener("click", openModal);
   buttonTag3.addEventListener("click", openModal);
   agButtonTag.addEventListener("click", openModal); //버튼을 띄워줄려면, 만든건 직접적으로 클릭 이벤트
   confirmBtn.addEventListener("click", confirmModal);
   cancelBtn.addEventListener("click", cancelModal);
-
 
   //문서 상세정보 가지고오는 ajax
   $.ajax({
@@ -269,12 +267,11 @@ $(function () {
 
         apDocsReName[i] = e.reference.employee_id.name;
         apDocsReType[i] = e.reference.re_ap_type.apStatus_type;
-
       });
 
-	for(var i=0; i<apDocsType.length; i++){
-		console.log(apDocsType[i]);
-	}
+      for (var i = 0; i < apDocsType.length; i++) {
+        console.log(apDocsType[i]);
+      }
 
       for (var i = 0; i < apDocsTitle.length; i++) {
         createApBdElement(i);
@@ -283,23 +280,76 @@ $(function () {
   });
 
 
-  $.ajax({
+/*  $.ajax({
     url: bacKUrlCheck,
     method: "get",
     data: {
-      loginId: "IFR001",
-      docsNo: "CR-회람-20210621-0001",
+      id: "DEV001",
+      docsNo: tmpDocsBdNo,
     },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
-        myCheckName[i] = e(0);
-
-        console.log(myCehckName);
+       
+		myCheckArr[i]=
+        console.log(e);
       });
    
-      for (var i = 0; i < apDocsTitle.length; i++) {
-        createApBdElement(i);
+   
+    },
+  });*/
+
+
+//코멘트 관련 
+  var commentId = new Array();
+  var commentDate = new Array();
+  var commentCmt = new Array();
+
+  var tableObj = document.getElementById("apDocumentTable");
+  var commentObj = document.getElementById("apCommentTbody");
+  
+  function createCommentElement(i){
+
+	var tr =document.createElement("tr");
+	var td1 = document.createElement("td");
+	var td2 = document.createElement("td");
+	var td3 = document.createElement("td");
+	
+
+	td1.innerHTML = commentId[i];
+		console.log(td1);
+  	td2.innerHTML = commentDate[i];
+  	td3.innerHTML = commentCmt[i];
+   
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	
+	commentObj.appendChild(tr);	
+ 
+  }
+
+  $.ajax({
+    url: "/back/selectbycomments",
+    method: "get",
+    data: {
+      documentNo: tmpDocsBdNo,
+    },
+
+    success: function (responseData) {
+		console.log(commentObj);
+      console.log(responseData);
+      $(responseData).each(function (i, e) {
+        commentId[i] = e.employee_id.employee_id;
+        console.log(commentId);
+        commentDate[i] = e.ap_ap_date;
+        console.log(commentDate);
+        commentCmt[i] = e.ap_ap_comment;
+      });
+		console.log(commentId.length);
+      for (var i=0; i < commentId.length; i++) {
+        createCommentElement(i);
       }
+
     },
   });
 });
