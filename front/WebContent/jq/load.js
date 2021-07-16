@@ -1,5 +1,9 @@
 //main-form 에서 적용할 내용
 $(function () {
+  console.log("load.js document ready");
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("load.js DOMContentLoaded 로드!");
+  });
   var backurlCheckLogined = "/back/checkedlogined";
   var $content = $("div.wrapper>div.main>main.content");
   $.ajax({
@@ -304,6 +308,22 @@ $(function () {
             case "board.html":
             case "board-detail.html":
             case "schedule.html":
+              $(this).closest("li").attr("class", "sidebar-item active");
+              $content.load(href, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                  alert("Error: " + xhr.status + ": " + xhr.statusText);
+              });
+              // $.ajax({
+              //   url: href,
+              //   method: "get",
+              //   success: function (responseData) {
+              //     $content.html(responseData);
+              //   },
+              //   error: function (xhr) {
+              //     alert(xhr.status);
+              //   },
+              // });
+              break;
             // case "post.html":
             // case "post-detail-spending.html":
             // case "post-detail-circular.html":
@@ -423,14 +443,15 @@ $(function () {
           }
           return false;
         });
-      } else {
-        alert("접근하기 위해 로그인이 필요합니다.");
-        location.href = "http://localhost:8888/front";
       }
+      // else {
+      //   alert("접근하기 위해 로그인이 필요합니다.");
+      //   location.href = "http://localhost:8888/front";
+      // }
     },
-    error: function (request, status, error) {
-      alert("접근하기 위해 로그인이 필요합니다.");
-      location.href = "http://localhost:8888/front";
-    },
+    // error: function (request, status, error) {
+    //   alert("접근하기 위해 로그인이 필요합니다.");
+    //   location.href = "http://localhost:8888/front";
+    // },
   });
 });
