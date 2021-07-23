@@ -42,14 +42,13 @@ $(function () {
           var events = [];
           if (result != null) {
             $.each(result, function (i, e) {
-              var type = e.skd_share; //~트림 처리~
+              var type = e.skd_share;
               var enddate = e.skd_end_date;
               var startdate = moment(e.skd_start_date).format(
                 "YYYY-MM-DD hh:mm"
               );
               var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
-              // console.log("일정 로드되자마자 " + type);
-              if (type == "t") {
+              if (type == "t ") {
                 events.push({
                   title: e.skd_title,
                   start: startdate,
@@ -59,7 +58,7 @@ $(function () {
                   extendedProps: { content: e.skd_content },
                   color: "#28a745",
                 });
-              } else if (type == "p") {
+              } else if (type == "p ") {
                 events.push({
                   title: e.skd_title,
                   start: startdate,
@@ -255,14 +254,14 @@ $(function () {
               var events = [];
               if (result != null) {
                 $.each(result, function (i, e) {
-                  var type = e.skd_share; //~트림 처리~
+                  var type = e.skd_share;
                   var startdate = moment(e.skd_start_date).format(
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(e.skd_end_date).format(
                     "YYYY-MM-DD hh:mm"
                   );
-                  if (type == "t") {
+                  if (type == "t ") {
                     events.push({
                       title: e.skd_title,
                       start: startdate,
@@ -270,7 +269,7 @@ $(function () {
                       resource: type,
                       color: "#28a745",
                     });
-                  } else if (type == "p") {
+                  } else if (type == "p ") {
                     events.push({
                       title: e.skd_title,
                       start: startdate,
@@ -308,7 +307,6 @@ $(function () {
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
-                  console.log(e.skd_title);
                   events.push({
                     title: e.skd_title,
                     start: startdate,

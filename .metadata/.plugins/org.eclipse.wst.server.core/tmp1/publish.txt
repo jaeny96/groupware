@@ -1,4 +1,4 @@
 #Tomcat publish data
-#Fri Jul 16 10:37:11 KST 2021
+#Fri Jul 23 11:16:29 KST 2021
 org.eclipse.jst.jee.server\:back=C\:\\Users\\JISU\\Desktop\\software\\apache-tomcat-9.0.46-windows-x64\\apache-tomcat-9.0.46\\wtpwebapps\\back
 org.eclipse.jst.jee.server\:front=C\:\\Users\\JISU\\Desktop\\software\\apache-tomcat-9.0.46-windows-x64\\apache-tomcat-9.0.46\\wtpwebapps\\front
