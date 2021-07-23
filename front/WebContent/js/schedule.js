@@ -37,18 +37,17 @@ $(function () {
         url: "/back/showskddetail",
         dataType: "json",
         data: { id: id, dept: dept },
-        async: false,
         success: function (result) {
           var events = [];
           if (result != null) {
             $.each(result, function (i, e) {
-              var type = e.skd_share;
+              var type = $.trim(e.skd_share);
               var enddate = e.skd_end_date;
               var startdate = moment(e.skd_start_date).format(
                 "YYYY-MM-DD hh:mm"
               );
               var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
-              if (type == "t ") {
+              if (type == "t") {
                 events.push({
                   title: e.skd_title,
                   start: startdate,
@@ -58,7 +57,7 @@ $(function () {
                   extendedProps: { content: e.skd_content },
                   color: "#28a745",
                 });
-              } else if (type == "p ") {
+              } else if (type == "p") {
                 events.push({
                   title: e.skd_title,
                   start: startdate,
@@ -248,20 +247,20 @@ $(function () {
             url: "/back/showskddetail",
             dataType: "json",
             data: { id: id, dept: dept },
-            async: false,
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
               if (result != null) {
                 $.each(result, function (i, e) {
-                  var type = e.skd_share;
+                  // var type = e.skd_share;
+                  var type = $.trim(e.skd_share);
                   var startdate = moment(e.skd_start_date).format(
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(e.skd_end_date).format(
                     "YYYY-MM-DD hh:mm"
                   );
-                  if (type == "t ") {
+                  if (type == "t") {
                     events.push({
                       title: e.skd_title,
                       start: startdate,
@@ -269,7 +268,7 @@ $(function () {
                       resource: type,
                       color: "#28a745",
                     });
-                  } else if (type == "p ") {
+                  } else if (type == "p") {
                     events.push({
                       title: e.skd_title,
                       start: startdate,
@@ -296,7 +295,6 @@ $(function () {
             url: "/back/showteamskd",
             dataType: "json",
             data: { dept_id: dept },
-            async: false,
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
@@ -329,7 +327,6 @@ $(function () {
             url: "/back/showpersonalskd",
             dataType: "json",
             data: { skd_id: id },
-            async: false,
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
@@ -393,20 +390,44 @@ document.getElementById("start_time").value = new Date(
 document.getElementById("end_time").value = new Date(new Date()).toTimeString();
 
 //기간으로 검색하기, 제목내용으로 검색하기 창 설정
-var skdSearchObj = document.getElementById("skdSearch");
+//var skdSearchObj = document.getElementById("skdSearch");
 //검색 드롭다운메뉴
-var categoryObj = document.querySelector("div.dropdown-menu");
-function categoryHandler(e) {
-  if (e.target.id == "skdCategoryPeriod") {
+//var categoryObj = document.querySelector("div.dropdown-menu");
+//기간으로 검색하기, 제목내용으로 검색하기 창 설정
+var $searchBtnSkdObj = $("button#searchBtnSKD");
+//검색 드롭다운메뉴
+var $categoryObj = $("div#skdSearchDropDown");
+
+//기간으로검색 id
+var $searchPeriod = $("#skdCategoryPeriod");
+//제목으로 검색 id
+var $searchTitle = $("#skdCategoryTitle");
+
+function categoryHandler() {
+  // if (e.target.id == "skdCategoryPeriod") {
+  //   createModal("skdSearchPeriod");
+  // } else if (e.target.id == "skdCategoryTitle") {
+  //   console.log("내용검색" + e.target.id);
+  //   createModal("skdSearchTitle");
+  // }
+  $searchPeriod.on("click", function () {
     createModal("skdSearchPeriod");
-  } else if (e.target.id == "skdCategoryTitle") {
-    console.log("내용검색" + e.target.id);
+  });
+  $searchTitle.on("click", function () {
     createModal("skdSearchTitle");
-  }
+  });
 }
+
+$searchBtnSkdObj.click(function () {
+  $categoryObj.slideToggle(300);
+});
+
 function initSearchModal() {
-  categoryObj.addEventListener("click", categoryHandler);
+  $categoryObj.click(function () {
+    categoryHandler();
+  });
 }
+
 initSearchModal();
 ////////////////////////////////////////////일정검색 드롭다운메뉴
 //modal 만드는 함수
