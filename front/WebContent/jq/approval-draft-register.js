@@ -279,35 +279,24 @@ $(function () {
     ];
     relineEmpId = apReferenceStepName.getAttribute("id");
     aglineEmpId = apAgreementStepName.getAttribute("id");
-    $.ajax({
-      url: backurlApAddDocs,
-      method: "post",
-      data: {
-        addApDocsNo: "지출 003",
-        addApDocsType: apDocsTypeObj.innerHTML,
-        addApDocsTitle: apDocsTitleObj.value,
-        addApDocsContent: apDocsContentObj.innerText,
-        addApWriterId: loginInfoIdObj.innerText,
-        addApLineEmpId: apLineEmpId,
-        addApLineStep: apLineId,
-        addAgLineEmpId: aglineEmpId,
-        addReLineEmpId: relineEmpId,
-      },
-      success: function () {},
-    });
-  }
 
-  function docThird() {
-    console.log(aglineEmpId);
-    $.ajax({
-      url: backurlAddAgLine,
-      method: "post",
-      data: {
-        addApDocsNo: "BC-연락-20210622-0001",
-        addAgLineEmpId: aglineEmpId,
-      },
-      success: function () {},
-    });
+    console.log($("select#documentTypeSelect option:selected").html());
+    // $.ajax({
+    //   url: backurlApAddDocs,
+    //   method: "post",
+    //   data: {
+    //     addApDocsNo: "지출 004",
+    //     addApDocsType: apDocsTypeObj.innerHTML,
+    //     addApDocsTitle: apDocsTitleObj.value,
+    //     addApDocsContent: apDocsContentObj.innerText,
+    //     addApWriterId: loginInfoIdObj.innerText,
+    //     addApLineEmpId: apLineEmpId,
+    //     addApLineStep: apLineId,
+    //     addAgLineEmpId: aglineEmpId,
+    //     addReLineEmpId: relineEmpId,
+    //   },
+    //   success: function () {},
+    // });
   }
 
   function addApFormSubmitHandler(e) {

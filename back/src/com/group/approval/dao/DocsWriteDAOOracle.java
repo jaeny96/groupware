@@ -309,6 +309,36 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		}
 		return empList;
 	}
+	
+	@Override
+	public int chkMaxNum(String document_type) throws FindException {
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}
+		String selectChkMaxNumSQL = "SELECT MAX(SUBSTR(document_no,-4)) FROM document WHERE SUBSTR(document_no,4,2)=?";
+//		System.out.println(selectChkMaxNumSQL);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int maxNum = 0;
+		try {
+			pstmt = con.prepareStatement(selectChkMaxNumSQL);
+			pstmt.setString(1, document_type);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				maxNum = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return maxNum;
+	}
 
 	public static void main(String[] args) throws Exception {
 //		//1.기안하기test
@@ -360,6 +390,12 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 //		} catch (Exception e) {
 //			System.out.println(e.getMessage());
 //		}
+		
+//		String document_type= "지출";
+//		DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
+//		int maxCnt = dao.chkMaxNum(document_type);
+//		System.out.println(maxCnt);
 
 	}
+
 }

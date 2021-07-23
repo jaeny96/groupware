@@ -19,16 +19,16 @@ import com.group.employee.dto.Employee;
 
 public class DocsWriteService {
 	private DocsWriteDAO dao;
-	private static DocsWriteService service;
-//	private static DocsWriteService service=new DocsWriteService();
+//	private static DocsWriteService service;
+	private static DocsWriteService service=new DocsWriteService();
 //	private static String envProp="classes.prop";	//back에서만 테스트용
 	public static String envProp;	//front테스트용
 
 	private DocsWriteService() {
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream(envProp));
-//			env.load(new FileInputStream("classes.prop"));
+//			env.load(new FileInputStream(envProp));
+			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("DocsWriteDAO");
 			System.out.println(className);
 			Class c = Class.forName(className);
@@ -112,9 +112,12 @@ public class DocsWriteService {
 		return dao.searchApLineStaff();
 	}
 	
+	public int chkMaxNum(String document_type) throws FindException{
+		return dao.chkMaxNum(document_type);
+	}
 	
 	public static void main(String[] args) {
-//		   DocsWriteService service = DocsWriteService.getInstance();
+		   DocsWriteService service = DocsWriteService.getInstance();
 //		      try {
 //				List<Employee> empList = service.staff("경영지원실");
 //				for(Employee e : empList) {
@@ -196,6 +199,13 @@ public class DocsWriteService {
 //		   try {
 //			service.completeReRegister(re);
 //		} catch (AddException e) {
+//			e.printStackTrace();
+//		}
+//		   String document_type="지출";
+//		   try {
+//			int cnt = service.chkMaxNum(document_type);
+//			System.out.println(cnt);
+//		} catch (FindException e) {
 //			e.printStackTrace();
 //		}
 	}

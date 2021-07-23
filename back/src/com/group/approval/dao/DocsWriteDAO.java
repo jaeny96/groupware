@@ -14,6 +14,13 @@ import com.group.employee.dto.Employee;
 
 public interface DocsWriteDAO {
 	/**
+	 * 해당 문서 종류의 최고 숫자를 출력한다
+	 * @param document_type 문서 종류
+	 * @return 해당 문서 종류의 최고 숫자
+	 * @throws FindException
+	 */
+	int chkMaxNum(String document_type) throws FindException;
+	/**
 	 * 1-1. 사용자는 작성한 문서를 기안한다
 	 * @param d
 	 * @throws AddException

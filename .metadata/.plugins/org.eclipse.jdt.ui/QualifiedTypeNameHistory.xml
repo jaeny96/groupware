@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="com.group.main.dao.MainDAOOracle"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
@@ -57,7 +56,8 @@
 <fullyQualifiedTypeName name="com.group.exception.UpdateException"/>
 <fullyQualifiedTypeName name="com.group.approval.dto.Approval"/>
 <fullyQualifiedTypeName name="com.group.exception.SearchException"/>
-<fullyQualifiedTypeName name="com.group.exception.FindException"/>
 <fullyQualifiedTypeName name="com.group.approval.exception.SearchException"/>
 <fullyQualifiedTypeName name="com.group.approval.exception.FindException"/>
+<fullyQualifiedTypeName name="com.group.approval.dao.DocsWriteDAOOracle"/>
+<fullyQualifiedTypeName name="com.group.exception.FindException"/>
 </qualifiedTypeNameHistroy>
