@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,7 +19,7 @@
 
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- <script src="jq/load.js"></script> -->
+    <script src="jq/load.js"></script>
     <title>GroupWare Program</title>
     <script src="js/summernote/summernote-lite.js"></script>
     <script src="js/summernote/lang/summernote-ko-KR.js"></script>
@@ -28,6 +28,65 @@
       rel="stylesheet"
     />
     <!-- <script src="jq/summernote.js"></script> -->
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.18);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .hidden {
+        display: none;
+      }
+
+      .modal_content {
+        width: 300px;
+      }
+
+      .modal ul {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .modal ul li {
+        height: 40px;
+      }
+
+      .modal form li > span {
+        float: left;
+        width: 100px;
+      }
+
+      .modal form li > div {
+        float: left;
+        width: 300px;
+      }
+
+      .modal > #content_box {
+        width: 300px;
+      }
+
+      .savediv {
+        clear: both;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .buttonplace {
+        float: left;
+      }
+    </style>
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/sidebar-count.css" rel="stylesheet" />
   </head>
@@ -37,16 +96,21 @@
       <nav id="sidebar" class="sidebar">
         <div class="sidebar-content js-simplebar">
           <a class="sidebar-brand text-md-center mt-2" href="main.html">
-            <img src="img/icons/logo.png" />
+            <img src="img/icons/logo.png" style="width: 200px" />
           </a>
 
           <ul class="sidebar-nav">
             <li class="sidebar-header"></li>
-
             <li class="sidebar-item">
-              <a class="sidebar-link" href="main.html">
-                <i class="align-middle" data-feather="sliders"></i>
-                <span class="align-middle">메인페이지</span>
+              <a class="sidebar-link" href="mypage.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">나의 정보</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="employee.html">
+                <i class="align-middle" data-feather="user"></i>
+                <span class="align-middle">임직원 정보</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -61,12 +125,6 @@
                 <span class="align-middle">게시글 상세</span>
               </a>
             </li>
-            <li class="sidebar-item" >
-              <a class="sidebar-link" href="approval-detail.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span class="align-middle">전자결재 상세</span>
-              </a>
-            </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="schedule.html">
                 <i class="align-middle" data-feather="coffee"></i>
@@ -74,77 +132,111 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a
-                data-target="#ui"
-                data-toggle="collapse"
-                class="sidebar-link collapsed"
-              >
+              <a class="sidebar-link collapsed apMenu">
+                <!-- data-target="#ui"
+              data-toggle="collapse" -->
                 <i class="align-middle" data-feather="briefcase"></i>
-                <span class="align-middle">전자결재</span>
+                <span>전자결재</span>
               </a>
               <ul
-                id="ui"
-                class="sidebar-dropdown list-unstyled collapse"
-                data-parent="#sidebar"
+                class="sidebar-dropdown list-unstyled collapse ml-3"
+                id="docMenuFirst"
               >
+                <!-- id="ui" -->
+                <!-- data-parent="#sidebar" -->
                 <li class="sidebar-item">
                   <a class="sidebar-link" href="post.html">작성하기</a>
                 </li>
-                <li class="sidebar-item"></li>
-                <li class="sidebar-approval">문서함</li>
-                <li class="sidebar-item">
-                  <a
-                    class="sidebar-link"
-                    id="apAllLink"
-                    href="approval-board.html"
-                    style="display: inline-block"
-                    >전체</a
-                  >
-                  <div class="count" id="apAllCntMark"></div>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-spending.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">지출</span>
+                  </a>
+                </li>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-circular.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">회람</span>
+                  </a>
+                </li>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-business.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">업무</span>
+                  </a>
+                </li>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-account.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">품의서</span>
+                  </a>
+                </li>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-leave.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">휴가</span>
+                  </a>
+                </li>
+                <li class="sidebar-item" style="display: none">
+                  <a class="sidebar-link" href="post-detail-contact.html">
+                    <i class="align-middle" data-feather="user"></i>
+                    <span class="align-middle">연락</span>
+                  </a>
                 </li>
                 <li class="sidebar-item">
-                  <a
-                    class="sidebar-link"
-                    id="apWaitLink"
-                    href="approval-board-wait.html"
-                    style="display: inline-block"
-                    >대기</a
+                  <a class="sidebar-link collapsed docListDropDownMenu">
+                    <!-- data-target="#docList"
+                  data-toggle="collapse" -->
+                    <span>문서함</span>
+                  </a>
+                  <ul
+                    id="docList"
+                    class="sidebar-dropdown list-unstyled collapse ml-3"
                   >
-                  <div class="count" id="apWaitCntMark"></div>
-                </li>
-                <li class="sidebar-item">
-                  <a
-                    class="sidebar-link"
-                    id="apOkLink"
-                    href="approval-board-ok.html"
-                    style="display: inline-block"
-                    >승인</a
-                  >
-                  <div class="count" id="apOkCntMark"></div>
-                </li>
-                <li class="sidebar-item">
-                  <a
-                    class="sidebar-link"
-                    id="apNoLink"
-                    href="approval-board-no.html"
-                    style="display: inline-block"
-                    >반려</a
-                  >
-                  <div class="count" id="apNoCntMark"></div>
+                    <!-- data-parent="#sidebar" -->
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link"
+                        id="apAllLink"
+                        href="approval-board.html"
+                        style="display: inline-block"
+                        >전체</a
+                      >
+                      <div class="count" id="apAllCntMark"></div>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link"
+                        id="apWaitLink"
+                        href="approval-board-wait.html"
+                        style="display: inline-block"
+                        >대기</a
+                      >
+                      <div class="count" id="apWaitCntMark"></div>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link"
+                        id="apOkLink"
+                        href="approval-board-ok.html"
+                        style="display: inline-block"
+                        >승인</a
+                      >
+                      <div class="count" id="apOkCntMark"></div>
+                    </li>
+                    <li class="sidebar-item">
+                      <a
+                        class="sidebar-link"
+                        id="apNoLink"
+                        href="approval-board-no.html"
+                        style="display: inline-block"
+                        >반려</a
+                      >
+                      <div class="count" id="apNoCntMark"></div>
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="employee.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span class="align-middle">임직원 정보</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="mypage.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span class="align-middle">나의 정보</span>
-              </a>
             </li>
           </ul>
         </div>
@@ -157,24 +249,28 @@
           <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
               <li class="nav-item dropdown">
-                <a
+                <!-- <a
                   class="nav-icon dropdown-toggle d-inline-block d-sm-none"
                   href="#"
                   data-toggle="dropdown"
                 >
                   <i class="align-middle" data-feather="settings"></i>
-                </a>
+                </a> -->
                 <a
-                  class="nav-link dropdown-toggle d-none d-sm-inline-block"
-                  href="#"
-                  data-toggle="dropdown"
+                  class="
+                    nav-link
+                    dropdown-toggle
+                    d-none d-sm-inline-block
+                    dropdownProfile
+                  "
                 >
+                  <!-- href="#"
+                  data-toggle="dropdown" -->
                   <img
-                    src="img/avatars/avatar.jpg"
+                    src="img/avatars/avatar-4.jpg"
                     class="avatar img-fluid rounded mr-1"
                     alt="Charles Hall"
                   />
-                  <!-- <span class="text-dark">Charles Hall</span> -->
                 </a>
                 <div
                   class="dropdown-menu dropdown-menu-right py-0 profileDropdown"
@@ -189,20 +285,14 @@
                     ><span class="loginName"></span>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item logoutBtn" href="#">Log out</a>
                 </div>
               </li>
             </ul>
           </div>
         </nav>
-
         <main class="content">
           <div class="container-fluid p-0">
-            <!-- <div class="row mb-2 mb-xl-3">
-              <div class="col-auto d-none d-sm-block">
-                <h3><strong>Analytics</strong> Dashboard</h3>
-              </div>
-            </div> -->
             <div class="row">
               <div class="col-12 col-md-6 d-flex order-2 order-xxl-3">
                 <div class="card flex-fill w-100">
@@ -212,41 +302,7 @@
                   <div class="card-body d-flex">
                     <div class="align-self-center w-100">
                       <table class="table mb-0">
-                        <tbody class="mainBdTbody">
-                          <!-- <tr>
-                            <td>Vanessa Tucker</td>
-                            <td>864-348-0485</td>
-                            <td class="d-none d-md-table-cell">
-                              June 21, 1961
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>William Harris</td>
-                            <td>914-939-2458</td>
-                            <td class="d-none d-md-table-cell">May 15, 1948</td>
-                          </tr>
-                          <tr>
-                            <td>Sharon Lessman</td>
-                            <td>704-993-5435</td>
-                            <td class="d-none d-md-table-cell">
-                              September 14, 1965
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Christina Mason</td>
-                            <td>765-382-8195</td>
-                            <td class="d-none d-md-table-cell">
-                              April 2, 1971
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Robin Schneiders</td>
-                            <td>202-672-1407</td>
-                            <td class="d-none d-md-table-cell">
-                              October 12, 1966
-                            </td>
-                          </tr> -->
-                        </tbody>
+                        <tbody class="mainBdTbody"></tbody>
                       </table>
                     </div>
                   </div>
@@ -284,41 +340,7 @@
                   <div class="card-body d-flex">
                     <div class="align-self-center w-100">
                       <table class="table mb-0">
-                        <tbody class="mainSkdTbody">
-                          <!-- <tr>
-                            <td>Vanessa Tucker</td>
-                            <td>864-348-0485</td>
-                            <td class="d-none d-md-table-cell">
-                              June 21, 1961
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>William Harris</td>
-                            <td>914-939-2458</td>
-                            <td class="d-none d-md-table-cell">May 15, 1948</td>
-                          </tr>
-                          <tr>
-                            <td>Sharon Lessman</td>
-                            <td>704-993-5435</td>
-                            <td class="d-none d-md-table-cell">
-                              September 14, 1965
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Christina Mason</td>
-                            <td>765-382-8195</td>
-                            <td class="d-none d-md-table-cell">
-                              April 2, 1971
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Robin Schneiders</td>
-                            <td>202-672-1407</td>
-                            <td class="d-none d-md-table-cell">
-                              October 12, 1966
-                            </td>
-                          </tr> -->
-                        </tbody>
+                        <tbody class="mainSkdTbody"></tbody>
                       </table>
                     </div>
                   </div>
@@ -394,6 +416,6 @@
     </div>
     <script src="js/app.js"></script>
     <script src="js/mainpage.js"></script>
-	<script src="jq/load-sidebar-cnt.js"></script>
+    <script src="jq/load-sidebar-cnt.js"></script>
   </body>
 </html>

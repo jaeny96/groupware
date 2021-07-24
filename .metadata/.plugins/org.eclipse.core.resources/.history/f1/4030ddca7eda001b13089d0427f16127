@@ -1,0 +1,9 @@
+package com.group.mypage.dto;
+
+import com.group.employee.dto.Employee;
+import com.group.employee.dto.Leave;
+
+public class EmployeeLeave {
+	public Employee employee;
+	public Leave leave;
+}

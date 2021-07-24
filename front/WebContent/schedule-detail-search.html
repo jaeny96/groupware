@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+
+    <title>Tables | AdminKit Demo</title>
+
+    <link href="./css/main.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/schedule-detail-search.css" rel="stylesheet" />
+  </head>
+
+  <body id="skdBody">
+    <div class="container-fluid p-0">
+      <h3 class="fa fa-search" style="margin-left: 10px; margin-top: 20px">
+        검색 결과
+      </h3>
+      <a class="backToCalendar" href="schedule.html">back</a>
+      <hr />
+      <div class="col-sm-3" style="margin-left: 20px"></div>
+      <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3" style="margin-bottom: 15px"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="card shceduleContent">
+            <div class="table-responsive">
+              <table class="table mb-0 text-center">
+                <thead style="background-color: #f6f6f6">
+                  <tr>
+                    <th scope="col" style="width: 30%">일자</th>
+                    <th scope="col" colsapn="2" style="width: 30%">일정</th>
+                    <th scope="col" style="width: 40%"></th>
+                  </tr>
+                </thead>
+                <tbody class="skdTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="container-fluid">
+        <div class="row text-muted">
+          <div class="text-center">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#" class="text-muted"><strong>prev</strong></a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">1</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">2</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">3</a>
+              </li>
+              <li class="list-inline-item">
+                <a class="text-muted" href="#">4</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="index.html" class="text-muted"
+                  ><strong>next</strong></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="skdDetail">
+      <div class="modal_overlay"></div>
+
+      <div class="modal_content">
+        <div class="card-header">
+          <button
+            class="xBox"
+            style="
+              float: right;
+              border-style: 1px solid #6c757d;
+              border-radius: 7px;
+              background-color: #6c757d;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            X
+          </button>
+          <h4>일정 상세 내역</h4>
+        </div>
+        <!--card-header div-->
+        <table class="table">
+          <tbody>
+            <tr id="skdDetailShare" class="skdDetailShare">
+              <td style="width: 30%"><strong>캘린더</strong></td>
+              <td style="width: 70%" class="skdDetailInputData"></td>
+            </tr>
+
+            <tr id="skdDetailTitle">
+              <td><strong>제목</strong></td>
+              <td class="skdDetailInputData"></td>
+            </tr>
+
+            <tr id="skdDetailType">
+              <td><strong>종류</strong></td>
+              <td class="skdDetailInputData"></td>
+            </tr>
+            <tr id="skdDetailStartTime">
+              <td><strong>시작 시간</strong></td>
+              <td class="skdDetailInputData"></td>
+            </tr>
+            <tr id="skdDetailEndTime">
+              <td><strong>종료 시간</strong></td>
+              <td class="skdDetailInputData"></td>
+            </tr>
+
+            <tr id="skdDetailContent">
+              <td><strong>내용</strong></td>
+              <td class="skdDetailInputData"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 수정 / 삭제  -->
+        <div class="mb-3 row">
+          <div style="text-align: center; margin: 10px 0">
+            <button class="btn btn-primary">수정</button>
+            <button class="btn btn-secondary deleteBtn">삭제</button>
+          </div>
+          <!--수정삭제 div-->
+        </div>
+        <!--수정삭제 부모div-->
+      </div>
+      <!--modal-content div-->
+    </div>
+    <!--modal div-->
+
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/locales-all.min.js"></script>
+    <script src="js/schedule-detail-search.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </body>
+</html>

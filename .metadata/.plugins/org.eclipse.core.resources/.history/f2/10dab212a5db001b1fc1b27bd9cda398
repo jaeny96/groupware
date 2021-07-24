@@ -1,0 +1,5 @@
+package com.group.exception;
+
+public class AddException {
+
+}

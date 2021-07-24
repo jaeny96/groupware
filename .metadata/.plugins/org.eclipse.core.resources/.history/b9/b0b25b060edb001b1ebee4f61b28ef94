@@ -1,0 +1,5 @@
+package com.group.approval.dto;
+
+public class ApprovalStatus {
+	public String ap_type;
+}

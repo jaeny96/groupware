@@ -1,0 +1,16 @@
+package com.group.board.dto;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import com.group.employee.dto.Employee;
+
+public class BoardComment {
+	//연결하기 위한 컬럼이지 댓글이 게시글을 가질수 있는것은 아니다
+	public String bd_no;
+	public String cm_no;
+	//댓글은 작성자를 가질 수 있다
+	public Employee employee_id;
+	public Timestamp cm_date;
+	public String cm_content;
+	public char cm_status;
+}

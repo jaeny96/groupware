@@ -17,7 +17,8 @@ $(function () {
   var apBdStatus = new Array();
   var apBdCheck = new Array();
   var tBodyObject = document.getElementById("apDocumentTbody");
-
+  var $content = $("main.content");
+  console.log($content);
   //tbody객체 만들어주는 함수
   function createTbodyElement() {
     tBodyObject = document.createElement("tbody");
@@ -95,9 +96,17 @@ $(function () {
 
           $titleObj.click(function (e) {
             localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
-            $(
-              'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="approval-detail.html"]'
-            ).trigger("click");
+            var href = $(this).attr("href");
+            console.log(href);
+            switch (href) {
+              case "approval-detail.html":
+                $content.load(href, function (responseTxt, statusTxt, xhr) {
+                  if (statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+                break;
+            }
+            return false;
           });
         },
       });
@@ -153,45 +162,46 @@ $(function () {
     tr.appendChild(tdCheck);
     tBodyObject.appendChild(tr);
   }
-	//확인 미확인 하는 변수 
+  //확인 미확인 하는 변수
   var nowStatus = "";
   var btnGroupObj = document.getElementById("apBtnGroup");
   var $categoryObj = $("div.categoryDropdown");
- console.log(btnGroupObj);
- console.log($categoryObj);
- 
- //확인 미확인값 가지고 오는 함수
+  console.log(btnGroupObj);
+  console.log($categoryObj);
+
+  //확인 미확인값 가지고 오는 함수
   var apChangeStatusBtnObj = document.getElementById("apDropDownStatusGroup");
   function statusHandler(e) {
-	console.log(e.target);
-	console.log(e.target.id);
+    console.log(e.target);
+    console.log(e.target.id);
     if (e.target.id == "apDocumentStatusOk") {
       apChangeStatusBtnObj.innerHTML = "확인";
       nowStatus = "확인";
-	 console.log(nowStatus);
-	  bdSearchFromSubmitHandler(e);
-    } if (e.target.id == "apDocumentStatusNo") {
-      apChangeStatusBtnObj.innerHTML  = "미확인";
+      console.log(nowStatus);
+      bdSearchFromSubmitHandler(e);
+    }
+    if (e.target.id == "apDocumentStatusNo") {
+      apChangeStatusBtnObj.innerHTML = "미확인";
       nowStatus = "미확인";
-	  bdSearchFromSubmitHandler(e);
-	 console.log(nowStatus);
-    } if (e.target.id == "apDocumentStatusAll") {
-      apChangeStatusBtnObj.innerHTML  = "모든문서";
+      bdSearchFromSubmitHandler(e);
+      console.log(nowStatus);
+    }
+    if (e.target.id == "apDocumentStatusAll") {
+      apChangeStatusBtnObj.innerHTML = "모든문서";
       nowStatus = "모든문서";
-	  bdSearchFromSubmitHandler(e);
-	 console.log(nowStatus);
+      bdSearchFromSubmitHandler(e);
+      console.log(nowStatus);
     }
   }
-  btnGroupObj.addEventListener("click",function(){
-	$categoryObj.toggle();
- });
-	$categoryObj.click(statusHandler);
+  btnGroupObj.addEventListener("click", function () {
+    $categoryObj.toggle();
+  });
+  $categoryObj.click(statusHandler);
 
-	//확인 미확인 하는 것 
+  //확인 미확인 하는 것
   function bdSearchFromSubmitHandler(e) {
     if (nowStatus == "모든문서") {
-   $('div.wrapper>nav.sidebar>div.sidebar-content>a.sidebar-brand>ul.simplebar-nav>li.sidebar-item>ul.sidebar-dropdown>li.sidebar-item>a[href="approval-detail.html"]'
-     ).trigger("click");    //나중에 전체 문서를 불러오기 
+      $('a[href="approval-board.html"]').trigger("click"); //나중에 전체 문서를 불러오기
     } else {
       $.ajax({
         url: "/back/selectallpick",
@@ -200,7 +210,7 @@ $(function () {
           id: "DEV001",
           check: nowStatus,
         },
-        success: function (responseData) { 
+        success: function (responseData) {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
@@ -211,7 +221,6 @@ $(function () {
             apBdDate[i] = e.draft_date;
             apBdStatus[i] = e.document_type.document_type;
             apBdCheck[i] = e.approval.ap_type.apStatus_type;
-			
           });
 
           for (var i = 0; i < apBdTitle.length; i++) {
@@ -223,9 +232,17 @@ $(function () {
 
           $titleObj.click(function (e) {
             localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
-            $(
-              'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="approval-detail.html"]'
-            ).trigger("click");
+            var href = $(this).attr("href");
+            console.log(href);
+            switch (href) {
+              case "approval-detail.html":
+                $content.load(href, function (responseTxt, statusTxt, xhr) {
+                  if (statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+                break;
+            }
+            return false;
           });
         },
       });
@@ -233,7 +250,6 @@ $(function () {
     e.preventDefault();
   }
 
- 
   //첫 화면 조회하는 ajax
   $.ajax({
     url: backUrlApDocsList,
@@ -262,13 +278,23 @@ $(function () {
       console.log($titleObj);
 
       $titleObj.click(function (e) {
+        // e.preventDefault();
         localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
-        $(
-          'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="approval-detail.html"]'
-        ).trigger("click");
+        var href = $(this).attr("href");
+        console.log(href);
+        switch (href) {
+          case "approval-detail.html":
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+            break;
+        }
+        return false;
+        // $(
+        //   'div.wrapper>nav.sidebar>div>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div>div>ul>li>a[href="approval-detail.html"]'
+        // ).trigger("click");
       });
     },
   });
-
-
 });

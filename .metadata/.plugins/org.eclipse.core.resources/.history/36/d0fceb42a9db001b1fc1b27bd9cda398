@@ -1,0 +1,11 @@
+package com.group.board.service;
+
+import java.util.List;
+
+import com.group.board.dto.Board;
+
+public class BoardService {
+	public List<Board> showBdAll(int currentPage) throws FindException{
+		return null;
+	}
+}

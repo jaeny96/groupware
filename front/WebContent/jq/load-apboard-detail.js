@@ -279,53 +279,30 @@ $(function () {
     },
   });
 
-
-/*  $.ajax({
-    url: bacKUrlCheck,
-    method: "get",
-    data: {
-      id: "DEV001",
-      docsNo: tmpDocsBdNo,
-    },
-    success: function (responseData) {
-      $(responseData).each(function (i, e) {
-       
-		myCheckArr[i]=
-        console.log(e);
-      });
-   
-   
-    },
-  });*/
-
-
-//코멘트 관련 
+  //코멘트 관련
   var commentId = new Array();
   var commentDate = new Array();
   var commentCmt = new Array();
 
   var tableObj = document.getElementById("apDocumentTable");
   var commentObj = document.getElementById("apCommentTbody");
-  
-  function createCommentElement(i){
 
-	var tr =document.createElement("tr");
-	var td1 = document.createElement("td");
-	var td2 = document.createElement("td");
-	var td3 = document.createElement("td");
-	
+  function createCommentElement(i) {
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    var td3 = document.createElement("td");
 
-	td1.innerHTML = commentId[i];
-		console.log(td1);
-  	td2.innerHTML = commentDate[i];
-  	td3.innerHTML = commentCmt[i];
-   
-	tr.appendChild(td1);
-	tr.appendChild(td2);
-	tr.appendChild(td3);
-	
-	commentObj.appendChild(tr);	
- 
+    td1.innerHTML = commentId[i];
+    console.log(td1);
+    td2.innerHTML = commentDate[i];
+    td3.innerHTML = commentCmt[i];
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+
+    commentObj.appendChild(tr);
   }
 
   $.ajax({
@@ -336,7 +313,7 @@ $(function () {
     },
 
     success: function (responseData) {
-		console.log(commentObj);
+      console.log(commentObj);
       console.log(responseData);
       $(responseData).each(function (i, e) {
         commentId[i] = e.employee_id.employee_id;
@@ -345,11 +322,10 @@ $(function () {
         console.log(commentDate);
         commentCmt[i] = e.ap_ap_comment;
       });
-		console.log(commentId.length);
-      for (var i=0; i < commentId.length; i++) {
+      console.log(commentId.length);
+      for (var i = 0; i < commentId.length; i++) {
         createCommentElement(i);
       }
-
     },
   });
 });

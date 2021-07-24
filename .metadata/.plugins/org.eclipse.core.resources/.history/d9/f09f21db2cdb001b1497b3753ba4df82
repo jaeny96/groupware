@@ -1,0 +1,5 @@
+package com.group.calendar.dao;
+
+public interface ScheduleDAO {
+
+}
