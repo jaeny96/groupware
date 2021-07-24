@@ -8,5 +8,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="D:/Program Files/apache-tomcat-9.0.46"/>
+	<classpathentry kind="lib" path="D:/Program Files/apache-tomcat-9.0.46/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
