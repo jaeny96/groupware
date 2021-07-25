@@ -31,8 +31,12 @@ $(function () {
     events: function (info, successCallback, failureCallback) {
       // var id = loginInfoIdObj.innerHTML;
       // var dept = id.substring(0, 3);
-      var id = "MSD002";
-      var dept = "MSD";
+      var loginedId = localStorage.getItem("loginInfo");
+      var loginedDept = loginedId.substring(0, 3);
+      // var id = "MSD002";
+      // var dept = "MSD";.
+      var id = loginedId;
+      var dept = loginedDept;
       $.ajax({
         url: "/back/showskddetail",
         dataType: "json",
@@ -241,8 +245,12 @@ $(function () {
         click: function (info, successCallback, failureCallback) {
           // var id = loginInfoIdObj.innerHTML;
           // var dept = id.substring(0, 3);
-          var id = "MSD002";
-          var dept = "MSD";
+          var loginedId = localStorage.getItem("loginInfo");
+          var loginedDept = loginedId.substring(0, 3);
+          // var id = "MSD002";
+          // var dept = "MSD";.
+          var id = loginedId;
+          var dept = loginedDept;
           $.ajax({
             url: "/back/showskddetail",
             dataType: "json",
@@ -290,7 +298,12 @@ $(function () {
         click: function (info, successCallback, failureCallback) {
           // var id = loginInfoIdObj.innerHTML;
           // var dept = id.substring(0, 3);
-          var dept = "MSD";
+          var loginedId = localStorage.getItem("loginInfo");
+          var loginedDept = loginedId.substring(0, 3);
+          // var id = "MSD002";
+          // var dept = "MSD";.
+          var id = loginedId;
+          var dept = loginedDept;
           $.ajax({
             url: "/back/showteamskd",
             dataType: "json",
@@ -322,7 +335,10 @@ $(function () {
       personalSchedule: {
         text: "내 캘린더",
         click: function (info, successCallback, failureCallback) {
-          var id = "MSD002";
+          var loginedId = localStorage.getItem("loginInfo");
+          // var id = "MSD002";
+          var id = loginedId;
+
           $.ajax({
             url: "/back/showpersonalskd",
             dataType: "json",
