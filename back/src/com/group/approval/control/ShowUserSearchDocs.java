@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.approval.dto.Document;
@@ -23,10 +24,12 @@ public class ShowUserSearchDocs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String uId = request.getParameter("id");
+		//검색 관련 서블릿 
+		HttpSession session = request.getSession();
+		String id= session.getAttribute("id").toString();
 		String uCategory = request.getParameter("searchCategory");
-		String uSearch = request.getParameter("search");
+		String uSearch = request.getParameter("searchWord");
+		String uStatus = request.getParameter("status");
 		System.out.println(uSearch);
 		//요청전달데이터 얻기 
 				
@@ -38,26 +41,20 @@ public class ShowUserSearchDocs extends HttpServlet {
 		try {
 			System.out.println(uCategory);
 			if(uCategory.equals("content")) {
-				List<Document> apDocsList = service.findMySearchContent(uId,uSearch);
-				//json라이브러리로 json문자열 형태로 응답
+				List<Document> apDocsList = service.findMySearchContent(id,uSearch,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
-				//보낼때 데이터 포맷
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
 				System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
-				//데이터 전달S
 				response.getWriter().print(jsonStr);
-			}else {
-				List<Document> apDocsList = service.findMySearchTitle(uId,uSearch);
-				//json라이브러리로 json문자열 형태로 응답
+			}else if(uCategory.equals("title")){
+				List<Document> apDocsList = service.findMySearchTitle(id,uSearch,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
-				//보낼때 데이터 포맷
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
 				System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
-				//데이터 전달S
 				response.getWriter().print(jsonStr);
 			}
 		

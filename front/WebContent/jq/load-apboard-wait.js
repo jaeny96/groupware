@@ -1,14 +1,10 @@
-//board 페이지에 적용
 $(function () {
-  // 이클립스에서 받아오는 url
-  var backUrlApDocsList = "/back/showapdocsstatus";
-
-  //
   //테이블 객체
   var DocumentTableObj = document.getElementById("apDocumentTable");
   //table바디 객체
   var tBodyObject = null;
   //table에 적용시킬 변수들 : list 형식
+  var apMyStatus = new Array();
   var apBdNo = new Array();
   var apBdTitle = new Array();
   var apBdEmp = new Array();
@@ -34,6 +30,7 @@ $(function () {
   //기존 객체 및 배열 지워주기
   function emptyBdElement(target) {
     removeElement(target);
+    apMyStatus = [];
     apBdNo = [];
     apBdTitle = [];
     apBdEmp = [];
@@ -43,40 +40,50 @@ $(function () {
     apBdCheck = [];
   }
 
-  var apSearchFormObj = document.getElementById("apSearchFormObj");
-  var apGroupButton = document.getElementById("apSearchGroup");
-  var apInputSearch = document.querySelector("input[type=text]");
-  var apSearchButton = document.getElementById("apSearchButton");
+  var apBtnGroupObj = document.querySelector("div.btn-group-sm");
+  console.log(apBtnGroupObj);
+  var apCategoryObj = apBtnGroupObj.querySelector("div.searchDropdown");
+  console.log(apCategoryObj);
+  var apSearchCategoryBtnObj = document.querySelector("button.searchBtn");
+  console.log(apSearchCategoryBtnObj);
+  var apSearchFormObj = document.querySelector("form.searchForm");
+  console.log(apSearchFormObj);
   var apSearchCategory = null;
 
+  var apInputGroupObj = document.querySelector("div.input-group");
+  console.log(apInputGroupObj);
+  var apSearchObj = apInputGroupObj.querySelector("input[type=text]");
+  console.log(apSearchObj);
+
   function categoryHandler(e) {
-    if (e.target.id == "apSearchTitle") {
-      apInputSearch.setAttribute("placeholder", "제목으로 검색");
+    if (e.target.id == "apCategoryTitle") {
+      apSearchCategoryBtnObj.innerHTML = "제목";
+      apSearchObj.setAttribute("placeholder", "제목으로 검색하기");
       apSearchCategory = "title";
-    } else {
-      apInputSearch.setAttribute("placeholder", "내용으로 검색");
+    } else if (e.target.id == "apCategoryWriter") {
+      apSearchCategoryBtnObj.innerHTML = "내용";
+      apSearchObj.setAttribute("placeholder", "내용으로 검색하기");
       apSearchCategory = "content";
     }
   }
 
-  console.log(apSearchFormObj);
-
-  function bdSearchFromSubmitHandler(e) {
+  function apSearchFormSubmitHandler(e) {
     if (apSearchCategory == null) {
-      alert("검색값을 설정해주세요");
+      alert("카테고리가 지정되지 않았습니다");
     } else {
       $.ajax({
         url: "/back/usersearchdocs",
         method: "get",
         data: {
-          id: "DEV001",
           searchCategory: apSearchCategory,
-          search: apInputSearch.value,
+          searchWord: apSearchObj.value,
+          status: "대기",
         },
         success: function (responseData) {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
+            apMyStatus[i] = e.state;
             apBdNo[i] = e.document_no;
             apBdTitle[i] = e.document_title;
             apBdEmp[i] = e.employee.employee_id;
@@ -112,17 +119,22 @@ $(function () {
     }
     e.preventDefault();
   }
-  apGroupButton.addEventListener("click", categoryHandler);
-  apSearchFormObj.addEventListener("submit", bdSearchFromSubmitHandler);
 
-  //tbody내용 생성
+  apCategoryObj.addEventListener("click", categoryHandler);
+  apSearchFormObj.addEventListener("submit", apSearchFormSubmitHandler);
+
   function createApBdElement(i) {
-    //	createTbodyElement();
-    var tBodyObject = document.getElementById("apDocumentTbody");
+    var apDocsNo = document.getElementById("apDocsNo");
     var tr = document.createElement("tr");
     var th = document.createElement("th");
     th.setAttribute("scope", "row");
-    th.innerHTML = i + 1;
+    if (apMyStatus[i] != null) {
+      th.innerHTML = apMyStatus[i];
+      apDocsNo.innerHTML = "서류상태";
+    } else {
+      th.innerHTML = i + 1;
+      apDocsNo.innerHTML = "확인";
+    }
     var tdTitle = document.createElement("td");
 
     var a = document.createElement("a");
@@ -161,86 +173,90 @@ $(function () {
     tr.appendChild(tdCheck);
     tBodyObject.appendChild(tr);
   }
-  //2. 확인/미확인 선택하면 해당 정보만 들고오는 함수
-  function dropDownStatusHandler(e) {
-    console.log(e);
-
-    if (e.target.id == "apDocumentStatusOk") {
-      console.log(e);
-
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        if (apBdCheck[i] === "확인") {
-          createApBdElement(i);
-        }
-      }
-    }
-
-    if (e.target.id == "apDocumentStatusNo") {
-      console.log(e);
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        if (apBdCheck[i] === "미확인") {
-          createApBdElement(i);
-        }
-      }
-    }
-
-    if (e.target.id == "apDocumentStatusAll") {
-      console.log(e);
-      for (var i = 0; i < apBdTitle.length; i++) {
-        console.log(apBdCheck[i]);
-        createApBdElement(i);
-      }
-    }
-  }
-
   //확인 미확인 하는 변수
   var nowStatus = "";
-  var btnGroupObj = document.getElementById("apBtnGroup");
-  var $categoryObj = $("div.categoryDropdown");
-  console.log(btnGroupObj);
-  console.log($categoryObj);
+  var $categoryObj = $("div.apCategoryDropdown");
 
   //확인 미확인값 가지고 오는 함수
   var apChangeStatusBtnObj = document.getElementById("apDropDownStatusGroup");
   function statusHandler(e) {
-    console.log(e.target);
-    console.log(e.target.id);
+    //  console.log(e.target);
+    //   console.log(e.target.id);
     if (e.target.id == "apDocumentStatusOk") {
       apChangeStatusBtnObj.innerHTML = "확인";
       nowStatus = "확인";
-      console.log(nowStatus);
+      //  console.log(nowStatus);
       bdSearchFromSubmitHandler(e);
     }
     if (e.target.id == "apDocumentStatusNo") {
       apChangeStatusBtnObj.innerHTML = "미확인";
       nowStatus = "미확인";
       bdSearchFromSubmitHandler(e);
-      console.log(nowStatus);
+      //    console.log(nowStatus);
     }
     if (e.target.id == "apDocumentStatusAll") {
       apChangeStatusBtnObj.innerHTML = "모든문서";
       nowStatus = "모든문서";
       bdSearchFromSubmitHandler(e);
-      console.log(nowStatus);
+
+      //   console.log(nowStatus);
     }
   }
-  btnGroupObj.addEventListener("click", function () {
+  apChangeStatusBtnObj.addEventListener("click", function () {
     $categoryObj.toggle();
   });
   $categoryObj.click(statusHandler);
 
-  //확인 미확인 하는 것
+  //확인 미확인 서버핸들러
   function bdSearchFromSubmitHandler(e) {
-    if (nowStatus == "모든문서") {
-      $('a[href="approval-board.html"]').trigger("click"); //나중에 전체 문서를 불러오기
+    if (e.target.id == "apDocumentStatusAll") {
+      $.ajax({
+        url: "/back/showapdocsstatus",
+        method: "get",
+        data: {
+          status: "대기",
+        },
+        success: function (responseData) {
+          emptyBdElement(tBodyObject);
+          createTbodyElement();
+          $(responseData).each(function (i, e) {
+            //   console.log(i + "," + e);
+            apBdNo[i] = e.document_no;
+            apBdTitle[i] = e.document_title;
+            apBdEmp[i] = e.employee.employee_id;
+            apBdEmpName[i] = e.employee.name;
+            apBdDate[i] = e.draft_date;
+            apBdStatus[i] = e.document_status.document_type;
+            apBdCheck[i] = e.approval.ap_type.apStatus_type;
+            // console.log(apBdCheck[i]);
+          });
+          for (var i = 0; i < apBdTitle.length; i++) {
+            createApBdElement(i);
+          }
+          $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
+          //  console.log($titleObj);
+          $titleObj.click(function (e) {
+            // e.preventDefault();
+            localStorage.setItem("apDocumentNum", e.target.id);
+            var href = $(this).attr("href");
+            console.log(href);
+            switch (href) {
+              case "approval-detail.html":
+                $content.load(href, function (responseTxt, statusTxt, xhr) {
+                  if (statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+                break;
+            }
+            return false;
+          });
+        },
+      });
     } else {
       $.ajax({
         url: "/back/selectwaitpick",
         method: "get",
         data: {
-          id: "DEV001",
           check: nowStatus,
         },
         success: function (responseData) {
@@ -260,13 +276,11 @@ $(function () {
             createApBdElement(i);
           }
           $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
-
-          console.log($titleObj);
-
+          // console.log($titleObj);
           $titleObj.click(function (e) {
-            localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
+            localStorage.setItem("apDocumentNum", e.target.id);
             var href = $(this).attr("href");
-            console.log(href);
+            //console.log(href);
             switch (href) {
               case "approval-detail.html":
                 $content.load(href, function (responseTxt, statusTxt, xhr) {
@@ -285,13 +299,14 @@ $(function () {
 
   //첫 화면 조회하는 ajax
   $.ajax({
-    url: backUrlApDocsList,
+    url: "/back/showapdocsstatus",
     method: "get",
     data: {
-      id: "DEV001",
       status: "대기",
     },
     success: function (responseData) {
+      emptyBdElement(tBodyObject);
+      createTbodyElement();
       $(responseData).each(function (i, e) {
         console.log(i + "," + e);
         apBdNo[i] = e.document_no;

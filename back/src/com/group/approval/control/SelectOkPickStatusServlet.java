@@ -17,16 +17,17 @@ import com.group.approval.exception.FindException;
 import com.group.approval.service.ConfirmDocsService;
 
 /**
- * Servlet implementation class selectUserPickServlet
+ * Servlet implementation class SelectOkPickStatusServlet
  */
-public class SelectAllPickStatusServlet extends HttpServlet {
+public class SelectOkPickStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-	//(전체탭)사용자가 확인,미확인을 선택하면 그것에 해당하는 목록을 볼 수 있는 서블릿
+       
+	//(승인탭)사용자가 확인,미확인을 선택하면 그것에 해당하는 목록을 볼 수 있는 서블릿
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
 		String id= session.getAttribute("id").toString();
+		
 	    String uCheck=request.getParameter("check");
 				
 		ConfirmDocsService service;
@@ -35,7 +36,7 @@ public class SelectAllPickStatusServlet extends HttpServlet {
 		service = ConfirmDocsService.getInstance();
 		
 		try {
-			List<Document> apDocsList = service.findCheckDocsAll(id,uCheck);
+			List<Document> apDocsList = service.findCheckDocsOk(id,uCheck);
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(apDocsList);
@@ -46,6 +47,5 @@ public class SelectAllPickStatusServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
 
 }
