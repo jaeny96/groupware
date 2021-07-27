@@ -2,13 +2,16 @@ package com.group.approval.control;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.approval.dto.Document;
@@ -22,31 +25,30 @@ import com.group.approval.service.SideDocsService;
 public class CheckUserApDocsDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
+	//내가 승인할 부분 확인하는 서블릿 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//나중에 페이지 요소 추가하기
-		//int currentPage = Integer.parseInt(request.getPa)
+		HttpSession session = request.getSession();
+		String id= session.getAttribute("id").toString();
 		
-		//전체 합치면 찐 id 넣기 
-		String loginId = request.getParameter("id");
 		String docsNo = request.getParameter("docsNo");
-		//요청전달데이터 얻기 
-				
+	
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
 		ConfirmDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = ConfirmDocsService.getInstance();
+		Map<String,String>map = new HashMap<>();
 		
 		try {
-			List<String> apDocsList = service.findDocsMyCheck(loginId,docsNo);
-			//json라이브러리로 json문자열 형태로 응답
+			List<String> apDocsList = service.findDocsMyCheck(id,docsNo);
+			map.put("loginName", apDocsList.get(1).toString());
+			System.out.println(apDocsList.get(1).toString());
 			ObjectMapper mapper = new ObjectMapper();
-			//보낼때 데이터 포맷
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-			String jsonStr = mapper.writeValueAsString(apDocsList);
+			String jsonStr = mapper.writeValueAsString(map);
 			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
-			//데이터 전달S
+
 			response.getWriter().print(jsonStr);
 		}catch(FindException e) {
 			e.printStackTrace();

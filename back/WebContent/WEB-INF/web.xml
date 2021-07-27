@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"> <display-name>back</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>back</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -320,7 +321,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CheckUserApDocsDetail</servlet-name>
-    <url-pattern>/checkuser</url-pattern>
+    <url-pattern>/checkapuser</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -422,7 +423,7 @@
     <servlet-name>SelectAllPickStatusServlet</servlet-name>
     <url-pattern>/selectallpick</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <description></description>
     <display-name>SelectByCommentsServlet</display-name>
     <servlet-name>SelectByCommentsServlet</servlet-name>
@@ -432,7 +433,7 @@
     <servlet-name>SelectByCommentsServlet</servlet-name>
     <url-pattern>/selectbycomments</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <description></description>
     <display-name>SelectWaitPickStatusServlet</display-name>
     <servlet-name>SelectWaitPickStatusServlet</servlet-name>
@@ -441,7 +442,8 @@
   <servlet-mapping>
     <servlet-name>SelectWaitPickStatusServlet</servlet-name>
     <url-pattern>/selectwaitpick</url-pattern>
-  </servlet-mapping> <servlet>
+  </servlet-mapping>
+  <servlet>
     <description></description>
     <display-name>AddScheduleServlet</display-name>
     <servlet-name>AddScheduleServlet</servlet-name>
@@ -471,7 +473,7 @@
     <servlet-name>modifyScheduleServlet</servlet-name>
     <url-pattern>/modifyschedule</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>ShowTeamSkd</display-name>
     <servlet-name>ShowTeamSkd</servlet-name>
@@ -521,34 +523,24 @@
     <servlet-name>ShowByDate</servlet-name>
     <url-pattern>/showbydate</url-pattern>
   </servlet-mapping>
-<!--  <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>ShowApDocsDetail</display-name> -->
-<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
-<!--     <url-pattern>/showdocsdetail</url-pattern> -->
-<!--   </servlet-mapping> -->
-<!--    <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>ShowUserSearchDocs</display-name> -->
-<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
-<!--     <url-pattern>/usersearchdocs</url-pattern> -->
-<!--   </servlet-mapping> -->
-<!--   <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>CheckUserApDocsDetail</display-name> -->
-<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
-<!--     <url-pattern>/checkuser</url-pattern> -->
-<!--   </servlet-mapping> -->
+  <servlet>
+    <description></description>
+    <display-name>SelectNoPickStatusServlet</display-name>
+    <servlet-name>SelectNoPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectNoPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectNoPickStatusServlet</servlet-name>
+    <url-pattern>/selectnopick</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SelectOkPickStatusServlet</display-name>
+    <servlet-name>SelectOkPickStatusServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectOkPickStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectOkPickStatusServlet</servlet-name>
+    <url-pattern>/selectokpick</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -73,7 +73,6 @@ $(function () {
   agImgTag.style.width = "60px";
 
   var spanTag = document.createElement("div");
-  spanTag.setAttribute("class", "fa fa-check");
 
   //받아올 데이터들
   var tmpDocsBdNo = localStorage.getItem("apDocumentNum"); //문서번호
@@ -105,28 +104,37 @@ $(function () {
 
   var apDocsReName = new Array();
   var apDocsReType = new Array();
+  var myCheckId = null;
+  //현재 로그인 이름
+  var uidName = document.querySelector(
+    "div.wrapper>div.main>nav.navbar-expand>div.navbar-collapse>ul.navbar-nav>li.nav-item>div.profileDropdown>div.dropdown-item>span"
+  );
+  console.log(uidName);
 
-  var myCheckName = new Array();
-  var myCehckType = new Array();
-  var myCehckStep = new Array();
+  //내가 승인해야할 부분
+  $.ajax({
+    url: "/back/checkapuser",
+    method: "get",
+    data: {
+      docsNo: tmpDocsBdNo,
+    },
+
+    success: function (responseObj) {
+      myCheckId = responseObj.loginName;
+      console.log(myCheckId);
+    },
+  });
 
   function createApBdElement(i) {
-    //localStorage.removeItem("apDocumentNum");//로컬지워주기
-
-    //껍데기
-    //승인 1 껍데기 만들기
-
     //문서정보 채우기
     tdDetailType.innerText = apDocsType;
     tdDetailNo.innerText = apDocsNo;
     tdDetailDep.innerText = apDocsDep;
     tdDetailWriter.innerText = apDocsWriter;
     tdDetailDate.innerText = apDocsDate;
-
     divDetailTitle.innerText = apDocsTitle;
     divDetailContent.innerText = apDocsContent;
     //결재선 채우기
-
     tdApStep0Name.innerText = apDocsApName0;
     tdApStep1Name.innerText = apDocsApName1;
     tdApStep2Name.innerText = apDocsApName2;
@@ -143,8 +151,10 @@ $(function () {
     tdApStep3Name.appendChild(divApStep3Date);
 
     //승인 문서내용 승인or반려 검사
-    if (apDocsApType0 == "대기") {
-      apStep1Obj.appendChild(buttonTag);
+    if (apDocsApType0 == "대기" && myCheckId === apDocsApName0.toString()) {
+      apStep0Obj.appendChild(buttonTag);
+    } else if (apDocsApType0 == "대기") {
+      apStep0Obj.innerText = "대기중";
     } else if (apDocsApType0 == "반려") {
       imgTag.src = "img/icons/no.png";
       apStep0Obj.appendChild(imgTag);
@@ -153,8 +163,10 @@ $(function () {
       apStep0Obj.appendChild(imgTag);
     }
 
-    if (apDocsApType1 == "대기") {
+    if (apDocsApType1 == "대기" && myCheckId === apDocsApName1.toString()) {
       apStep1Obj.appendChild(buttonTag1);
+    } else if (apDocsApType1 == "대기") {
+      apStep1Obj.innerText = "대기중";
     } else if (apDocsApType1 == "반려") {
       imgTag1.src = "img/icons/no.png";
       apStep1Obj.appendChild(imgTag1);
@@ -163,8 +175,10 @@ $(function () {
       apStep1Obj.appendChild(imgTag1);
     }
 
-    if (apDocsApType2 == "대기") {
+    if (apDocsApType2 == "대기" && myCheckId === apDocsApName2.toString()) {
       apStep2Obj.appendChild(buttonTag2);
+    } else if (apDocsApType2 == "대기") {
+      apStep2Obj.innerHTML = "대기중";
     } else if (apDocsApType2 == "반려") {
       imgTag2.src = "img/icons/no.png";
       apStep2Obj.appendChild(imgTag2);
@@ -173,8 +187,10 @@ $(function () {
       apStep2Obj.appendChild(imgTag2);
     }
 
-    if (apDocsApType3 == "대기") {
+    if (apDocsApType3 == "대기" && myCheckId === apDocsApName3.toString()) {
       apStep3Obj.appendChild(buttonTag3);
+    } else if (apDocsApType3 == "대기") {
+      apStep3Obj.innerText = "대기중";
     } else if (apDocsApType3 == "반려") {
       imgTag3.src = "img/icons/no.png";
       apStep3Obj.appendChild(imgTag3);
@@ -182,9 +198,11 @@ $(function () {
       imgTag3.src = "img/icons/yes.png";
       apStep3Obj.appendChild(imgTag3);
     }
+
     //합의
     tdAgName.innerText = apDocsAgName;
-    if (apDocsAgType == "대기") {
+    console.log(myCheckId === apDocsAgName.toString());
+    if (apDocsAgType == "대기" && myCheckId === apDocsAgName.toString()) {
       tdAgName.appendChild(agButtonTag);
     } else if (apDocsAgType == "반려") {
       agImgTag.src = "img/icons/no.png";
@@ -196,12 +214,38 @@ $(function () {
 
     //참조
     tdReName.innerText = apDocsReName;
-    if (apDocsReType == "대기" || tdReName == null) {
-    } else if (apDocsReType != "대기") {
+    if (apDocsReType == "대기") {
+      console.log("대기");
+      spanTag.style.color = "#dfd5f5";
+      spanTag.setAttribute("class", "fa fa-question");
+      tdReName.appendChild(spanTag);
+    } else if (apDocsReType == "승인") {
+      console.log("노대기");
       spanTag.style.color = "#6A0888";
+      spanTag.setAttribute("class", "fa fa-check");
       tdReName.appendChild(spanTag);
     }
   }
+
+  //참조 승인 hover 효과
+  $("#apReferenceName").hover(
+    function () {
+      console.log("위에 올라옹");
+      $("#apReferenceName>div.fa-question").css("color", "#6A0888");
+    },
+    function () {
+      $("#apReferenceName>div.fa-question").css("color", "#dfd5f5");
+    }
+  );
+
+  //참조 승인 클릭 이벤트
+  $("#apReferenceName").click(function () {
+    console.log("클릭");
+    alert("참조 확인하셨습니다 !");
+    spanTag.style.color = "#6A0888";
+    spanTag.setAttribute("class", "fa fa-check");
+    //ajax 관련 내용 넣기
+  });
 
   var modal = document.getElementById("modalApprovalComment");
   var confirmBtn = document.getElementById("apCommentConfirmBtn");
@@ -295,8 +339,8 @@ $(function () {
 
     td1.innerHTML = commentId[i];
     console.log(td1);
-    td2.innerHTML = commentDate[i];
-    td3.innerHTML = commentCmt[i];
+    td2.innerHTML = commentCmt[i];
+    td3.innerHTML = commentDate[i];
 
     tr.appendChild(td1);
     tr.appendChild(td2);
