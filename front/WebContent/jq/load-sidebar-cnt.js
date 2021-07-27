@@ -32,9 +32,6 @@ $(function () {
   $.ajax({
     url: backUrlApDocsList,
     method: "get",
-    data: {
-      id: "DEV001",
-    },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         cnt[i] = e;
