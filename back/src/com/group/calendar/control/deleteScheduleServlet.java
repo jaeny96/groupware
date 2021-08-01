@@ -24,14 +24,16 @@ public class deleteScheduleServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		// HttpSession session = request.getSession();
-		// String targetId = session.getAttribute("id").toString();
+		
+		//MS: Session 가져오기 
+		 HttpSession session = request.getSession();
+		String targetId = session.getAttribute("id").toString();
 		//String targetId = request.getParameter("removeSkdId");
-		String targetId = "MSD002";
 		System.out.println(targetId);
 //		System.out.println(request.getParameter("removeSkdno"));
-		int skdDeleteNo = Integer.parseInt(request.getParameter("removeSkdno"));
+		
+		//MS : skd_no 변경
+		int skdDeleteNo = Integer.parseInt(request.getParameter("skd_no"));
 		System.out.println(targetId + "/" + skdDeleteNo);
 
 		ScheduleService service;
@@ -48,9 +50,11 @@ public class deleteScheduleServlet extends HttpServlet {
 			s.setSkd_no(skdDeleteNo);
 
 			service.deleteSkd(s);
+			//System.out.println("일정이 삭제되었습니다");
 		} catch (RemoveException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("delete catch");
 		}
 	}
 

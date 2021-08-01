@@ -256,7 +256,11 @@
         <!-- 수정 / 삭제  -->
         <div class="mb-3 row">
           <div style="text-align: center; margin: 10px 0">
-            <button class="btn btn-primary modifyBtn" id="skdModifyBtn">
+            <button
+              type="button"
+              class="btn btn-primary modifyBtn"
+              id="skdModifyBtn"
+            >
               수정
             </button>
             <button class="btn btn-secondary deleteBtn">삭제</button>
@@ -388,7 +392,9 @@
               >
                 저장
               </button>
-              <button class="btn btn-secondary cancel">취소</button>
+              <button type="button" class="btn btn-secondary cancel">
+                취소
+              </button>
             </div>
             <!--저장/취소 div-->
           </div>
@@ -525,7 +531,7 @@
     <script src="js/schedule.js"></script>
     <script src="jq/load-schedule.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-<!--    <script src="https://unpkg.com/tippy.js@6"></script>-->
+    <!--    <script src="https://unpkg.com/tippy.js@6"></script>-->
     <script src="jq/modifySchedule.js"></script>
     <script src="jq/deleteSchedule.js"></script>
   </body>

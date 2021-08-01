@@ -304,6 +304,7 @@ $(function () {
             case "board.html":
             case "board-detail.html":
             case "schedule.html":
+            case "schedule-detail-search.html":
             // case "post.html":
             // case "post-detail-spending.html":
             // case "post-detail-circular.html":

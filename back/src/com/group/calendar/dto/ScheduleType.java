@@ -25,8 +25,8 @@ public class ScheduleType {
 		this.skd_type = skd_type;
 	}
 	@Override
-	public String toString() {
-		return "ScheduleType [skd_type=" + skd_type + "]";
-	}
+	   public String toString() {
+	      return skd_type;
+	   }
 	   
 }
