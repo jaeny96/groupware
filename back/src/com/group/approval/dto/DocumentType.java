@@ -1,11 +1,7 @@
 package com.group.approval.dto;
 
 public class DocumentType {
-	public String document_type;
-
-	public DocumentType() {
-		super();
-	}
+	private String document_type;
 
 	public String getDocument_type() {
 		return document_type;

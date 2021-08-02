@@ -6,14 +6,11 @@ import com.group.employee.dto.Employee;
 
 public class Agreement {
 
-	public Agreement() {
-		super();
-	}
-	public Document document_no;
-	public Employee employee_id;
-	public ApprovalStatus ag_ap_type;
-	public Date ag_ap_date;
-	public String ag_ap_comment;
+	private Document document_no;
+	private Employee employee_id;
+	private ApprovalStatus ag_ap_type;
+	private Date ag_ap_date;
+	private String ag_ap_comment;
 	
 	public Document getDocument_no() {
 		return document_no;
@@ -21,6 +18,7 @@ public class Agreement {
 	public void setDocument_no(Document document_no) {
 		this.document_no = document_no;
 	}
+
 	public Employee getEmployee_id() {
 		return employee_id;
 	}

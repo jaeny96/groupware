@@ -28,7 +28,67 @@
       rel="stylesheet"
     />
     <!-- <script src="jq/summernote.js"></script> -->
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.18);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .hidden {
+        display: none;
+      }
+
+      .modal_content {
+        width: 300px;
+      }
+
+      .modal ul {
+        list-style: none;
+        padding: 20px 10px;
+      }
+
+      .modal ul li {
+        height: 40px;
+      }
+
+      .modal form li > span {
+        float: left;
+        width: 100px;
+      }
+
+      .modal form li > div {
+        float: left;
+        width: 300px;
+      }
+
+      .modal > #content_box {
+        width: 300px;
+      }
+
+      .savediv {
+        clear: both;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .buttonplace {
+        float: left;
+      }
+    </style>
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/sidebar-count.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -135,24 +195,44 @@
                   >
                     <!-- data-parent="#sidebar" -->
                     <li class="sidebar-item">
-                      <a class="sidebar-link" href="approval-board.html"
+                      <a
+                        class="sidebar-link"
+                        id="apAllLink"
+                        href="approval-board.html"
+                        style="display: inline-block"
                         >전체</a
                       >
+                      <div class="count" id="apAllCntMark"></div>
                     </li>
                     <li class="sidebar-item">
-                      <a class="sidebar-link" href="approval-board-wait.html"
+                      <a
+                        class="sidebar-link"
+                        id="apWaitLink"
+                        href="approval-board-wait.html"
+                        style="display: inline-block"
                         >대기</a
                       >
+                      <div class="count" id="apWaitCntMark"></div>
                     </li>
                     <li class="sidebar-item">
-                      <a class="sidebar-link" href="approval-board-ok.html"
+                      <a
+                        class="sidebar-link"
+                        id="apOkLink"
+                        href="approval-board-ok.html"
+                        style="display: inline-block"
                         >승인</a
                       >
+                      <div class="count" id="apOkCntMark"></div>
                     </li>
                     <li class="sidebar-item">
-                      <a class="sidebar-link" href="approval-board-no.html"
+                      <a
+                        class="sidebar-link"
+                        id="apNoLink"
+                        href="approval-board-no.html"
+                        style="display: inline-block"
                         >반려</a
                       >
+                      <div class="count" id="apNoCntMark"></div>
                     </li>
                   </ul>
                 </li>
@@ -187,7 +267,7 @@
                   <!-- href="#"
                   data-toggle="dropdown" -->
                   <img
-                    src="img/avatars/avatar.jpg"
+                    src="img/avatars/avatar-4.jpg"
                     class="avatar img-fluid rounded mr-1"
                     alt="Charles Hall"
                   />
@@ -205,7 +285,7 @@
                     ><span class="loginName"></span>
                   </div>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Log out</a>
+                  <a class="dropdown-item logoutBtn" href="#">Log out</a>
                 </div>
               </li>
             </ul>
@@ -336,5 +416,6 @@
     </div>
     <script src="js/app.js"></script>
     <script src="js/mainpage.js"></script>
+    <script src="jq/load-sidebar-cnt.js"></script>
   </body>
 </html>

@@ -1,8 +1,3 @@
-#classes.prop
-ConfirmDocsDAO=com.group.approval.dao.ConfirmDocsDAOOracle
-SideDocsDAO=com.group.approval.dao.SideDocsDAOOracle
-DocsWriteDAO=com.group.approval.dao.DocsWriteDAOOracle
-ProcessDocsDAO=com.group.approval.dao.ProcessDocsDAOOracle
 employeeLeaveDAO=com.group.mypage.dao.EmployeeLeaveDAOOracle
 boardDAO=com.group.board.dao.BoardDAOOracle
 boardCommentDAO=com.group.board.dao.BoardCommentDAOOracle
@@ -10,3 +5,7 @@ employeeDAO=com.group.employee.dao.EmployeeDAOOracle
 departmentDAO=com.group.employee.dao.DepartmentDAOOracle
 mainDAO=com.group.main.dao.MainDAOOracle
 scheduleDAO=com.group.calendar.dao.ScheduleDAOOracle
+ConfirmDocsDAO=com.group.approval.dao.ConfirmDocsDAOOracle
+SideDocsDAO=com.group.approval.dao.SideDocsDAOOracle
+DocsWriteDAO=com.group.approval.dao.DocsWriteDAOOracle
+ProcessDocsDAO=com.group.approval.dao.ProcessDocsDAOOracle

@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.group.approval.dto.Agreement;
+import com.group.approval.dto.Approval;
 import com.group.approval.dto.Document;
 import com.group.approval.dto.DocumentType;
-
-import com.group.approval.exception.AddException;
-import com.group.approval.exception.FindException;
+import com.group.approval.dto.Reference;
+import com.group.exception.AddException;
+import com.group.exception.FindException;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.employee.dto.Position;
@@ -33,7 +35,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		try {
 			con = MyConnection.getConnection();
 			con.setAutoCommit(false);
-			// System.out.println("success");
+			 System.out.println("success");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());
@@ -44,11 +46,119 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
+			System.out.println(pstmt);
 			pstmt.setString(1, d.getDocument_no());
 			pstmt.setString(2, d.getDocument_type().getDocument_type());
 			pstmt.setString(3, d.getEmployee().getEmployee_id());
 			pstmt.setString(4, d.getDocument_title());
 			pstmt.setString(5, d.getDocument_content());
+			System.out.println("여긴 오라클 "+d);
+			int rowcnt = pstmt.executeUpdate();
+			System.out.println("안녕");
+			if (rowcnt == 1) {
+				System.out.println("문서기안 완료");
+			} else {
+				System.out.println("문서기안 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("연결실패");
+			return;
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+	}
+
+	@Override
+	public void draftAp(Approval ap) throws AddException {
+		// DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			con.setAutoCommit(false);
+			// System.out.println("success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		}
+		System.out.println("오라클쓰으으 "+ap);
+		String draftSQL = "INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (?, ?,'대기',?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(draftSQL);
+			pstmt.setString(1, ap.getDocument_no().getDocument_no());
+			pstmt.setString(2, ap.getEmployee_id().getEmployee_id());
+			pstmt.setInt(3, ap.getAp_step());
+			System.out.println("여긴 오라클 "+ap);
+			int rowcnt = pstmt.executeUpdate();
+			System.out.println("안녕");
+			if (rowcnt == 1) {
+				System.out.println("문서기안 완료");
+			} else {
+				System.out.println("문서기안 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("연결실패");
+			return;
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+
+	}
+
+	@Override
+	public void draftAg(Agreement ag) throws AddException {// DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			con.setAutoCommit(false);
+			// System.out.println("success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		}
+
+		String draftSQL = "INSERT INTO agreement (document_no, employee_id, ap_type) VALUES (?,?,'대기')";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(draftSQL);
+			pstmt.setString(1, ag.getDocument_no().getDocument_no());
+			pstmt.setString(2, ag.getEmployee_id().getEmployee_id());
+			int rowcnt = pstmt.executeUpdate();
+			if (rowcnt == 1) {
+				System.out.println("문서기안 완료");
+			} else {
+				System.out.println("문서기안 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("연결실패");
+			return;
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+
+	}
+
+	@Override
+	public void draftRe(Reference re) throws AddException {// DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			con.setAutoCommit(false);
+			// System.out.println("success");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		}
+
+		String draftSQL = "INSERT INTO reference (document_no, employee_id,ap_type) VALUES (?, ?,'대기')";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(draftSQL);
+			pstmt.setString(1, re.getDocument_no().getDocument_no());
+			pstmt.setString(2, re.getEmployee_id().getEmployee_id());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
@@ -75,12 +185,10 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String searchByNameSQL = "SELECT e.name, e.employee_id, d.department_id, d.department_title \r\n" + 
-				"FROM department d\r\n" + 
-				"JOIN employee e ON d.department_id = e.department_id\r\n" + 
-				"JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n" + 
-				"WHERE d.department_title=? AND enabled=1\r\n" + 
-				"ORDER BY p.position_id, employee_id";
+		String searchByNameSQL = "SELECT e.name, e.employee_id, d.department_id, d.department_title \r\n"
+				+ "FROM department d\r\n" + "JOIN employee e ON d.department_id = e.department_id\r\n"
+				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
+				+ "WHERE d.department_title=? AND enabled=1\r\n" + "ORDER BY p.position_id, employee_id";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> list = new ArrayList<>();
@@ -153,7 +261,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 
 	// 3. 전체 사원의 이름, 부서 정보 갖고오기
 	@Override
-	public List<Employee> searchApLineStaff() throws FindException{
+	public List<Employee> searchApLineStaff() throws FindException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -161,12 +269,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		}
-		String selectNameDepSQL = "SELECT e.name, department_title\r\n" + 
-				"FROM department d\r\n" + 
-				"JOIN employee e ON d.department_id = e.department_id\r\n" + 
-				"JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n" + 
-				"WHERE enabled=1\r\n" + 
-				"ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id";
+		String selectNameDepSQL = "SELECT e.name, department_title\r\n" + "FROM department d\r\n"
+				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
+				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
+				+ "WHERE enabled=1\r\n"
+				+ "ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id";
 		System.out.println(selectNameDepSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -201,8 +308,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 		return empList;
-	}	
-	
+	}
+
 	public static void main(String[] args) throws Exception {
 //		//1.기안하기test
 //		Scanner sc = new Scanner(System.in);

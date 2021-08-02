@@ -35,7 +35,7 @@ public class ShowApLineStaffListServlet extends HttpServlet {
 			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
-		} catch (com.group.approval.exception.FindException e) {
+		} catch (FindException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

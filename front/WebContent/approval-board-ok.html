@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -79,31 +79,45 @@
         전자결재(승인)
       </h1>
       <hr />
-      <div class="col-sm-3" style="margin-left: 20px">
-        <div class="dropdown mt-2">
-          <button onclick="myFunction()" class="dropbtn">문서 상태 선택</button>
-          <div id="myDropdown" class="dropdown-content">
-            <a href="#" id="apDocumentStatusOk"> 확인</a>
-            <a href="#" id="apDocumentStatusNo"> 미확인</a>
-            <a href="#" id="apDocumentStatusAll"> 모든문서</a>
+      <div class="col-sm-3" style="margin-left: 30px">
+        <div id="apBtnGroup" class="btn-group btn-group-lg">
+          <button
+            id="apDropDownStatusGroup"
+            type="button"
+            class="btn ap-btn-outline-purple btn-lg dropdown-toggle mt-3"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            문서 상태
+          </button>
+          <div class="dropdown-menu mt-5 categoryDropdown">
+            <div class="mt-2"></div>
+            <div id="apDocumentStatusOk" class="dropdown-item">확인</div>
+            <div id="apDocumentStatusNo" class="dropdown-item">미확인</div>
+            <div id="apDocumentStatusAll" class="dropdown-item">모든문서</div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-9">
-          <div class="text-right mt-2">
-            <label class="container" id="apSearchGroupCheck"
-              >제목
-              <input type="radio" id="apSearchTitle" name="search" />
-              <span class="checkmark"></span>
-              작성자
-              <input type="radio" id="apSearchWriter" name="search" />
-              <span class="checkmark"></span>
-            </label>
+        <div id="allSearchObj" class="text-right mr-5 mb-3">
+          <div id="apSearchGroup" class="text-right mt-2">
+            <input type="radio" id="apSearchTitle" name="apSearch" /><label
+              for="rdPink"
+              >제목</label
+            >
+            <input type="radio" id="apSearchWriter" name="apSearch" /><label
+              for="rdRed"
+              >내용</label
+            >
           </div>
-        </div>
-        <div class="col-md-3 mb-5">
-          <form class="d-none d-sm-inline-block">
+
+          <form
+            class="d-none d-sm-inline-block"
+            id="apSearchFormObj"
+            method="get"
+            action="#"
+          >
             <div class="input-group input-group-navbar">
               <input
                 type="text"
@@ -112,7 +126,7 @@
                 placeholder="Search…"
                 aria-label="Search"
               />
-              <button class="btn" type="button">
+              <button class="btn" id="apSearchButton">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -139,7 +153,7 @@
         <div class="col-md-10">
           <div class="card">
             <div class="table-responsive">
-              <table id="apDocumentTableList" class="table mb-0 text-center">
+              <table id="apDocumentTable" class="table mb-0 text-center">
                 <thead style="background-color: #f6f6f6">
                   <tr>
                     <th scope="col">번호</th>
@@ -199,7 +213,7 @@
               <li class="list-inline-item">
                 <a class="text-muted" href="#">1</a>
               </li>
-              <li class="list-inline-item">
+              <!--   <li class="list-inline-item">
                 <a class="text-muted" href="#">2</a>
               </li>
               <li class="list-inline-item">
@@ -207,7 +221,7 @@
               </li>
               <li class="list-inline-item">
                 <a class="text-muted" href="#">4</a>
-              </li>
+              </li> -->
               <li class="list-inline-item">
                 <a href="index.html" class="text-muted"
                   ><strong>next</strong></a
@@ -219,5 +233,5 @@
       </div>
     </div>
   </body>
-  <script src="jq/load-apboard-ok.js"></script>
 </html>
+<script src="jq/load-apboard-ok.js"></script>

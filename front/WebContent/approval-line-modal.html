@@ -152,6 +152,7 @@
             <form>
               <div class="container-fluid p-0">
                 <div class="row">
+                  <!--<div class="col-12 col-md-6 col-lg-4">-->
                   <div class="col-4">
                     <div class="card">
                       <div class="card-header">
@@ -160,194 +161,85 @@
                         </h5>
                       </div>
                       <div class="card-body">
-                        <div
-                          style="
-                            overflow-x: hidden;
-                            overflow-y: auto;
-                            width: 240px;
-                            height: 430px;
-                          "
-                        >
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            대표이사 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table class="table mb-0" style="width: 200px">
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
+                        <div class="dropdown">
+                          <div class="dropbtnCEO">
+                            <button
+                              type="button"
+                              class="btn btn-success"
+                              id="agreementBoxBtn"
+                            >
+                              대표이사
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="
+                                  feather feather-chevron-down
+                                  align-middle
+                                  mr-2
+                                "
                               >
-                                <td class="apStaffName">권보아</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            기획 개발실 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table
-                            class="table mb-0"
-                            id="devTable"
-                            style="width: 200px"
-                          >
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">임창균</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">손현우</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">유기현</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            경영 지원실 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table
-                            class="table mb-0"
-                            id="msdTable"
-                            style="width: 200px"
-                          >
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">이민혁</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">채형원</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">오지수</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            서비스 운영실 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table class="table mb-0" style="width: 200px">
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">김정은</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">김태연</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">이채린</td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            인프라 운영실 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table class="table mb-0" style="width: 200px">
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">강슬기</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">권민수</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">박수영</td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <button
-                            type="button"
-                            class="btn btn-success text-left"
-                            style="width: 200px"
-                            id="agreementBoxBtn"
-                          >
-                            영업부 <span class="fa fa-sort-down"></span>
-                          </button>
-                          <table class="table mb-0" style="width: 200px">
-                            <tbody>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">이주헌</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">박미정</td>
-                              </tr>
-                              <tr
-                                class="listInner"
-                                onclick="javascript:getNameForApLine(this);"
-                              >
-                                <td class="apStaffName">김정은</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                         <br />
+                        <div class="dropdown">
+                          <table class="table mb-0">
+                            <tbody>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                              <tr>
+                                <td>Cell</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <!-- <div class="dropbtnDEV">
+                              <button class="dropbtn" style="width: 150px">
+                                기획개발실
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  class="
+                                    feather feather-chevron-down
+                                    align-middle
+                                    mr-2
+                                  "
+                                >
+                                  <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                              </button>
+                            </div>
+                            <div class="dropdown-content">
+                              <a href="#">임창균</a>
+                              <a href="#">김민준</a>
+                              <a href="#">정연주</a>
+                              <a href="#">옥택연</a>
+                              <a href="#">장우영</a>
+                              <a href="#">이준호</a>
+                              <a href="#">이마크</a>
+                              <a href="#">황런쥔</a>
+                              <a href="#">이제노</a>
+                            </div> -->
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -508,8 +400,7 @@
         </div>
       </div>
     </div>
-    <script src="js/app.js"></script>
-    <script src="jq/post-approvalline-modal.js"></script>
+
     <script>
       //모달창을 여는 버튼 객체
       const openBtn = window.document.getElementById("open");

@@ -23,7 +23,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/summernote/summernote-lite.js"></script>
     <script src="js/summernote/lang/summernote-ko-KR.js"></script>
-    <link rel="stylesheet" href="css/summernote/summernote-lite.css" />
+    <!-- <link rel="stylesheet" href="css/summernote/summernote-lite.css" /> -->
     <link
       href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
       rel="stylesheet"
@@ -60,7 +60,7 @@
       .hidden {
         display: none;
       }
-      ul {
+      /* ul {
         list-style: none;
         padding: 20px 10px;
       }
@@ -74,7 +74,7 @@
       form li > div {
         float: left;
         width: 300px;
-      }
+      } */
       #content_box {
         width: 300px;
       }
@@ -120,6 +120,8 @@
         background-color: #4d0d49;
       }
     </style>
+
+    <script src="jq/approval-draft-register.js"></script>
   </head>
 
   <body>
@@ -171,9 +173,9 @@
                               class="documentTypeSelect"
                               name="document_type"
                               id="documentTypeSelect"
-                              onchange="if(this.value) location.href=(this.value);"
                               style="width: 60%; border: 1px solid #ced4da"
                             >
+                              <!-- onchange="if(this.value) location.href=(this.value);" -->
                               <option value="#">지출</option>
                               <option value="post.html">선택</option>
                               <option value="post-detail-circular.html">
@@ -239,16 +241,28 @@
                                   결재
                                 </td>
 
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center zeroLine"
+                                  style="width: 22%"
+                                >
                                   0
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center oneLine"
+                                  style="width: 22%"
+                                >
                                   1
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center twoLine"
+                                  style="width: 22%"
+                                >
                                   2
                                 </td>
-                                <td class="text-center" style="width: 22%">
+                                <td
+                                  class="text-center threeLine"
+                                  style="width: 22%"
+                                >
                                   3
                                 </td>
                               </tr>
@@ -300,28 +314,40 @@
                               </tr>
                               <tr>
                                 <td
-                                  id="apApprovalStepName0"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName0
+                                  "
                                 >
                                   <!-- 나 -->
                                 </td>
                                 <td
-                                  id="apApprovalStepName1"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName1
+                                  "
                                 >
                                   <!-- 티파니 -->
                                 </td>
                                 <td
-                                  id="apApprovalStepName2"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName2
+                                  "
                                 ></td>
                                 <td
-                                  id="apApprovalStepName3"
                                   style="width: 22%"
-                                  class="text-center font-weight-bolder"
+                                  class="
+                                    text-center
+                                    font-weight-bolder
+                                    apApprovalStepName3
+                                  "
                                 ></td>
                               </tr>
                             </tbody>
@@ -341,8 +367,7 @@
                                   합의
                                 </td>
                                 <td
-                                  id="apAgreementName"
-                                  class="font-weight-bolder"
+                                  class="font-weight-bolder apAgreementName"
                                   style="width: 88%"
                                 >
                                   <!-- 태연 -->
@@ -368,8 +393,7 @@
                                   참조
                                 </td>
                                 <td
-                                  id="apReferenceName"
-                                  class="font-weight-bolder"
+                                  class="font-weight-bolder apReferenceName"
                                   style="width: 88%"
                                 >
                                   <!-- 수영 -->
@@ -410,55 +434,89 @@
                           >
                           <!-- <form> -->
                           <textarea id="summernote" name="editordata">
-                          <p style="text-align: center;">&nbsp;</p>
-                          <p style="text-align: center;">결의서</p>
-                          <p style="text-align: center;"></p>
-                          <p style="text-align: center;">&nbsp;</p>
-                          <table class=" table-bordered" style="width: 754.062px; height: 161px; margin-left: auto; margin-right: auto;">
-                          <tbody>
-                          <tr>
-                          <td style="width: 91px;">결재내역</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 105px;">&nbsp;</td>
-                          <td style="width: 282.062px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 105px;">&nbsp;</td>
-                          <td style="width: 282.062px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 105px;">&nbsp;</td>
-                          <td style="width: 282.062px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 105px;">&nbsp;</td>
-                          <td style="width: 282.062px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 91px;">&nbsp;</td>
-                          <td style="width: 105px;">&nbsp;</td>
-                          <td style="width: 282.062px;">&nbsp;</td>
-                          </tr>
-                          </tbody>
-                          </table>
-                        </p>
+                            <table class="tableType spending">
+                              <colgroup>
+                              <col style="width: 12.09%;">
+                              <col style="width: 87.91%;">
+                              </colgroup>
+                              <tbody>
+                                <tr>
+                                  <th scope="row">구분</th>
+                                <td>
+                                  <label>
+                                    <input type="radio" name="spending_type" value="P" checked >
+                                    개인
+                                  </label>
+                                  <label>
+                                    <input type="radio" name="spending_type" value="C" >
+                                    법인
+                                  </label>                                  
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row" id="th_spending_regist_month">회계 기준월</th>
+                                <th scope="row" style="display: none;" id="th_spending_regist_days">회계 기준일
+                                </th>
+                                <td>
+                                  <div class="to-item" id="spending_regist_md">
+                                    <!--회계 기준: 월별-->
+                                    <select class="write-select" style="width: 80px;" id="selectFixedYear">
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option> 
+                                    <option value="2020">2020</option>
+                                    <option value="2021" selected>2021</option>                                                                                                                                                                                        
+                                    </select>
+                                    년
+                                    <select class="write-select" style="width: 50px;" id="selectFixedMonth">
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7" selected="">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+                                      <option value="11">11</option>
+                                      <option value="12">12</option>
+                                    </select>
+                                    월
+                                    <!-- 회계 기준: 일별-->
+                                    <select class="write-select" style="width: 120px; display:none;" id="selectFixedDays">
+                                      <option value="0">회계 기준일</option>
+                                    </select>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">지출자</th>
+                                <td>
+                                  <input type="text" class="spending-add" placeholder="클릭 후 입력" id="inputSpenderName"> 
+                                  <span class="hide" id="textSpenderName"></span>
+                                </td>
+                              </tr>
+                              <tr id="infoEmployeeAccount" style="display: table-row;">
+                                <th scope="row">계좌 정보</th>
+                                <td>
+                                  <input type="text" class="accountNo" id="accountNoId">
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">거래 내역</th>
+                                <td id="approvalFirstLine">
+                                  <textarea class="spendingDetailContents" id="inputSpendingDetail" rows="8" cols="80" style="box-sizing:border-box; resize:none; padding: 2px;">
+                                  </textarea>
+                                  <p class="data_count" style="text-align: right;">
+                                    <em id="messageByte">0</em>
+                                    /250
+                                  </p>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
                         </textarea
                           >
                           <div class="filebox" style="margin-top: 10px">
@@ -476,8 +534,8 @@
                             "
                             id="draftComplete"
                             style="margin-bottom: 20px"
-                            type="submit"
                           >
+                            <!-- type="submit" -->
                             <i
                               class="fas fa-check"
                               style="
@@ -487,7 +545,29 @@
                                 padding-bottom: 10px;
                               "
                             ></i>
-                            기안하기
+                            기안하기1
+                          </button>
+                          <button
+                            type="button"
+                            class="
+                              btn btn-outline-danger
+                              float-right
+                              btn-approvalsetting
+                            "
+                            id="draftComplete2"
+                            style="margin-bottom: 20px"
+                          >
+                            <!-- type="submit" -->
+                            <i
+                              class="fas fa-check"
+                              style="
+                                padding-right: 10px;
+                                padding-left: 0px;
+                                padding-top: 10px;
+                                padding-bottom: 10px;
+                              "
+                            ></i>
+                            기안하기2
                           </button>
 
                           <!-- </form> -->
@@ -593,11 +673,11 @@
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineDev"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          기획 개발실 <span class="fa fa-sort-down"></span>
+                          기획개발실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table
                           class="table mb-0"
@@ -627,11 +707,11 @@
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineMsd"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          경영 지원실 <span class="fa fa-sort-down"></span>
+                          경영지원실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table
                           class="table mb-0"
@@ -639,7 +719,7 @@
                           style="width: 200px"
                         >
                           <tbody class="MSDTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -656,20 +736,20 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">오지수</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineSvc"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          서비스 운영실 <span class="fa fa-sort-down"></span>
+                          서비스운영실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
                           <tbody class="SVCTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -686,21 +766,21 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">이채린</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
 
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineIfr"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
-                          인프라 운영실 <span class="fa fa-sort-down"></span>
+                          인프라운영실 <span class="fa fa-sort-down"></span>
                         </button>
                         <table class="table mb-0" style="width: 200px">
                           <tbody class="IFRTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -717,13 +797,13 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">박수영</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
 
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineSal"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
@@ -731,7 +811,7 @@
                         </button>
                         <table class="table mb-0" style="width: 200px">
                           <tbody class="SALTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -748,12 +828,12 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">김정은</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left"
+                          class="btn btn-success text-left apLineBin"
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
@@ -761,7 +841,7 @@
                         </button>
                         <table class="table mb-0" style="width: 200px">
                           <tbody class="BINTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -778,12 +858,17 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">김정은</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                         <button
                           type="button"
-                          class="btn btn-success text-left agreementBoxBtn"
+                          class="
+                            btn btn-success
+                            text-left
+                            agreementBoxBtn
+                            apLineSec
+                          "
                           style="width: 200px"
                           id="agreementBoxBtn"
                         >
@@ -791,7 +876,7 @@
                         </button>
                         <table class="table mb-0" style="width: 200px">
                           <tbody class="SECTbody">
-                            <tr
+                            <!-- <tr
                               class="listInner"
                               onclick="javascript:getNameForApLine(this);"
                             >
@@ -808,7 +893,7 @@
                               onclick="javascript:getNameForApLine(this);"
                             >
                               <td class="apStaffName">김정은</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                       </div>
@@ -956,17 +1041,6 @@
     </div>
 
     <!--결재선 설정 모달창 끝 -->
-    <script src="js/app.js"></script>
-    <script src="js/ceo-aplineemplist.js"></script>
-    <script src="js/msd-aplineemplist.js"></script>
-    <script src="js/dev-aplineemplist.js"></script>
-    <script src="js/svc-aplineemplist.js"></script>
-    <script src="js/ifr-aplineemplist.js"></script>
-    <script src="js/sal-aplineemplist.js"></script>
-    <script src="js/bin-aplineemplist.js"></script>
-    <script src="js/sec-aplineemplist.js"></script>
-    <script src="jq/approval-draft-register.js"></script>
-    <script src="js/post-approvalline-modal.js"></script>
     <script>
       var docDraftWriterObj = document.querySelector("span#docWriterLoginName");
       //현재 로그인한 사용자의 이름
@@ -1017,11 +1091,11 @@
       //   });
       // });
 
-      $("#file").on("change", function () {
-        //파일업로드 함수
-        var fileName = $("#file").val();
-        $(".upload-name").val(fileName);
-      });
+      // $("#file").on("change", function () {
+      //   //파일업로드 함수
+      //   var fileName = $("#file").val();
+      //   $(".upload-name").val(fileName);
+      // });
 
       //결재선 모달창 검색기능
       function filter() {
@@ -1061,5 +1135,15 @@
         }
       }
     </script>
+    <script src="js/app.js"></script>
+    <script src="js/ceo-aplineemplist.js"></script>
+    <script src="js/msd-aplineemplist.js"></script>
+    <script src="js/dev-aplineemplist.js"></script>
+    <script src="js/svc-aplineemplist.js"></script>
+    <script src="js/ifr-aplineemplist.js"></script>
+    <script src="js/sal-aplineemplist.js"></script>
+    <script src="js/bin-aplineemplist.js"></script>
+    <script src="js/sec-aplineemplist.js"></script>
+    <!-- <script src="js/post-approvalline-modal.js"></script> -->
   </body>
 </html>

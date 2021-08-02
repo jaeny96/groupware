@@ -7,7 +7,13 @@ $(function () {
   var apLineStaffId = new Array();
   var tbody = document.querySelector(".CEOTbody");
   var ceoLineBtnObj = document.querySelector("button.apLineCeo");
-  console.log(ceoLineBtnObj);
+  // console.log(ceoLineBtnObj);
+
+  function apStaffNameClickHandler(e) {
+    localStorage.setItem("apLineName", e.target.innerText);
+    localStorage.setItem("apLineId", e.target.id);
+  }
+
   function createApLineElement(i) {
     var tr = document.createElement("tr");
     var td = document.createElement("td");
@@ -16,6 +22,7 @@ $(function () {
     td.setAttribute("class", "apStaffName");
     td.innerHTML = apLineStaffName[i];
     td.setAttribute("id", apLineStaffId[i]);
+    td.addEventListener("click", apStaffNameClickHandler);
     tr.appendChild(td);
     tbody.appendChild(tr);
   }
