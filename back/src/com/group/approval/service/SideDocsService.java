@@ -81,30 +81,21 @@ public class SideDocsService {
 	}
 	
 	/**
-	 * (전체)를 누르면 해당 페이지에 자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-	 * @param id 로그인한 사용자 id
-	 * @return 기안올린+결재 해야하는 전체 문서 목록
-	 * @throws FindException
-	 */
-	public List<Document> findDocsAll(String id) throws FindException{
-		
-		return dao.selectByListAll(id);
-	}
-	
-	/**
-	 * (진행/승인/반려)를 누르면 해당 페이지에  자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	 * (전체/진행/승인/반려)를 누르면 해당 페이지에  자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
 	 * @param id 로그인한 사용자 id
 	 * @param state 사이드바에서 사용자가 선택한 부분
 	 * @return 사용자가 선택한 상태에 해당하는 기안올린 + 결재 해야하는 문서 목록
 	 * @throws FindException
 	 */
-	public List<Document> findDocsStatus(String id,String state) throws FindException{
+	public List<Document> findDocsStatus(String id,String status) throws FindException{
 		List<Document> lists=null;
-		if(state.equals("대기")) {
+		if(status.equals("")) {
+			lists=dao.selectByListAll(id);
+		}else if(status.equals("대기")) {
 			lists=dao.selectByListWait(id);
-		}else if(state.equals("승인")){
+		}else if(status.equals("승인")){
 			lists=dao.selectByListOk(id);
-		}else if(state.equals("반려")) {
+		}else if(status.equals("반려")) {
 			lists=dao.selectByListNo(id);
 			
 		}
@@ -113,66 +104,66 @@ public class SideDocsService {
 
 	
 	public static void main(String[] args) {
-		service = SideDocsService.getInstance();
-		//사이드바 목록 확인 
-		try {
-			String id="DEV001";
-			int result = 0;
-			result=service.findCntAll(id);
-			System.out.println(id+"의 전체 목록개수 : "+result);
-			result=service.findCntWait(id);
-			System.out.println(id+"의 진행 목록개수 : "+result);
-			result=service.findCntOk(id);
-			System.out.println(id+"의 승인 목록개수 : "+result);
-			result=service.findCntNo(id);
-			System.out.println(id+"의 반려 목록개수 : "+result);
-			
-			List<Integer> arrlist =new ArrayList<Integer>();
-			arrlist.add(0, service.findCntAll(id));
-			System.out.println(arrlist.get(0));
-			System.out.println(arrlist);
-			
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-		
-		//사이드바 클릭시 목록 불러오기
-		try {
-			String id="DEV001";
-			String state="승인";
-			
-			List<Document> lists0 = new ArrayList<>();
-			System.out.println(id+"사원의 최종문서  전체값의 목록");
-			lists0=service.findDocsAll(id);
-			for(Document d: lists0) {
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			System.out.println();
-			
-				List<Document> lists = new ArrayList<>();
-			System.out.println(id+"사원의 최종문서 "+state+"값의 목록");
-			lists=service.findDocsStatus(id,state);
-			for(Document d: lists) {	
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_type().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-		
-			
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
-
+//		service = SideDocsService.getInstance();
+//		//사이드바 목록 확인 
+//		try {
+//			String id="DEV001";
+//			int result = 0;
+//			result=service.findCntAll(id);
+//			System.out.println(id+"의 전체 목록개수 : "+result);
+//			result=service.findCntWait(id);
+//			System.out.println(id+"의 진행 목록개수 : "+result);
+//			result=service.findCntOk(id);
+//			System.out.println(id+"의 승인 목록개수 : "+result);
+//			result=service.findCntNo(id);
+//			System.out.println(id+"의 반려 목록개수 : "+result);
+//			
+//			List<Integer> arrlist =new ArrayList<Integer>();
+//			arrlist.add(0, service.findCntAll(id));
+//			System.out.println(arrlist.get(0));
+//			System.out.println(arrlist);
+//			
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//사이드바 클릭시 목록 불러오기
+//		try {
+//			String id="DEV001";
+//			String state="승인";
+//			
+//			List<Document> lists0 = new ArrayList<>();
+//			System.out.println(id+"사원의 최종문서  전체값의 목록");
+//			lists0=service.findDocsAll(id);
+//			for(Document d: lists0) {
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			System.out.println();
+//			
+//				List<Document> lists = new ArrayList<>();
+//			System.out.println(id+"사원의 최종문서 "+state+"값의 목록");
+//			lists=service.findDocsStatus(id,state);
+//			for(Document d: lists) {	
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_type().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//		
+//			
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
+//
 
 	}
 	

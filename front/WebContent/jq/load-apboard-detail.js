@@ -113,7 +113,7 @@ $(function () {
 
   //내가 승인해야할 부분
   $.ajax({
-    url: "/back/checkapuser",
+    url: "/back/selectmyadmin",
     method: "get",
     data: {
       docsNo: tmpDocsBdNo,

@@ -46,71 +46,45 @@ public class ConfirmDocsService {
 		return service;
 	}
 	
+
 	/**
-	 * (전체)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+	 * (전체/승인/대기/반려)사용자는 확인 문서를 선택해서 볼 수 있다. 
 	 * @param id 로그인한 사용자 id
-	 * @param check 확인 or 미확인 선택값 
+	 * @param status 문서 상태값
 	 * @return 사용자가 선택한 결과값 목록
 	 * @throws FindException
 	 */	
-	public List<Document> findCheckDocsAll(String id,String check) throws FindException{
+	public List<Document> findCheckDocsOk(String id,String status) throws FindException{
 		List<Document> lists=null;
-		if(check.equals("확인")) {
-			lists= dao.selectByCheckAllOk(id);
-		}else if(check.equals("미확인")){
-			lists= dao.selectByCheckAllNo(id);
-		}
-		return lists;
-		
-	}
-	
-	/**
-	 * (대기)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	 * @param id 로그인한 사용자 id
-	 * @param check 확인 or 미확인 선택값 
-	 * @return 사용자가 선택한 결과값 목록
-	 * @throws FindException
-	 */	
-	public List<Document> findCheckDocsWait(String id,String check) throws FindException{
-		List<Document> lists=null;
-		if(check.equals("확인")) {
-			lists= dao.selectByCheckWaitOk(id);
-		}else if(check.equals("미확인")){
-			lists= dao.selectByCheckWaitNo(id);
+		if(status.equals("")) {
+			lists=dao.selectByCheckAllOk(id);
+		}else if(status.equals("대기")){
+			lists=dao.selectByCheckWaitOk(id);
+		}else if(status.equals("승인")){
+			lists=dao.selectByCheckOkOk(id);
+		}else if(status.equals("반려")) {
+			lists=dao.selectByCheckNoOk(id);
 		}
 		return lists;
 	}
 	
 	/**
-	 * (반려)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
+	 * (전체/승인/대기/반려)사용자는 미확인 문서를 선택해서 볼 수 있다. 
 	 * @param id 로그인한 사용자 id
-	 * @param check 확인 or 미확인 선택값 
+	 * @param status 문서 상태값
 	 * @return 사용자가 선택한 결과값 목록
 	 * @throws FindException
 	 */	
-	public List<Document> findCheckDocsNo(String id,String check) throws FindException{
+	public List<Document> findCheckDocsNo(String id,String status) throws FindException{
 		List<Document> lists=null;
-		if(check.equals("확인")) {
-			lists= dao.selectByCheckNoOk(id);
-		}else if(check.equals("미확인")){
-			lists= dao.selectByCheckNoNo(id);
-		}
-		return lists;
-	}
-	
-	/**
-	 * (승인)사용자는 확인or미확인 문서를 선택해서 볼 수 있다. 
-	 * @param id 로그인한 사용자 id
-	 * @param check 확인 or 미확인 선택값 
-	 * @return 사용자가 선택한 결과값 목록
-	 * @throws FindException
-	 */	
-	public List<Document> findCheckDocsOk(String id,String check) throws FindException{
-		List<Document> lists=null;
-		if(check.equals("확인")) {
-			lists= dao.selectByCheckOkOk(id);
-		}else if(check.equals("미확인")){
-			lists= dao.selectByCheckOkNo(id);
+		if(status.equals("")) {
+			lists=dao.selectByCheckAllNo(id);
+		}else if(status.equals("대기")){
+			lists=dao.selectByCheckWaitNo(id);
+		}else if(status.equals("승인")){
+			lists=dao.selectByCheckOkNo(id);
+		}else if(status.equals("반려")) {
+			lists=dao.selectByCheckNoNo(id);
 		}
 		return lists;
 	}

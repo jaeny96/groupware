@@ -267,10 +267,11 @@ $(function () {
       });
     } else {
       $.ajax({
-        url: "/back/selectallpick",
+        url: "/back/selectcheckpick",
         method: "get",
         data: {
           check: nowStatus,
+          status: "",
         },
         success: function (responseData) {
           emptyBdElement(tBodyObject);
@@ -312,8 +313,11 @@ $(function () {
 
   //첫 화면 조회하는 ajax
   $.ajax({
-    url: "/back/showapdocsall",
+    url: "/back/showapdocsstatus",
     method: "get",
+    data: {
+      status: "",
+    },
     success: function (responseData) {
       emptyBdElement(tBodyObject);
       createTbodyElement();

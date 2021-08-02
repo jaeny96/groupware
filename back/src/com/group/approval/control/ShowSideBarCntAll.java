@@ -23,7 +23,7 @@ import com.group.approval.service.SideDocsService;
 public class ShowSideBarCntAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-  
+	//사이드바 목록 개수 관련 서블릿 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//String loginId = request.getParameter("id");

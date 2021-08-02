@@ -42,7 +42,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 		//?=사원번호
 		String sql="SELECT count(*) AS total FROM (select a.* "+
-				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=?) "+
+				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=? and a.ap_step!=0) "+
 						"UNION ALL "+
 						"(SELECT ag.document_no FROM agreement ag WHERE ag.employee_id=?) "+
 						"UNION ALL "+
@@ -88,7 +88,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		//?=사원번호
 		int cnt=0;
 		String sql="SELECT count(*) AS total FROM (select a.* "+
-				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=?) "+
+				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=? and a.ap_step!=0) "+
 						"UNION ALL "+
 						"(SELECT ag.document_no FROM agreement ag WHERE ag.employee_id=?) "+
 						"UNION ALL "+
@@ -134,7 +134,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		//?=사원번호
 		int cnt=0;
 		String sql="SELECT count(*) AS total FROM (select a.* "+
-				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=?) "+
+				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=? and a.ap_step!=0) "+
 						"UNION ALL "+
 						"(SELECT ag.document_no FROM agreement ag WHERE ag.employee_id=?) "+
 						"UNION ALL "+
@@ -180,7 +180,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		//?=사원번호
 		int cnt=0;
 		String sql="SELECT count(*) AS total FROM (select a.* "+
-				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=?) "+
+				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=? and a.ap_step!=0) "+
 						"UNION ALL "+
 						"(SELECT ag.document_no FROM agreement ag WHERE ag.employee_id=?) "+
 						"UNION ALL "+
@@ -229,7 +229,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 				"SELECT * FROM (select a.*\r\n" + 
 				"FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
 				"FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
-				"WHERE a.employee_id=?)\r\n" + 
+				"WHERE a.employee_id=? and a.ap_step!=0)\r\n" + 
 				"UNION ALL\r\n" + 
 				"(SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type \r\n" + 
 				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
@@ -305,25 +305,25 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			throw new FindException(e.getMessage());
 		}
 		String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-				"				from employee e join ( \r\n" + 
-				"				SELECT *FROM (select a.*\r\n" + 
-				"				FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
-				"				           FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
-				"				           WHERE a.employee_id=?)\r\n" + 
-				"				UNION ALL\r\n" + 
-				"            (SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
-				"				            FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
-				"				            WHERE ag.employee_id=?)\r\n" + 
-				"				UNION ALL\r\n" + 
-				"				(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,ap_type \r\n" + 
-				"				           FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-				"				            WHERE r.employee_id=?)\r\n" + 
-				"				UNION ALL\r\n" + 
-				"				(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
-				"				            FROM document d   \r\n" + 
-				"				           WHERE employee_id=?))a \r\n" + 
-				"				JOIN document d ON a.document_no= d.document_no WHERE document_status='승인')) j ON e.employee_id = j.employee_id\r\n" + 
-				"				ORDER BY draft_date ASC";
+				"from employee e join ( \r\n" + 
+				"SELECT *FROM (select a.*\r\n" + 
+				"FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
+				"FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
+				"WHERE a.employee_id=? and a.ap_step!=0)\r\n" + 
+				"UNION ALL\r\n" + 
+				"(SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
+				"FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
+				"WHERE ag.employee_id=?)\r\n" + 
+				"UNION ALL\r\n" + 
+				"(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,ap_type \r\n" + 
+				"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
+				"WHERE r.employee_id=?)\r\n" + 
+				"UNION ALL\r\n" + 
+				"(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
+				"FROM document d   \r\n" + 
+				"WHERE employee_id=?))a \r\n" + 
+				"JOIN document d ON a.document_no= d.document_no WHERE document_status='승인')) j ON e.employee_id = j.employee_id\r\n" + 
+				"ORDER BY draft_date ASC";
 		
 		PreparedStatement pstmt=null;
 		ResultSet rs= null;
@@ -386,25 +386,25 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 				throw new FindException(e.getMessage());
 			}
 			String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-					"				from employee e join ( \r\n" + 
-					"				SELECT *FROM (select a.*\r\n" + 
-					"				FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
-					"				           FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
-					"				           WHERE a.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"            (SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
-					"				            FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
-					"				            WHERE ag.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"				(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,null \r\n" + 
-					"				           FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-					"				            WHERE r.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"				(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
-					"				            FROM document d   \r\n" + 
-					"				           WHERE employee_id=?))a \r\n" + 
-					"				JOIN document d ON a.document_no= d.document_no WHERE document_status='대기')) j ON e.employee_id = j.employee_id\r\n" + 
-					"				ORDER BY draft_date ASC";
+					"from employee e join ( \r\n" + 
+					"SELECT *FROM (select a.*\r\n" + 
+					"FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
+					"FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
+					"WHERE a.employee_id=? and a.ap_step!=0)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
+					"FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
+					"WHERE ag.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,null \r\n" + 
+					"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
+					"WHERE r.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
+					"FROM document d   \r\n" + 
+					"WHERE employee_id=?))a \r\n" + 
+					"JOIN document d ON a.document_no= d.document_no WHERE document_status='대기')) j ON e.employee_id = j.employee_id\r\n" + 
+					"ORDER BY draft_date ASC";
 			
 			PreparedStatement pstmt=null;
 			ResultSet rs= null;
@@ -468,25 +468,25 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 				throw new FindException(e.getMessage());
 			}
 			String sql="SELECT j.document_no, j.document_title, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type, j.ap_type\r\n" + 
-					"				from employee e join ( \r\n" + 
-					"				SELECT *FROM (select a.*\r\n" + 
-					"				FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
-					"				           FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
-					"				           WHERE a.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"            (SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
-					"				            FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
-					"				            WHERE ag.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"				(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,null \r\n" + 
-					"				           FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
-					"				            WHERE r.employee_id=?)\r\n" + 
-					"				UNION ALL\r\n" + 
-					"				(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
-					"				            FROM document d   \r\n" + 
-					"				           WHERE employee_id=?))a \r\n" + 
-					"				JOIN document d ON a.document_no= d.document_no WHERE document_status='반려')) j ON e.employee_id = j.employee_id\r\n" + 
-					"				ORDER BY draft_date ASC";
+					"from employee e join ( \r\n" + 
+					"SELECT *FROM (select a.*\r\n" + 
+					"FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type \r\n" + 
+					"FROM approval a JOIN document d ON a.document_no=d.document_no \r\n" + 
+					"WHERE a.employee_id=? and a.ap_step!=0)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_title, d.document_no, draft_date, d.employee_id, d.document_type,ap_type\r\n" + 
+					"FROM agreement ag JOIN document d ON ag.document_no=d.document_no \r\n" + 
+					"WHERE ag.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT d.document_title,d.document_no, draft_date, d.employee_id,d.document_type,null \r\n" + 
+					"FROM reference r JOIN document d ON r.document_no=d.document_no\r\n" + 
+					"WHERE r.employee_id=?)\r\n" + 
+					"UNION ALL\r\n" + 
+					"(SELECT document_title,document_no, draft_date, employee_id,document_type,'확인'\r\n" + 
+					"FROM document d   \r\n" + 
+					"WHERE employee_id=?))a \r\n" + 
+					"JOIN document d ON a.document_no= d.document_no WHERE document_status='반려')) j ON e.employee_id = j.employee_id\r\n" + 
+					"ORDER BY draft_date ASC";
 			
 			PreparedStatement pstmt=null;
 			ResultSet rs= null;

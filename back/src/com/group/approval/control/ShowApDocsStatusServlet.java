@@ -23,7 +23,7 @@ public class ShowApDocsStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
-	   //사이드 바를 누르면 대기/반려/승인 상태에 따라 목록 보여주는 서블릿
+	   //사이드 바를 누르면 전체/대기/반려/승인 상태에 따라 목록 보여주는 서블릿
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
 			HttpSession session = request.getSession();

@@ -162,6 +162,14 @@ $(function () {
       tdCheck.innerHTML = "확인";
     }
 
+    //내가 올린 문서만 색 다르게
+    if (
+      apBdEmp[i] === localStorage.getItem("loginInfo") &&
+      apBdCheck[i] === "확인"
+    ) {
+      th.setAttribute("style", "background-color: #dfd5f5");
+    }
+
     tdTitle.appendChild(a);
     tr.appendChild(th);
     tr.appendChild(tdDocsNo);
@@ -211,7 +219,7 @@ $(function () {
   function bdSearchFromSubmitHandler(e) {
     if (e.target.id == "apDocumentStatusAll") {
       $.ajax({
-        url: "/back/showapdocsstatus",
+        url: "/back/showapdocsall",
         method: "get",
         data: {
           status: "대기",
@@ -254,10 +262,11 @@ $(function () {
       });
     } else {
       $.ajax({
-        url: "/back/selectwaitpick",
+        url: "/back/selectcheckpick",
         method: "get",
         data: {
           check: nowStatus,
+          status: "대기",
         },
         success: function (responseData) {
           emptyBdElement(tBodyObject);

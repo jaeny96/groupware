@@ -315,16 +315,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>CheckUserApDocsDetail</display-name>
-    <servlet-name>CheckUserApDocsDetail</servlet-name>
-    <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CheckUserApDocsDetail</servlet-name>
-    <url-pattern>/checkapuser</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>ShowUserSearchDocs</display-name>
     <servlet-name>ShowUserSearchDocs</servlet-name>
     <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class>
@@ -415,16 +405,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>SelectAllPickStatusServlet</display-name>
-    <servlet-name>SelectAllPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectAllPickStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SelectAllPickStatusServlet</servlet-name>
-    <url-pattern>/selectallpick</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>SelectByCommentsServlet</display-name>
     <servlet-name>SelectByCommentsServlet</servlet-name>
     <servlet-class>com.group.approval.control.SelectByCommentsServlet</servlet-class>
@@ -432,16 +412,6 @@
   <servlet-mapping>
     <servlet-name>SelectByCommentsServlet</servlet-name>
     <url-pattern>/selectbycomments</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SelectWaitPickStatusServlet</display-name>
-    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectWaitPickStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
-    <url-pattern>/selectwaitpick</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -525,22 +495,23 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>SelectNoPickStatusServlet</display-name>
-    <servlet-name>SelectNoPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectNoPickStatusServlet</servlet-class>
+    <display-name>SelectCheckPickServlet</display-name>
+    <servlet-name>SelectCheckPickServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectCheckPickServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SelectNoPickStatusServlet</servlet-name>
-    <url-pattern>/selectnopick</url-pattern>
+    <servlet-name>SelectCheckPickServlet</servlet-name>
+    <url-pattern>/selectcheckpick</url-pattern>
   </servlet-mapping>
-  <servlet>
+    <servlet>
     <description></description>
-    <display-name>SelectOkPickStatusServlet</display-name>
-    <servlet-name>SelectOkPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectOkPickStatusServlet</servlet-class>
+    <display-name>SelectMyAdminServlet</display-name>
+    <servlet-name>SelectMyAdminServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectMyAdminServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SelectOkPickStatusServlet</servlet-name>
-    <url-pattern>/selectokpick</url-pattern>
+    <servlet-name>SelectMyAdminServlet</servlet-name>
+    <url-pattern>/selectmyadmin</url-pattern>
   </servlet-mapping>
+
 </web-app>
