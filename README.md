@@ -6,6 +6,9 @@ https://broad-stargazer-1a9.notion.site/a8c9cf0fa88a4639b31a33f531b3bbb9
 ### 테이블 설계
 https://broad-stargazer-1a9.notion.site/4b697a06282f46d59bcbd05534397123
 
+### About Our Project
+https://broad-stargazer-1a9.notion.site/About-Our-Program-c1bdb7155cc84acb95374c08874f1a66
+
 ### 기능
 #### 1.메인 (ME)
  - 로그인 (로그인하지 않으면 메인 페이지에 접근 불가, 로그인은 index 페이지에서 실행) - [x]
