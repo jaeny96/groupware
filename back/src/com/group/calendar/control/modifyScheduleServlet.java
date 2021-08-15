@@ -26,22 +26,23 @@ public class modifyScheduleServlet extends HttpServlet {
          throws ServletException, IOException {
       HttpSession session = request.getSession();
       String targetId = session.getAttribute("id").toString();
-
       String skdUpdateType = request.getParameter("calendarType");
-      System.out.println("targetId :"+targetId);
-      System.out.println("type: "+skdUpdateType);
       String skdUpdateTitle = request.getParameter("title");
-      System.out.println("title : "+skdUpdateTitle);
-      System.out.println("start : "+request.getParameter("start")+":00");
-      System.out.println("end : "+request.getParameter("end")+":00");
       Timestamp skdUpdateStart= Timestamp.valueOf(request.getParameter("start")+":00");
       Timestamp skdUpdateEnd = Timestamp.valueOf(request.getParameter("end")+":00");
       String skdUpdateContent = request.getParameter("content");
       String skdUpdateShare = request.getParameter("teamOrPersonal");
       int skdUpdateNo = Integer.parseInt(request.getParameter("skd_no"));
-//            System.out.println(skdUpdateType + "/" + skdUpdateTitle + "/" + skdUpdateStart
-//                  + "/"+skdUpdateEnd+ "/" + skdUpdateContent + "/" +skdUpdateShare );
-//   
+
+      System.out.println("targetId :"+targetId);
+      System.out.println("type: "+skdUpdateType);
+      System.out.println("title : "+skdUpdateTitle);
+      System.out.println("start : "+request.getParameter("start")+":00");
+      System.out.println("end : "+request.getParameter("end")+":00");
+      System.out.println("content : "+ skdUpdateContent);
+      System.out.println("share : "+skdUpdateShare);
+      System.out.println("skd_no :"+skdUpdateNo);
+      
       ScheduleService service;
       ServletContext sc = getServletContext();
       ScheduleService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -64,7 +65,7 @@ public class modifyScheduleServlet extends HttpServlet {
          s.setSkd_share(skdUpdateShare);
          s.setSkd_no(skdUpdateNo);
          service.modifySkd(s);
-         System.out.println("일정이 변경되었습니다 ");
+         System.out.println("modifyScheduleServlet 일정이 변경되었습니다 ");
       } catch (ModifyException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();

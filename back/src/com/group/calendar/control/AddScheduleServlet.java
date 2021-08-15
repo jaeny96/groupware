@@ -26,28 +26,26 @@ public class AddScheduleServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String targetId = session.getAttribute("id").toString();
-//		String targetId = "MSD002";
-		String skdInsertType = request.getParameter("calendarType");
-		System.out.println(skdInsertType);
+		String skdInsertType = request.getParameter("calendarType");	
 		String skdInsertTitle = request.getParameter("title");
-		System.out.println(skdInsertTitle);
-		System.out.println(request.getParameter("start"));
 		Timestamp skdInsertStart= Timestamp.valueOf(request.getParameter("start")+":00");
-		System.out.println(request.getParameter("start"));
-		System.out.println(request.getParameter("end"));
 		Timestamp skdInsertEnd = Timestamp.valueOf(request.getParameter("end")+":00");
-		System.out.println(request.getParameter("end"));
 		String skdInsertContent = request.getParameter("content");
 		String skdInsertShare = request.getParameter("teamOrPersonal");
-		System.out.println(skdInsertType + "/"+skdInsertTitle+ "/" +skdInsertStart+ 
-				"/"+skdInsertEnd + "/" +skdInsertContent+ "/"+skdInsertShare);
-		System.out.println(request.getParameter("teamOrPersonal"));
 		
 		ScheduleService service;
 		ServletContext sc = getServletContext();
 		ScheduleService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = ScheduleService.getInstance();
-		
+
+		System.out.println("아이디 :"+targetId);
+		System.out.println("팀or개인일정 :"+skdInsertShare);
+		System.out.println("일정종류 :"+skdInsertType);
+		System.out.println("일정 내용 :"+skdInsertContent);
+		System.out.println("일정 제목 :"+skdInsertTitle);
+		System.out.println("일정 시작 시간 :"+skdInsertStart);
+		System.out.println("일정 종료 시간"+ skdInsertEnd);
+	
 		
 		try {
 			Schedule s = new Schedule();
@@ -64,8 +62,7 @@ public class AddScheduleServlet extends HttpServlet {
 			s.setSkd_content(skdInsertContent);
 			s.setSkd_share(skdInsertShare);
 			service.addSkd(s);
-			System.out.println("servlet s " +s);
-			System.out.println(s);
+			System.out.println("AddScheduleServlet / 일정이 추가되었습니다.");
 		} catch (AddException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

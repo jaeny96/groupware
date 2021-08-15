@@ -71,6 +71,7 @@ function init(result) {
 
     skdContent.push(title);
     skdDate.push(moment(start).format("YY-MM-DD"));
+    //9:00 AM ~ 10:00 AM의 형태로 보여주는 moment함수
     skdTime.push(moment(start).format("LT") + " ~ " + moment(end).format("LT"));
   });
   for (var i = 0; i < skdDate.length; i++) {
@@ -104,8 +105,9 @@ function createModal(id) {
   var loginedDept = loginedId.substring(0, 3);
   var sid = loginedId;
   var dept = loginedDept;
-
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = sid;
   urlParams.dept_id = dept;
@@ -246,8 +248,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var loginedId = localStorage.getItem("loginInfo");
   var id = loginedId;
-
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = id;
 
@@ -257,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataType: "json",
     data: urlParams,
     success: function (responseData) {
+      //위에 init함수 호출
       init(responseData);
     },
   });
@@ -268,7 +272,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var loginedDept = loginedId.substring(0, 3);
   var id = loginedId;
   var dept = loginedDept;
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = id;
   urlParams.dept_id = dept;
@@ -279,6 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataType: "json",
     data: urlParams,
     success: function (responseData) {
+      //위에 init함수 호출
       init(responseData);
     },
   });
