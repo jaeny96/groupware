@@ -21,17 +21,15 @@ import com.group.approval.service.SideDocsService;
  */
 public class ShowApDocsStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-
+      
 	   //사이드 바를 누르면 전체/대기/반려/승인 상태에 따라 목록 보여주는 서블릿
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+			//현재 로그인 한 id값 받아오기
 			HttpSession session = request.getSession();
 			String id= session.getAttribute("id").toString();
+			//현재 문서상태 값 받아오기 
 			String documentStatus =request.getParameter("status");
 			
-			System.out.println("클릭한 문서 상태 : "+ documentStatus);
-
 			SideDocsService service;
 			ServletContext sc = getServletContext();
 			SideDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -41,12 +39,10 @@ public class ShowApDocsStatusServlet extends HttpServlet {
 				List<Document> apDocsList = service.findDocsStatus(id,documentStatus);
 		
 				ObjectMapper mapper = new ObjectMapper();
-	
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
 				System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
-		
 				response.getWriter().print(jsonStr);
 			}catch(FindException e) {
 				e.printStackTrace();

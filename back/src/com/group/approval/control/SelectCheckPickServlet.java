@@ -22,13 +22,13 @@ import com.group.approval.service.ConfirmDocsService;
 public class SelectCheckPickServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	//(반려탭)사용자가 확인,미확인을 선택하면 그것에 해당하는 목록을 볼 수 있는 서블릿
+	//사용자가 확인,미확인을 선택하면 그것에 해당하는 목록을 볼 수 있는 서블릿
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		String id= session.getAttribute("id").toString();
-		String uStatus = request.getParameter("status");
-	    String uCheck=request.getParameter("check");
+		String id= session.getAttribute("id").toString();//id값
+		String uStatus = request.getParameter("status");//전체/승인/반려/대기 구분란
+	    String uCheck=request.getParameter("check");//확인/미확인 
 				
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
@@ -36,20 +36,20 @@ public class SelectCheckPickServlet extends HttpServlet {
 		service = ConfirmDocsService.getInstance();
 
 		try {
-			if(uCheck.equals("확인")) {
+			if(uCheck.equals("확인")) {//확인 상태를 선택했을시
 				List<Document> apDocsList = service.findCheckDocsOk(id,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
-				System.out.println(jsonStr);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
-			}else if(uCheck.equals("미확인")){
+			}else if(uCheck.equals("미확인")){//미확인 상태를 선택했을시 
 				List<Document> apDocsList = service.findCheckDocsNo(id,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
-				System.out.println(jsonStr);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
 			}

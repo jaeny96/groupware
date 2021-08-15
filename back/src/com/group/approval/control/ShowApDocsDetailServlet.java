@@ -19,12 +19,12 @@ import com.group.approval.service.ConfirmDocsService;
 /**
  * Servlet implementation class ShowApDocsDetail
  */
-public class ShowApDocsDetail extends HttpServlet {
+public class ShowApDocsDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//문서의 상세내용 보여주는 서블릿
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String docNo = request.getParameter("docsNo");
+		String docNo = request.getParameter("docsNo");//문서 번호
 		
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
@@ -37,7 +37,6 @@ public class ShowApDocsDetail extends HttpServlet {
 
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(apDocsList);
-			System.out.println("a "+jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		}catch(FindException e) {

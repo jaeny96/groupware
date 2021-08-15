@@ -26,13 +26,12 @@ public class ShowUserSearchDocs extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//검색 관련 서블릿 
 		HttpSession session = request.getSession();
-		String id= session.getAttribute("id").toString();
-		String uCategory = request.getParameter("searchCategory");
-		String uSearch = request.getParameter("searchWord");
-		String uStatus = request.getParameter("status");
+		String id= session.getAttribute("id").toString();//id값
+		String uCategory = request.getParameter("searchCategory");//제목/내용 구분란
+		String uSearch = request.getParameter("searchWord");//사용자가 검색한 값 
+		String uStatus = request.getParameter("status");//대기/반려/승인/전체 구분란
 		System.out.println(uSearch);
-		//요청전달데이터 얻기 
-				
+	
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
 		ConfirmDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -40,20 +39,20 @@ public class ShowUserSearchDocs extends HttpServlet {
 		
 		try {
 			System.out.println(uCategory);
-			if(uCategory.equals("content")) {
+			if(uCategory.equals("content")) {//내용 검색시
 				List<Document> apDocsList = service.findMySearchContent(id,uSearch,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
-				System.out.println(jsonStr);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
-			}else if(uCategory.equals("title")){
+			}else if(uCategory.equals("title")){//제목 검색시
 				List<Document> apDocsList = service.findMySearchTitle(id,uSearch,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
-				System.out.println(jsonStr);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
 			}

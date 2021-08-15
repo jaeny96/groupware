@@ -30,7 +30,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//(전체)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	/**
+	 * (전체탭)사용자는 확인 문서를 선택해서 볼 수 있다.
+	 * @return 확인한 전체 문서 목록
+	 * @param employee_id
+	 * @throws FindException
+	 */
 	@Override
 	public List<Document> selectByCheckAllOk(String employee_id) throws FindException {
 
@@ -107,7 +112,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 
 	}
-	//(전체)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	/**
+	 * (전체탭)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	 * @return 미확인한 전체 문서 목록
+	 * @param employee_id
+	 * @throws FindException
+	 */
 	@Override
 	public List<Document> selectByCheckAllNo(String employee_id) throws FindException {
 
@@ -185,7 +195,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 	}
 	
-	//(대기)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	/**
+	 * (대기탭)사용자는 확인 문서를 선택해서 볼 수 있다.
+	 * @return 확인한 대기 문서 목록
+	 * @param employee_id
+	 * @throws FindException
+	 */
 		@Override
 		public List<Document> selectByCheckWaitOk(String employee_id) throws FindException {
 
@@ -263,7 +278,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 		}
 	
-	//(대기)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	/**
+	* (대기탭)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	* @return 미확인한 전체 문서 목록
+	* @param employee_id
+	* @throws FindException
+	*/
 	@Override
 	public List<Document> selectByCheckWaitNo(String employee_id) throws FindException {
 	
@@ -341,7 +361,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 	
-	//(반려)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	/**
+	* (반려탭)사용자는 확인 문서를 선택해서 볼 수 있다.
+	* @return 확인한 전체 문서 목록
+	* @param employee_id
+	* @throws FindException
+	*/
 	@Override
 	public List<Document> selectByCheckNoOk(String employee_id) throws FindException {
 
@@ -419,7 +444,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 	}
 
-	//(반려)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	/**
+	* (반려탭)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	* @return 미확인한 전체 문서 목록
+	* @param employee_id
+	* @throws FindException
+	*/
 	@Override
 	public List<Document> selectByCheckNoNo(String employee_id) throws FindException {
 	
@@ -497,7 +527,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//(승인)사용자는 확인 문서를 선택해서 볼 수 있다. 
+	/**
+	* (승인탭)사용자는 확인 문서를 선택해서 볼 수 있다.
+	* @return 확인한 전체 문서 목록
+	* @param employee_id
+	* @throws FindException
+	*/
 	@Override
 	public List<Document> selectByCheckOkOk(String employee_id) throws FindException {
 
@@ -575,7 +610,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 	}
 
-	//(승인)사용자는 미확인 문서를 선택해서 볼 수 있다. 
+	/**
+	* (승인탭)사용자는 미확인 문서를 선택해서 볼 수 있다.
+	* @return 미확인한 전체 문서 목록
+	* @param employee_id
+	* @throws FindException
+	*/	
 	@Override
 	public List<Document> selectByCheckOkNo(String employee_id) throws FindException {
 	
@@ -654,8 +694,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 	}
 
 
-
-	//사용자는 문서를 선택하면,해당 문서에서 자신이 승인해야하는 부분을 확인할 수 있다.
+	/**
+	 * 사용자는 문서를 선택하면,해당 문서에서 자신이 승인해야하는 부분을 확인할 수 있다.
+	 * 
+	 * @param employee_id,document_no
+	 * @throws FindException
+	 */
 	@Override
 	public List<String> selectByMyClick(String employee_id, String document_no) throws FindException {
 		Connection con = null;
@@ -666,7 +710,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			System.out.println("db연동 실패");
 			throw new FindException(e.getMessage());
 		}
-		//? : 사번,문서번호 x3 = 6
+
 		String sql= 
 				"SELECT e.employee_id,e.name,a,j.ap_step\r\n" + 
 				"from employee e join ( \r\n" + 
@@ -712,7 +756,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		 return list;
 	}
 
-	//사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
+	/**
+	 *  사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
+	 * 
+	 * @param document_no
+	 * @throws FindException
+	 */
 	@Override
 	public List<Document> selectByDocsDetail(String document_no) throws FindException {
 		Connection con = null;
@@ -789,8 +838,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 			pstmt.setString(14, document_no);
 			pstmt.setString(15, document_no);
 			pstmt.setString(16, document_no);
-//			pstmt.setString(18, document_no);
-//		
+	
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 			
@@ -817,12 +865,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	ApprovalStatus ap5 = new ApprovalStatus();
 		    	Department dep =new Department();
 		    
-		    	//문서내용 받아오기
+		    	//문서내용 관련 정보 받아오기 
 		      	d.setDocument_title(rs.getString("document_title"));//document_title
 		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);//document_type
 		    	d.setDocument_no(rs.getString("document_no"));//document_no
-		    	//emp.setEmployee_id(rs.getString("employee_id"));
+		    	//부서 id를 보기 쉽게 변환하기 위해
 		    	String depp = rs.getString("department_id");
 		    	String depReal="";
 		    	if(dep.equals("CEO")) {
@@ -842,8 +890,6 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	}else if(depp.equals("SEC")) {
 		    		depReal="정보보안실";
 		    	}
-		    	
-		    	
 		    	dep.setDepartment_title(depReal);
 		    	emp.setDepartment(dep);
 		    	emp.setName(rs.getString("name"));
@@ -851,29 +897,30 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	d.setDraft_date(rs.getDate("dt"));//draft_date
 		    	d.setDocument_content(rs.getString("document_content"));//document_content
 		    	
-		    	//결재자
+		    	//결재자관련 정보 받아오기 
 		    	List<Approval> approvals = new ArrayList<>();
+		    	//0번째 결재자 
 		    	emp0.setName(rs.getString("ap0"));
 		    	a0.setEmployee_id(emp0);
 		    	a0.setAp_ap_date(rs.getDate("apDt0"));
 		    	ap0.setApStatus_type(rs.getString("apOk0"));
 		    	a0.setAp_type(ap0);
 		    	approvals.add(0,a0);
-		    	
+		    	//1번째 결재자
 		    	emp1.setName(rs.getString("ap1"));
 		    	a1.setEmployee_id(emp1);
 		    	a1.setAp_ap_date(rs.getDate("apDt1"));
 		     	ap1.setApStatus_type(rs.getString("apOk1"));
 		    	a1.setAp_type(ap1);
 		    	approvals.add(1, a1);
-		    	
+		    	//2번째 결재자
 		    	emp2.setName(rs.getString("ap2"));
 		    	a2.setEmployee_id(emp2);
 		    	a2.setAp_ap_date(rs.getDate("apDt2"));
 		    	ap2.setApStatus_type(rs.getString("apOk2"));
 		    	a2.setAp_type(ap2);
 		    	approvals.add(2, a2);
-		    	
+		    	//3번째 결재자
 		    	emp3.setName(rs.getString("ap3"));
 		    	a3.setEmployee_id(emp3);
 		    	a3.setAp_ap_date(rs.getDate("apDt3"));
@@ -881,14 +928,16 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	ap3.setApStatus_type(rs.getString("apOk3"));
 		    	a3.setAp_type(ap3);
 		    	d.setApprovals(approvals);
-		    	//합의자
+		    	
+		    	//합의자관련 정보 받아오기
 		    	emp4.setName(rs.getString("ag"));
 		    	ag.setEmployee_id(emp4);
 		      	//ag.setAg_ap_date(rs.getDate("agDt"));
 		    	ap4.setApStatus_type(rs.getString("agOk"));
 		    	ag.setAg_ap_type(ap4);
 		      	d.setAgreement(ag);
-		    	//참조자
+		      	
+		    	//참조자 관련 정보 받아오기
 		       	emp5.setName(rs.getString("re"));
 		    	r.setEmployee_id(emp5);
 		    	ap5.setApStatus_type(rs.getString("reOk"));
@@ -897,8 +946,13 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 
 		  		list.add(d);
 			}
+			
+		    if(list.size()==0) {
+			throw new FindException("상세정보 목록이 존재하지 않습니다.");
+		    }
+		    
 			return list;
-			//throw new FindException("목록이 존재하지 않습니다.");				
+					
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
@@ -907,6 +961,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
+	/**
+	 * 사용자는 결재 문서를 선택했을 때, 해당 문서의 코멘트 정보를 확인할 수 있다.
+	 * 
+	 * @param document_no
+	 * @throws FindException
+	 */
 	@Override
 	public List<Approval> selectByComments(String document_no) throws FindException {
 		Connection con = null;
@@ -958,13 +1018,15 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 	
+
 	/**
-	 *밑에는 검색 관련
-	 *제목 -> 전체 대기 승인 반려
-	 *내용 -> 전체 대기 승인 반려 총 8개,,,
+	 * (전체)문서에 대해 제목으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param title
+	 * @return 검색 내용
+	 * @throws FindException
+	 * @throws SearchException
 	 */
-	
-	//문서에 대해 '제목'으로 검색할 수 있다. (전체) 
 	@Override
 	public List<Document> selectBySearchTitle(String employee_id,String title) throws FindException,SearchException {
 		Connection con = null;
@@ -1025,7 +1087,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1049,7 +1111,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 '내용'으로 검색할 수 있다.(전체)
+	/**
+	 * (전체)문서에 대해 내용으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param content
+	 * @return title
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchContent(String employee_id,String content) throws FindException,SearchException {
 		Connection con = null;
@@ -1110,7 +1179,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1135,7 +1204,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 	}
 	
 
-	//문서에 대해 '제목'으로 검색할 수 있다. (대기) 
+	/**
+	 * (대기)문서에 대해 제목으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param title
+	 * @return 검색 내용
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchTitleWait(String employee_id, String title) throws FindException,SearchException {
 		Connection con = null;
@@ -1196,7 +1272,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1220,7 +1296,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 '내용'으로 검색할 수 있다. (대기) 
+	/**
+	 * (대기)문서에 대해 내용으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param content
+	 * @return title
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchContentWait(String employee_id, String content) throws FindException, SearchException {
 		Connection con = null;
@@ -1281,7 +1364,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1305,7 +1388,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 '제목'으로 검색할 수 있다. (반려) 
+	/**
+	 * (반려)문서에 대해 제목으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param title
+	 * @return 검색 내용
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchTitleNo(String employee_id, String title)
 			throws FindException, SearchException {
@@ -1367,7 +1457,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1391,7 +1481,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 '내용'으로 검색할 수 있다. (반려) 
+	/**
+	 * (반려)문서에 대해 내용으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param content
+	 * @return title
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchContentNo(String employee_id, String content)
 			throws FindException, SearchException {
@@ -1453,7 +1550,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1477,7 +1574,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 
-	//문서에 대해 '제목'으로 검색할 수 있다. (승인) 
+	/**
+	 * (승인)문서에 대해 제목으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param title
+	 * @return 검색 내용
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchTitleOk(String employee_id, String title)
 			throws FindException, SearchException {
@@ -1539,7 +1643,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -1563,7 +1667,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		}
 	}
 	
-	//문서에 대해 '내용'으로 검색할 수 있다. (승인) 
+	/**
+	 * (승인)문서에 대해 내용으로 검색할 수 있다.
+	 * @param employee_id
+	 * @param content
+	 * @return title
+	 * @throws FindException
+	 * @throws SearchException
+	 */
 	@Override
 	public List<Document> selectBySearchContentOk(String employee_id, String content)
 			throws FindException, SearchException {
@@ -1625,7 +1736,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO{
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("employee_id"));
+		    	dt.setDocument_type(rs.getString("document_type"));
 		    	d.setDocument_type(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));

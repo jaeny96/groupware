@@ -15,7 +15,6 @@ public class SideDocsService {
 
 	private SideDocsDAO dao;
 	private static SideDocsService service;
-	//private static String envProp="classes.prop";
 	public static String envProp;
 	
 	private SideDocsService(){
@@ -49,10 +48,11 @@ public class SideDocsService {
 	public int findCntAll(String id) throws FindException{
 		return dao.selectByCountAll(id);
 	}
+	
 	/**
 	 * (진행)좌측 사이드 바를 통해 대기 목록의 각각의 개수를 확인할 수 있다.
 	 * @param id 로그인한 사용자 id
-	 * @return 기안올린+결재 해야하는대기인 개수
+	 * @return 기안올린+결재 해야하는 대기인 개수
 	 * @throws FindException
 	 * 
 	 */
@@ -89,15 +89,14 @@ public class SideDocsService {
 	 */
 	public List<Document> findDocsStatus(String id,String status) throws FindException{
 		List<Document> lists=null;
-		if(status.equals("")) {
+		if(status.equals("")) {//전체일때
 			lists=dao.selectByListAll(id);
-		}else if(status.equals("대기")) {
+		}else if(status.equals("대기")) {//대기일때
 			lists=dao.selectByListWait(id);
-		}else if(status.equals("승인")){
+		}else if(status.equals("승인")){//승인일때
 			lists=dao.selectByListOk(id);
-		}else if(status.equals("반려")) {
+		}else if(status.equals("반려")) {//반려일때
 			lists=dao.selectByListNo(id);
-			
 		}
 		return lists;
 	}

@@ -29,20 +29,20 @@ public class SelectMyAdminServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		String id= session.getAttribute("id").toString();
-		
-		String docsNo = request.getParameter("docsNo");
+		String id= session.getAttribute("id").toString();//id값
+		String docsNo = request.getParameter("docsNo");//문서번호
 	
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
 		ConfirmDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = ConfirmDocsService.getInstance();
+		
 		Map<String,String>map = new HashMap<>();
 		
 		try {
 			List<String> apDocsList = service.findDocsMyCheck(id,docsNo);
 			map.put("loginName", apDocsList.get(1).toString());
-			System.out.println(apDocsList.get(1).toString());
+			//System.out.println(apDocsList.get(1).toString());
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(map);

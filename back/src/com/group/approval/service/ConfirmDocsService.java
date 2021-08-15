@@ -15,19 +15,16 @@ import com.group.approval.exception.SearchException;
 public class ConfirmDocsService {
 	private ConfirmDocsDAO dao;
 	private static ConfirmDocsService service;
-	//private static String envProp="classes.prop";//back에서만 테스트용
-	public static String envProp;//front에서만 테스트용
+	public static String envProp;
 	
 	private ConfirmDocsService(){
 		Properties env =new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
-//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("ConfirmDocsDAO");
 			System.out.println(className);
-			//리팩토링 작업	
-			Class c = Class.forName(className);//jvm에 로드 
-			dao = (ConfirmDocsDAO)c.newInstance();// 객체생성 (위에 주석처럼 직접 하드코딩하지 않고 //이렇게 객체생성=구체화된 클라스를 사용하지 않고 일반화된 인터페이스를 사용)
+			Class c = Class.forName(className);
+			dao = (ConfirmDocsDAO)c.newInstance();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -101,7 +98,7 @@ public class ConfirmDocsService {
 
 	
 	/**
-	 * 사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
+	 * 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
 	 * @param docsNo 선택한 문서번호
 	 * @return 문서 상세 내용 + 결재선 정보
 	 * @throws FindExceptionb
@@ -111,8 +108,10 @@ public class ConfirmDocsService {
 	}
 	
 	/**
-	 * 코멘트를 확인할 수 있다. 
-	 * @param args
+	 * 해당 문서의 코멘트를 확인할 수 있다. 
+	 * @param docsNo 선택한 문서번호
+	 * @return 코멘트 내용
+	 * @throws FindException
 	 */
     public List<Approval> findByComments(String docNo) throws FindException{
     	return dao.selectByComments(docNo);

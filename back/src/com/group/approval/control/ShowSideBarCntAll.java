@@ -25,8 +25,7 @@ public class ShowSideBarCntAll extends HttpServlet {
 
 	//사이드바 목록 개수 관련 서블릿 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//String loginId = request.getParameter("id");
+		//현재 로그인 id 받아오기 
 		HttpSession session = request.getSession();
 		String id= session.getAttribute("id").toString();
 
@@ -35,22 +34,24 @@ public class ShowSideBarCntAll extends HttpServlet {
 		SideDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = SideDocsService.getInstance();
 		
-		
 		try {
+			//List로 만들어서 한꺼번에 html에 보내기 위해 만든 변수 
 			List<Integer> apCntList=new ArrayList<Integer>();
-		
+			
+			//0번째 인덱스에 전체 숫자값 넣기 
 			apCntList.add(0, service.findCntAll(id));
+			//1번째 인덱스에 대기 숫자값 넣기 
 			apCntList.add(1, service.findCntWait(id));
+			//2번째 인덱스에 승인 숫자값 넣기 
 			apCntList.add(2, service.findCntOk(id));
+			//3번째 인덱스에 반려 숫자값 넣기 
 			apCntList.add(3, service.findCntNo(id));
-			System.out.println(apCntList);
-			//json라이브러리로 json문자열 형태로 응답
+			
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(apCntList);
-			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
-			//데이터 전달S
 			response.getWriter().print(jsonStr);
+
 		}catch(FindException e) {
 			e.printStackTrace();
 		}

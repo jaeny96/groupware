@@ -21,15 +21,18 @@ import com.group.sql.MyConnection;
 public class SideDocsDAOOracle implements SideDocsDAO{
 	public SideDocsDAOOracle() throws Exception{
 		try {
-		//JDBC드라이버로드
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("JDBC드라이버로드 성공 ");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	//(전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	/**
+	 * (전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 전체 사이드바 목록 개수 
+	 * @param employee_id 
+	 * @throws FindException
+	 */
 	@Override
 	public int selectByCountAll(String employee_id) throws FindException {
 		Connection con = null;
@@ -40,7 +43,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			System.out.println("db연동 실패");
 			throw new FindException(e.getMessage());
 		}
-		//?=사원번호
+		//전체의 ap_step이 0 단계인것은 내가 기안이 올린것이므로 , 카운트에서 제외 
 		String sql="SELECT count(*) AS total FROM (select a.* "+
 				"FROM ((SELECT a.document_no FROM approval a WHERE a.employee_id=? and a.ap_step!=0) "+
 						"UNION ALL "+
@@ -74,7 +77,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		
 	}
 
-	//(진행)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+	/**
+	 * (대기)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 대기 사이드바 목록 개수  
+	 * @param employee_id
+	 * @throws FindException
+	 */
 	@Override
 	public int selectByCountWait(String employee_id) throws FindException {
 		Connection con = null;
@@ -119,8 +127,13 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
-	//(승인)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+	
+	/**
+	 * (승인)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 승인 사이드바 목록 개수  
+	 * @param employee_id
+	 * @throws FindException
+	 */	
 	@Override
 	public int selectByCountOk(String employee_id) throws FindException {
 		Connection con = null;
@@ -166,7 +179,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 	}
 
-	//(반려)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	/**
+	 * (반려)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 반려 사이드바 목록 개수  
+	 * @param employee_id
+	 * @throws FindException
+	 */
 	@Override
 	public int selectByCountNo(String employee_id) throws FindException {
 		Connection con = null;
@@ -212,7 +230,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 	}
 
-	//(전체)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	 /**
+	  * (전체)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 전체 문서 목록 
+	  * @param employee_id
+	  * @throws FindException
+	  */
 	@Override
 	public List<Document> selectByListAll(String employee_id) throws FindException {
 
@@ -293,7 +316,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 	}
 
-	//승인
+	 /**
+	  * (승인)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 승인 문서 목록 
+	  * @param employee_id
+	  * @throws FindException
+	  */
 	@Override
 	public List<Document> selectByListOk(String employee_id) throws FindException {
 		Connection con = null;
@@ -374,7 +402,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 	}
 
-	//진행
+	 /**
+	  * (대기)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 대기 문서 목록 
+	  * @param employee_id
+	  * @throws FindException
+	  */
 		@Override
 		public List<Document> selectByListWait(String employee_id) throws FindException {
 			Connection con = null;
@@ -422,17 +455,22 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			    	Document d=new Document();
 			    	Employee emp=new Employee();
 			    	DocumentType dt= new DocumentType();
+			    	//문서 상태 관련 정보 넣기 위해서 임시로  approval테이블 이용 
 			    	Approval a = new Approval();
 			    	ApprovalStatus ap = new ApprovalStatus();
 			    	
+			    	//document테이블 정보 넣기 
 				    d.setDocument_no(rs.getString("document_no"));
 			    	d.setDocument_title(rs.getString("document_title"));
+			    	//사원 테이블 정보 넣기
 			    	emp.setEmployee_id(rs.getString("employee_id"));
 			    	emp.setName(rs.getString("name"));
 			    	d.setEmployee(emp);
 			    	d.setDraft_date(rs.getDate("dt"));
+			    	//문서 타입 관련
 			    	dt.setDocument_type(rs.getString("document_type"));
 			    	d.setDocument_status(dt);
+			    	//문서 상태 관련 
 			    	String s=rs.getString("ap_type");
 			    	ap.setApStatus_type(rs.getString("ap_type"));
 			    	a.setAp_type(ap);
@@ -456,7 +494,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 		
 		
-		//반려
+		 /**
+		  * (반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+		  * @return 반려 문서 목록 
+		  * @param employee_id
+		  * @throws FindException
+		  */
 		@Override
 		public List<Document> selectByListNo(String employee_id) throws FindException {
 			Connection con = null;
@@ -538,12 +581,12 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		}
 	
 	public static void main(String[] args) {
-		int result=0;	
-		SideDocsDAOOracle dao; 
-		try {
-			dao = new SideDocsDAOOracle();
-			
-			//프로시저 
+//		int result=0;	
+//		SideDocsDAOOracle dao; 
+//		try {
+//			dao = new SideDocsDAOOracle();
+//			
+	
 //			Document d = new Document();
 //			Employee em = new Employee();
 //			
@@ -552,40 +595,40 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 //			d.setDocument_no("CR-회람-20210621-0001");
 //			dao.documentAudmit(d);
 //			
-			String str="DEV001";
-			//(전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
-			result = dao.selectByCountAll(str);
-			System.out.println(str+"의 전체 목록개수 : "+result);
-			//(진행)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
-			result = dao.selectByCountWait(str);
-			System.out.println(str+"의 진행 목록개수 : "+result);
-			//(승인)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
-			result = dao.selectByCountOk(str);
-			System.out.println(str+"의 승인 목록개수 : "+result);
-			//(반려)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
-			result = dao.selectByCountNo(str);
-			System.out.println(str+"의 반려 목록개수 : "+result);
-			System.out.println();
-			//(전체)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-			List<Document> lists0 = new ArrayList<>();
-			System.out.println(str+"사원의 최종문서  전체값의 목록");
-			lists0=dao.selectByListAll(str);
-			for(Document d: lists0) {
-				System.out.println(d.getDocument_no()+" "+
-						d.getDocument_title()+" "+
-						d.getEmployee().getEmployee_id()+" "+
-						d.getEmployee().getName()+" "+
-						d.getDraft_date()+" "+
-						d.getDocument_status().getDocument_type()+" "+
-						d.getApproval().getAp_type().getApStatus_type());
-			}
-			System.out.println();
-			//(진행/승인/반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//			String str="DEV001";
+//			//(전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+//			result = dao.selectByCountAll(str);
+//			System.out.println(str+"의 전체 목록개수 : "+result);
+//			//(진행)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+//			result = dao.selectByCountWait(str);
+//			System.out.println(str+"의 진행 목록개수 : "+result);
+//			//(승인)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+//			result = dao.selectByCountOk(str);
+//			System.out.println(str+"의 승인 목록개수 : "+result);
+//			//(반려)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.	
+//			result = dao.selectByCountNo(str);
+//			System.out.println(str+"의 반려 목록개수 : "+result);
+//			System.out.println();
+//			//(전체)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+//			List<Document> lists0 = new ArrayList<>();
+//			System.out.println(str+"사원의 최종문서  전체값의 목록");
+//			lists0=dao.selectByListAll(str);
+//			for(Document d: lists0) {
+//				System.out.println(d.getDocument_no()+" "+
+//						d.getDocument_title()+" "+
+//						d.getEmployee().getEmployee_id()+" "+
+//						d.getEmployee().getName()+" "+
+//						d.getDraft_date()+" "+
+//						d.getDocument_status().getDocument_type()+" "+
+//						d.getApproval().getAp_type().getApStatus_type());
+//			}
+//			System.out.println();
+//			//(진행/승인/반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+//
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		
 	

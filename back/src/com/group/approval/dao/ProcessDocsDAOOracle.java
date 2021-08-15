@@ -18,6 +18,17 @@ import com.group.sql.MyConnection;
 
 public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 
+	
+	public ProcessDocsDAOOracle() throws Exception{
+		try {
+		//JDBC드라이버로드
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	@Override
 	// 사용자는 버튼을 클릭하면 승인or반려할지를 선택하고, 코멘트를 남길 수 있다. (결재승인테이블)
 	public void updateApproval(Approval ap) throws UpdateException {
@@ -106,26 +117,25 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
+			//con.setAutoCommit(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new UpdateException(e.getMessage());
 		}
-		// ap_type 수정돼야 함
-		String updateReferenceSQL = "UPDATE reference SET ap_type=? WHERE document_no=? AND employee_id=?";
+		String updateReferenceSQL = "UPDATE reference SET ap_type='승인' WHERE document_no=? AND employee_id=?";
 		PreparedStatement pstmt = null;
 
 		try {
 			pstmt = con.prepareStatement(updateReferenceSQL);
-			pstmt.setString(1, R.getRe_ap_type().getApStatus_type());
-			pstmt.setString(2, R.getDocument_no().getDocument_no());
-			pstmt.setString(3, R.getEmployee_id().getEmployee_id());
+			//pstmt.setString(1, R.getRe_ap_type().getApStatus_type());
+			pstmt.setString(1, R.getDocument_no().getDocument_no());
+			pstmt.setString(2, R.getEmployee_id().getEmployee_id());
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {
 				System.out.println("참조확인 완료");
 			} else {
 				System.out.println(cnt);
-				throw new UpdateException("입력양식을 확인해주세요");
+				throw new UpdateException("승인 처리가 실패되었습니다.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

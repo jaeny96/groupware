@@ -305,12 +305,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowApDocsDetail</display-name>
-    <servlet-name>ShowApDocsDetail</servlet-name>
-    <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class>
+    <display-name>ShowApDocsDetailServlet</display-name>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsDetailServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ShowApDocsDetail</servlet-name>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
     <url-pattern>/showdocsdetail</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -503,7 +503,7 @@
     <servlet-name>SelectCheckPickServlet</servlet-name>
     <url-pattern>/selectcheckpick</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>SelectMyAdminServlet</display-name>
     <servlet-name>SelectMyAdminServlet</servlet-name>
@@ -513,5 +513,14 @@
     <servlet-name>SelectMyAdminServlet</servlet-name>
     <url-pattern>/selectmyadmin</url-pattern>
   </servlet-mapping>
-
+  <servlet>
+    <description></description>
+    <display-name>UpdateReCheckServlet</display-name>
+    <servlet-name>UpdateReCheckServlet</servlet-name>
+    <servlet-class>com.group.approval.control.UpdateReCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateReCheckServlet</servlet-name>
+    <url-pattern>/updaterecheck</url-pattern>
+  </servlet-mapping>
 </web-app>

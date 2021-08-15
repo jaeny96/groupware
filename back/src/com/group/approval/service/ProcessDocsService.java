@@ -1,20 +1,23 @@
 package com.group.approval.service;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
-import com.group.approval.dao.DocsWriteDAO;
+import com.group.approval.dao.ConfirmDocsDAO;
 import com.group.approval.dao.ProcessDocsDAO;
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
 import com.group.approval.dto.Reference;
+import com.group.approval.exception.UpdateException;
 import com.group.exception.ModifyException;
-import com.group.exception.UpdateException;
+
 
 public class ProcessDocsService {
+
 	private ProcessDocsDAO dao;
 	private static ProcessDocsService service;
-	public static String envProp="classes.prop";
+	public static String envProp;
 	
 	private ProcessDocsService(){
 		Properties env =new Properties();
@@ -59,7 +62,7 @@ public class ProcessDocsService {
 	 * @throws UpdateException
 	 */
 	public void decisionRe(Reference R) throws UpdateException{
-		//dao.updateReference(R);
+		dao.updateReference(R);
 	}
 	/**
 	 * 결재자 전원이 승인 처리 시, 문서 상태 승인으로
