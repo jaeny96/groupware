@@ -12,16 +12,14 @@ import com.group.exception.FindException;
 
 public class PageBeanService {
 	private BoardDAO dao;
-	private static PageBeanService service /*=new PageBeanService() */;
+	private static PageBeanService service;
 	public static String envProp;
 
 	private PageBeanService() {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
-//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("boardDAO");
-//			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -98,10 +96,4 @@ public class PageBeanService {
 		
 		return list;
 	}
-//	public static void main(String[] args) {
-//		List<Integer> cnt = service.selectPageGroup(2);
-//		for(int i:cnt) {
-//			System.out.println(i);
-//		}
-//	}
 }

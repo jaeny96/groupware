@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.employee.service.EmployeeService;
 import com.group.exception.FindException;
@@ -20,7 +19,8 @@ import com.group.exception.FindException;
  */
 public class ShowAllEmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	//사원 전체 조회
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -33,11 +33,9 @@ public class ShowAllEmployeeServlet extends HttpServlet {
 			List<Employee> empList = service.showAll();
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(empList);
-			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -12,10 +12,6 @@ import com.group.exception.FindException;
 import com.group.sql.MyConnection;
 
 public class DepartmentDAOOracle implements DepartmentDAO {
-	public DepartmentDAOOracle() throws Exception {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("load success");
-	}
 	@Override
 	public List<Department> selectDepAll() throws FindException{
 		Connection con = null;
@@ -53,19 +49,5 @@ public class DepartmentDAOOracle implements DepartmentDAO {
 			MyConnection.close(con, pstmt, rs);
 		}
 		return depList;
-	}
-
-	public static void main(String[] args) {
-//		try {
-//			DepartmentDAOOracle dao = new DepartmentDAOOracle();
-//			List<Department> depList = dao.selectDepAll();
-//			for(Department dep : depList) {
-//				System.out.println(dep.getDepartment_id()+"/"
-//						+dep.getDepartment_title()+"/"
-//						+dep.getCount());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 	}
 }

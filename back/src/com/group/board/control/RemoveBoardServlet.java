@@ -1,8 +1,6 @@
 package com.group.board.control;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,11 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.board.dto.Board;
 import com.group.board.service.BoardService;
 import com.group.employee.dto.Employee;
-import com.group.exception.FindException;
 import com.group.exception.RemoveException;
 
 /**
@@ -22,7 +18,7 @@ import com.group.exception.RemoveException;
  */
 public class RemoveBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글 삭제
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String removeTargetBdNo = request.getParameter("removeTargetBdNo");
@@ -40,7 +36,6 @@ public class RemoveBoardServlet extends HttpServlet {
 			bd.setWriter(emp);
 			service.removeBd(bd);
 		} catch (RemoveException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

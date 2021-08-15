@@ -32,9 +32,6 @@ public class LoginServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
-		System.out.println(id+"/"+pwd);
-//		String id = "DEV003";
-//		String pwd = "DEV0031234";
 
 		ServletContext sc = getServletContext();
 		MainService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -51,7 +48,6 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("pwd", loginInfo.getPassword());
 			map.put("status", 1);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			map.put("status", -1);
 			map.put("msg", e.getMessage());

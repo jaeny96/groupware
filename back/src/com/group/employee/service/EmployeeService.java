@@ -7,7 +7,6 @@ import java.util.Properties;
 import com.group.employee.dao.EmployeeDAO;
 import com.group.employee.dto.Employee;
 import com.group.exception.FindException;
-import com.group.main.service.MainService;
 
 public class EmployeeService {
 	private EmployeeDAO dao;
@@ -19,7 +18,6 @@ public class EmployeeService {
 		try {
 			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("employeeDAO");
-			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -75,54 +73,5 @@ public class EmployeeService {
 	 */
 	public Employee showDetail(Employee emp) throws FindException {
 		return dao.selectInfo(emp);
-	}
-
-	public static void main(String[] args) {
-//		try {
-//			List<Employee> empList = service.showAll();
-//			for(Employee emp : empList) {
-//				System.out.println(emp);				
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		String dept="DEV";
-//		try {
-//			List<Employee> empList = service.showByDept(dept);
-//			for (Employee emp : empList) {
-//				System.out.println(emp);
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-//		
-
-//		String word="정";
-//		try {
-//			List<Employee> empList = service.searchEmp(word);
-//			for (Employee emp : empList) {
-//				System.out.println(emp);
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		String name = "정연주";
-//		String id = "DEV003";
-//		Employee click = new Employee();
-//		click.setEmployee_id(id);
-//		click.setName(name);
-//		try {
-//			Employee emp = service.showDetail(click);
-//			 System.out.println(emp.getEmployee_id() + "/" + emp.getName() +
-//			 "/" + emp.getDepartment().getDepartment_id()
-//			+ "/" + emp.getDepartment().getDepartment_title() + "/" + emp.getPosition().getPosition_title()
-//			+ "/" + emp.getJob().getJob_title() + "/" + emp.getPhone_number() + "/" + emp.getEmail());
-//
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
 	}
 }

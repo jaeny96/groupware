@@ -19,11 +19,10 @@ import com.group.exception.FindException;
  */
 public class SearchEmpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//사원명 검색
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String word = request.getParameter("word");
-//		System.out.println(word);
 		EmployeeService service;
 		ServletContext sc = getServletContext();
 		EmployeeService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -33,11 +32,9 @@ public class SearchEmpServlet extends HttpServlet {
 			List<Employee> empList = service.searchEmp(word);
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(empList);
-//			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

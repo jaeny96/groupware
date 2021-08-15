@@ -19,16 +19,16 @@ import com.group.employee.dto.Employee;
 
 public class DocsWriteService {
 	private DocsWriteDAO dao;
-//	private static DocsWriteService service;
-	private static DocsWriteService service=new DocsWriteService();
+	private static DocsWriteService service;
+//	private static DocsWriteService service=new DocsWriteService();
 //	private static String envProp="classes.prop";	//back에서만 테스트용
 	public static String envProp;	//front테스트용
 
 	private DocsWriteService() {
 		Properties env = new Properties();
 		try {
-//			env.load(new FileInputStream(envProp));
-			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
+//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("DocsWriteDAO");
 			System.out.println(className);
 			Class c = Class.forName(className);

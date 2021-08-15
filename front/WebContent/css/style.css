@@ -109,8 +109,9 @@ body {
   display: table;
   clear: both;
 }
+
 .user-modal-container .switcher li {
-  width: 50%;
+  width: 100%;
   float: left;
   text-align: center;
   list-style: none;
@@ -129,6 +130,8 @@ body {
   background: #d2d8d8;
   color: #809191;
   text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5em;
 }
 .user-modal-container .switcher a.selected {
   background: #fff;
@@ -400,7 +403,6 @@ body {
   height: 40px;
   right: 0;
   top: -40px;
-  background: url("../img/icon-close.svg") no-repeat center center;
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;

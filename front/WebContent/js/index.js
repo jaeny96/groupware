@@ -6,8 +6,6 @@ jQuery(document).ready(function ($) {
     $form_modal_tab = $(".switcher"),
     $tab_login = $form_modal_tab.children("li").eq(0).children("a"),
     $tab_signup = $form_modal_tab.children("li").eq(1).children("a"),
-    $forgot_password_link = $form_login.find(".form-bottom-message a"),
-    $back_to_login_link = $form_forgot_password.find(".form-bottom-message a"),
     $main_nav = $(".main-nav");
 
   //open modal
@@ -38,12 +36,6 @@ jQuery(document).ready(function ($) {
     }
   });
 
-  //switch from a tab to another
-  // $form_modal_tab.on("click", function (event) {
-  //   event.preventDefault();
-  //   $(event.target).is($tab_login) ? login_selected() : signup_selected();
-  // });
-
   //hide or show password
   $(".hide-password").on("click", function () {
     var $this = $(this),
@@ -57,18 +49,6 @@ jQuery(document).ready(function ($) {
     $password_field.putCursorAtEnd();
   });
 
-  //show forgot-password form
-  // $forgot_password_link.on("click", function (event) {
-  //   event.preventDefault();
-  //   forgot_password_selected();
-  // });
-
-  //back to login from the forgot-password form
-  // $back_to_login_link.on("click", function (event) {
-  //   event.preventDefault();
-  //   login_selected();
-  // });
-
   function login_selected() {
     $form_login.addClass("is-selected");
     $form_signup.removeClass("is-selected");
@@ -77,37 +57,70 @@ jQuery(document).ready(function ($) {
     $tab_signup.removeClass("selected");
   }
 
-  function signup_selected() {
-    $form_login.removeClass("is-selected");
-    $form_signup.addClass("is-selected");
-    $form_forgot_password.removeClass("is-selected");
-    $tab_login.removeClass("selected");
-    $tab_signup.addClass("selected");
+  //로그인 시도 혹은 로그인했던 로컬스토리지에 저장되어 있던 로그인 정보
+  //아이디 저장 기능에 필요한 객체임
+  var loginInfoValue = localStorage.getItem("loginInfo");
+  //로그인 form 객체
+  var formObj = document.querySelector("form.form");
+  var idObj = formObj.querySelector("input[name=id]");
+
+  //loginInfoValue가 존재하면 idObj의 value 값 해당값으로 채우기
+  if (loginInfoValue != null && loginInfoValue != "") {
+    idObj.value = loginInfoValue;
   }
 
-  function forgot_password_selected() {
-    $form_login.removeClass("is-selected");
-    $form_signup.removeClass("is-selected");
-    $form_forgot_password.addClass("is-selected");
-  }
+  //로그인 form객체 submit 이벤트
+  //해야할일
+  //1. id 기억 chkBox 체크 시 localStorage의 값 사용자가 입력한 값으로 변경
+  //2. 로그인 정보를 back단으로 전달
+  formObj.addEventListener("submit", function (event) {
+    //일단 localStorage의 값 초기화
+    //사용자가 chkBox 체크할지 안할지 모름
+    localStorage.removeItem("loginInfo");
 
-  //REMOVE THIS - it's just to show error messages
-  // $form_login.find('input[type="submit"]').on("click", function (event) {
-  //   event.preventDefault();
-  //   $form_login
-  //     .find('input[type="email"]')
-  //     .toggleClass("has-error")
-  //     .next("span")
-  //     .toggleClass("is-visible");
-  // });
-  // $form_signup.find('input[type="submit"]').on("click", function (event) {
-  //   event.preventDefault();
-  //   $form_signup
-  //     .find('input[type="email"]')
-  //     .toggleClass("has-error")
-  //     .next("span")
-  //     .toggleClass("is-visible");
-  // });
+    //1.
+    var chkboxObj = formObj.querySelector("p.fieldset input[type=checkbox]");
+    if (chkboxObj.checked) {
+      localStorage.setItem("loginInfo", idObj.value);
+    }
+
+    //2.
+    //로그인 정보를 전달하는 ajax 구문
+    var backurl = "/back/login";
+    $.ajax({
+      url: backurl,
+      method: "post",
+      data: {
+        id: $("form.form input[name=id]").val(),
+        pwd: $("form.form input[name=pwd]").val(),
+      },
+      success: function (responseObj) {
+        //로그인 성공 시
+        if (responseObj.status == 1) {
+          alert("로그인에 성공하였습니다!");
+          location.href = "./main.html";
+        } else {
+          //로그인 실패 시
+          alert(responseObj.msg);
+        }
+      },
+      //오류 발생 시
+      error: function (request, status, error) {
+        alert(
+          "code:" +
+            request.status +
+            "\n" +
+            "message:" +
+            request.responseText +
+            "\n" +
+            "error:" +
+            error
+        );
+      },
+    });
+
+    event.preventDefault();
+  });
 
   //IE9 placeholder fallback
   //credits http://www.hagenburger.net/BLOG/HTML5-Input-Placeholder-Fix-With-jQuery.html

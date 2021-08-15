@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group.approval.dto.Document;
 import com.group.calendar.dto.Schedule;
 import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
@@ -43,9 +42,7 @@ public class ShowMainPageSkdServlet extends HttpServlet {
 			emp.setDepartment(deptObj);
 			
 			List<Schedule> skdList = service.showTodaySkd(emp);
-			for(Schedule s :skdList) {
-				System.out.println(s);
-			}
+
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("hh:mm"));
 
@@ -53,7 +50,6 @@ public class ShowMainPageSkdServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

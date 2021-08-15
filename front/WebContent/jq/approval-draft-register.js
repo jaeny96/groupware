@@ -211,9 +211,7 @@ $(function () {
   //결재문서 작성폼
   var apFormObj = document.querySelector("form#addApform");
   //결재문서 종류
-  var apDocsTypeObj = document.querySelector(
-    "select#documentTypeSelect>option"
-  );
+  var apDocsTypeObj = $("select#documentTypeSelect option:selected").html();
   //결재문서 제목
   var apDocsTitleObj = document.querySelector("input#inputtitle");
   //결재문서 내용
@@ -281,22 +279,36 @@ $(function () {
     aglineEmpId = apAgreementStepName.getAttribute("id");
 
     console.log($("select#documentTypeSelect option:selected").html());
-    // $.ajax({
-    //   url: backurlApAddDocs,
-    //   method: "post",
-    //   data: {
-    //     addApDocsNo: "지출 004",
-    //     addApDocsType: apDocsTypeObj.innerHTML,
-    //     addApDocsTitle: apDocsTitleObj.value,
-    //     addApDocsContent: apDocsContentObj.innerText,
-    //     addApWriterId: loginInfoIdObj.innerText,
-    //     addApLineEmpId: apLineEmpId,
-    //     addApLineStep: apLineId,
-    //     addAgLineEmpId: aglineEmpId,
-    //     addReLineEmpId: relineEmpId,
-    //   },
-    //   success: function () {},
-    // });
+    $.ajax({
+      url: backurlApAddDocs,
+      method: "post",
+      data: {
+        addApDocsType: apDocsTypeObj,
+        addApDocsTitle: apDocsTitleObj.value,
+        addApDocsContent: apDocsContentObj.innerText,
+        addApWriterId: loginInfoIdObj.innerText,
+        addApLineEmpId: apLineEmpId,
+        addApLineStep: apLineId,
+        addAgLineEmpId: aglineEmpId,
+        addReLineEmpId: relineEmpId,
+      },
+      success: function () {
+        alert("기안이 완료되었습니다.");
+        var $apMenuFirstDropDownAObj = $("a.apMenu");
+        var $apMenuFirstDropDownItemObj = $("ul#docMenuFirst");
+        // $apMenuFirstDropDownAObj.click(function (e) {
+        //   $apMenuFirstDropDownItemObj.slideToggle(300);
+        // });
+
+        var $docListDropDownMenuAObj = $("a.docListDropDownMenu");
+        var $docListDropDownMenuItemObj = $("ul#docList");
+        $("ul#docList li>a#apAllLink").trigger("click");
+        console.log("객체찾기 " + $("ul#docList li>a#apAllLink"));
+        // $docListDropDownMenuAObj.click(function (e) {
+        //   $docListDropDownMenuItemObj.slideToggle(300);
+        // });
+      },
+    });
   }
 
   function addApFormSubmitHandler(e) {
@@ -310,7 +322,7 @@ $(function () {
   }
 
   $apBtn.click(addApFormSubmitHandler);
-  $agBtn.click(addAgFormSubmitHandler);
+  // $agBtn.click(addAgFormSubmitHandler);
 
   // apFormObj.addEventListener("submit", addApFormSubmitHandler);
   // $apBtn.click(docFirst);

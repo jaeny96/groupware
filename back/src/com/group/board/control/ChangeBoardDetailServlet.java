@@ -19,7 +19,7 @@ import com.group.exception.ModifyException;
  */
 public class ChangeBoardDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글 수정 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -27,7 +27,6 @@ public class ChangeBoardDetailServlet extends HttpServlet {
 		String modiTargetBdNo = request.getParameter("modiBdTargetNo");
 		String modiTargetBdTitle = request.getParameter("modiBdTitle");
 		String modiTargetBdContent = request.getParameter("modiBdContent");
-		System.out.println(modiTargetBdNo + "/" + modiTargetBdTitle + "/" + modiTargetBdContent);
 		BoardService service;
 		ServletContext sc = getServletContext();
 		BoardService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -43,7 +42,6 @@ public class ChangeBoardDetailServlet extends HttpServlet {
 			bd.setWriter(emp);
 			service.modifyBd(bd);
 		} catch (ModifyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

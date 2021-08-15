@@ -14,14 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.board.dto.Board;
 import com.group.board.service.BoardService;
 import com.group.exception.FindException;
-import com.group.main.service.MainService;
 
 /**
  * Servlet implementation class ShowBoardPageServlet
  */
 public class ShowBoardPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//페이지에 해당하는 게시글 목록 반환
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int currentPage = Integer.parseInt(request.getParameter("bdCurrentPage"));
@@ -38,7 +37,6 @@ public class ShowBoardPageServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

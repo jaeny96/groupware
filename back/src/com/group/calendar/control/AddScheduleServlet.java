@@ -24,9 +24,9 @@ public class AddScheduleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		String targetId = session.getAttribute("id").toString();
-		String targetId = "MSD002";
+		HttpSession session = request.getSession();
+		String targetId = session.getAttribute("id").toString();
+//		String targetId = "MSD002";
 		String skdInsertType = request.getParameter("calendarType");
 		System.out.println(skdInsertType);
 		String skdInsertTitle = request.getParameter("title");
@@ -75,5 +75,4 @@ public class AddScheduleServlet extends HttpServlet {
 		}
 		
 	}
-	
 }

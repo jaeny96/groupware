@@ -30,14 +30,17 @@ $(function () {
     var href = $(this).attr("href");
     // var id = loginInfoIdObj.innerHTML;
     // var dept = id.substring(0, 3);
-    var id = "MSD002";
-    var dept = "MSD";
+    var loginedId = localStorage.getItem("loginInfo");
+    var loginedDept = loginedId.substring(0, 3);
+    var id = loginedId;
+    var dept = loginedDept;
     //input날짜 값
     var sdatev = modalPeriodSearch.querySelector("input.cSdate");
     var sdate = sdatev.value;
     var edatev = modalPeriodSearch.querySelector("input.cEdate");
     var edate = edatev.value;
-
+    console.log(id);
+    console.log(dept);
     if (sdate == null || sdate == "" || edate == null || edate == "") {
       alert("기간을 입력하세요.");
     } else if (new Date(edate) - new Date(sdate) < 0) {
@@ -73,12 +76,14 @@ $(function () {
   $searchResultC.on("click", function () {
     var href = $(this).attr("href");
     // var id = loginInfoIdObj.innerHTML;
-    var id = "MSD002";
+    var loginedId = localStorage.getItem("loginInfo");
+    var id = loginedId;
+
     var titlev = modalContentSearch.querySelector("input.pTitle");
     var title = titlev.value;
     var contentv = modalContentSearch.querySelector("input.pContent");
     var content = contentv.value;
-
+    console.log(id);
     if (title == null || title == "") {
       alert("검색어를 입력하세요.");
     } else if (content == null || content == "") {

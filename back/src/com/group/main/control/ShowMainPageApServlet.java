@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.approval.dto.Document;
-import com.group.board.dto.Board;
-import com.group.employee.dto.Employee;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
 
@@ -35,18 +33,13 @@ public class ShowMainPageApServlet extends HttpServlet {
 		
 		try {
 			List<Document> docList = service.showDocExpected(id);
-//			for(Document d : docList) {
-//				System.out.println(d);
-//			}
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 
 			String jsonStr = mapper.writeValueAsString(docList);
-//			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -7,7 +7,6 @@ import java.util.Properties;
 import com.group.employee.dao.DepartmentDAO;
 import com.group.employee.dto.Department;
 import com.group.exception.FindException;
-import com.group.main.service.MainService;
 
 public class DepartmentService {
 	private DepartmentDAO dao;
@@ -19,7 +18,6 @@ public class DepartmentService {
 		try {
 			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("departmentDAO");
-			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -45,15 +43,5 @@ public class DepartmentService {
 	public List<Department> showDept() throws FindException{
 		return dao.selectDepAll();
 	}
-	
-	public static void main(String[] args) {
-//		try {
-//			List<Department> deptList = service.showDept();
-//			for (Department dept : deptList) {
-//				System.out.println(dept.getDepartment_id() + "/" + dept.getDepartment_title() + "/" + dept.getCount());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-	}
+
 }

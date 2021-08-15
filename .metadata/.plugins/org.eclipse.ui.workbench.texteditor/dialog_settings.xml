@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="Main"/>
+		<item key="selection" value=""/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<item key="wrap" value="true"/>
 		<item key="incremental" value="false"/>
 		<list key="findhistory">
+			<item value="System"/>
+			<item value="changeTi"/>
+			<item value="System.out"/>
+			<item value="sys"/>
+			<item value="switcher"/>
+			<item value="오라클쓰"/>
 			<item value="docu"/>
 			<item value="period"/>
-			<item value="main"/>
-			<item value="showskddetail"/>
-			<item value="ShowUserSearchDocsServlet"/>
-			<item value="CheckUserApDocsDetailServlet"/>
-			<item value="AddApprovalDocs"/>
-			<item value="sysout"/>
 		</list>
 		<list key="replacehistory">
 			<item value="profile"/>

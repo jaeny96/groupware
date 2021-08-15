@@ -18,7 +18,8 @@
       <h3 class="fa fa-search" style="margin-left: 10px; margin-top: 20px">
         검색 결과
       </h3>
-      <a class="backToCalendar" href="schedule.html">back</a>
+      <a class="backToCalendar" href="main.html">back</a>
+      <!--<button onclick="history.back()">back</button>-->
       <hr />
       <div class="col-sm-3" style="margin-left: 20px"></div>
       <div class="row">
@@ -132,7 +133,13 @@
         <!-- 수정 / 삭제  -->
         <div class="mb-3 row">
           <div style="text-align: center; margin: 10px 0">
-            <button class="btn btn-primary">수정</button>
+            <button
+              type="button"
+              class="btn btn-primary modifyBtn"
+              id="skdModifyBtn"
+            >
+              수정
+            </button>
             <button class="btn btn-secondary deleteBtn">삭제</button>
           </div>
           <!--수정삭제 div-->
@@ -142,13 +149,148 @@
       <!--modal-content div-->
     </div>
     <!--modal div-->
+    <!-- 스케쥴 수정 -->
+    <div class="modal hidden" id="skdModifyDetail">
+      <div class="modal_overlay"></div>
 
+      <div class="modal_content">
+        <div class="card-header">
+          <button
+            class="xBox"
+            style="
+              float: right;
+              border-style: 1px solid #6c757d;
+              border-radius: 7px;
+              background-color: #6c757d;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            X
+          </button>
+          <h4>일정 수정</h4>
+        </div>
+        <form action="" id="modifySkdContent">
+          <!--card-header div-->
+          <table class="table">
+            <tbody>
+              <tr id="skdUpdateShare" class="skdUpdateShare">
+                <td style="width: 30%"><strong>캘린더</strong></td>
+                <td style="width: 70%" class="skdUpdateInputData">
+                  <div class="col-sm-10">
+                    <label class="form-check">
+                      <!-- 개인일정 -->
+                      <input
+                        name="radio-2"
+                        type="radio"
+                        class="form-check-input"
+                        value="p"
+                        checked=""
+                      />
+                      <span class="form-check-label">개인일정</span>
+                    </label>
+                    <!-- 팀일정 -->
+                    <label class="form-check">
+                      <input
+                        name="radio-2"
+                        type="radio"
+                        class="form-check-input"
+                        value="t"
+                      />
+                      <span class="form-check-label">팀일정</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+
+              <tr id="skdUpdateTitle">
+                <td><strong>제목</strong></td>
+                <td class="skdUpdateInputData">
+                  <input id="update_title" type="text" />
+                </td>
+              </tr>
+
+              <tr id="skdUpdateType">
+                <td><strong>종류</strong></td>
+                <td class="skdUpdateInputData">
+                  <div class="col-sm-10">
+                    <select
+                      name="skdUpdateTypeSelect"
+                      id="skdUpdateTypeSelect"
+                      style="width: 40%; border: 1px solid #52575c"
+                    >
+                      <option value="업무">업무</option>
+                      <option value="외근">외근</option>
+                      <option value="출장">출장</option>
+                      <option value="회의">회의</option>
+                      <option value="휴가">휴가</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+
+              <tr id="skdUpdateStartTime">
+                <td><strong>시작 시간</strong></td>
+
+                <td class="skdUpdateInputData">
+                  <input id="start_date_update" type="date" />
+                  <input id="start_time_update" type="time" />
+                </td>
+              </tr>
+
+              <tr id="skdUpdateEndTime">
+                <td><strong>종료 시간</strong></td>
+                <td class="skdUpdateInputData">
+                  <input id="end_date_update" type="date" />
+                  <input id="end_time_update" type="time" />
+                </td>
+              </tr>
+
+              <tr id="skdUpdateContent">
+                <td><strong>내용</strong></td>
+                <td class="skdUpdateInputData">
+                  <textarea
+                    name=""
+                    id="input_content_update"
+                    cols="30"
+                    rows="5"
+                  ></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!--form 닫기-->
+          <!-- 저장/취소  -->
+          <div class="mb-3 row">
+            <div style="text-align: center; margin: 10px 0">
+              <button
+                type="submit"
+                class="btn btn-primary modifySkdSubmit"
+                id="modifySubmitBtn"
+              >
+                저장
+              </button>
+              <button type="button" class="btn btn-secondary cancel">
+                취소
+              </button>
+            </div>
+            <!--저장/취소 div-->
+          </div>
+          <!--저장/취소부모div-->
+        </form>
+      </div>
+      <!--modal-content div-->
+    </div>
+    <!--modal div-->
     <script src="js/app.js"></script>
     <script src="js/main.js"></script>
     <script src="js/locales-all.min.js"></script>
     <script src="js/schedule-detail-search.js"></script>
+
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jq/load-schedule-detail.js"></script>
   </body>
 </html>

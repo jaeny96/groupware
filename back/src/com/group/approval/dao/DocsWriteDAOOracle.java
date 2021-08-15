@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
+import com.group.approval.dto.ApprovalStatus;
 import com.group.approval.dto.Document;
 import com.group.approval.dto.DocumentType;
 import com.group.approval.dto.Reference;
@@ -81,17 +82,29 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());
 		}
-		System.out.println("오라클쓰으으 "+ap);
-		String draftSQL = "INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (?, ?,'대기',?)";
+//		System.out.println("오라클쓰으으 "+ap);
+		String apType = "";
+		try {
+			if(ap.getAp_type().getApStatus_type()!=null) {
+				apType="승인";
+			}
+		}catch(NullPointerException e) {
+				ApprovalStatus as = new ApprovalStatus();
+				as.setApStatus_type("대기");
+				ap.setAp_type(as);			
+				apType=ap.getAp_type().getApStatus_type();			
+		}
+		String draftSQL = "INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (?, ?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
 			pstmt.setString(1, ap.getDocument_no().getDocument_no());
 			pstmt.setString(2, ap.getEmployee_id().getEmployee_id());
-			pstmt.setInt(3, ap.getAp_step());
-			System.out.println("여긴 오라클 "+ap);
+			pstmt.setString(3, apType);
+			pstmt.setInt(4, ap.getAp_step());
+//			System.out.println("여긴 오라클 "+ap);
 			int rowcnt = pstmt.executeUpdate();
-			System.out.println("안녕");
+//			System.out.println("안녕");
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
 			} else {
