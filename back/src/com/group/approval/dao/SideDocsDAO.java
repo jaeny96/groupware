@@ -9,7 +9,7 @@ import com.group.employee.dto.Employee;
 
 public interface SideDocsDAO {
 
-	/**2.
+	/**
 	 * (전체)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
 	 * @param employee_id
 	 * @throws FindException
@@ -17,40 +17,45 @@ public interface SideDocsDAO {
 	 */
 	int selectByCountAll(String employee_id) throws FindException;
 	
-	/**2.
+	/**
 	 * (진행)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 전체 사이드바 목록 개수 
 	 * @param employee_id
 	 * @throws FindException
 	 * 
 	 */
 	int selectByCountWait(String employee_id) throws FindException;
 	
-	/**2.
+	/**
 	 * (승인)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 승인 사이드바 목록 개수  
 	 * @param employee_id
 	 * @throws FindException
 	 * 
 	 */
 	int selectByCountOk(String employee_id) throws FindException;
 	
-	/**2.
+	/**
 	 * (반려)좌측 사이드 바를 통해 목록의 각각의 개수를 확인할 수 있다.
+	 * @return 반려 사이드바 목록 개수 
 	 * @param employee_id
 	 * @throws FindException
 	 * 
 	 */
 	int selectByCountNo(String employee_id) throws FindException;
 	
-	 /**7.
+	 /**
 	  * (전체)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 전체 문서 목록 
 	  * @param employee_id
 	  * @throws FindException
 	  */
 	 List<Document> selectByListAll(String employee_id) throws FindException;
 	 
 	 
-	 /**8.
+	 /**
 	  * (승인)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 승인 문서 목록
 	  * @param employee_id,document_status
 	  * @throws FindException
 	  */
@@ -58,16 +63,18 @@ public interface SideDocsDAO {
 	 
 
 	 
-	 /**8.
+	 /**
 	  * (진행)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 진행 문서 목록
 	  * @param employee_id,document_status
 	  * @throws FindException
 	  */
 	 List<Document> selectByListWait(String employee_id) throws FindException;
 	 
 	 
-	 /**8.
+	 /**
 	  * (반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
+	  * @return 반려 문서 목록
 	  * @param employee_id,document_status
 	  * @throws FindException
 	  */

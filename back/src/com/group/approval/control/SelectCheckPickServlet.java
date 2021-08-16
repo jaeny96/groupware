@@ -14,50 +14,46 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
-import com.group.approval.exception.SearchException;
 import com.group.approval.service.ConfirmDocsService;
 
 /**
- * Servlet implementation class ShowUserSearchDocs
+ * Servlet implementation class SelectNoPickStatusServlet
  */
-public class ShowUserSearchDocs extends HttpServlet {
+public class SelectCheckPickServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	//사용자가 확인,미확인을 선택하면 그것에 해당하는 목록을 볼 수 있는 서블릿
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//검색 관련 서블릿 
+		
 		HttpSession session = request.getSession();
 		String id= session.getAttribute("id").toString();//id값
-		String uCategory = request.getParameter("searchCategory");//제목/내용 구분란
-		String uSearch = request.getParameter("searchWord");//사용자가 검색한 값 
-		String uStatus = request.getParameter("status");//대기/반려/승인/전체 구분란
-		System.out.println(uSearch);
-	
+		String uStatus = request.getParameter("status");//전체/승인/반려/대기 구분란
+	    String uCheck=request.getParameter("check");//확인/미확인 
+				
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
 		ConfirmDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = ConfirmDocsService.getInstance();
-		
+
 		try {
-			System.out.println(uCategory);
-			if(uCategory.equals("content")) {//내용 검색시
-				List<Document> apDocsList = service.findMySearchContent(id,uSearch,uStatus);
+			if(uCheck.equals("확인")) {//확인 상태를 선택했을시
+				List<Document> apDocsList = service.findCheckDocsOk(id,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
-			}else if(uCategory.equals("title")){//제목 검색시
-				List<Document> apDocsList = service.findMySearchTitle(id,uSearch,uStatus);
+			}else if(uCheck.equals("미확인")){//미확인 상태를 선택했을시 
+				List<Document> apDocsList = service.findCheckDocsNo(id,uStatus);
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 				String jsonStr = mapper.writeValueAsString(apDocsList);
+				//System.out.println(jsonStr);
 				response.setContentType("application/json;charset=utf-8");
 				response.getWriter().print(jsonStr);
 			}
-		
 		}catch(FindException e) {
-			e.printStackTrace();
-		}catch(SearchException e) {
 			e.printStackTrace();
 		}
 	}

@@ -6,12 +6,10 @@ import java.util.Properties;
 
 import com.group.board.dao.BoardDAO;
 import com.group.board.dto.Board;
-import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
-import com.group.main.service.MainService;
 
 public class BoardService {
 	private BoardDAO dao;
@@ -22,9 +20,7 @@ public class BoardService {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
-//			env.load(new FileInputStream("classes.prop"));
 			String className = env.getProperty("boardDAO");
-//			System.out.println(className);
 			/*
 			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
 			 */
@@ -117,75 +113,4 @@ public class BoardService {
 		dao.delete(bd);
 	}
 
-	public static void main(String[] args) {
-//		int currentPage=2;
-//		try {
-//			List<Board> bdList = service.showBdAll(currentPage);
-//			for(Board bd : bdList) {
-//				System.out.println(bd.getBd_no()+"/"+bd.getBd_title()+
-//						"/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName() + "/" +bd.getBd_date());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		String category="name";
-//		String word = "권";
-//		String category="bd_title";
-//		String word = "안녕";
-//		try {
-//			List<Board> bdList= service.searchBd(category, word);
-//			for (Board bd : bdList) {
-//				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
-//						+ bd.getWriter().getName() + "/" + bd.getBd_date());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		String bd_no = "BD3";
-//		try {
-//			Board bd = service.showBdDetail(bd_no);
-//			System.out.println(bd.getBd_no() + "/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName()
-//					+ "/" + bd.getBd_title() + "/" + bd.getBd_content() + "/" + bd.getBd_date());
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		Employee emp = new Employee();
-//		Board bd = new Board();
-//		emp.setEmployee_id("DEV001");
-//		bd.setWriter(emp);
-//		bd.setBd_title("책임을 맡게된 임창균입니다.");
-//		bd.setBd_content("앞으로 잘 부탁드립니다 여러분");
-//		try {
-//			service.addBd(bd);
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
-
-//		int currentPage = 1;
-//		List<Board> bdList;
-//		try {
-//			Board bd = new Board();
-//			bd.setBd_no("BD2");
-//			bd.setBd_title("핳");
-//			bd.setBd_content("힘들어여");
-//			service.modifyBd(bd);
-//		} catch (ModifyException e) {
-//			e.printStackTrace();
-//		}
-
-//		int currentPage = 1;
-//		List<Board> bdList;
-//		try {
-//			bdList = service.showBdAll(currentPage);
-//			Board bd = bdList.get(0);
-////			System.out.println(bd);
-//			service.removeBd(bd);
-//		} catch (FindException | RemoveException e) {
-//			e.printStackTrace();
-//		}
-
-	}
 }

@@ -18,13 +18,12 @@ import com.group.exception.RemoveException;
  */
 public class RemoveBoardCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글의 댓글 삭제
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int removeTargetCmNo = Integer.parseInt(request.getParameter("removeTargetCmNo"));
 		String removeTargetBdNo = request.getParameter("removeTargetBdNo");
 		String removeCmWriterId = request.getParameter("removeCmWriterId");
-//		System.out.println(removeTargetCmNo + "/" + removeTargetBdNo + "/" + removeCmWriterId);
 		BoardCommentService service;
 		ServletContext sc = getServletContext();
 		BoardCommentService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -39,7 +38,6 @@ public class RemoveBoardCommentServlet extends HttpServlet {
 			cm.setCm_writer(emp);
 			service.removeCm(cm);
 		} catch (RemoveException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

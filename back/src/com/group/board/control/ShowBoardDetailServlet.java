@@ -2,7 +2,6 @@ package com.group.board.control;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,7 +19,7 @@ import com.group.exception.FindException;
  */
 public class ShowBoardDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글 상세 정보 반환
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String bdNo = request.getParameter("bdNo");
@@ -37,7 +36,6 @@ public class ShowBoardDetailServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

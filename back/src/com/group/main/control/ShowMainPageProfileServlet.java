@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.employee.dto.Employee;
-import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
 
@@ -33,7 +32,6 @@ public class ShowMainPageProfileServlet extends HttpServlet {
 
 		try {
 			Employee emp = service.showProfile(id);
-
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(emp);
 			response.setContentType("application/json;charset=utf-8");

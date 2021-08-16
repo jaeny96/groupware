@@ -1,8 +1,6 @@
 package com.group.main.control;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group.board.dto.Board;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
@@ -34,7 +31,6 @@ public class ShowMainPageLeaveServlet extends HttpServlet {
 		
 		try {
 			Leave leave = service.showLeave(id);
-			
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(leave);
 			response.setContentType("application/json;charset=utf-8");

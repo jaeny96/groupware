@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.group.changeTime;
 import com.group.board.dto.Board;
 import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
@@ -17,14 +16,6 @@ import com.group.exception.RemoveException;
 import com.group.sql.MyConnection;
 
 public class BoardDAOOracle implements BoardDAO {
-	public BoardDAOOracle() throws Exception {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("load success");
-	}
-	public void alterFormat() {
-		
-	}
-
 	@Override
 	public List<Board> selectAll() throws FindException {
 		Connection con = null;
@@ -38,7 +29,7 @@ public class BoardDAOOracle implements BoardDAO {
 		String selectAllSQL = "select*\r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
 				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
 				+ "            ORDER BY bd_date desc\r\n" + "        ) a\r\n" + "    )\r\n";
-//		System.out.println(selectAllSQL);
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Board> bdList = new ArrayList<Board>();
@@ -132,7 +123,6 @@ public class BoardDAOOracle implements BoardDAO {
 		String selectByWordSQL = "SELECT * \r\n" + "FROM board b \r\n"
 				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE " + category
 				+ " LIKE ? ORDER BY bd_no desc";
-//		System.out.println(selectByWordSQL);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Board> bdList = new ArrayList<Board>();
@@ -194,7 +184,6 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_title(rs.getString("bd_title"));
 				bd.setBd_content(rs.getString("bd_content"));
 				bd.setBd_date(rs.getTimestamp("bd_date"));
-//				System.out.println(bd);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -224,8 +213,6 @@ public class BoardDAOOracle implements BoardDAO {
 			pstmt.setString(2, bd.getBd_title());
 			pstmt.setString(3, bd.getBd_content());
 			pstmt.executeUpdate();
-
-			System.out.println("게시글이 추가되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());
@@ -256,9 +243,7 @@ public class BoardDAOOracle implements BoardDAO {
 		}
 		String updateSQL = "UPDATE board SET " + str.substring(0, str.length() - 1)
 				+ " ,bd_date=SYSTIMESTAMP WHERE bd_no=? AND employee_id=?";
-//		System.out.println(updateSQL);
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
 			pstmt = con.prepareStatement(updateSQL);
 			pstmt.setString(1, bd.getBd_no());
@@ -304,93 +289,5 @@ public class BoardDAOOracle implements BoardDAO {
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
-	}
-
-	public static void main(String[] args) {
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			List<Board> bdList = dao.selectAll();
-//			for (Board bd : bdList) {
-//				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
-//						+ bd.getWriter().getName() + "/" + changeTime.modifyTime(bd.getBd_date()));
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			int currentPage=1;
-//			List<Board> bdList = dao.selectAll(currentPage);
-//			for(Board bd : bdList) {
-//				System.out.println(bd.getBd_no()+"/"+bd.getBd_title()+
-//						"/"+bd.getWriter().getEmployee_id()+"/"+bd.getWriter().getName()+
-//						"/"+bd.getBd_date());
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			List<Board> bdList = dao.selectByWord("name","권");
-//			for (Board bd : bdList) {
-//				System.out.println(bd.getBd_no() + "/" + bd.getBd_title() + "/" + bd.getWriter().getEmployee_id() + "/"
-//						+ bd.getWriter().getName() + "/" + bd.getBd_date());
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			int currentPage = 1;
-//			List<Board> bdList = dao.selectAll(currentPage);
-//			Board bd = dao.selectBdInfo(bdList.get(1).getBd_no());
-//			System.out.println(bd.getBd_no() + "/" + bd.getWriter().getEmployee_id() + "/" + bd.getWriter().getName()
-//					+ "/" + bd.getBd_title() + "/" + bd.getBd_content() + "/" + bd.getBd_date());
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			Employee emp = new Employee();
-//			Board bd = new Board();
-//			emp.setEmployee_id("DEV001");
-//			bd.setWriter(emp);
-//			bd.setBd_title("책임을 맡게된 임창균입니다.");
-//			bd.setBd_content("앞으로 잘 부탁드립니다 여러분");
-//			dao.insert(bd);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			int currentPage = 1;
-//			List<Board> bdList = dao.selectAll(currentPage);
-//			Board bd = dao.selectBdInfo(bdList.get(1).getBd_no());
-//			bd.setBd_title("");
-////			bd.setBd_title("하하");
-////			bd.setBd_content("");
-//			bd.setBd_content("놀랐지?ㅋㅋㅋㅋ");
-//			dao.update(bd);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		try {
-//			BoardDAOOracle dao = new BoardDAOOracle();
-//			Employee emp = new Employee();
-//			Board bd = new Board();
-//			bd.setBd_no("BD7");
-//			emp.setEmployee_id("DEV001");
-//			bd.setWriter(emp);
-//			dao.delete(bd);
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
 	}
 }

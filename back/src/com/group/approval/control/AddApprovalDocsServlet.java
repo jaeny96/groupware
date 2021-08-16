@@ -1,6 +1,9 @@
 package com.group.approval.control;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,10 +14,12 @@ import javax.servlet.http.HttpSession;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
+import com.group.approval.dto.ApprovalStatus;
 import com.group.approval.dto.Document;
 import com.group.approval.dto.DocumentType;
 import com.group.approval.dto.Reference;
 import com.group.exception.AddException;
+import com.group.exception.FindException;
 import com.group.approval.service.DocsWriteService;
 import com.group.employee.dto.Employee;
 
@@ -26,8 +31,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String addApDocsNo = request.getParameter("addApDocsNo");
-		String addApDocsType = request.getParameter("addApDocsType");
+		String addApDocsType = request.getParameter("addApDocsType").trim();
 		String addApWriterId = request.getParameter("addApWriterId");
 		String addApDocsTitle = request.getParameter("addApDocsTitle");
 		String addApDocsContent = request.getParameter("addApDocsContent");
@@ -39,8 +43,14 @@ public class AddApprovalDocsServlet extends HttpServlet {
 		ServletContext sc = getServletContext();
 		DocsWriteService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = DocsWriteService.getInstance();
+		String docTypeCode = chkDocTypeCode(addApDocsType);
 
 		try {
+			int docNum = service.chkMaxNum(addApDocsType)+1;
+			String docNumber = modiDocNumber(docNum);
+			System.out.println(docTypeCode+"-"+addApDocsType+"-"+today()+"-"+docNumber);
+			String addApDocsNo=docTypeCode+"-"+addApDocsType+"-"+today()+"-"+docNumber;
+
 			Document document = new Document();
 			document.setDocument_no(addApDocsNo);
 			document.setDocument_title(addApDocsTitle);
@@ -65,7 +75,13 @@ public class AddApprovalDocsServlet extends HttpServlet {
 					Employee apEmp = new Employee();
 					apEmp.setEmployee_id(addApLineEmpIdArr[i]);
 					approval.setEmployee_id(apEmp);
-					approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));					
+					approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));
+					if(i==0) {
+						System.out.println(i+"로 들어옴");
+						ApprovalStatus as = new ApprovalStatus();
+						as.setApStatus_type("승인");
+						approval.setAp_type(as);
+					}
 					service.completeApRegister(approval);
 				}
 			}
@@ -93,10 +109,52 @@ public class AddApprovalDocsServlet extends HttpServlet {
 
 				service.completeReRegister(reference);
 			}
-		} catch (AddException e) {
+		} catch (AddException | FindException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public String chkDocTypeCode(String document_type) {
+//		String[] strArr = {"SR", "CR", "BC", "AC", "LE"};
+		String docType = document_type.trim();
+		String result = "";
+		if ("지출".equals(docType)) {
+			result = "SR";
+		} else if ("회람".equals(docType)) {
+			result = "CR";
+		} else if ("품의".equals(docType)) {
+			result = "AC";
+		} else if ("휴가".equals(docType)) {
+			result = "LE";
+		} else {
+			result = "BC";
+		}
+		return result;
+	}
+
+	public String today() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar calendar = Calendar.getInstance();
+
+		Date dateObj = calendar.getTime();
+		String formattedDate = sdf.format(dateObj);
+		return formattedDate;
+	}
+	
+	public String modiDocNumber(int docNum){
+		String result="";
+		if(docNum <10) {
+			result = "000"+docNum;
+		}else if(docNum<100) {
+			result = "00"+docNum;
+		}else if(docNum<1000) {
+			result = "0"+docNum;
+			
+		}else {
+			result = ""+docNum;			
+		}
+		return result;
 	}
 
 }

@@ -6,10 +6,6 @@ $(function () {
   var modalPeriodSearch = document.querySelector("div#skdSearchPeriod");
   var modalContentSearch = document.querySelector("div#skdSearchTitle");
 
-  var loginInfoIdObj = document.querySelector(
-    "div.profileDropdown span.loginId"
-  );
-
   //전체검색 모달 창 내용(제목, 내용, 시작일, 종료일)
   // var modalSearchAllTitle = modalSearchAll.querySelector("input.allTitle");
   // var modalSearchAllContent = modalSearchAll.querySelector("input.allContent");
@@ -25,24 +21,27 @@ $(function () {
   // var $searchResultA = $(".searchAllBtn");
   var $content = $("#skdDetailShare");
 
-  //기간검색 데이터 받아오기
+  /**
+   * 기간검색 데이터 받아오기
+   */
   $searchResultP.on("click", function () {
     var href = $(this).attr("href");
-    // var id = loginInfoIdObj.innerHTML;
-    // var dept = id.substring(0, 3);
-    var id = "MSD002";
-    var dept = "MSD";
+    var loginedId = localStorage.getItem("loginInfo");
+    var loginedDept = loginedId.substring(0, 3);
+    var id = loginedId;
+    var dept = loginedDept;
     //input날짜 값
     var sdatev = modalPeriodSearch.querySelector("input.cSdate");
     var sdate = sdatev.value;
     var edatev = modalPeriodSearch.querySelector("input.cEdate");
     var edate = edatev.value;
-
+    //시작날짜가 종료일보다 늦을 경우
     if (sdate == null || sdate == "" || edate == null || edate == "") {
       alert("기간을 입력하세요.");
     } else if (new Date(edate) - new Date(sdate) < 0) {
       alert("종료일이 시작일보다 먼저입니다.");
     } else {
+      //쿼리스트링으로 데이터 보내기
       var queryString =
         "id=" +
         id +
@@ -55,7 +54,7 @@ $(function () {
         "&" +
         "end_date=" +
         edate;
-
+      //schedule-detail-search.html로 페이지 이동하기  + ? 위에서 설정한 쿼리스트링값을 가지고
       window.location.replace("schedule-detail-search.html?" + queryString);
       switch (href) {
         case "schedule-detail-search.html":
@@ -68,17 +67,20 @@ $(function () {
       return false;
     }
   });
-
-  //내용검색 데이터 받아오기
+  /** 
+  내용검색 데이터 받아오기
+  */
   $searchResultC.on("click", function () {
     var href = $(this).attr("href");
     // var id = loginInfoIdObj.innerHTML;
-    var id = "MSD002";
+    var loginedId = localStorage.getItem("loginInfo");
+    var id = loginedId;
+
     var titlev = modalContentSearch.querySelector("input.pTitle");
     var title = titlev.value;
     var contentv = modalContentSearch.querySelector("input.pContent");
     var content = contentv.value;
-
+    //제목,내용이 빈칸이거나 null일때 alert
     if (title == null || title == "") {
       alert("검색어를 입력하세요.");
     } else if (content == null || content == "") {
@@ -94,6 +96,7 @@ $(function () {
         "skd_content=" +
         content;
       // console.log(queryString);
+      //schedule-detail-search.html로 페이지 이동하기  + ? 위에서 설정한 쿼리스트링값을 가지고
       window.location.replace("schedule-detail-search.html?" + queryString);
       switch (href) {
         case "schedule-detail-search.html":

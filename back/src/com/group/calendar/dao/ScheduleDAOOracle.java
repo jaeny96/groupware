@@ -97,14 +97,14 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         throw new FindException(e.getMessage());
 	      }
 	      
-	      String SkdListSQL = "SELECT skd_type, skd_title, skd_content,\r\n" + 
+	      String SkdListSQL = "SELECT skd_no, skd_type, skd_title, skd_content,\r\n" + 
 	            "skd_start_date,\r\n" + 
 	            "skd_end_date, skd_share\r\n" + 
 	            "FROM schedule\r\n" + 
 	            "WHERE employee_id= ? AND skd_share ='p' AND skd_start_date\r\n" + 
 	            "BETWEEN ? AND ? \r\n" + 
 	            "UNION ALL\r\n" + 
-	            "SELECT skd_type, skd_title,skd_content,\r\n" + 
+	            "SELECT skd_no, skd_type, skd_title,skd_content,\r\n" + 
 	            "skd_start_date,\r\n" + 
 	            "skd_end_date, skd_share FROM schedule\r\n" + 
 	            "WHERE employee_id like ? and skd_share = 't' AND skd_start_date \r\n" + 
@@ -130,6 +130,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	            ScheduleType st = new ScheduleType();
 	            st.setSkd_type(rs.getString("skd_type"));
 	            s.setSkd_type(st);
+	            s.setSkd_no(rs.getInt("skd_no"));
 	            s.setSkd_title(rs.getString("skd_title"));
 	            s.setSkd_content(rs.getNString("skd_content"));
 	            s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
@@ -542,7 +543,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	       int skd_no = s.getSkd_no();
 	       Employee skd_id = s.getSkd_id();
 	      
-	       
+	       System.out.println("오라클 삭제 번호 "+skd_no);
+	       System.out.println("오라클 삭제 작성자  "+skd_id.getEmployee_id());
 	   //    skd_id = emp.getEmployee_id();
 	       
 	       //emp.setEmployee_id("MSD002");
@@ -551,7 +553,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	       try {
 	         pstmt = con.prepareStatement(deleteSQL);
 	         pstmt.setInt(1, skd_no);
-	         pstmt.setObject(2, skd_id.getEmployee_id());
+	         pstmt.setString(2, skd_id.getEmployee_id());
 	         //.setString(2, skd_id);
 
 	         int rowcnt = pstmt.executeUpdate();

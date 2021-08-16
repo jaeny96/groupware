@@ -17,6 +17,7 @@ import com.group.exception.FindException;
 public class ShowDeptEmpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	//부서별 사원 조회
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String dept=request.getParameter("deptId");
@@ -29,11 +30,9 @@ public class ShowDeptEmpServlet extends HttpServlet {
 			List<Employee> empList = service.showByDept(dept);
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonStr = mapper.writeValueAsString(empList);
-//			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

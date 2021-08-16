@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group.employee.dto.Employee;
 
 /**
  * Servlet implementation class CheckedLoginedServlet
@@ -31,7 +28,6 @@ public class CheckedLoginedServlet extends HttpServlet {
 		Map<String, Object>map = new HashMap<>();
 		String id = session.getAttribute("id").toString();
 		int status;
-		System.out.println(id+" s");
 		if(id == null) {
 			status = 0;
 		}else {

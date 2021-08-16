@@ -34,11 +34,6 @@ var content = ContentValue.innerText;
 var skdDate = [];
 var skdTime = [];
 var skdContent = [];
-console.log(typeValue.innerHTML);
-console.log(title + "22222");
-console.log(start + "33333");
-console.log(end);
-console.log(content);
 
 //표만들기
 function createSkdElement(i) {
@@ -69,13 +64,14 @@ function createSkdElement(i) {
 function init(result) {
   console.log({ result });
 
-  result.forEach((item) => {
+  result.forEach(item => {
     start = new Date(item.skd_start_date);
     end = new Date(item.skd_end_date);
     title = item.skd_title;
 
     skdContent.push(title);
     skdDate.push(moment(start).format("YY-MM-DD"));
+    //9:00 AM ~ 10:00 AM의 형태로 보여주는 moment함수
     skdTime.push(moment(start).format("LT") + " ~ " + moment(end).format("LT"));
   });
   for (var i = 0; i < skdDate.length; i++) {
@@ -100,33 +96,37 @@ var skdTitleDetailSearch;
 var skdContentDetailSearch;
 //modal 만드는 함수
 //파라미터 : class="modal" 의 id
+var skdno;
 function createModal(id) {
+  skdno = localStorage.getItem("skdNo");
   var index = localStorage.getItem("searchSkdNoDetail");
-  // var id = loginInfoIdObj.innerHTML;
-  // var dept = id.substring(0, 3);
-  var sid = "MSD002";
-  var dept = "MSD";
+
+  var loginedId = localStorage.getItem("loginInfo");
+  var loginedDept = loginedId.substring(0, 3);
+  var sid = loginedId;
+  var dept = loginedDept;
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = sid;
   urlParams.dept_id = dept;
-
+  console.log(urlParams);
   // console.log(skdTitleDetailSearch);
   var modal = document.getElementById(id);
   modal.classList.remove("hidden"); //모달열기
   var closeBtn = modal.querySelector("button.cancel");
-
   var overlay = modal.querySelector(".modal_overlay");
   var deleteBtn = modal.querySelector("button.deleteBtn");
   var xBoxBtn = modal.querySelector("button.xBox");
+  var modifyBtn = modal.querySelector("button.modifyBtn");
+  var modifySubmitBtnObj = modal.querySelector("button.modifySubmit");
 
   //함수
   var openModal = () => {
     modal.classList.remove("hidden");
   };
-  var deleteSKD = () => {
-    window.alert("일정을 삭제하시겠습니까?");
-  };
+
   var closeModal = () => {
     modal.classList.add("hidden");
   };
@@ -142,14 +142,41 @@ function createModal(id) {
   if (closeBtn != null) {
     closeBtn.addEventListener("click", closeModal);
   }
+  if (modifyBtn != null) {
+    modifyBtn.addEventListener("click", function () {
+      modal.classList.add("hidden");
 
-  //todo : 삭제 버튼
-  if (deleteBtn != null) {
-    deleteBtn.addEventListener("click", deleteSKD);
+      createModal("skdModifyDetail");
+    });
   }
+  $.ajax({
+    url: "/back/showbydetail",
+    dataType: "json",
+    data: { skd_no: skdno },
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        titleValue.innerHTML = e.skd_title;
+        typeValue.innerHTML = e.skd_type.skd_type;
+        StartTimeValue.innerHTML = e.skd_start_date;
+        EndTimeValue.innerHTML = e.skd_end_date;
+        ContentValue.innerHTML = e.skd_content;
 
-  // titleValue.innerHTML = skdTitleDetailSearch;
-
+        localStorage.setItem("skdNo", e.skd_no);
+        localStorage.setItem("title", titleValue.innerHTML);
+        localStorage.setItem(
+          "startDate",
+          StartTimeValue.innerHTML.slice(0, 10)
+        );
+        localStorage.setItem(
+          "startTime",
+          StartTimeValue.innerHTML.slice(11, 16)
+        );
+        localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
+        localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
+        localStorage.setItem("content", ContentValue.innerHTML);
+      });
+    },
+  });
   $.ajax({
     url: "/back/showbycontent",
     dataType: "json",
@@ -158,11 +185,26 @@ function createModal(id) {
       $(responseData).each(function (i, e) {
         if (index == i) {
           // console.log(e.skd_title);
+          console.log(e);
           titleValue.innerHTML = e.skd_title;
           typeValue.innerHTML = e.skd_type.skd_type;
           StartTimeValue.innerHTML = e.skd_start_date;
           EndTimeValue.innerHTML = e.skd_end_date;
           ContentValue.innerHTML = e.skd_content;
+
+          localStorage.setItem("skdNo", e.skd_no);
+          localStorage.setItem("title", titleValue.innerHTML);
+          localStorage.setItem(
+            "startDate",
+            StartTimeValue.innerHTML.slice(0, 10)
+          );
+          localStorage.setItem(
+            "startTime",
+            StartTimeValue.innerHTML.slice(11, 16)
+          );
+          localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
+          localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
+          localStorage.setItem("content", ContentValue.innerHTML);
         }
       });
     },
@@ -175,31 +217,42 @@ function createModal(id) {
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         if (index == i) {
-          // console.log(e.skd_title);
+          console.log(e);
           titleValue.innerHTML = e.skd_title;
           typeValue.innerHTML = e.skd_type.skd_type;
           StartTimeValue.innerHTML = e.skd_start_date;
           EndTimeValue.innerHTML = e.skd_end_date;
           ContentValue.innerHTML = e.skd_content;
+          localStorage.setItem("skdNo", e.skd_no);
+          localStorage.setItem("title", titleValue.innerHTML);
+          localStorage.setItem(
+            "startDate",
+            StartTimeValue.innerHTML.slice(0, 10)
+          );
+          localStorage.setItem(
+            "startTime",
+            StartTimeValue.innerHTML.slice(11, 16)
+          );
+          localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
+          localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
+          localStorage.setItem("content", ContentValue.innerHTML);
         }
       });
     },
   });
-
-  console.log(titleValue.innerHTML);
 }
 
 //내용,제목 검색
 document.addEventListener("DOMContentLoaded", function () {
   // var id = loginInfoIdObj.innerHTML;
 
-  var id = "MSD002";
-  //var dept = "MSD";
+  var loginedId = localStorage.getItem("loginInfo");
+  var id = loginedId;
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = id;
-  // urlParams.dept = dept;
-  // const encoded = encodeURIComponent(urlParams);
 
   console.log({ urlParams });
   $.ajax({
@@ -207,20 +260,21 @@ document.addEventListener("DOMContentLoaded", function () {
     dataType: "json",
     data: urlParams,
     success: function (responseData) {
+      //위에 init함수 호출
       init(responseData);
-
-      // createModalValue(responseData);
     },
   });
 });
 
 //기간검색
 document.addEventListener("DOMContentLoaded", function () {
-  // var id = loginInfoIdObj.innerHTML;
-  // var dept = id.substring(0, 3);
-  var id = "MSD002";
-  var dept = "MSD";
+  var loginedId = localStorage.getItem("loginInfo");
+  var loginedDept = loginedId.substring(0, 3);
+  var id = loginedId;
+  var dept = loginedDept;
+  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
   const urlSearchParams = new URLSearchParams(window.location.search);
+  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
   urlParams.id = id;
   urlParams.dept_id = dept;
@@ -231,9 +285,8 @@ document.addEventListener("DOMContentLoaded", function () {
     dataType: "json",
     data: urlParams,
     success: function (responseData) {
+      //위에 init함수 호출
       init(responseData);
-
-      // createModalValue(responseData);
     },
   });
 });

@@ -18,16 +18,23 @@
     />
 
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="jq/load.js"></script>
-    <title>GroupWare Program</title>
-    <script src="js/summernote/summernote-lite.js"></script>
-    <script src="js/summernote/lang/summernote-ko-KR.js"></script>
+    <link href="css/schedule.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="css/sidebar-count.css" rel="stylesheet" />
     <link
       href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
       rel="stylesheet"
     />
-    <!-- <script src="jq/summernote.js"></script> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--     <script src="js/locales-all.min.js"></script> -->
+    <!--     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script> -->
+    <!--     <script src="https://unpkg.com/tippy.js@6"></script> -->
+    <script src="js/summernote/summernote-lite.js"></script>
+    <script src="js/summernote/lang/summernote-ko-KR.js"></script>
+
+    <title>GroupWare Program</title>
+
     <style>
       .modal {
         position: fixed;
@@ -87,8 +94,6 @@
         float: left;
       }
     </style>
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="css/sidebar-count.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -133,8 +138,6 @@
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link collapsed apMenu">
-                <!-- data-target="#ui"
-              data-toggle="collapse" -->
                 <i class="align-middle" data-feather="briefcase"></i>
                 <span>전자결재</span>
               </a>
@@ -142,8 +145,6 @@
                 class="sidebar-dropdown list-unstyled collapse ml-3"
                 id="docMenuFirst"
               >
-                <!-- id="ui" -->
-                <!-- data-parent="#sidebar" -->
                 <li class="sidebar-item">
                   <a class="sidebar-link" href="post.html">작성하기</a>
                 </li>
@@ -185,15 +186,12 @@
                 </li>
                 <li class="sidebar-item">
                   <a class="sidebar-link collapsed docListDropDownMenu">
-                    <!-- data-target="#docList"
-                  data-toggle="collapse" -->
                     <span>문서함</span>
                   </a>
                   <ul
                     id="docList"
                     class="sidebar-dropdown list-unstyled collapse ml-3"
                   >
-                    <!-- data-parent="#sidebar" -->
                     <li class="sidebar-item">
                       <a
                         class="sidebar-link"
@@ -249,13 +247,6 @@
           <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
               <li class="nav-item dropdown">
-                <!-- <a
-                  class="nav-icon dropdown-toggle d-inline-block d-sm-none"
-                  href="#"
-                  data-toggle="dropdown"
-                >
-                  <i class="align-middle" data-feather="settings"></i>
-                </a> -->
                 <a
                   class="
                     nav-link
@@ -264,8 +255,6 @@
                     dropdownProfile
                   "
                 >
-                  <!-- href="#"
-                  data-toggle="dropdown" -->
                   <img
                     src="img/avatars/avatar-4.jpg"
                     class="avatar img-fluid rounded mr-1"
@@ -330,10 +319,7 @@
                     <h5 class="card-title mb-0 float-left">오늘 일정</h5>
                     <div class="mb-2 float-right scheduleBtn">
                       <a href="schedule.html">
-                        <i
-                          class="align-middle mr-2"
-                          data-feather="plus-circle"
-                        ></i
+                        <i class="fas fa-plus align-middle mr-2"></i
                       ></a>
                     </div>
                   </div>
@@ -415,7 +401,8 @@
       </div>
     </div>
     <script src="js/app.js"></script>
-    <script src="js/mainpage.js"></script>
+    <script src="jq/load.js"></script>
+    <script src="js/main.js"></script>
     <script src="jq/load-sidebar-cnt.js"></script>
   </body>
 </html>

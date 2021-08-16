@@ -7,12 +7,10 @@ import java.util.Properties;
 import com.group.approval.dto.Document;
 import com.group.board.dto.Board;
 import com.group.calendar.dto.Schedule;
-import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.dao.MainDAO;
-import com.group.mypage.service.EmployeeLeaveService;
 
 public class MainService {
 	private MainDAO dao;
@@ -105,64 +103,5 @@ public class MainService {
 	 */
 	public List<Schedule> showTodaySkd(Employee emp) throws FindException {
 		return dao.selectSchedule(emp);
-	}
-
-	public static void main(String[] args) {
-		String id = "MSD002";
-//		try {
-//			Employee emp = service.showProfile(id);
-//			System.out.println(emp.getEmployee_id()+"/"+emp.getName());
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-
-//		String pwd = "DEV0031234";
-//		try {
-//			Employee emp = service.login(id, pwd);
-//			System.out.println(emp.getEmployee_id() + "/" + emp.getName() + "/" + emp.getPassword());
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-		
-//		try {
-//			List<Document> docList = service.showDocExpected(id);
-//			for(Document doc : docList) {
-//				System.out.println(doc.doucment_no+"/"+doc.document_title+"/"+doc.draft_date);
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-		
-//		try {
-//			List<Board> bdList = service.showRecentBd();
-//			for(Board bd : bdList) {
-//				System.out.println(bd.getBd_title()+"/"+bd.getBd_date()+"/"+bd.getWriter().getEmployee_id());
-//			}
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-		
-//		try {
-//			Leave leave = service.showLeave(id);
-//			System.out.println(leave.employee_id+"/"+leave.grant_days+"/"+leave.use_days+"/"+leave.remain_days);
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
-		
-//		String deptId = "MSD";
-//		Employee emp = new Employee();
-//		emp.setEmployee_id(id);
-//		Department dept = new Department();
-//		dept.setDepartment_id(deptId);
-//		emp.setDepartment(dept);
-//		try {
-//			List<Schedule> skdList = service.showTodaySkd(emp);
-//			for(Schedule skd : skdList) {
-//				System.out.println(skd.getSkd_start_date()+"/"+skd.getSkd_title());
-//			}
-//		} catch (FindException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 }

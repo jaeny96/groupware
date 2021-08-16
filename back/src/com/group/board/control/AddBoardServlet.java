@@ -18,14 +18,13 @@ import com.group.exception.AddException;
  */
 public class AddBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글 등록
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String addBdWriter = request.getParameter("addBdWriter");
 		String addBdWriterId = request.getParameter("addBdWriterId");
 		String addBdTitle = request.getParameter("addBdTitle");
 		String addBdContent = request.getParameter("addBdContent");
-		System.out.println(addBdWriter + "/" + addBdWriterId + "/" + addBdTitle + "/" + addBdContent);
 		BoardService service;
 		ServletContext sc = getServletContext();
 		BoardService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -41,7 +40,6 @@ public class AddBoardServlet extends HttpServlet {
 			bd.setWriter(emp);
 			service.addBd(bd);
 		} catch (AddException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

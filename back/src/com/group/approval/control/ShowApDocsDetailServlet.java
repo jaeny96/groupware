@@ -15,38 +15,35 @@ import com.group.approval.dto.Document;
 import com.group.approval.exception.FindException;
 import com.group.approval.service.ConfirmDocsService;
 
+
 /**
- * Servlet implementation class selectUserPickServlet
+ * Servlet implementation class ShowApDocsDetail
  */
-public class SelectAllPickStatusServlet extends HttpServlet {
+public class ShowApDocsDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	//문서의 상세내용 보여주는 서블릿
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String loginId = request.getParameter("id");
-	    String uCehck=request.getParameter("check");
-		//요청전달데이터 얻기 
-				
+		String docNo = request.getParameter("docsNo");//문서 번호
+		
 		ConfirmDocsService service;
 		ServletContext sc = getServletContext();
 		ConfirmDocsService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = ConfirmDocsService.getInstance();
 		
 		try {
-			List<Document> apDocsList = service.findCheckDocsAll(loginId,uCehck);
-			//json라이브러리로 json문자열 형태로 응답
+			List<Document> apDocsList = service.findDocsDetail(docNo);
 			ObjectMapper mapper = new ObjectMapper();
-			//보낼때 데이터 포맷
+
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 			String jsonStr = mapper.writeValueAsString(apDocsList);
-			System.out.println(jsonStr);
 			response.setContentType("application/json;charset=utf-8");
-			//데이터 전달S
 			response.getWriter().print(jsonStr);
 		}catch(FindException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 
 }

@@ -2,7 +2,6 @@ package com.group.board.dao;
 
 import java.util.List;
 
-import com.group.board.dto.Board;
 import com.group.board.dto.BoardComment;
 import com.group.exception.AddException;
 import com.group.exception.FindException;

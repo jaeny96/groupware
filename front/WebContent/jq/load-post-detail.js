@@ -16,8 +16,11 @@ $(function () {
       case "post-detail-account.html":
       case "post-detail-leave.html":
       case "post-detail-contact.html":
+        //모두 변경 예정,,
+        console.log("변경했다고! " + valueHref);
         $('ul#docMenuFirst a[href="' + valueHref + '"]').trigger("click");
-        $apMenuFirstDropDownItemObj.hide();
+      // console.log("trigger");
+      // $apMenuFirstDropDownItemObj.hide();
     }
     return false;
   });

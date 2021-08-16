@@ -1,8 +1,6 @@
 package com.group.board.control;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +15,7 @@ import com.group.board.service.PageBeanService;
  */
 public class ShowTotalPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//총 페이지 반환
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageBeanService service;
 		ServletContext sc = getServletContext();

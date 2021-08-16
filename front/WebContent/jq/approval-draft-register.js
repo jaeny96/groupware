@@ -1,6 +1,9 @@
 $(function () {
   localStorage.removeItem("apLineName");
 
+  var $apDocListMenu = $("#apAllLink");
+  console.log($apDocListMenu);
+
   //모달창 객체 가져옴
   var modalApLineSettingObj = document.querySelector(
     "div#modalApprovalSetting"
@@ -207,13 +210,10 @@ $(function () {
   );
   //기안1
   var $apBtn = $("button#draftComplete");
-  var $agBtn = $("button#draftComplete2");
   //결재문서 작성폼
   var apFormObj = document.querySelector("form#addApform");
   //결재문서 종류
-  var apDocsTypeObj = document.querySelector(
-    "select#documentTypeSelect>option"
-  );
+  var apDocsTypeObj = $("select#documentTypeSelect option:selected").html();
   //결재문서 제목
   var apDocsTitleObj = document.querySelector("input#inputtitle");
   //결재문서 내용
@@ -234,25 +234,8 @@ $(function () {
   var apThreeStepNumber = document.querySelector("td.threeLine");
   //합의자 이름칸
   var apAgreementStepName = document.querySelector("td.apAgreementName");
-  console.log(apAgreementStepName.getAttribute("id"));
   //참조자 이름칸
   var apReferenceStepName = document.querySelector("td.apReferenceName");
-
-  // console.log(apFormObj);
-  // console.log(apDocsTypeObj);
-  // console.log(apDocsTitleObj);
-  // console.log(apDocsContentObj);
-  // console.log(apDocsEmpIdObj);
-  // console.log(apZeroStepName.getAttribute("id"));
-  // console.log(apOneStepName.getAttribute("id"));
-  // console.log(apTwoStepName.getAttribute("id"));
-  // console.log(apThreeStepName.getAttribute("id"));
-  // console.log(apAgreementStepName);
-  // console.log(apReferenceStepName);
-  // console.log(apZeroStepNumber.innerText);
-  // console.log(apOneStepNumber.innerText);
-  // console.log(apTwoStepNumber.innerText);
-  // console.log(apThreeStepNumber.innerText);
 
   var apLineId = [0, 1, 2, 3];
   var apLineEmpId = [
@@ -264,7 +247,6 @@ $(function () {
   var aglineEmpId;
   var relineEmpId;
 
-  // var backurlAddDocs = "/back/addapprovaldocs";
   var backurlApAddDocs = "/back/addapprovaldocs";
   var backurlAddApLine = "/back/addapprovallineemp";
   var backurlAddAgLine = "/back/addagreementlineemp";
@@ -279,12 +261,13 @@ $(function () {
     ];
     relineEmpId = apReferenceStepName.getAttribute("id");
     aglineEmpId = apAgreementStepName.getAttribute("id");
+
+    console.log($("select#documentTypeSelect option:selected").html());
     $.ajax({
       url: backurlApAddDocs,
       method: "post",
       data: {
-        addApDocsNo: "지출 003",
-        addApDocsType: apDocsTypeObj.innerHTML,
+        addApDocsType: apDocsTypeObj,
         addApDocsTitle: apDocsTitleObj.value,
         addApDocsContent: apDocsContentObj.innerText,
         addApWriterId: loginInfoIdObj.innerText,
@@ -293,20 +276,24 @@ $(function () {
         addAgLineEmpId: aglineEmpId,
         addReLineEmpId: relineEmpId,
       },
-      success: function () {},
-    });
-  }
-
-  function docThird() {
-    console.log(aglineEmpId);
-    $.ajax({
-      url: backurlAddAgLine,
-      method: "post",
-      data: {
-        addApDocsNo: "BC-연락-20210622-0001",
-        addAgLineEmpId: aglineEmpId,
+      success: function () {
+        alert("기안이 완료되었습니다.");
+        //메뉴 이동 시 변경 될 부분
+        var $content = $("div.wrapper>div.main>main.content");
+        console.log($content);
+        // $("#apAllLink").click(function () {
+        var href = "approval-board.html";
+        // console.log("click 됨!");
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        // });
+        var $apMenuFirstDropDownAObj = $("a.apMenu");
+        var $apMenuFirstDropDownItemObj = $("ul#docMenuFirst");
+        var $docListDropDownMenuAObj = $("a.docListDropDownMenu");
+        var $docListDropDownMenuItemObj = $("ul#docList");
       },
-      success: function () {},
     });
   }
 
@@ -314,15 +301,5 @@ $(function () {
     docFirst();
   }
 
-  function addAgFormSubmitHandler(e) {
-    aglineEmpId = apAgreementStepName.getAttribute("id");
-    // relineEmpId = apReferenceStepName.getAttribute("id");
-    docThird();
-  }
-
   $apBtn.click(addApFormSubmitHandler);
-  $agBtn.click(addAgFormSubmitHandler);
-
-  // apFormObj.addEventListener("submit", addApFormSubmitHandler);
-  // $apBtn.click(docFirst);
 });

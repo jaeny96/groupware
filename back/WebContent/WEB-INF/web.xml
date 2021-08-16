@@ -274,16 +274,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ShowApDocsAllServlet</display-name>
-    <servlet-name>ShowApDocsAllServlet</servlet-name>
-    <servlet-class>com.group.approval.control.ShowApDocsAllServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowApDocsAllServlet</servlet-name>
-    <url-pattern>/showapdocsall</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>ShowApDocsStatusServlet</display-name>
     <servlet-name>ShowApDocsStatusServlet</servlet-name>
     <servlet-class>com.group.approval.control.ShowApDocsStatusServlet</servlet-class>
@@ -301,16 +291,6 @@
   <servlet-mapping>
     <servlet-name>ShowSideBarCntAll</servlet-name>
     <url-pattern>/sidebarcntall</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ShowApDocsDetail</display-name>
-    <servlet-name>ShowApDocsDetail</servlet-name>
-    <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ShowApDocsDetail</servlet-name>
-    <url-pattern>/showdocsdetail</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -392,16 +372,7 @@
     <servlet-name>AddApprovalLineEmpServlet</servlet-name>
     <url-pattern>/addapprovallineemp</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>AddApDocsServlet</display-name>
-    <servlet-name>AddApDocsServlet</servlet-name>
-    <servlet-class>com.group.approval.control.AddApDocsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AddApDocsServlet</servlet-name>
-    <url-pattern>/addapdocs</url-pattern>
-  </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>AddAgreementLineEmpServlet</display-name>
@@ -411,16 +382,6 @@
   <servlet-mapping>
     <servlet-name>AddAgreementLineEmpServlet</servlet-name>
     <url-pattern>/addagreementlineemp</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SelectAllPickStatusServlet</display-name>
-    <servlet-name>SelectAllPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectAllPickStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SelectAllPickStatusServlet</servlet-name>
-    <url-pattern>/selectallpick</url-pattern>
   </servlet-mapping>
    <servlet>
     <description></description>
@@ -432,16 +393,7 @@
     <servlet-name>SelectByCommentsServlet</servlet-name>
     <url-pattern>/selectbycomments</url-pattern>
   </servlet-mapping>
-   <servlet>
-    <description></description>
-    <display-name>SelectWaitPickStatusServlet</display-name>
-    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
-    <servlet-class>com.group.approval.control.SelectWaitPickStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SelectWaitPickStatusServlet</servlet-name>
-    <url-pattern>/selectwaitpick</url-pattern>
-  </servlet-mapping> <servlet>
+	<servlet>
     <description></description>
     <display-name>AddScheduleServlet</display-name>
     <servlet-name>AddScheduleServlet</servlet-name>
@@ -521,34 +473,44 @@
     <servlet-name>ShowByDate</servlet-name>
     <url-pattern>/showbydate</url-pattern>
   </servlet-mapping>
-<!--  <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>ShowApDocsDetail</display-name> -->
-<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.ShowApDocsDetail</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ShowApDocsDetail</servlet-name> -->
-<!--     <url-pattern>/showdocsdetail</url-pattern> -->
-<!--   </servlet-mapping> -->
-<!--    <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>ShowUserSearchDocs</display-name> -->
-<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.ShowUserSearchDocs</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ShowUserSearchDocs</servlet-name> -->
-<!--     <url-pattern>/usersearchdocs</url-pattern> -->
-<!--   </servlet-mapping> -->
-<!--   <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>CheckUserApDocsDetail</display-name> -->
-<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
-<!--     <servlet-class>com.group.approval.control.CheckUserApDocsDetail</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>CheckUserApDocsDetail</servlet-name> -->
-<!--     <url-pattern>/checkuser</url-pattern> -->
-<!--   </servlet-mapping> -->
+   <servlet>
+    <description></description>
+    <display-name>SelectCheckPickServlet</display-name>
+    <servlet-name>SelectCheckPickServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectCheckPickServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectCheckPickServlet</servlet-name>
+    <url-pattern>/selectcheckpick</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SelectMyAdminServlet</display-name>
+    <servlet-name>SelectMyAdminServlet</servlet-name>
+    <servlet-class>com.group.approval.control.SelectMyAdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SelectMyAdminServlet</servlet-name>
+    <url-pattern>/selectmyadmin</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <description></description>
+    <display-name>ShowApDocsDetailServlet</display-name>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
+    <servlet-class>com.group.approval.control.ShowApDocsDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowApDocsDetailServlet</servlet-name>
+    <url-pattern>/showdocsdetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateReCheckServlet</display-name>
+    <servlet-name>UpdateReCheckServlet</servlet-name>
+    <servlet-class>com.group.approval.control.UpdateReCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateReCheckServlet</servlet-name>
+    <url-pattern>/updaterecheck</url-pattern>
+  </servlet-mapping>
 </web-app>

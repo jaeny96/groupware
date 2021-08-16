@@ -20,7 +20,7 @@ import com.group.exception.FindException;
  */
 public class SearchBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//게시글 검색 내용 반환
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String bdSearchCategory = request.getParameter("bdSearchCategory");
@@ -40,7 +40,6 @@ public class SearchBoardServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (FindException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,7 +1,6 @@
 package com.group.mypage.control;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,12 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group.employee.dto.Employee;
 import com.group.exception.CheckException;
-import com.group.exception.FindException;
 import com.group.exception.ModifyException;
-import com.group.mypage.dto.EmployeeLeave;
 import com.group.mypage.service.EmployeeLeaveService;
 
 /**
@@ -24,6 +20,7 @@ import com.group.mypage.service.EmployeeLeaveService;
 public class ChangeMyPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	// 비밀번호 변경
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
