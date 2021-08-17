@@ -1,4 +1,149 @@
 var calendar = null;
+var $content = $("div.wrapper>div.main>main.content");
+
+//팀캘린더, 개인캘린더 지정
+var teamOrPersonalOption = "p";
+var skdInputShare = $('input[name="radio-3"]');
+skdInputShare.change(function () {
+  //팀 = t, 개인 = p로 인식하도록 하는 함수
+  teamOrPersonalOption = this.value;
+  console.log(teamOrPersonalOption);
+});
+
+//업무, 출장 등 스케쥴 종류 지정
+var skdInputTypeValue = "업무";
+var skdInputTypeObj = $("#skdType");
+skdInputTypeObj.change(function () {
+  //드롭다운에서 선택한 값으로 인식하도록 하는 함수
+  console.log(this.value);
+  skdInputTypeValue = this.value + "";
+});
+
+/**
+ * 일정 압력 유효성 검사 후 일정 추가
+ */
+function inputTimeValidation() {
+  var skdInputStartDate = $("#start_date"); //시작날짜
+  var skdInputStartTime = $("#start_time"); //시작시간
+  var skdInputEndDate = $("#end_date"); //종료날짜
+  var skdInputEndTime = $("#end_time"); //종료시간
+
+  const startDateforCount = String(skdInputStartDate.val()).replace(/-/gi, "");
+  const endDateforCount = String(skdInputEndDate.val()).replace(/-/gi, "");
+  const startTimeforCount = String(skdInputStartTime.val()).replace(/:/gi, "");
+  const endTimeforCount = String(skdInputEndTime.val()).replace(/:/gi, "");
+
+  //test
+  // console.log(startDateforCount);
+  // console.log(endDateforCount);
+  // console.log(startTimeforCount);
+  // console.log(endTimeforCount);
+
+  //시간을 입력하지 않았을 경우 넘어가지 못함
+  if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
+    alert("시간을 입력하세요.");
+    return false;
+
+    //종료일이 시작일보다 먼저일 경우 넘어가지 못함
+  } else if (startDateforCount - endDateforCount > 0) {
+    alert("날짜를 다시 입력하세요.");
+    return false;
+
+    //날짜가 같을 때 시작시간이 먼저일 경우 넘어가지 못함
+  } else if (
+    startDateforCount === endDateforCount &&
+    startTimeforCount - endTimeforCount > 0
+  ) {
+    alert("시간을 다시 입력하세요.");
+    return false;
+  } else {
+    //개인 일정일 경우
+    if (teamOrPersonalOption == "p") {
+      insertSchedule("p", "#ffc107", skdInputTypeValue);
+      e.preventDefault();
+
+      //팀 일정일 경우
+    } else if (teamOrPersonalOption == "t") {
+      insertSchedule("t", "#28a745", skdInputTypeValue);
+      e.preventDefault();
+    }
+  }
+}
+
+/**
+ * 일정 추가 함수
+ * @param {*} teamOrPersonalOption : 팀일정 or 개인일정
+ * @param {*} backgroundColorSchedule : 일정 색깔
+ * @param {*} skdInputTypeValue  : 업무 출장 등 일정타입
+ */
+function insertSchedule(
+  teamOrPersonalOption,
+  backgroundColorSchedule,
+  skdInputTypeValue
+) {
+  //schedule.html의 스케쥴 입력 모달 창의 input 객체를 각 변수에 주입
+  var skdInputTitle = $("#input_title"); //제목
+  var skdInputContent = $("#input_content"); //내용
+  var skdInputStartDate = $("#start_date"); //시작날짜
+  var skdInputStartTime = $("#start_time"); //시작시간
+  var skdInputEndDate = $("#end_date"); //종료날짜
+  var skdInputEndTime = $("#end_time"); //종료시간
+
+  var skdInsertObj = document.querySelector(
+    "#skdInput > div.modal_content > div > form"
+  );
+  //console.log("스케쥴 입력 객체" + skdInsertObj);
+
+  /**
+   * title : 제목
+   * content : 내용
+   * start : 일정 시작 시간
+   * end: 일정 종료 시간
+   * backgroundColor : 개인 or 팀 일정에 따른 색깔 지정
+   * calendarType : 출장, 업무 등 일정종류
+   * teamOrPersonal : 개인 or 팀 일정
+   */
+  var skdInsertUrl = "/back/addschedule";
+  $.ajax({
+    url: skdInsertUrl,
+    method: "post",
+    datatype: "json",
+    data: {
+      title: skdInputTitle.val(),
+      content: skdInputContent.val(),
+      start: skdInputStartDate.val() + " " + skdInputStartTime.val(),
+      end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
+      allDay: false,
+      backgroundColor: backgroundColorSchedule,
+      calendarType: skdInputTypeValue,
+      teamOrPersonal: teamOrPersonalOption,
+    },
+    success: function () {
+      alert("일정이 추가되었습니다");
+      loadSchedule();
+    },
+    error: function (request, status, error) {
+      alert(
+        "code:" +
+          request.status +
+          "\n" +
+          "message:" +
+          request.responseText +
+          "\n" +
+          "error:" +
+          error
+      );
+    },
+  });
+}
+
+function loadSchedule() {
+  var href = "schedule.html";
+  $content.load(href, function (responseTxt, statusTxt, xhr) {
+    if (statusTxt == "error")
+      alert("Error: " + xhr.status + ": " + xhr.statusText);
+  });
+}
 
 /**
  * 캘린더 함수 시작
@@ -69,7 +214,7 @@ $(function () {
                   color: "#ffc107",
                 });
               }
-              console.log(events);
+              // console.log(events);
             });
             successCallback(events);
           }
@@ -94,172 +239,10 @@ $(function () {
             modal.classList.add("hidden");
           });
 
-          //팀캘린더, 개인캘린더 지정
-          var teamOrPersonalOption = "p";
-          var skdInputShare = $('input[name="radio-3"]');
-          skdInputShare.change(function () {
-            //팀 = t, 개인 = p로 인식하도록 하는 함수
-            teamOrPersonalOption = this.value;
-            console.log(teamOrPersonalOption);
-          });
-
-          //업무, 출장 등 스케쥴 종류 지정
-          var skdInputTypeValue = "업무";
-          var skdInputTypeObj = $("#skdType");
-          skdInputTypeObj.change(function () {
-            //드롭다운에서 선택한 값으로 인식하도록 하는 함수
-            console.log(this.value);
-            skdInputTypeValue = this.value + "";
-          });
-
           //저장버튼 클릭이벤트
           $("button.skdInsertSaveBtn").on("click", function (e) {
-            //var selectOption = document.getElementById("skdType");
-
-            //schedule.html의 스케쥴 입력 모달 창의 input 객체를 각 변수에 주입
-            var skdInputTitle = $("#input_title"); //제목
-            var skdInputContent = $("#input_content"); //내용
-            var skdInputStartDate = $("#start_date"); //시작날짜
-            var skdInputStartTime = $("#start_time"); //시작시간
-            var skdInputEndDate = $("#end_date"); //종료날짜
-            var skdInputEndTime = $("#end_time"); //종료시간
-
-            //시간을 입력하지 않았을 경우 넘어가지 못함
-            if (skdInputStartTime.val() == "" || skdInputEndTime.val() == "") {
-              alert("시간을 입력하세요.");
-              return false;
-              //종료일이 시작일보다 먼저일 경우 넘어가지 못함
-            } else if (
-              new Date(skdInputEndDate.val()) -
-                new Date(skdInputStartDate.val()) <
-              0
-            ) {
-              alert("종료일이 시작일보다 먼저입니다.");
-              return false;
-            } //이 두 단계를 거쳐야 스케쥴 입력이 가능
-            else {
-              if (teamOrPersonalOption == "p") {
-                //개인 일정일 경우
-                //일정 form 받아오기
-                var skdInsertObj = document.querySelector(
-                  "#skdInput > div.modal_content > div > form"
-                );
-                console.log("스케쥴 입력 객체" + skdInsertObj);
-                //일정 저장 버튼
-                // var skdInsertBtn = skdInsertObj.querySelector(
-                //   "button.skdInsertSaveBtn"
-                // );
-
-                //addschedule servlet으로  전송
-                /**
-                 * title : 제목
-                 * content : 내용
-                 * start : 일정 시작 시간
-                 * end: 일정 종료 시간
-                 * backgroundColor : 개인 or 팀 일정에 따른 색깔 지정
-                 * calendarType : 출장, 업무 등 일정종류
-                 * teamOrPersonal : 개인 or 팀 일정
-                 */
-                var skdInsertUrl = "/back/addschedule";
-                $.ajax({
-                  url: skdInsertUrl,
-                  method: "post",
-                  datatype: "json",
-                  data: {
-                    title: skdInputTitle.val(),
-                    content: skdInputContent.val(),
-                    start:
-                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
-                    end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
-                    allDay: false,
-                    backgroundColor: "#ffc107",
-                    calendarType: skdInputTypeValue,
-                    teamOrPersonal: teamOrPersonalOption,
-                  },
-                  success: function () {
-                    alert("일정이 추가되었습니다");
-                    $(function () {
-                      $("#scheduleMenu")
-                        .click(function () {
-                          this.click();
-                        })
-                        .click();
-                    });
-                  },
-                  error: function (request, status, error) {
-                    alert(
-                      "code:" +
-                        request.status +
-                        "\n" +
-                        "message:" +
-                        request.responseText +
-                        "\n" +
-                        "error:" +
-                        error
-                    );
-                  },
-                });
-                e.preventDefault();
-
-                //팀 일정일 경우
-              } else if (teamOrPersonalOption == "t") {
-                var skdInsertObj = document.querySelector(
-                  "#skdInput > div.modal_content > div > form"
-                ); //
-                //  console.log(skdInsertObj);
-                //일정 저장 버튼
-                var skdInsertBtn = skdInsertObj.querySelector(
-                  "button.skdInsertSaveBtn"
-                );
-                console.log("team type" + skdInputTypeValue);
-
-                var skdInsertUrl = "/back/addschedule";
-                console.log(skdInputTitle.val() + skdInputContent.val());
-
-                $.ajax({
-                  url: skdInsertUrl,
-                  method: "post",
-                  datatype: "json",
-                  data: {
-                    title: skdInputTitle.val(),
-                    content: skdInputContent.val(),
-                    start:
-                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
-                    end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
-                    allDay: false,
-                    backgroundColor: "#28a745",
-
-                    calendarType: skdInputTypeValue,
-                    teamOrPersonal: teamOrPersonalOption,
-                  },
-
-                  success: function () {
-                    alert("일정이 추가되었습니다");
-                    $(function () {
-                      $("#scheduleMenu")
-                        .click(function () {
-                          this.click();
-                        })
-                        .click();
-                    });
-                  },
-                  error: function (request, status, error) {
-                    alert(
-                      "code:" +
-                        request.status +
-                        "\n" +
-                        "message:" +
-                        request.responseText +
-                        "\n" +
-                        "error:" +
-                        error
-                    );
-                  },
-                });
-                e.preventDefault(); //이걸 해줘야 하나?
-                // $("#demo-calendar").fullCalendar('addEventSource', JSON, true);
-              }
-            }
+            //유효성 검사 후 일정 추가
+            inputTimeValidation();
           });
         },
       },
@@ -410,168 +393,192 @@ $(function () {
     },
   }); //New calendar끝
   calendar.render();
-}); //돔이벤트끝
-//모달 관련
-//시작 날짜를 현재 날짜로
-document.getElementById("start_date").value = new Date()
-  .toISOString()
-  .substring(0, 10);
-//종료 날짜를 현재 날짜로
-document.getElementById("end_date").value = new Date()
-  .toISOString()
-  .substring(0, 10);
+  //돔이벤트끝
 
-//시작 시간을 현재 시간으로
-document.getElementById("start_time").value = new Date(
-  new Date()
-).toTimeString();
-//종료 시간을 현재 시간으로
-document.getElementById("end_time").value = new Date(new Date()).toTimeString();
+  //모달 관련
+  //시작 날짜를 현재 날짜로
+  document.getElementById("start_date").value = new Date()
+    .toISOString()
+    .substring(0, 10);
+  //종료 날짜를 현재 날짜로
+  document.getElementById("end_date").value = new Date()
+    .toISOString()
+    .substring(0, 10);
 
-//기간으로 검색하기, 제목내용으로 검색하기 창 설정
-//var skdSearchObj = document.getElementById("skdSearch");
-//검색 드롭다운메뉴
-//var categoryObj = document.querySelector("div.dropdown-menu");
-//기간으로 검색하기, 제목내용으로 검색하기 창 설정
-var $searchBtnSkdObj = $("button#searchBtnSKD");
-//검색 드롭다운메뉴
-var $categoryObj = $("div#skdSearchDropDown");
+  //시작 시간을 현재 시간으로
+  document.getElementById("start_time").value = new Date(
+    new Date()
+  ).toTimeString();
+  //종료 시간을 현재 시간으로
+  document.getElementById("end_time").value = new Date(
+    new Date()
+  ).toTimeString();
 
-//기간으로검색 id
-var $searchPeriod = $("#skdCategoryPeriod");
-//제목으로 검색 id
-var $searchTitle = $("#skdCategoryTitle");
+  //기간으로 검색하기, 제목내용으로 검색하기 창 설정
+  //var skdSearchObj = document.getElementById("skdSearch");
+  //검색 드롭다운메뉴
+  //var categoryObj = document.querySelector("div.dropdown-menu");
+  //기간으로 검색하기, 제목내용으로 검색하기 창 설정
+  var $searchBtnSkdObj = $("button#searchBtnSKD");
+  //검색 드롭다운메뉴
+  var $categoryObj = $("div#skdSearchDropDown");
 
-function categoryHandler() {
-  // if (e.target.id == "skdCategoryPeriod") {
-  //   createModal("skdSearchPeriod");
-  // } else if (e.target.id == "skdCategoryTitle") {
-  //   console.log("내용검색" + e.target.id);
-  //   createModal("skdSearchTitle");
-  // }
-  $searchPeriod.on("click", function () {
-    createModal("skdSearchPeriod");
-  });
-  $searchTitle.on("click", function () {
-    createModal("skdSearchTitle");
-  });
-}
+  //기간으로검색 id
+  var $searchPeriod = $("#skdCategoryPeriod");
+  //제목으로 검색 id
+  var $searchTitle = $("#skdCategoryTitle");
 
-$searchBtnSkdObj.click(function () {
-  $categoryObj.slideToggle(300);
-});
-
-function initSearchModal() {
-  $categoryObj.click(function () {
-    categoryHandler();
-  });
-}
-
-initSearchModal();
-////////////////////////////////////////////일정검색 드롭다운메뉴
-//modal 만드는 함수
-//파라미터 : class="modal" 의 id
-
-/**
- *
- * @param {*} id
- * 모달창 제작 함수
- */
-var skdno;
-function createModal(id) {
-  //로컬스토리지에 있는 skdNo 불러오기
-  skdno = localStorage.getItem("skdNo");
-
-  var modal = document.getElementById(id);
-  modal.classList.remove("hidden"); //모달열기
-
-  //모달 버튼
-  var closeBtn = modal.querySelector("button.cancel");
-  var overlay = modal.querySelector(".modal_overlay");
-  var deleteBtn = modal.querySelector("button.deleteBtn");
-  var xBoxBtn = modal.querySelector("button.xBox");
-  var modifyBtn = modal.querySelector("button.modifyBtn");
-  var modifySubmitBtnObj = modal.querySelector("button.modifySubmit");
-
-  var openModal = () => {
-    modal.classList.remove("hidden");
-  };
-  var closeModal = () => {
-    modal.classList.add("hidden");
-  };
-
-  //클릭이벤트
-  //오버레이 부분 클릭 닫기
-  overlay.addEventListener("click", closeModal);
-  //모달창 닫기 버튼
-  //엑스박스 닫기
-  if (xBoxBtn != null) {
-    xBoxBtn.addEventListener("click", closeModal);
-  }
-  //취소, 닫기 버튼
-  if (closeBtn != null) {
-    closeBtn.addEventListener("click", closeModal);
-  }
-  //수정 버튼
-  if (modifyBtn != null) {
-    modifyBtn.addEventListener("click", function () {
-      modal.classList.add("hidden");
-      //수정 버튼 클릭 시 수정 모달 뜸
-      createModal("skdModifyDetail");
+  function categoryHandler() {
+    // if (e.target.id == "skdCategoryPeriod") {
+    //   createModal("skdSearchPeriod");
+    // } else if (e.target.id == "skdCategoryTitle") {
+    //   console.log("내용검색" + e.target.id);
+    //   createModal("skdSearchTitle");
+    // }
+    $searchPeriod.on("click", function () {
+      createModal("skdSearchPeriod");
+    });
+    $searchTitle.on("click", function () {
+      createModal("skdSearchTitle");
     });
   }
-  $.ajax({
-    url: "/back/showbydetail",
-    dataType: "json",
-    data: { skd_no: skdno },
-    success: function (responseData) {
-      $(responseData).each(function (i, e) {
-        titleValue.innerHTML = e.skd_title;
-        typeValue.innerHTML = e.skd_type.skd_type;
-        StartTimeValue.innerHTML = e.skd_start_date;
-        EndTimeValue.innerHTML = e.skd_end_date;
-        ContentValue.innerHTML = e.skd_content;
 
-        //ms 2021-07-31
-        localStorage.setItem("title", titleValue.innerHTML);
-        localStorage.setItem(
-          "startDate",
-          StartTimeValue.innerHTML.slice(0, 10)
-        );
-        localStorage.setItem(
-          "startTime",
-          StartTimeValue.innerHTML.slice(11, 16)
-        );
-        localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
-        localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
-        localStorage.setItem("content", ContentValue.innerHTML);
-      });
-    },
+  $searchBtnSkdObj.click(function () {
+    $categoryObj.slideToggle(300);
   });
-}
 
-//상세내역 모달에 데이터
-//일정 상세내역
-var shareObj = document.getElementById("skdDetailShare");
-var shareValue = shareObj.querySelector("td.skdDetailInputData");
-//console.log(shareValue);
-var typeObj = document.getElementById("skdDetailType");
-var typeValue = typeObj.querySelector("td.skdDetailInputData");
-var titleObj = document.getElementById("skdDetailTitle");
-var titleValue = titleObj.querySelector("td.skdDetailInputData");
-var StartTimeObj = document.getElementById("skdDetailStartTime");
-var StartTimeValue = StartTimeObj.querySelector("td.skdDetailInputData");
-var EndTimeObj = document.getElementById("skdDetailEndTime");
-var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
-var ContentObj = document.getElementById("skdDetailContent");
-var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
+  function initSearchModal() {
+    $categoryObj.click(function () {
+      //categoryHandler();
+    });
+  }
 
-/**
- * 일정 수정 함수
- */
-$(function () {
-  //경로
-  var backSkdModify = "/back/modifyschedule";
+  initSearchModal();
+  categoryHandler();
+  ////////////////////////////////////////////일정검색 드롭다운메뉴
+  //modal 만드는 함수
+  //파라미터 : class="modal" 의 id
+
+  /**
+   *
+   * @param {*} id
+   * 모달창 제작 함수
+   */
+  var skdno;
+  function createModal(id) {
+    //로컬스토리지에 있는 skdNo 불러오기
+    skdno = localStorage.getItem("skdNo");
+
+    var modal = document.getElementById(id);
+    modal.classList.remove("hidden"); //모달열기
+
+    //모달 버튼
+    var closeBtn = modal.querySelector("button.cancel");
+    var overlay = modal.querySelector(".modal_overlay");
+    var deleteBtn = modal.querySelector("button.deleteBtn");
+    var xBoxBtn = modal.querySelector("button.xBox");
+    var modifyBtn = modal.querySelector("button.modifyBtn");
+
+    var openModal = () => {
+      modal.classList.remove("hidden");
+    };
+    var closeModal = () => {
+      modal.classList.add("hidden");
+    };
+
+    //클릭이벤트
+    //오버레이 부분 클릭 닫기
+    overlay.addEventListener("click", closeModal);
+    //모달창 닫기 버튼
+    //엑스박스 닫기
+    if (xBoxBtn != null) {
+      xBoxBtn.addEventListener("click", closeModal);
+    }
+    //취소, 닫기 버튼
+    if (closeBtn != null) {
+      closeBtn.addEventListener("click", closeModal);
+    }
+    //수정 버튼
+    if (modifyBtn != null) {
+      modifyBtn.addEventListener("click", function () {
+        modal.classList.add("hidden");
+        //수정 버튼 클릭 시 수정 모달 뜸
+        createModal("skdModifyDetail");
+      });
+    }
+    if (deleteBtn != null) {
+      var backurlDeleteSkd = "/back/deleteschedule";
+      //SQL에서 일정번호만 있으면 삭제되는 구조라 skd_no만 보냄
+      deleteBtn.addEventListener("click", function () {
+        $.ajax({
+          url: backurlDeleteSkd,
+          method: "get",
+          data: {
+            skd_no: skdno,
+          },
+          success: function () {
+            alert("일정이 삭제되었습니다!");
+            loadSchedule();
+          },
+        });
+      });
+    }
+
+    $.ajax({
+      url: "/back/showbydetail",
+      dataType: "json",
+      data: { skd_no: skdno },
+      success: function (responseData) {
+        $(responseData).each(function (i, e) {
+          titleValue.innerHTML = e.skd_title;
+          typeValue.innerHTML = e.skd_type.skd_type;
+          StartTimeValue.innerHTML = e.skd_start_date;
+          EndTimeValue.innerHTML = e.skd_end_date;
+          ContentValue.innerHTML = e.skd_content;
+
+          //ms 2021-07-31
+          localStorage.setItem("title", titleValue.innerHTML);
+          localStorage.setItem(
+            "startDate",
+            StartTimeValue.innerHTML.slice(0, 10)
+          );
+          localStorage.setItem(
+            "startTime",
+            StartTimeValue.innerHTML.slice(11, 16)
+          );
+          localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
+          localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
+          localStorage.setItem("content", ContentValue.innerHTML);
+        });
+      },
+    });
+  }
+
+  //상세내역 모달에 데이터
+  //일정 상세내역
+  var shareObj = document.getElementById("skdDetailShare");
+  var shareValue = shareObj.querySelector("td.skdDetailInputData");
+  //console.log(shareValue);
+  var typeObj = document.getElementById("skdDetailType");
+  var typeValue = typeObj.querySelector("td.skdDetailInputData");
+  var titleObj = document.getElementById("skdDetailTitle");
+  var titleValue = titleObj.querySelector("td.skdDetailInputData");
+  var StartTimeObj = document.getElementById("skdDetailStartTime");
+  var StartTimeValue = StartTimeObj.querySelector("td.skdDetailInputData");
+  var EndTimeObj = document.getElementById("skdDetailEndTime");
+  var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
+  var ContentObj = document.getElementById("skdDetailContent");
+  var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
+
+  /**
+   *
+   *
+   *
+   * 일정 수정
+   *
+   *
+   *
+   */
 
   //var modifySkdFormObj = $("#modifySkdContent");
   var modifySkdSubmitBtn = $("button.modifySkdSubmit"); //수정 버튼
@@ -593,7 +600,7 @@ $(function () {
   var skdUpdateShare2 = $('input[name="radio-2"]'); //일정 종류인데.. 적용이 안 됨 ㅠㅠ
 
   //skd_no, 일정번호를 localStorage에서 받아온다
-  var currentSkdNo = localStorage.getItem("skdNo");
+  //var currentSkdNo = localStorage.getItem("skdNo");
 
   //팀, 개인 일정 선택
   var teamOrPersonalOption = "p";
@@ -603,15 +610,22 @@ $(function () {
     console.log(teamOrPersonalOption);
   });
 
-  //수정 버튼 클릭 시 이벤트
+  var UpdatePreTitleValue;
+  var UpdatePreStartDate;
+  var UpdatePreStartTime;
+  var skdOriginEndDate;
+  var skdOriginEndTime;
+  var UdpatePreContentValue;
+
+  //모달창에서 수정 버튼 클릭 시 이벤트
   $("#skdModifyBtn").click(function () {
     //일정 상세 내역 클릭 시 localStorage에 저장된 내역들을 불러와 변수에 지정
-    var UpdatePreTitleValue = localStorage.getItem("title");
-    var UpdatePreStartDate = localStorage.getItem("startDate");
-    var UpdatePreStartTime = localStorage.getItem("startTime");
-    var skdOriginEndDate = localStorage.getItem("endDate");
-    var skdOriginEndTime = localStorage.getItem("endTime");
-    var UdpatePreContentValue = localStorage.getItem("content");
+    UpdatePreTitleValue = localStorage.getItem("title");
+    UpdatePreStartDate = localStorage.getItem("startDate");
+    UpdatePreStartTime = localStorage.getItem("startTime");
+    skdOriginEndDate = localStorage.getItem("endDate");
+    skdOriginEndTime = localStorage.getItem("endTime");
+    UdpatePreContentValue = localStorage.getItem("content");
 
     //test용 프린트
     // console.log(UpdatePreTitleValue);
@@ -631,131 +645,63 @@ $(function () {
     // skdUpdateType.val(UdpatePreTypeValue);
   });
 
+  /**
+   * 일정 수정 ajax 함수
+   * @param {*} teamOrPersonalOption
+   * @param {*} backgroundColorUpdate
+   */
+  function updateSchedule(teamOrPersonalOption, backgroundColorUpdate) {
+    var backSkdModify = "/back/modifyschedule";
+
+    $.ajax({
+      url: backSkdModify,
+      method: "post",
+      data: {
+        title: skdUpdateTitle.val(),
+        content: skdUpdateContent.val(),
+        start: skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
+        end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
+        allDay: false,
+        backgroundColor: backgroundColorUpdate,
+        calendarType: skdUpdateTypeValue,
+        teamOrPersonal: teamOrPersonalOption,
+        skd_no: skdno,
+      },
+      success: function () {
+        console.log("success 이후 " + skdno);
+        window.alert("일정이 변경되었습니다");
+        //scheduleMenu로 돌아가는 트리거 이벤트
+        loadSchedule();
+      },
+      error: function (request, status, error) {
+        alert(
+          "code:" +
+            request.status +
+            "\n" +
+            "message:" +
+            request.responseText +
+            "\n" +
+            "error:" +
+            error
+        );
+      },
+    });
+  }
+
   //저장 버튼 클릭 시 이벤트
   function modifySkdSubmitHandler(e) {
     //일정번호를 기준으로 수정하는 것이기 때문에 skd_no가 반드시 필요하다
+    console.log("저장 클릭" + skdno);
+
     if (teamOrPersonalOption == "p") {
-      $.ajax({
-        url: backSkdModify,
-        method: "post",
-        data: {
-          title: skdUpdateTitle.val(),
-          content: skdUpdateContent.val(),
-          start: skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
-          end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
-          allDay: false,
-          backgroundColor: "#ffc107",
-          calendarType: skdUpdateTypeValue,
-          teamOrPersonal: teamOrPersonalOption,
-          skd_no: currentSkdNo,
-        },
-        success: function () {
-          window.alert("일정이 변경되었습니다");
-          //scheduleMenu로 돌아가는 트리거 이벤트
-          $(function () {
-            $("#scheduleMenu")
-              .click(function () {
-                this.click();
-              })
-              .click();
-          });
-        },
-        error: function (request, status, error) {
-          alert(
-            "code:" +
-              request.status +
-              "\n" +
-              "message:" +
-              request.responseText +
-              "\n" +
-              "error:" +
-              error
-          );
-        },
-      });
+      updateSchedule(teamOrPersonalOption, "#ffc107");
       e.preventDefault();
       //팀일정일 경우
     } else if (teamOrPersonalOption == "t") {
-      $.ajax({
-        url: backSkdModify,
-        method: "post",
-        data: {
-          title: skdUpdateTitle.val(),
-          content: skdUpdateContent.val(),
-          start: skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
-          end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
-          allDay: false,
-          backgroundColor: "#28a745",
-          calendarType: skdUpdateTypeValue,
-          teamOrPersonal: teamOrPersonalOption,
-          skd_no: currentSkdNo,
-        },
-        success: function () {
-          window.alert("일정이 변경되었습니다");
-          $(function () {
-            $("#scheduleMenu")
-              .click(function () {
-                this.click();
-              })
-              .click();
-          });
-        },
-        error: function (request, status, error) {
-          alert(
-            "code:" +
-              request.status +
-              "\n" +
-              "message:" +
-              request.responseText +
-              "\n" +
-              "error:" +
-              error
-          );
-        },
-      });
+      updateSchedule(teamOrPersonalOption, "#28a745");
       e.preventDefault();
     }
   }
-  //수정 버튼을 클릭하면 위 함수가 실행
+  //저장 버튼을 클릭하면 위 함수가 실행
   modifySkdSubmitBtn.click(modifySkdSubmitHandler);
-});
-
-/**
- * 일정 삭제 함수
- */
-$(function () {
-  //모달창 객체
-  var skdModifyModalObj = document.getElementById("skdDetail");
-  //삭제 버튼
-  var skdDeleteBtn = skdModifyModalObj.querySelector("button.deleteBtn");
-  //skd_no 가져오기
-  var currentSkdNo = localStorage.getItem("skdNo");
-  console.log("현재 skd_no" + currentSkdNo);
-
-  //servelt 경로
-  var backurlDeleteSkd = "/back/deleteschedule";
-
-  //SQL에서 일정번호만 있으면 삭제되는 구조라 skd_no만 보냄
-  function skdDeleteClickHandler(e) {
-    $.ajax({
-      url: backurlDeleteSkd,
-      method: "get",
-      data: {
-        skd_no: currentSkdNo,
-      },
-      success: function () {
-        alert("일정이 삭제되었습니다!");
-        $(function () {
-          $("#scheduleMenu")
-            .click(function () {
-              this.click();
-            })
-            .click();
-        });
-      },
-    });
-    e.preventDefault();
-  }
-
-  skdDeleteBtn.addEventListener("click", skdDeleteClickHandler);
 });
